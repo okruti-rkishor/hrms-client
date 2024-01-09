@@ -1,0 +1,141 @@
+.card {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
+  color: #eceff1;
+  border-radius: 5px;
+  display: 'flex';
+  flex-direction: 'column';
+  width: 100%;
+  max-width: 450px;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.card::before {
+  content: '';
+  display: block;
+  position: absolute;
+  -webkit-transform: translate3d(0, 0, -1);
+  transform: translate3d(0, 0, -1);
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  top: 2px;
+  left: 2px;
+  background: #000;
+  z-index: -1;
+}
+
+.card::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -3;
+  opacity: 0.7;
+  background: linear-gradient(
+                  269.16deg,
+                  #ffe580 -15.83%,
+                  #ff7571 -4.97%,
+                  #ff7270 15.69%,
+                  #ea5dad 32.43%,
+                  #c2a0fd 50.09%,
+                  #9867f0 67.47%,
+                  #3bf0e4 84.13%,
+                  #33ce43 105.13%,
+                  #b2f4b6 123.24%
+  );
+  transition: opacity 0.3s ease-in-out;
+}
+
+.card:hover:after {
+  opacity: 1;
+}
+
+.provider {
+  margin: 2rem 0;
+  background: linear-gradient(
+                  270.97deg,
+                  #ffe580 -21.36%,
+                  #ff7571 -2.45%,
+                  #ea5dad 26.84%,
+                  #c2a0fd 64.15%,
+                  #3bf0e4 108.29%,
+                  #b2f4b6 159.03%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.avt {
+  background: #eceff1;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+  border: 5px solid white;
+  border-radius: 50%;
+  height: 8em;
+  width: 8em;
+  margin: auto;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: -5.5rem;
+  margin-bottom: 20px;
+  position: relative;
+}
+.avt img {
+  height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+}
+
+.data {
+  margin: 12px 0;
+  width: 100%;
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.btnLogout {
+  font-size: 1em;
+  text-transform: uppercase;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  background: rgb(241, 69, 61);
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0.75rem 0px;
+  color: rgb(255, 255, 255);
+  width: 100%;
+  text-align: center;
+}
+
+.field {
+  display: flex;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.label {
+  width: 180px;
+  font-weight: 400;
+  margin-right: 24px;
+  font-weight: bold;
+  word-break: break-word;
+}
+
+.value {
+  width: 100%;
+  word-break: break-word;
+  font-size: 1.25em;
+}
