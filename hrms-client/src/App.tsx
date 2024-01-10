@@ -6,6 +6,7 @@ import LayoutComponent from './component/layout component/layoutComponent';
 import Home from "./component/home/home";
 import Error from "./component/error page/error";
 import FormComponent from "./component/form/formComponent";
+import ApiInterceptor from "./apiInterceptor";
 
 
 const router = createBrowserRouter(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
 
 const App: React.FC = () => (
     <div className="App">
+        <ApiInterceptor/>
         <RouterProvider router={router} />
     </div>
 );
