@@ -29,12 +29,6 @@ function getItem(
     } as MenuItem;
 }
 
-// const siderStyle: React.CSSProperties = {
-//     textAlign: 'center',
-//     lineHeight: '120px',
-//     color: '#fff',
-//     backgroundColor: '#1677ff',
-// };
 
 const items: MenuItem[] = [
     // getItem('Option 1', '1', <PieChartOutlined />),
