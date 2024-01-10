@@ -1,0 +1,26 @@
+header {
+  //display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  //img {
+  //  width: 64px;
+  //  height: 64px;
+  //}
+
+
+  .header-buttons {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    button {
+      color: white;
+      background-color: rgb(0, 21, 41);
+
+      &:hover {
+        color: white;
+        background-color: rgb(0, 21, 41);
+      }
+    }
+  }
+}

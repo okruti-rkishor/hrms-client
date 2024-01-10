@@ -3,18 +3,12 @@ import React from "react";
 import { Layout, Flex } from 'antd';
 import Navbar from "../side navbar/navbar";
 import {Footer, Header} from "antd/es/layout/layout";
+import HeaderComponent from "../Header/header";
 
 
 // const { Header, Footer } = Layout;
 
-const headerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#fff',
-    height: 64,
-    paddingInline: 48,
-    lineHeight: '64px',
-    backgroundColor: '#001529',
-};
+
 
 const contentStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -40,9 +34,7 @@ const layoutStyle = {
 function LayoutComponent() {
     return (
         <Layout >
-            <Header style={headerStyle}>
-                <h1>Header</h1>
-            </Header>
+            <HeaderComponent />
             {/*style={{ minHeight: '100vh' }}*/}
             <Layout >
                 <Navbar />
