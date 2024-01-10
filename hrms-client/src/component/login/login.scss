@@ -6,10 +6,11 @@
     background-size: cover !important;
     position: relative;
     background-image: linear-gradient(to right, skyblue,#ECA5D8);
+
     .loginPage{
         position: absolute;
-        width:1200px;
-        max-height: 600px;
+        //width:1200px;
+        //max-height: 600px;
         background: white;
         top: 0;
         left:0;
@@ -18,17 +19,14 @@
         margin:auto;
         border-radius: 20px;
         height: 100%;
-
     }
 }
+
 .loginPageDetail{
     display:flex;
     height: 100%;
-
-
-
-
 }
+
 .right{
     position:relative;
     width:50%;
@@ -43,16 +41,18 @@
         right: 20px;
         top: 85px;
     }
+
     .cactus{
         position: absolute;
         background-repeat: no-repeat !important;
         background-position: center !important;
         background-size: contain !important;
-        width: 48%;
+        width: 30%;
         height: 72%;
-        right: -40px;
-        top: 146px;
+        right: 110px;
+        bottom: 0;
     }
+
     .girl-cactus{
         position: absolute;
         width: 62%;
@@ -60,17 +60,18 @@
         height: 100%;
         right: 0;
         border-radius: 40px 20px 20px 40px;
-
-
     }
 }
+
 .left{
     width:50%;
 }
+
 .login-credentials{
     display: flex;
     flex-direction: column;
     gap: 30px;
+
     >div{
         display: flex;
         flex-direction: column;
@@ -84,20 +85,24 @@
             border-radius: 5px;
         }
     }
-
 }
+
 .login-here{
    margin: 35px 120px 0 80px;
-h2{
-    color:#e2a7bd;
-}
+
+    h2{
+        color:#e2a7bd;
+    }
+
     p{
         font-weight: 500;
     }
+
     &-detail{
         text-align: left;
     }
 }
+
 .link-button{
     display: flex;
     flex-direction: column;
@@ -105,6 +110,7 @@ h2{
     margin: 20px 0 0 0;
     justify-content: center;
     align-items: center;
+
     p{
         margin:5px 0;
     }
@@ -120,46 +126,51 @@ h2{
         cursor:pointer;
     }
 }
+
 .all-link{
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
+
     button{
         background: white;
         border:2px solid #b2ccdb;
+
         &:nth-child(2){
             img{
                 width:23px;
 
             }
         }
+
         &:nth-child(3){
             img{
                 width:22px;
 
             }
         }
+
         &:nth-child(4){
             img{
                 width:23px;
 
             }
         }
+
         &:nth-child(5){
             img{
                 width:22px;
             }
         }
     }
-
 }
+
 .account{
     display: flex;
     justify-content: space-around;
     font-size: 12px;
     color:#e2a7bd;
     font-weight: 900;
-
 }
 
