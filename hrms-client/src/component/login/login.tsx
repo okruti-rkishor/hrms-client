@@ -1,15 +1,16 @@
 import React from "react";
 import "./login.scss";
 import {useState,useCallback,useEffect} from "react";
-import User from "../user/User";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import UserSignup from "../user/userSignup";
+import User from "../user/User";
 
 
 export default function Login() {
     const [profile, setProfile] = useState('');
     const [user, setUser] = useState<any>({});
-
+    const [userSignupModalStatus, setUserSignupModalStatus] = useState<boolean>(false);
 const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => {setUser(codeResponse)
         console.log(codeResponse)
@@ -43,6 +44,7 @@ const login = useGoogleLogin({
 
     return(
         <>
+        {userSignupModalStatus?<UserSignup setUserSignupModalStatus={setUserSignupModalStatus}/>:''}
             <div className={"login"}>
                 <div className={"loginPage"}>
                     <div className={"loginPageDetail"}>
@@ -65,7 +67,10 @@ const login = useGoogleLogin({
                                 </div>
                             </div>
                                 <div className={"link-button"}>
-                                    <button>Login &#8640;</button>
+                                    <div className="login-button"> 
+                                        <button>Login &#8640;</button>
+                                        <button onClick={()=>{setUserSignupModalStatus(true)}}>Sign Up &#8640;</button>
+                                    </div>
                                     <p>or continue with</p>
                                     {profile? <User data={profile} onLogout={onLogout}/> : ""}
                                     <div className={"all-link"}>
@@ -97,9 +102,7 @@ const login = useGoogleLogin({
                     </div>
                 </div>
 
-
             </div>
-
         </>
 
 

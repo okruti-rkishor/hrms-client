@@ -1,0 +1,31 @@
+.girl-image{
+    position: absolute;
+    top: 50%;
+    left: 40%;
+}
+.ant-modal-content{
+    padding-right: 90px !important;
+    border-radius: 0px !important;
+}
+.ant-modal-title{
+    text-align: center;
+    padding: 10px;
+}
+
+.ant-modal-footer{
+    display: none;
+}
+.submit-button{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-around;
+}
+.user-signup-form{
+    .ant-btn-primary{
+        width: 100%;
+        border-radius: 0px;
+    
+    }
+}
