@@ -3,9 +3,28 @@ header {
   flex-direction: row;
   justify-content: space-between;
 
-  img {
-    width: 64px;
-    height: 64px;
+  //img {
+  //  width: 64px;
+  //  height: 64px;
+  //}
+
+  &.ant-layout-header {
+    background: linear-gradient(135deg, #665DCD 0%, #5FA4E6 44.76%) !important;
+  }
+
+  .ant-row {
+    justify-content: flex-end;
+    height: 100%;
+
+    //button.signup {
+    //  margin-left: 24px;
+    //}
+  }
+
+  .ant-col.css-dev-only-do-not-override-dkbvqv {
+    display: flex;
+    gap: 24px;
+    align-items: center;
   }
 
   .header-buttons {

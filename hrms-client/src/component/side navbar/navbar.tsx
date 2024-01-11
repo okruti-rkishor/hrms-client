@@ -33,60 +33,29 @@ const items: MenuItem[] = [
     // getItem('Option 1', '1', <PieChartOutlined />),
     // getItem('Option 2', '2', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
-        getItem('User 1', '3'),
-        getItem('User 2', '4'),
-        getItem('User 3', '5'),
+        getItem('List', '3', ),
+        // getItem('User 2', '4'),
+        // getItem('User 3', '5'),
     ]),
-    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+    getItem('Employee', 'sub2', <TeamOutlined />, [
+        getItem('Team 1', '6'),
+        getItem('Team 2', '8')
+    ]),
     // getItem('Files', '9', <FileOutlined />),
 ];
 
-
-// const boxStyleOpen: React.CSSProperties = {
-//     flex: '0 0 200px',
-//     maxWidth: '200px',
-//     minWidth: '200px',
-//     width: '200px',
-// };
-//
-// const boxStyleClosed: React.CSSProperties = {
-//     flex: '0 0 80px',
-//     maxWidth: '80px',
-//     minWidth: '80px',
-//     width: '80px',
-// };
-
 const Navbar: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const [isHover, setIsHover] = useState(false);
-
-    const handleMouseEnter = () => {
-        setIsHover(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsHover(false);
-    };
-    // console.log(isHover);
-
-    const boxStyle: React.CSSProperties = {
-        flex: isHover ? '0 0 200px' : '0 0 80px',
-        width: isHover ? '200px': '80px',
-        maxWidth: isHover ? '200px': '80px',
-        minWidth: isHover ? '200px': '80px',
-    };
 
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
 
     return (
-        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}
-               style={boxStyle}
-               onMouseEnter={handleMouseEnter}
-               onMouseLeave={handleMouseLeave} >
+        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
             <div className="demo-logo-vertical">
-                <img src="./images/logos/HRMS-logos_white.png" />
+                <h1 style={{color: 'white'}}>HRMS</h1>
+                {/*<img src="./images/logos/HRMS-logos_white.png" />*/}
             </div>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} style={{ position: 'unset' }}/>
         </Sider>

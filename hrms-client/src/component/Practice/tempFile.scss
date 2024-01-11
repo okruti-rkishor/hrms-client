@@ -1,0 +1,18 @@
+main {
+  > .ant-layout.css-dev-only-do-not-override-dkbvqv {
+    max-width: 80vw;
+    margin: 48px 48px 48px auto;
+
+    .ant-table-wrapper {
+      max-width: unset;
+      margin: unset;
+    }
+  }
+}
+
+//main {
+//  .ant-table-wrapper {
+//    max-width: 80vw;
+//    margin: 48px 48px 0 auto;
+//  }
+//}
