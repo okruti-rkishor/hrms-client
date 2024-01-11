@@ -3,7 +3,7 @@ import React from "react";
 import { Layout, Flex } from 'antd';
 import Navbar from "../side navbar/navbar";
 import {Header, Footer, Content} from "antd/es/layout/layout";
-import HeaderComponent from "../header/header";
+import HeaderComponent from "../Header/header";
 
 // const { Header, Footer, Sider, Content } = Layout;
 
