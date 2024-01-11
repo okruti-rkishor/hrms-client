@@ -53,10 +53,9 @@ const Navbar: React.FC = () => {
 
     return (
         <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <div className="demo-logo-vertical">
-                <h1 style={{color: 'white'}}>HRMS</h1>
-                {/*<img src="./images/logos/HRMS-logos_white.png" />*/}
-            </div>
+            {/*<div className="demo-logo-vertical">*/}
+            {/*    <h1 style={{color: 'white'}}>HRMS</h1>*/}
+            {/*</div>*/}
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} style={{ position: 'unset' }}/>
         </Sider>
     );

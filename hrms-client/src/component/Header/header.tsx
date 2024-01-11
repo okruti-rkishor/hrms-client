@@ -39,7 +39,7 @@ const HeaderComponent = () => {
                 {/*        <Image width={100} height={100} src="./images/logos/HRMS-logos_white.png"/>*/}
                 {/*    </a>*/}
                 {/*</Col>*/}
-                {/*<Col span={16}><h1 style={{color: 'white'}}>HRMS</h1></Col>*/}
+                <Col span={16}><h1 style={{color: 'white'}}>HR Management System</h1></Col>
                 <Col >
                     <Button className={'login-button'} href={'/login'}>Log In</Button>
                     <Button className={'signup-button'} href={'/login'}>Sign Up</Button>

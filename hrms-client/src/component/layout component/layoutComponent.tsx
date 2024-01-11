@@ -44,17 +44,17 @@ function LayoutComponent() {
         {/*</Layout>*/}
 
         <Layout>
-            <Navbar />
+            <HeaderComponent />
             {/*<Sider width="25%">*/}
             {/*    */}
             {/*</Sider>*/}
             <Layout>
-                <HeaderComponent />
+                <Navbar />
                 <Content style={contentStyle}><Outlet /></Content>
 
-                <Footer style={footerStyle}>
-                    OKRUTI IT CONSULTING ©{new Date().getFullYear()}
-                </Footer>
+                {/*<Footer style={footerStyle}>*/}
+                {/*    OKRUTI IT CONSULTING ©{new Date().getFullYear()}*/}
+                {/*</Footer>*/}
             </Layout>
         </Layout>
             </>

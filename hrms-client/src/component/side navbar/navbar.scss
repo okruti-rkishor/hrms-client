@@ -6,6 +6,9 @@
 }
 
 aside.ant-layout-sider {
+  position: fixed !important;
+  top: 64px;
+  left: 0;
   background: linear-gradient(135deg, #665DCD 0%, #5FA4E6 44.76%) !important;
 }
 

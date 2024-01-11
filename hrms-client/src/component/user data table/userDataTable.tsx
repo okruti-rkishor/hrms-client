@@ -195,22 +195,24 @@ const TempFile: React.FC = () => {
     });
 
     return (
-        <Form form={form} component={false} className='user-data-table'>
-            <Table
-                components={{
-                    body: {
-                        cell: EditableCell,
-                    },
-                }}
-                bordered
-                dataSource={data}
-                columns={mergedColumns}
-                rowClassName="editable-row"
-                pagination={{
-                    onChange: cancel,
-                }}
-            />
-        </Form>
+        <div className='user-data-table'>
+            <Form form={form} component={false} >
+                <Table
+                    components={{
+                        body: {
+                            cell: EditableCell,
+                        },
+                    }}
+                    bordered
+                    dataSource={data}
+                    columns={mergedColumns}
+                    rowClassName="editable-row"
+                    pagination={{
+                        onChange: cancel,
+                    }}
+                />
+            </Form>
+        </div>
     );
 };
 
