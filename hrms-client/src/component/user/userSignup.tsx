@@ -1,15 +1,31 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Form, Input, Radio, Modal } from 'antd';
 import { Checkbox, } from 'antd';
 import "./userSignup.scss";
+import axios from 'axios';
+import restApi from "../../services/http/api/index"; 
+import UserContext from '../../context/userContext';
+import { UserInterface } from '../../context/userContext';
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
+
 const UserSignup = (props: any) => {
     const [passwordErrorMessage, setPasswordErrorMessage] = useState()
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
+        const {newUser,setNewUser} = useContext<any>(UserContext)
+
+    const  onFinish = async (values: any) => {
+         const response = await restApi.userCreate(values);
+         console.log('Success:', response);
+        if(response===201){
+            props.setUserSignupModalStatus(false)
+            setNewUser({'loginStatus':true, email:values.email, password:values.password});
+        }
+        else{
+            setNewUser({'loginStatus':false, email:'', password:''});
+            console.log(newUser);
+        }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -38,10 +54,10 @@ const UserSignup = (props: any) => {
             <Modal
                 title="User Sign-Up"
                 open={true}
-                onOk={handleOk} // submit button
+                // onOk={handleOk} // submit button
                 onCancel={handleCancel}
-            // okButtonProps={{ disabled: true }}
-            // cancelButtonProps={{ disabled: true }}
+                // okButtonProps={{ disabled: true }}
+                cancelButtonProps={{ disabled: true }}
             >
                 <Form
                     name="basic"
@@ -54,7 +70,11 @@ const UserSignup = (props: any) => {
                     autoComplete="off"
                     className='user-signup-form'
                 >
-                    <Form.Item label="First Name" name={'firstName'} rules={[{ required: true, message: 'Please input your username!' }]}>
+                    <Form.Item label="First Name" name={'firstName'} 
+                    rules={[
+                        { required: true, message: 'Please input your First Name!' },
+                        {pattern: new RegExp("^[A-Za-z\\s]+$"), message: ""}
+                    ]}>
                         <Input />
                     </Form.Item>
 
@@ -62,27 +82,28 @@ const UserSignup = (props: any) => {
                         <Input />
                     </Form.Item>
 
-                    <Form.Item<FieldType>
-                        label="Email Id"
-                        name="username"
-                        rules={[{ required: true, message: 'Please input your username!' }]}
-                    >
+                    <Form.Item 
+                    label="Email Id" 
+                    name={'email'}
+                    rules={[{ required: true, message: 'Please input your Email id!' },
+                        { pattern: new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/), message: "Not a valid mailId" },
+                        ]}>
                         <Input />
                     </Form.Item>
 
                     <Form.Item
                         name="password"
-                        label="password"
+                        label="Password"
                         dependencies={['password']}
                         hasFeedback
-                        rules={[{pattern: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/), message: "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number"},
-                        {required: true,message: "Account name is required.",},]}
+                        rules={[{ pattern: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/), message: "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required" },
+                        { required: true, message: "Password name is required.", }]}
                     >
                         <Input.Password />
                     </Form.Item>
 
                     <Form.Item
-                        name="confirm"
+                        name="confirmPassword"
                         label="Confirm Password"
                         dependencies={['password']}
                         hasFeedback
@@ -94,11 +115,11 @@ const UserSignup = (props: any) => {
                             ({ getFieldValue }) => ({
                                 validator(_, value) {
                                     if (!value || getFieldValue('password') === value) {
-                                        
-                                      return Promise.resolve();
+
+                                        return Promise.resolve();
                                     }
                                     return Promise.reject(new Error('The new password that you entered do not match!'));
-                                  },
+                                },
                             }),
                         ]}
                     >

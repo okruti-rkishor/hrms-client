@@ -1,16 +1,19 @@
 import React from "react";
 import "./login.scss";
-import {useState,useCallback,useEffect} from "react";
+import {useState, useCallback, useEffect, useContext} from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import UserSignup from "../user/userSignup";
 import User from "../user/user";
+import UserContext from "../../context/userContext";
 
 
 export default function Login() {
     const [profile, setProfile] = useState('');
     const [user, setUser] = useState<any>({});
     const [userSignupModalStatus, setUserSignupModalStatus] = useState<boolean>(false);
+    const {newUser,setNewUser} = useContext<any>(UserContext)
+
 const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => {setUser(codeResponse)
         console.log(codeResponse)
@@ -41,6 +44,14 @@ const login = useGoogleLogin({
              .catch((err) => console.log(err));
      }
  }, [user]);
+ const onChangeHandel = (e:any)=>{
+    console.log(e.target.value);
+
+ }
+
+ const submitHandel = ()=>{
+    //Api call
+ }
 
     return(
         <>
@@ -58,17 +69,17 @@ const login = useGoogleLogin({
                             <div className={"login-credentials"}>
                                 <div>
                             <label>Email</label>
-                            <input></input>
+                            <input onChange={onChangeHandel} name="email" value={newUser.email}/>
                                 </div>
                                 <div>
 
                             <label>password</label>
-                            <input></input>
+                            <input onChange={onChangeHandel} name="email" value={newUser.password}/>
                                 </div>
                             </div>
                                 <div className={"link-button"}>
                                     <div className="login-button">
-                                        <button>Login &#8640;</button>
+                                        <button onClick={submitHandel}>Login &#8640;</button>
                                         <button onClick={()=>{setUserSignupModalStatus(true)}}>Sign Up &#8640;</button>
                                     </div>
                                     <p>or continue with</p>

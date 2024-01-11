@@ -9,7 +9,8 @@ import FormComponent from "./component/form/formComponent";
 import ApiInterceptor from "./apiInterceptor";
 // import TempFile from "./component/Practice/tempFile";
 import UserDataTable from "./component/user data table/userDataTable";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -32,6 +33,7 @@ const router = createBrowserRouter(
 const App: React.FC = () => (
     <div className="App">
         <ApiInterceptor/>
+        <ToastContainer autoClose={8000} position={toast.POSITION.BOTTOM_RIGHT} />
         <RouterProvider router={router} />
     </div>
 );

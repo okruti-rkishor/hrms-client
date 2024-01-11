@@ -28,20 +28,23 @@ function RestApi(base:any){
         return http.post(uri, body, config)
             .then((response:any) => {
                 if (response.status === 201) {
-                    const location = response.headers.location;
-                    if (location) {
-                        const lastIndex = location.lastIndexOf("/");
-                        if (lastIndex !== -1) {
-                            const id = location.substring(lastIndex + 1);
-                            return id;
-                        }
-                    }
+                    return response.status;
+                    // const location = response.headers.location;
+                    // if (location) {
+                    //     const lastIndex = location.lastIndexOf("/");
+                    //     if (lastIndex !== -1) {
+                    //         const id = location.substring(lastIndex + 1);
+                    //         return id;
+                    //     }
+                    // }else{
+                    //     return response.status;
+                    // }
                 }  else if(response.status === 200){
                     return response.data;
                 }
             }).catch((error:any) => {
-                // console.error(JSON.stringify(error.response.data));
-                return  error;
+                console.error(JSON.stringify(error.response.data));
+              return    error;
             });
     }
 

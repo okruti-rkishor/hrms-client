@@ -66,7 +66,7 @@ class ApiInterceptor extends React.Component<any, any> {
     };
 
     logError = async (error: any) => {
-        let message = _.get(error, "response.data.messages[0].message", "");
+        let message = _.get(error, "response.data.message", "");
         if (message === ""){
             const code = _.get(error, "response.status", "");
             this.setState({
