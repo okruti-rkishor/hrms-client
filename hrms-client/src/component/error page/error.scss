@@ -1,0 +1,21 @@
+.back-home-button {
+  color: #fff;
+  background: #1677ff;
+  font-size: 14px;
+  height: 32px;
+  padding: 4px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  &:hover {
+    color: #fff;
+    background: rgba(22, 119, 255, 0.81);
+    box-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+  }
+}
+
+.ant-result.ant-result-404 {
+  align-self: center;
+  width: 100%;
+}

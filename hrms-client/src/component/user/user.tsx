@@ -1,5 +1,5 @@
 import React, {memo, useEffect} from 'react';
-import "./User.scss";
+import "./user.scss";
 import axios from "axios";
 
 

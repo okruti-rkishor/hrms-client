@@ -1,10 +1,10 @@
-
 import React from "react";
-import {Spin} from "antd";
+// import {Spin} from "antd";
 import _ from "lodash";
 import {toast} from "react-toastify";
 import {hrms }  from "../src/services/http/api/rest";
 import generateMessage from "./services/http/api/message";
+import './styles/loadingSpinner.scss'
 
 
 //import {fm} from "../../componentsv2/shared/Internationalization/index";
@@ -17,7 +17,6 @@ class ApiInterceptor extends React.Component<any, any> {
             errorCode: 0
         };
     }
-
 
     componentDidMount() {
         // Bind axios interceptor
@@ -81,7 +80,6 @@ class ApiInterceptor extends React.Component<any, any> {
     render() {
         return (
             <div>
-
                 {!_.isEmpty(this.state.loading) ?
                     <div style={{
                         position: "absolute", top: 0, left: 200, right: 0, bottom: 0,
@@ -92,9 +90,11 @@ class ApiInterceptor extends React.Component<any, any> {
                         justifyContent: "center",
                     }}>
                         <div className="loader" style={{}}>
-                            <Spin tip="Loading..."/>
+                            <span className="loading-spin"></span>
+                            {/*<Spin tip="Loading..."/>*/}
                         </div>
-                    </div>: null}</div>
+                    </div>: null}
+            </div>
         )
     }
 }

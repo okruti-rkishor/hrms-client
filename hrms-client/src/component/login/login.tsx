@@ -4,7 +4,7 @@ import {useState,useCallback,useEffect} from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import UserSignup from "../user/userSignup";
-import User from "../user/User";
+import User from "../user/user";
 
 
 export default function Login() {
@@ -67,7 +67,7 @@ const login = useGoogleLogin({
                                 </div>
                             </div>
                                 <div className={"link-button"}>
-                                    <div className="login-button"> 
+                                    <div className="login-button">
                                         <button>Login &#8640;</button>
                                         <button onClick={()=>{setUserSignupModalStatus(true)}}>Sign Up &#8640;</button>
                                     </div>
@@ -92,9 +92,9 @@ const login = useGoogleLogin({
                         <div className={"right"}>
                             <div className={"girl-cactus"}>
                             </div>
-                            <div className={"girl"} style={{background:"url(./images/girl2.png)"}}>
+                            <div className={"girl"} style={{backgroundImage:"url(./images/girl2.png)"}}>
                             </div>
-                            <div className={"cactus"} style={{background:"url(./images/cactus2.png)"}}>
+                            <div className={"cactus"} style={{backgroundImage:"url(./images/cactus2.png)"}}>
                             </div>
                         </div>
                     </div>

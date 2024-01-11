@@ -29,21 +29,23 @@ const HeaderComponent = () => {
     //
     //     await restApi.userCreate(data);
     // }
+
     return (
         <Header>
             <Row>
-                <Col span={2}>
-                    <a href='/home'>
-                        <Image width={100} height={100} src="./images/logos/HRMS-logos_white.png"/>
-                    </a>
-                </Col>
-                <Col span={18}><h1 style={{color: 'white'}}>HRMS</h1></Col>
-                <Col span={4}><Button>Log In</Button>
+                {/*<Col span={2}>*/}
+                {/*    <a href='/home'>*/}
+                {/*        <img src="./images/logos/HRMS-logos_white.png" />*/}
+                {/*        <Image width={100} height={100} src="./images/logos/HRMS-logos_white.png"/>*/}
+                {/*    </a>*/}
+                {/*</Col>*/}
+                <Col span={16}><h1 style={{color: 'white'}}>HRMS</h1></Col>
+                <Col span={8}><Button>Log In</Button>
                     <Button>Sign In</Button></Col>
 
             </Row>
 
-            {/*<h1>Header</h1>*/}
+            {/*<h1>header</h1>*/}
             {/*<div className='header-buttons'>*/}
             {/*    <Button>Log In</Button>*/}
             {/*    <Button>Sign In</Button>*/}
