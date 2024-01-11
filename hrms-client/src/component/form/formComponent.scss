@@ -1,5 +1,51 @@
 .parent{
   width: 80%;
   margin: 20px auto;
+}
+input{
+  //outline: none !important;
+  //border-width: 0 0 2px !important;
+  //border-color: blue !important;
+  //background: transparent !important;
+  //border-radius: unset !important;
+  //
+  //&:focus,&:focus-visible{
+  //  box-shadow: none !important;
+  //}
+  height: 40px;
+}
+.ant-select-selector{
+  //outline: none !important;
+  //border-width: 0 0 2px !important;
+  //border-color: blue !important;
+  //background: transparent !important;
+  //border-radius: unset !important;
+  //&:focus,&:focus-visible{
+  //  box-shadow: none !important;
+  //}
+  height: 40px !important;
+}
+.ant-picker{
+  //outline: none !important;
+  //border-width: 0 0 2px !important;
+  //border-color: blue !important;
+  //background: transparent !important;
+  //border-radius: unset !important;
+  height: 40px;
+  //&:focus,&:focus-visible{
+  //  box-shadow: none !important;
+  //}
+}
+label{
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: #A6A490 !important;
+  width:140px;
+}
+.Experience{
+  &_detail{
+    text-align: left;
+    width: 100%;
+  }
 
 }
