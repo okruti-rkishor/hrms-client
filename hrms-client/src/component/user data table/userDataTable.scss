@@ -19,6 +19,14 @@
     top: 0;
     z-index: 1;
   }
+
+  .ant-page-header {
+    //padding: unset;
+
+    .ant-page-header-heading-left {
+      margin: 0 0 16px 0;
+    }
+  }
 }
 
 ::-webkit-scrollbar-track {

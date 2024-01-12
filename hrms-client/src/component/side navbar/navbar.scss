@@ -62,3 +62,26 @@ aside {
     height: 64px;
   }
 }
+
+
+.ant-menu-dark .ant-menu-item-selected {
+
+}
+
+.side-navbar {
+  .ant-menu-submenu {
+    .ant-menu-item {
+      align-items: unset;
+      padding: 0 24px 0 34px !important;
+
+      &-selected {
+        background-color: unset;
+      }
+    }
+  }
+
+  &__button {
+    cursor: pointer;
+    width: 100%;
+  }
+}

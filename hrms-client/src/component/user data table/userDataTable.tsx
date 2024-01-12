@@ -197,16 +197,12 @@ const TempFile: React.FC = () => {
     });
 
     return (
-        <div
-            className='user-data-table'
-            style={{
-                border: '1px solid rgb(235, 237, 240)',
-        }}>
+        <div className='user-data-table'>
             <PageHeader
                 className="site-page-header"
-                title="Title"
-                breadcrumb={{ }}
-                subTitle="This is a subtitle"
+                title="User Details"
+                // breadcrumb={{ }}
+                subTitle="The list of all registered users"
             />
             <Form form={form} component={false} >
                 <Table

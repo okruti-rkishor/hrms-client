@@ -33,11 +33,14 @@
 
     .ant-card-body {
       min-height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .user-count {
       position: relative;
-      font-size: 18px;
+      font-size: 40px;
       font-weight: 700;
       color: white;
     }
