@@ -6,6 +6,8 @@ import submit = Simulate.submit;
 import '../form/formComponent.scss';
 import { Steps } from 'antd';
 import restApi from "../../services/http/api/index";
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+import {Designation, Gender, Type_Time, Status,Blood_Group} from "../../../src/constant/constant";
 
 
 const FormComponent = () =>{
@@ -14,11 +16,13 @@ const FormComponent = () =>{
     const [form] = Form.useForm();
     const [employeeData,setEmployeeData]=useState<any>({});
 
+
+
     const payload={
         "status": employeeData.status,
         "employeeCode": "ok12375",
         "designation": employeeData.designation,
-        "joiningDate": "10-9-2023",
+        "joiningDate": employeeData.DOB,
         "exitDate": null,
         "officialEmail": employeeData.companyEmail,
         "totalExperience": employeeData.experience,
@@ -30,7 +34,7 @@ const FormComponent = () =>{
             "lastName": employeeData.lastName
         },
         "gender": employeeData.gender,
-        "dateOfBirth": "20-09-2023",
+        "dateOfBirth": "2023-09-10",
         "age": "20",
         "qualification":"BTech",
         "email": employeeData.personalEmail,
@@ -55,8 +59,8 @@ const FormComponent = () =>{
                 "employerName": employeeData.companyName,
                 "designation": employeeData.designation,
                 "duration": {
-                    "startDate": "10-9-23",
-                    "endDate": "10-9-2023"
+                    "startDate": "2023-09-10",
+                    "endDate": "2023-09-20"
                 },
                 "totalExperience": employeeData.experience,
                 "annualCTC": employeeData.CTC,
@@ -84,22 +88,25 @@ const FormComponent = () =>{
                 "branchCode": employeeData.ifscCode,
                 "ifscCode": employeeData.ifscCode
             }
-        ],
-        "documents": [
-            {
-                "id":"89ff94c1-5bcb-483a-bc4b-9a590e5c67de"
-            }
         ]
+        // "documents": [
+        //     {
+        //         "id":""
+        //     }
+        // ]
     };
 
     const steps = [
         {
             title: 'Personal Details',
             content: 'First-content',
+            fields:["title","firstName","middleName","lastName","gender","DOB"],
+
         },
         {
             title: 'Address',
             content: 'Second-content',
+            fields:["houseNumber","streetAddress","city","state","postcode"]
         },
         {
             title: 'Contact',
@@ -118,19 +125,17 @@ const FormComponent = () =>{
             content: 'Last-content',
         },
     ];
-    const next = () => {
-        setCurrent(current + 1);
-    };
-
-    const prev = () => {
-        setCurrent(current - 1);
-    };
 
     const onChange = (value: any) => {
-        console.log(form.validateFields());
+        console.log(steps[current].fields,current);
+         form.validateFields(steps[current].fields).then((result)=>{
+             console.log(result,value);
+             setCurrent(value);
+         }).catch((error)=>{
+             console.log("error",error,value);
 
-        console.log('onChange:', value);
-        setCurrent(value);
+         });
+
     };
 
     const onFinish = async (value:object) =>{
@@ -142,46 +147,91 @@ const FormComponent = () =>{
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
+    const normFile = (e: any) => {
+        console.log('Upload event:', e);
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e?.fileList;
+    };
+
 
     return (
         <div className={"parent"}>
             <div style={{display:"flex",justifyContent:"space-around"}}>
         <Form onFinish={onFinish} style={{width:"50%"}} onValuesChange={(e)=>{
             setEmployeeData({...employeeData,...e});
-            console.log("1111",employeeData);
         }} form={form}>
             {current === 0 && (<>
                 <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}>
 
-                    <Form.Item label={"Title"} name={"title"} required={true}>
+                    <Form.Item label={"Title"} name={"title"} required={true} rules={[
+                        {
+                            required: true,
+                            message: 'Please select your title!',
+                        },
+                    ]}>
                         <Select style={{height:"40px"}}>
-                            <Select.Option value="Mr">Mr</Select.Option>
+                            <Select.Option value="">Mr</Select.Option>
                             <Select.Option value="Mrs">Mrs</Select.Option>
                         </Select>
                     </Form.Item>
 
-                    <Form.Item name={"firstName"} label={"First Name"}>
+                    <Form.Item name={"firstName"} label={"First Name"} rules={[
+                        {
+                            required: true,
+                            message: 'Please fill your name!',
+                        },
+                    ]}>
                         <Input required={true} style={{height:"40px"}}/>
                     </Form.Item>
 
-                    <Form.Item name={"middleName"} label={"Middle Name"}>
+                    <Form.Item name={"middleName"} label={"Middle Name"} >
                             <Input required={true} style={{height:"40px"}}/>
                         </Form.Item>
 
-                    <Form.Item name={"lastName"} label={"Last Name"}>
+                    <Form.Item name={"lastName"} label={"Last Name"} rules={[
+                        {
+                            required: true,
+                            message: 'Please fill your name!',
+                        },
+                    ]}>
                             <Input required={true} style={{height:"40px"}}/>
                         </Form.Item>
 
-                    <Form.Item label={"Gender"} required={true} name={"gender"}>
+                    <Form.Item label={"Gender"} required={true} name={"gender"} rules={[
+                        {
+                            required: true,
+                            message: 'Please select your gender!',
+                        },
+                    ]}>
                             <Select style={{height:"40px"}}>
-                                <Select.Option value="Male">Male</Select.Option>
-                                <Select.Option value="Female">Female</Select.Option>
-                                <Select.Option value="Other">Other</Select.Option>
+                                <Select.Option value={Gender.MALE}>Male</Select.Option>
+                                <Select.Option value={Gender.FEMALE}>Female</Select.Option>
                             </Select>
                         </Form.Item>
 
-                    <Form.Item label="Date of Birth" name={"DOB"}>
+                    <Form.Item label="Date of Birth" name={"DOB"} rules={[
+                        {
+                            required: true,
+                            message: 'Please fill your DOB!',
+                        },
+                    ]}>
                         <DatePicker style={{width:"100%"}}/>
+                    </Form.Item>
+
+                    <Form.Item label="Blood Group" name={"BG"}>
+                        <Select style={{height:"40px"}}>
+                            <Select.Option value={"AB_POSITIVE"}>{Blood_Group.AB_POSITIVE}</Select.Option>
+                            <Select.Option value={"AB_NEGATIVE"}>{Blood_Group.AB_NEGATIVE}</Select.Option>
+                            <Select.Option value={"A_POSITIVE"}>{Blood_Group.A_POSITIVE}</Select.Option>
+                            <Select.Option value={"A_NEGATIVE"}>{Blood_Group.A_NEGATIVE}</Select.Option>
+                            <Select.Option value={"B_POSITIVE"}>{Blood_Group.B_POSITIVE}</Select.Option>
+                            <Select.Option value={"B_NEGATIVE"}>{Blood_Group.B_NEGATIVE}</Select.Option>
+                            <Select.Option value={"O_POSITIVE"}>{Blood_Group.O_NEGATIVE}</Select.Option>
+                            <Select.Option value={"O_NEGATIVE"}>{Blood_Group.O_POSITIVE}</Select.Option>
+                        </Select>
+
                     </Form.Item>
 
                 </div>
@@ -190,23 +240,53 @@ const FormComponent = () =>{
                 <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}}>
                     <label>Present Address</label>
 
-                    <Form.Item label={"House number"} name={"houseNumber"} required={true} >
+                    <Form.Item label={"House number"} name={"houseNumber"} required={true} rules={[
+                        {
+                            required:true,
+                            message:"please fill your House Number"
+                        }
+
+                    ]}>
                                 <Input required={true}/>
                             </Form.Item>
 
-                    <Form.Item label={"Street address"} name={"streetAddress"} required={true} >
+                    <Form.Item label={"Street address"} name={"streetAddress"} required={true} rules={[
+                        {
+                            required:true,
+                            message:"please fill your Street Address"
+                        }
+
+                    ]}>
                                 <Input required={true}/>
                             </Form.Item>
 
-                    <Form.Item label={"City"} name={"city"} required={true} >
+                    <Form.Item label={"City"} name={"city"} required={true} rules={[
+                        {
+                            required:true,
+                            message:"please fill your your city"
+                        }
+
+                    ]}>
                                 <Input required={true}/>
                             </Form.Item>
 
-                    <Form.Item label={"State"} name={"state"} required={true} >
+                    <Form.Item label={"State"} name={"state"} required={true} rules={[
+                        {
+                            required:true,
+                            message:"please fill your state"
+                        }
+
+                    ]}>
                         <Input required={true}/>
                     </Form.Item>
 
-                    <Form.Item label={"Postcode"} name={"postcode"} required={true} >
+                    <Form.Item label={"Postcode"} name={"postcode"} required={true} rules={[
+                        {
+                            required:true,
+                            message:"please fill your postcode"
+                        }
+
+                    ]}>
                                 <Input required={true}/>
                             </Form.Item>
                 </div>
@@ -216,10 +296,13 @@ const FormComponent = () =>{
                 <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}}>
                     <label>Personal Contact</label>
 
-                    <Form.Item label={"Status"} required={true} name={"status"}>
+                    <Form.Item label={"Status"} required={true} name={"status"} rules={[{
+                        required:true,
+                        message:"select your status"
+                    }]}>
                         <Select style={{height:"40px"}}>
-                            <Select.Option value="Active">Active</Select.Option>
-                            <Select.Option value="Not Active">Not Active</Select.Option>
+                            <Select.Option value="Active">{Status.Active}</Select.Option>
+                            <Select.Option value="InActive">{Status.InActive}</Select.Option>
                         </Select>
                     </Form.Item>
 
@@ -249,7 +332,10 @@ const FormComponent = () =>{
                         <Input required={true}/>
                     </Form.Item>
 
-                    <Form.Item label={"Contact Number"} name={"contact"} required={true}  rules={[{ required: true, message: 'Please input your phone number!' }]}>
+                    <Form.Item label={"Contact Number"} name={"contact"} required={true}  rules={[{ required: true, message: 'Please input your phone number!'},{
+                        max: 10,
+                        message: "Value should be less than 10 character",
+                    },]}>
                         <Input prefix={"+91"} style={{ width: '100%' }} required={true}/>
                     </Form.Item>
 
@@ -260,23 +346,42 @@ const FormComponent = () =>{
                 <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"Experience"}>
                     <label className={"Experience_detail"}>Fill the Experience Detail here</label>
 
-                    <Form.Item label={"Company Name"} name={"companyName"} required={true}>
+                    <Form.Item label={"Company Name"} name={"companyName"} required={true} rules={[{
+                        required:true,
+                        message:"select your company name"
+                    }]}>
                         <Input required={true}/>
                     </Form.Item>
 
-                    <Form.Item label={"Designation"} name={"designation"} required={true}>
-                        <Input />
-                    </Form.Item>
+                    <Form.Item label={"Designation"} name={"designation"} required={true} rules={[{
+                        required:true,
+                        message:"select your designation"
+                    }]}>
+                        <Select>
+                            <Select.Option value={"JUNIOR_SOFTWARE_ENGINEER"}>{Designation.JUNIOR_SOFTWARE_ENGINEER}</Select.Option>
+                            <Select.Option value={"TRAINEE"}>{Designation.TRAINEE}</Select.Option>
+                            <Select.Option value={"JUNIOR_SOFTWARE_ENGINEER"}>{Designation.JUNIOR_SOFTWARE_ENGINEER}</Select.Option>
+                            <Select.Option value={"SENIOR_SOFTWARE_ENGINEER"}>{Designation.SENIOR_SOFTWARE_ENGINEER}</Select.Option>
+                            <Select.Option value={"TECHNICAL_LEAD"}>{Designation.TECHNICAL_LEAD}</Select.Option>
 
-                    <Form.Item label="Type" name={"type"}>
-                        <Select style={{width:"100%"}}>
-                            <Select.Option value="intern">intern</Select.Option>
-                            <Select.Option value="part time">part time</Select.Option>
-                            <Select.Option value="full time">full time</Select.Option>
                         </Select>
                     </Form.Item>
 
-                    <Form.Item label={"Total experience"} name={"experience"} required={true}>
+                    <Form.Item label="Type" name={"type"} rules={[{
+                        required:true,
+                        message:"select your type"
+                    }]}>
+                        <Select style={{width:"100%"}}>
+                            <Select.Option value={Type_Time.PARTTIME}>intern</Select.Option>
+                            <Select.Option value={Type_Time.HYBRID}>part time</Select.Option>
+                            <Select.Option value={Type_Time.FULLTIME}>full time</Select.Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item label={"Total experience"} name={"experience"} required={true} rules={[{
+                        required:true,
+                        message:"select your experience"
+                    }]}>
                         <Input />
                     </Form.Item>
 
@@ -308,7 +413,12 @@ const FormComponent = () =>{
                         </Select>
                     </Form.Item>
 
-                    <Form.Item name={"relationfirstName"} label={"First Name"}>
+                    <Form.Item name={"relationfirstName"} label={"First Name"} rules={[
+                        {
+                            type:"string",
+                            message: 'Please fill only in characters',
+                        },
+                    ]}>
                         <Input required={true} style={{height:"40px"}}/>
                     </Form.Item>
 
@@ -322,14 +432,13 @@ const FormComponent = () =>{
 
                     <Form.Item label={"Gender"} required={true}>
                         <Select style={{height:"40px"}}>
-                            <Select.Option value="Male">Male</Select.Option>
-                            <Select.Option value="Female">Female</Select.Option>
-                            <Select.Option value="Other">Other</Select.Option>
+                            <Select.Option value={'MALE'}>{Gender.MALE}</Select.Option>
+                            <Select.Option value={'FEMALE'}>{Gender.FEMALE}</Select.Option>
                         </Select>
                     </Form.Item>
 
                     <Form.Item label="Date of Birth" name={"dateofBirth"}>
-                        <DatePicker style={{width:"100%"}}/>
+                        <DatePicker style={{width:"100%"}} format={"YYYY-MM-DD"}/>
                     </Form.Item>
 
                 </div>
@@ -353,32 +462,26 @@ const FormComponent = () =>{
                         <Input required={true} style={{height:"40px"}}/>
                     </Form.Item>
 
-                    {/*<Form.Item*/}
-                    {/*    name="upload"*/}
-                    {/*    label="Upload"*/}
-                    {/*    valuePropName="fileList"*/}
-                    {/*    // getValueFromEvent={normFile}*/}
-                    {/*    // extra="longgggggggggggggggggggggggggggggggggg"*/}
-                    {/*>*/}
-                    {/*    <Upload name="logo" action="/upload.do" listType="picture">*/}
-                    {/*        <Button icon={<UploadOutlined />}>Click to upload</Button>*/}
-                    {/*    </Upload>*/}
-                    {/*</Form.Item>*/}
-
-
-
+                    <Form.Item label="Document">
+                        <Form.Item name="document" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
+                            <Upload.Dragger name="files" action="/upload.do">
+                                <p className="ant-upload-drag-icon">
+                                    <InboxOutlined />
+                                </p>
+                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
+                            </Upload.Dragger>
+                        </Form.Item>
+                    </Form.Item>
                 </div>
             </>)}
-
-            <Form.Item>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
-            </Form.Item>
-
-
-
-
+            {current===5 && (<>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Submit
+                    </Button>
+                </Form.Item>
+                </>)}
         </Form>
             <Steps current={current} items={items} direction="vertical" onChange={onChange} style={{width:"16%",marginTop: "35px"}}/>
 
