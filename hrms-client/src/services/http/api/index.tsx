@@ -13,8 +13,9 @@ export default {
     // isCodeExist: (le_id: string, lec_id: string, code:string) => rest.get(base + "/code/{{code}}/exists", { le_id, lec_id, code }),
     // isNameExist: (le_id: string, lec_id: string, name: string) => rest.get(base + "/name/{{name}}/exists", { le_id, lec_id, name }),
     // assignToCustomer:(le_id: string, lec_id: string, id: string, data: any) => rest.post(base + "/{{id}}/customer", { le_id, lec_id, id }, data),
+    userCount:() => rest.get(base + "user/count-by-role"),
     userCreate:(data: any) => rest.post(base + "user/register", { }, data),
-    employeeCreate:(data: any) => rest.post(base + "employee/create", { }, data)
+    employeeCreate:(data: any) => rest.post(base + "employee/create", { }, data),
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),
     // unAssigned:(le_id: string, lec_id: string) => rest.get(base + "/assigned?assigned=false", { le_id, lec_id}),

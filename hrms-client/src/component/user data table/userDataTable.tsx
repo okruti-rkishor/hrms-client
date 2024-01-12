@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {Form, Input, InputNumber, Popconfirm, Table, Tag, Typography} from 'antd';
+import { PageHeader } from '@ant-design/pro-layout';
+// import { DeleteButton } from "@refinedev/antd";
 import './userDataTable.scss';
 
 
@@ -17,7 +19,7 @@ for (let i = 0; i < 20; i++) {
     originData.push({
         key: i.toString(),
         firstName: `Edward ${i}`,
-        lastName: `Singh ${i}`,
+        lastName: `Singh`,
         email: `edward${i}@gmail.com`,
         // address: `London Park no. ${i}`,
         role: ['developer', 'nice'],
@@ -195,7 +197,17 @@ const TempFile: React.FC = () => {
     });
 
     return (
-        <div className='user-data-table'>
+        <div
+            className='user-data-table'
+            style={{
+                border: '1px solid rgb(235, 237, 240)',
+        }}>
+            <PageHeader
+                className="site-page-header"
+                title="Title"
+                breadcrumb={{ }}
+                subTitle="This is a subtitle"
+            />
             <Form form={form} component={false} >
                 <Table
                     components={{

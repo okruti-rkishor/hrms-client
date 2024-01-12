@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {Header} from "antd/es/layout/layout";
 import {Button, Col, Row, Image} from 'antd';
 import './header.scss'
-import restApi from "../../services/http/api/index";
+// import restApi from "../../services/http/api/index";
 
 const headerStyle: React.CSSProperties = {
     textAlign: 'center',
@@ -15,9 +15,9 @@ const headerStyle: React.CSSProperties = {
 
 
 const HeaderComponent = () => {
-    useEffect(() => {
-        // getData();
-    }, []);
+    // useEffect(() => {
+    //     getData();
+    // }, []);
     // const getData = async () => {
     //     const data ={
     //             "firstName": "sursssesh",
@@ -33,12 +33,6 @@ const HeaderComponent = () => {
     return (
         <Header>
             <Row>
-                {/*<Col span={2}>*/}
-                {/*    <a href='/home'>*/}
-                {/*        <img src="./images/logos/HRMS-logos_white.png" />*/}
-                {/*        <Image width={100} height={100} src="./images/logos/HRMS-logos_white.png"/>*/}
-                {/*    </a>*/}
-                {/*</Col>*/}
                 <Col span={16}><h1 style={{color: 'white'}}>HR Management System</h1></Col>
                 <Col >
                     <Button className={'login-button'} href={'/login'}>Log In</Button>
@@ -46,14 +40,6 @@ const HeaderComponent = () => {
                 </Col>
 
             </Row>
-
-            {/*<h1>header</h1>*/}
-            {/*<div className='header-buttons'>*/}
-            {/*    <Button>Log In</Button>*/}
-            {/*    <Button>Sign In</Button>*/}
-            {/*    /!*<button className='login-button'></button>*!/*/}
-            {/*    /!*<button className='signin-button'></button>*!/*/}
-            {/*</div>*/}
         </Header>
     );
 }

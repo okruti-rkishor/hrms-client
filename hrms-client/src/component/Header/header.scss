@@ -1,3 +1,5 @@
+$button: linear-gradient(135deg, #5FA4E6 25%, #665DCD 40%);
+
 header {
   //display: flex;
   flex-direction: row;
@@ -11,17 +13,14 @@ header {
   &.ant-layout-header {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 5;
+    padding: 0 50px 0 80px;
     background: linear-gradient(135deg, #665DCD 0%, #5FA4E6 44.76%) !important;
   }
 
   .ant-row {
     justify-content: space-between;
     height: 100%;
-
-    //button.signup {
-    //  margin-left: 24px;
-    //}
   }
 
   .ant-col.css-dev-only-do-not-override-dkbvqv {
@@ -30,19 +29,14 @@ header {
     align-items: center;
   }
 
-  .header-buttons {
-    display: flex;
-    align-items: center;
-    gap: 24px;
+  .login-button, .signup-button {
+    color: white;
+    background: transparent;
+    border-radius: 4px;
 
-    button {
-      color: white;
-      background-color: rgb(0, 21, 41);
-
-      &:hover {
-        color: white;
-        background-color: rgb(0, 21, 41);
-      }
+    &:hover {
+      color: white !important;
+      border: 1px solid #665DCD !important;
     }
   }
 }
