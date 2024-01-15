@@ -16,16 +16,17 @@ const UserSignup = (props: any) => {
         const {newUser,setNewUser} = useContext<any>(UserContext)
 
     const  onFinish = async (values: any) => {
-         const response = await restApi.userCreate(values);
-         console.log('Success:', response);
-        if(response===201){
+        //  const response = await restApi.userCreate(values);
+        //  console.log('Success:', response);
+        // if(response===201){
             props.setUserSignupModalStatus(false)
-            setNewUser({'loginStatus':true, email:values.email, password:values.password});
-        }
-        else{
-            setNewUser({'loginStatus':false, email:'', password:''});
-            console.log(newUser);
-        }
+            // setNewUser({loginStatus:true, email:values.email, password:values.password});
+            props.setInputValues(values.email,values.password);
+        // }
+        // else{
+        //     setNewUser({'loginStatus':false, email:'', password:''});
+        //     console.log(newUser);
+        // }
     };
 
     const onFinishFailed = (errorInfo: any) => {

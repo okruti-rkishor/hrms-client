@@ -11,6 +11,7 @@ import ApiInterceptor from "./apiInterceptor";
 import UserDataTable from "./component/user data table/userDataTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EmployeeSearch from './component/employee/employeeSearch';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/employee/create' element={<FormComponent/>}/>
                 <Route path='/user-detail' element={<UserDataTable/>}/>
+                <Route path='/employee/search' element={<EmployeeSearch />}/>
                 {/*<Route path='/temp' element={<TempFile />}/>*/}
             </Route>
 

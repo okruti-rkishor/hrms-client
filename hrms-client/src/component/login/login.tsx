@@ -1,122 +1,233 @@
 import React from "react";
 import "./login.scss";
-import {useState, useCallback, useEffect, useContext} from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import UserSignup from "../user/userSignup";
 import User from "../user/user";
-import UserContext from "../../context/userContext";
+// import UserContext from "../../context/userContext";
+import { Button, Checkbox, Form, Input } from "antd";
 
+type emailInputValueType = {
+    username?: string;
+    password?: string;
+};
+
+type FieldType = {
+  username?: string;
+  password?: string;
+};
 
 export default function Login() {
-    const [profile, setProfile] = useState('');
-    const [user, setUser] = useState<any>({});
-    const [userSignupModalStatus, setUserSignupModalStatus] = useState<boolean>(false);
-    const {newUser,setNewUser} = useContext<any>(UserContext)
+  const [profile, setProfile] = useState("");
+  const [user, setUser] = useState<any>({});
+  const [userInputValues, setUserInputValues] = useState<emailInputValueType>(
+    {}
+  );
+  const [userSignupModalStatus, setUserSignupModalStatus] =
+    useState<boolean>(false);
 
-const login = useGoogleLogin({
-    onSuccess: (codeResponse: any) => {setUser(codeResponse)
-        console.log(codeResponse)
+  const [emailInputValue, setEmailInputValue] = useState<string>(
+
+    ""
+  );
+  const [passwordInputValue, setPasswordInputValue] = useState<string>(
+    ""
+  );
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse: any) => {
+      setUser(codeResponse);
+      console.log(codeResponse);
     },
-    onError: (error) => console.log("Login Failed:", error)
-});
+    onError: (error) => console.log("Login Failed:", error),
+  });
 
-    const onLogout = ()=>{
-        setProfile('');
-    }
+  const onLogout = () => {
+    setProfile("");
+  };
 
- useEffect(() => {
-     if (user) {
-         axios
-             .get(
-                 `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-                 {
-                     headers: {
-                         Authorization: `Bearer ${user.access_token}`,
-                         Accept: "application/json",
-                     },
-                 }
-             )
-             .then((res) => {
-                 setProfile(res.data);
-                 console.log(res.data);
-             })
-             .catch((err) => console.log(err));
-     }
- }, [user]);
- const onChangeHandel = (e:any)=>{
-    console.log(e.target.value);
-
- }
-
- const submitHandel = ()=>{
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
     //Api call
- }
+    console.log(userInputValues);
+  };
 
-    return(
-        <>
-        {userSignupModalStatus?<UserSignup setUserSignupModalStatus={setUserSignupModalStatus}/>:''}
-            <div className={"login"}>
-                <div className={"loginPage"}>
-                    <div className={"loginPageDetail"}>
-                        <div className={"left"}>
-                            <div className={"login-here"}>
-                                <div className={"login-here-detail"}>
-                            <h2>Logo Here</h2>
-                            <p>welcome back !!!</p>
-                            <h1>Log In</h1>
-                                </div>
-                            <div className={"login-credentials"}>
-                                <div>
-                            <label>Email</label>
-                            <input onChange={onChangeHandel} name="email" value={newUser.email}/>
-                                </div>
-                                <div>
+  const setInputValues = useCallback((email: string, password: string) => {
+    setUserInputValues({username:email,password:password});
+  },[]);
 
-                            <label>password</label>
-                            <input onChange={onChangeHandel} name="email" value={newUser.password}/>
-                                </div>
-                            </div>
-                                <div className={"link-button"}>
-                                    <div className="login-button">
-                                        <button onClick={submitHandel}>Login &#8640;</button>
-                                        <button onClick={()=>{setUserSignupModalStatus(true)}}>Sign Up &#8640;</button>
-                                    </div>
-                                    <p>or continue with</p>
-                                    {profile? <User data={profile} onLogout={onLogout}/> : ""}
-                                    <div className={"all-link"}>
-                                        <button><img src="./images/google.png"/></button>
-                                        <button><img src="./images/github.png"/></button>
-                                    <button><img src="./images/facebook.png"/></button>
-                                        <button><img src="./images/linkedin.png"/></button>
-                                        <button><img src="./images/instagram.png"/></button>
-                                    </div>
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
 
-                                </div>
-                                <div className={"account"}>
-                                    <p>don't have an account yet?</p>
-                                    <p>sign up for free</p>
-                                </div>
-                            </div>
+   useEffect(() => {
+     if (user) {
+       axios
+         .get(
+           `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
+           {
+             headers: {
+               Authorization: `Bearer ${user.access_token}`,
+               Accept: "application/json",
+             },
+           }
+         )
+         .then((res) => {
+           setProfile(res.data);
+           console.log(res.data);
+         })
+         .catch((err) => console.log(err));
+     }
+   }, [user]);
 
-                        </div>
-                        <div className={"right"}>
-                            <div className={"girl-cactus"}>
-                            </div>
-                            <div className={"girl"} style={{backgroundImage:"url(./images/girl2.png)"}}>
-                            </div>
-                            <div className={"cactus"} style={{backgroundImage:"url(./images/cactus2.png)"}}>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                    </div>
+  const onChangeHandel = (e: any) => {
+    setUserInputValues((prev) => ({
+      ...prev,
+     [e.target.name]: e.target.value,
+    }));
+
+  };
+  return (
+    <>
+      {userSignupModalStatus ? (
+        <UserSignup
+          setInputValues={setInputValues}
+          setUserSignupModalStatus={setUserSignupModalStatus}
+        />
+      ) : (
+        ""
+      )}
+      <div className={"login"}>
+        <div className={"loginPage"}>
+          <div className={"loginPageDetail"}>
+            <div className={"left"}>
+              <div className={"login-here"}>
+                <div className={"login-here-detail"}>
+                  <h2>Logo Here</h2>
+                  <p>welcome back !!!</p>
+                  <h1>Log In</h1>
                 </div>
+                <div className={"login-credentials"}>
+                  <div>
+                    <Form
+                      name="basic"
+                      labelCol={{ span: 8 }}
+                      wrapperCol={{ span: 16 }}
+                      style={{ maxWidth: 600 }}
+                      initialValues={{ remember: true }}
+                      onFinish={onFinish}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete="off"
+                      layout="vertical"
+                    >
+                      <Form.Item
+                        name="username"
+                        label="Email"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your Email!",
+                          },
+                          {
+                            pattern: new RegExp(
+                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                            ),
+                            message: "Enter a valid email",
+                          },
+                        ]}
+                      >
+                        <Input
+                        name="username"
+                          onChange={onChangeHandel}
+                        //   value={emailInputValue}
+                          value={userInputValues.username}
+                        />
+                      </Form.Item>
+                      <Form.Item<FieldType>
+                        label="Password"
+                        name="password"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input your password!",
+                          },
+                          {
+                            pattern: new RegExp(
+                              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                            ),
+                            message:
+                              "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required",
+                          },
+                        ]}
+                      >
+                        <Input.Password
+                        name="password"
+                          onChange={onChangeHandel}
+                          value={userInputValues.password}
+                        />
+                      </Form.Item>
 
+                      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <div>
+
+                          <div className="login-button">
+                            <Button type="primary" htmlType="submit">
+                              {" "}
+                              Login &#8640;
+                            </Button>
+                            <Button
+                              type="primary"
+                              onClick={() => {
+                                setUserSignupModalStatus(true);
+                              }}
+                            >
+                              Sign Up &#8640;
+                            </Button>
+                          </div>
+                        </div>
+                      </Form.Item>
+                    </Form>
+                  </div>
+                </div>
+                <div className={"link-button"}>
+                  <p>or continue with</p>
+                  {profile ? <User data={profile} onLogout={onLogout} /> : ""}
+                  <div className={"all-link"}>
+                    <button>
+                      <img src="./images/google.png" />
+                    </button>
+                    <button>
+                      <img src="./images/github.png" />
+                    </button>
+                    <button>
+                      <img src="./images/facebook.png" />
+                    </button>
+                    <button>
+                      <img src="./images/linkedin.png" />
+                    </button>
+                    <button>
+                      <img src="./images/instagram.png" />
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-        </>
-
-
-    )
-
+            <div className={"right"}>
+              <div className={"girl-cactus"}></div>
+              <div
+                className={"girl"}
+                style={{ backgroundImage: "url(./images/girl2.png)" }}
+              ></div>
+              <div
+                className={"cactus"}
+                style={{ backgroundImage: "url(./images/cactus2.png)" }}
+              ></div>
+            </div>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </>
+  );
 }
