@@ -33,7 +33,8 @@ const items: MenuItem[] = [
     // getItem('Option 1', '1', <PieChartOutlined />),
     // getItem('Option 2', '2', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
-        getItem(<a className='side-navbar__button' href='/user-detail'>List</a>, '3', ),
+        getItem(<a className='side-navbar__button' href='/user/detail'>List</a>, '3', ),
+        getItem(<a className='side-navbar__button' href='/user/create'>Create</a>, '4', ),
         // getItem('User 2', '4'),
         // getItem('User 3', '5'),
     ]),

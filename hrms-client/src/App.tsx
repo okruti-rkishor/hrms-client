@@ -7,6 +7,7 @@ import Home from "./component/home/home";
 import Error from "./component/error page/error";
 import FormComponent from "./component/form/formComponent";
 import ApiInterceptor from "./apiInterceptor";
+import UserCreate from "./component/user/userCreate";
 // import TempFile from "./component/Practice/tempFile";
 import UserDataTable from "./component/user data table/userDataTable";
 import { ToastContainer, toast } from "react-toastify";
@@ -20,7 +21,8 @@ const router = createBrowserRouter(
                 <Route path='/' element={<Home/>}/>
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/employee/create' element={<FormComponent/>}/>
-                <Route path='/user-detail' element={<UserDataTable/>}/>
+                <Route path='/user/detail' element={<UserDataTable/>}/>
+                <Route path='/user/create' element={<UserCreate/>}/>
                 <Route path='/employee/search' element={<EmployeeSearch />}/>
                 {/*<Route path='/temp' element={<TempFile />}/>*/}
             </Route>

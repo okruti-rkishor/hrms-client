@@ -1,30 +1,31 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Input, InputNumber, Popconfirm, Table, Tag, Typography} from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 // import { DeleteButton } from "@refinedev/antd";
 import './userDataTable.scss';
+import restApi from "../../services/http/api";
 
 
 interface Item {
-    key: string;
+    id: string;
     firstName: string;
     lastName: string;
     email: string;
     // address: string;
-    role: string[];
+    role: string;
 }
 
-const originData: Item[] = [];
-for (let i = 0; i < 20; i++) {
-    originData.push({
-        key: i.toString(),
-        firstName: `Edward ${i}`,
-        lastName: `Singh`,
-        email: `edward${i}@gmail.com`,
-        // address: `London Park no. ${i}`,
-        role: ['developer', 'nice'],
-    });
-}
+// const originData: Item[] = [];
+// for (let i = 0; i < 20; i++) {
+//     // originData.push({
+//     //     key: i.toString(),
+//     //     firstName: `Edward ${i}`,
+//     //     lastName: `Singh`,
+//     //     email: `edward${i}@gmail.com`,
+//     //     // address: `London Park no. ${i}`,
+//     //     role: 'developer',
+//     // });
+// }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
@@ -72,37 +73,50 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 const TempFile: React.FC = () => {
     const [form] = Form.useForm();
-    const [data, setData] = useState(originData);
+    // const [data, setData] = useState<item[]>([]);
     const [editingKey, setEditingKey] = useState('');
 
-    const isEditing = (record: Item) => record.key === editingKey;
 
-    const edit = (record: Partial<Item> & { key: React.Key }) => {
+    const [userData, setUserData] = useState<Item[]>([]);
+    useEffect(()=>{
+        usersData();
+    },[]);
+
+    const usersData = async () => {
+        const response = await restApi.allUsersData();
+        setUserData(response)
+        console.log('Success:', response);
+    };
+
+
+    const isEditing = (record: Item) => record.id === editingKey;
+
+    const edit = (record: Item) => {
         form.setFieldsValue({ name: '', age: '', address: '', ...record });
-        setEditingKey(record.key);
+        setEditingKey(record.id);
     };
 
     const cancel = () => {
         setEditingKey('');
     };
 
-    const save = async (key: React.Key) => {
+    const save = async (key: string) => {
         try {
             const row = (await form.validateFields()) as Item;
 
-            const newData = [...data];
-            const index = newData.findIndex((item) => key === item.key);
+            const newData = [...userData];
+            const index = newData.findIndex((item) => key === item.id);
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, {
                     ...item,
                     ...row,
                 });
-                setData(newData);
+                setUserData(newData);
                 setEditingKey('');
             } else {
                 newData.push(row);
-                setData(newData);
+                setUserData(newData);
                 setEditingKey('');
             }
         } catch (errInfo) {
@@ -140,21 +154,27 @@ const TempFile: React.FC = () => {
             dataIndex: 'role',
             width: '25%',
             editable: false,
-            render: (_:any, { role}:any) => (
-                <>
-                    {role.map((tag:string) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
+            render: (_:any, { role}:any) => {
+                        let color;
+                        if (role === 'ADMIN') {
+                            color = 'geekblue';
+                        } else if(role === 'SUPER USER') {
+                            color = 'orange';
+                        } else if(role === 'EMPLOYEE') {
+                            color = 'green';
+                        } else if(role === 'GUEST') {
                             color = 'volcano';
                         }
+
                         return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
+                            <>
+                            {role &&  <Tag color={color} key={role}>
+                    {role.toUpperCase()}
+                </Tag>
+            }
+            </>
                         );
-                    })}
-                </>
-            ),
+            },
         },
         {
             title: 'operation',
@@ -164,7 +184,7 @@ const TempFile: React.FC = () => {
                 const editable = isEditing(record);
                 return editable ? (
                     <span>
-                        <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
+                        <Typography.Link onClick={() => save(record.id)} style={{ marginRight: 8 }}>
                           Save
                         </Typography.Link>
                         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
@@ -211,8 +231,10 @@ const TempFile: React.FC = () => {
                             cell: EditableCell,
                         },
                     }}
+                    rowKey="id"
                     bordered
-                    dataSource={data}
+                    // dataSource={data}
+                    dataSource={userData}
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={{
