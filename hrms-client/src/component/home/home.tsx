@@ -7,10 +7,6 @@ import './home.scss'
 import restApi from "../../services/http/api";
 
 
-
-
-// userCount
-
 function Home() {
     const [count,setCount] = useState(0);
     useEffect(()=>{

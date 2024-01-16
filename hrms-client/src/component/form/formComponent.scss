@@ -1,6 +1,20 @@
 .parent{
+
+}
+
+.employee-create-section {
   width: 80%;
   margin: 20px auto;
+
+  .employee-create-form {
+    height: 580px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+  .employee-create-inputs {
+    margin-right: 20px;
+  }
 }
 
 input{
@@ -15,6 +29,7 @@ input{
   //}
   height: 40px;
 }
+
 .ant-select-selector{
   //outline: none !important;
   //border-width: 0 0 2px !important;
@@ -27,6 +42,7 @@ input{
   height: 40px !important;
   text-align: left;
 }
+
 .ant-picker{
   //outline: none !important;
   //border-width: 0 0 2px !important;
@@ -38,59 +54,47 @@ input{
   //  box-shadow: none !important;
   //}
 }
+
 label{
   font-size: 16px !important;
   font-weight: 600 !important;
   color: #A6A490 !important;
-  width:200px;
+  width: 200px;
   text-align: left;
 }
+
 .Experience{
   &_detail{
     text-align: left;
     width: 100%;
   }
-
 }
+
 .ant-steps-vertical .ant-steps-item{
   height: 100px;
   max-height: 100px;
   min-height: 100px;
+
   &:last-child{
     height: 0;
     max-height: 0;
     min-height: 0;
   }
 }
+
 .ant-form-item-explain-error{
   text-align: left;
 }
-.Experience{
-  overflow-y: scroll;
-  height: 580px;
 
+//.Experience{
+//  overflow-y: scroll;
+//  height: 580px;
+//}
 
-}
-::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  background-color: #FFF;
-  background-image: linear-gradient(180deg, #665DCD 10%, #5FA4E6 100%);
-}
 //.ant-form .ant-form-horizontal::-webkit-scrollbar-track {
 //  background: orange;        /* color of the tracking area */
 //}
-//
+
 //.ant-form .ant-form-horizontal::-webkit-scrollbar-thumb {
 //  background-color: blue;    /* color of the scroll thumb */
 //  border-radius: 20px;       /* roundness of the scroll thumb */

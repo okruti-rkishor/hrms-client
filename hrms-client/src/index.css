@@ -63,3 +63,10 @@ body::-webkit-scrollbar-thumb {
 .ant-input-affix-wrapper-status-error.ant-input-affix-wrapper > input {
   border-left: 5px solid #ff4d4f !important;
 }
+
+footer.ant-layout-footer {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  background: linear-gradient(135deg, #5FA4E6 30%, #665DCD 100%) !important;
+}
