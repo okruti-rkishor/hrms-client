@@ -64,10 +64,10 @@ const EditableCell: React.FC<EditableCellProps> = ({
   );
 };
 
-const EmployeeSearchDataTable= ({emploreeResponse}:any) => {
-  const initialData = JSON.parse(JSON.stringify(emploreeResponse));
+const EmployeeSearchDataTable= ({employeeResponse}:any) => {
+  const initialData = JSON.parse(JSON.stringify(employeeResponse));
   const [form] = Form.useForm();
-  const [data, setData] = useState(emploreeResponse); 
+  const [data, setData] = useState(employeeResponse);
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = (record: Item) => record.key === editingKey;
@@ -163,7 +163,7 @@ const EmployeeSearchDataTable= ({emploreeResponse}:any) => {
     if (!col.editable) {
       return col;
     }
-    return { 
+    return {
       ...col,
       onCell: (record: Item) => ({
         record,
@@ -184,7 +184,7 @@ const EmployeeSearchDataTable= ({emploreeResponse}:any) => {
           },
         }}
         bordered
-        dataSource={data}
+        dataSource={employeeResponse}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={{

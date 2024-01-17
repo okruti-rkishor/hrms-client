@@ -115,20 +115,20 @@ function EmployeeSearch() {
         // setFormData({...values, documentNumber : values.documentNumber})
       }
     }
-    
+
     console.log(tempFormData)
     try{
       const response = await rest.employeeSearch(tempFormData)
-      
-      tempResponse = response.map((employee:any)=>{ 
+
+      tempResponse = response.map((employee:any)=>{
         let designation = (employee.designation as string).split("_");
         designation = designation.map((nameString: string): string =>
           nameString.charAt(0).toUpperCase() + nameString.slice(1).toLowerCase()
-        ); // capitalize first character of array of string 
+        ); // capitalize first character of array of string
         const formattedDesignation = designation.join(' ');  // convert array of string to string saprated with space
         return {...employee,employeeName:`${employee.name.firstName} ${employee.name.middleName} ${employee.name.lastName}`, designation:formattedDesignation}
       });
-     
+
       setShowTableStatus(true);
      setEmployeeResponse(tempResponse)
      console.log("modify response :", tempResponse);
@@ -227,8 +227,8 @@ function EmployeeSearch() {
       </div>
 
       <div className="search-result-list">
-       
-      {showTableStatus!==true ? 'Search Result List':<EmployeeSearchDataTable  emploreeResponse={emploreeResponse}/>}
+
+      {showTableStatus!==true ? 'Search Result List':<EmployeeSearchDataTable  employeeResponse={emploreeResponse}/>}
       </div>
     </div>
   );
