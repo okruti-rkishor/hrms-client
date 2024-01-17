@@ -3,22 +3,22 @@
   margin: 48px 60px 48px auto;
 
   .gutter-row {
-    .super-user {
+    .admin {
       background: linear-gradient(45deg, rgba(#09AFE8,0.5) 0%, rgba(#29F499,0.8) 100%);
       box-shadow: 0 5px 20px rgba(#29F499,.3);
     }
 
-    .employee {
+    .hr-user {
       background: linear-gradient(45deg, rgba(#6D80FE,0.5) 0%, rgba(#23D2FD,0.8) 100%);
       box-shadow: 0 5px 20px rgba(#23D2FD,.3);
     }
 
-    .users {
+    .employee {
       background: linear-gradient(45deg, rgba(#707CFF,0.5) 0%, rgba(#FA81E8,0.8) 100%);
       box-shadow: 0 5px 20px rgba(#FA81E8,.3);
     }
 
-    .guest-user {
+    .guest-users {
       background: linear-gradient(45deg, rgba(#FF998B,0.5) 0%, rgba(#FF6D88,0.8) 100%);
       box-shadow: 0 5px 20px rgba(#FF998B,.3);
     }

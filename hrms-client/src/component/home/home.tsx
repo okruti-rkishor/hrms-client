@@ -8,26 +8,50 @@ import restApi from "../../services/http/api";
 
 
 function Home() {
-    const [count,setCount] = useState(0);
+    const [countAdmin,setCountAdmin] = useState(0);
+    const [countHR,setCountHR] = useState(0);
+    const [countEmployee,setCountEmployee] = useState(0);
+    const [countUser,setCountUser] = useState(0);
+
+
     useEffect(()=>{
         void userCount();
-
     },[]);
+
     const userCount = async () => {
         const response = await restApi.userCount();
-        setCount(response[0].count)
-        //console.log('Success:', response[0].count);
+        for (let i=0; i<response.length; i++) {
+            if(response[i].role === 'ADMIN') {
+                setCountAdmin(response[2].count);
+            } else if(response[i].role === 'HR') {
+                setCountHR(response[1].count);
+            } else if(response[i].role === 'EMPLOYEE') {
+                setCountEmployee(response[3].count);
+            } else if(response[i].role === null) {
+                setCountUser(response[0].count);
+            }
+        }
     };
+
     return (
         <div className='home-page'>
-            {/*<Divider orientation="left">Responsive</Divider>*/}
             <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
                 <Col className="gutter-row" span={6}>
-                    <Card  title="Super User" className='super-user' >
+                    <Card  title="Admin" className='admin' >
                         <CountUp
                             start={0}
-                            end={1000}
-                            duration={4}
+                            end={countAdmin}
+                            duration={2}
+                            className='user-count'
+                        />
+                    </Card>
+                </Col>
+                <Col className="gutter-row" span={6}>
+                    <Card title="HR" className='hr-user' >
+                        <CountUp
+                            start={0}
+                            end={countHR}
+                            duration={2}
                             className='user-count'
                         />
                     </Card>
@@ -36,28 +60,18 @@ function Home() {
                     <Card  title="Employee" className='employee' >
                         <CountUp
                             start={0}
-                            end={1000}
-                            duration={4}
+                            end={countEmployee}
+                            duration={2}
                             className='user-count'
                         />
                     </Card>
                 </Col>
                 <Col className="gutter-row" span={6}>
-                    <Card  title="Users" className='users' >
+                    <Card  title="Guest Users" className='guest-users' >
                         <CountUp
                             start={0}
-                            end={count}
-                            duration={4}
-                            className='user-count'
-                        />
-                    </Card>
-                </Col>
-                <Col className="gutter-row" span={6}>
-                    <Card title="Guest User" className='guest-user' >
-                        <CountUp
-                            start={0}
-                            end={1000}
-                            duration={4}
+                            end={countUser}
+                            duration={2}
                             className='user-count'
                         />
                     </Card>

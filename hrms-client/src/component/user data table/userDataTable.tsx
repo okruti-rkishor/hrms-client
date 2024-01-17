@@ -158,11 +158,11 @@ const TempFile: React.FC = () => {
                         let color;
                         if (role === 'ADMIN') {
                             color = 'geekblue';
-                        } else if(role === 'SUPER USER') {
-                            color = 'orange';
+                        } else if(role === 'HR') {
+                            color = 'pink';
                         } else if(role === 'EMPLOYEE') {
                             color = 'green';
-                        } else if(role === 'GUEST') {
+                        } else if(role === 'GUEST USER') {
                             color = 'volcano';
                         }
 

@@ -11,11 +11,11 @@ const UserSignup = (props: any) => {
     const  onFinish = async (values: any) => {
         const response = await restApi.userCreate(values);
 
-        if(response===201){
-            console.log('Success:', response);
-        } else{
-            console.log('newUser not created');
-        }
+        // if(response===201){
+        //     console.log('Success:', response);
+        // } else{
+        //     console.log('newUser not created');
+        // }
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -84,9 +84,9 @@ const UserSignup = (props: any) => {
                         >
                             <Select>
                                 <Select.Option value={'ADMIN'}>ADMIN</Select.Option>
-                                <Select.Option value={'SUPER USER'}>SUPER USER</Select.Option>
+                                <Select.Option value={'HR'}>HR</Select.Option>
                                 <Select.Option value={'EMPLOYEE'}>EMPLOYEE</Select.Option>
-                                <Select.Option value={'GUEST'}>GUEST</Select.Option>
+                                <Select.Option value={'GUEST USER'}>GUEST USER</Select.Option>
                             </Select>
                         </Form.Item>
 
