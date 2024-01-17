@@ -1,10 +1,15 @@
-.parent{
-
-}
-
-.employee-create-section {
-  width: 80%;
+.forms-steps{
+  display: flex;
+  max-width: 1100px;
   margin: 20px auto;
+  align-items: center;
+  gap: 70px;
+}
+.employee-create-section {
+  //width: 80%;
+  //margin: 20px auto;
+  //max-width: 1025px;
+
 
   .employee-create-form {
     height: 580px;
@@ -62,6 +67,9 @@ label{
   width: 200px;
   text-align: left;
 }
+.ant-space-item:first-child{
+  width: 200px;
+}
 
 .Experience{
   &_detail{
@@ -71,9 +79,9 @@ label{
 }
 
 .ant-steps-vertical .ant-steps-item{
-  height: 100px;
-  max-height: 100px;
-  min-height: 100px;
+  height: 85px;
+  max-height: 85px;
+  min-height: 85px;
 
   &:last-child{
     height: 0;
@@ -85,18 +93,8 @@ label{
 .ant-form-item-explain-error{
   text-align: left;
 }
+.ant-upload-wrapper{
+  display:flex;
+  gap: 70px;
+}
 
-//.Experience{
-//  overflow-y: scroll;
-//  height: 580px;
-//}
-
-//.ant-form .ant-form-horizontal::-webkit-scrollbar-track {
-//  background: orange;        /* color of the tracking area */
-//}
-
-//.ant-form .ant-form-horizontal::-webkit-scrollbar-thumb {
-//  background-color: blue;    /* color of the scroll thumb */
-//  border-radius: 20px;       /* roundness of the scroll thumb */
-//  border: 3px solid orange;  /* creates padding around scroll thumb */
-//}

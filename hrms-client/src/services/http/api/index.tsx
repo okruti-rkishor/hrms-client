@@ -18,7 +18,9 @@ export default {
     userCount:() => rest.get(base + "user/count-by-role"),
     userCreate:(data: any) => rest.post(base + "user/register", { }, data),
     employeeCreate:(data: any) => rest.post(base + "employee", { }, data),
-    employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data)
+    employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data),
+    documentUpload:(data:any) => rest.post(base+ "document",{},data)
+
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),
     // unAssigned:(le_id: string, lec_id: string) => rest.get(base + "/assigned?assigned=false", { le_id, lec_id}),
