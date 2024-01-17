@@ -13,11 +13,11 @@ export enum Status{
 
 }
 export enum Designation{
-    TRAINEE="TRAINEE",
-    JUNIOR_SOFTWARE_ENGINEER="JUNIOR_SOFTWARE_ENGINEER",
-    SOFTWARE_ENGINEER="SOFTWARE_ENGINEER",
-    SENIOR_SOFTWARE_ENGINEER="SENIOR_SOFTWARE_ENGINEER",
-    TECHNICAL_LEAD="TECHNICAL_LEAD"
+    TRAINEE="Trainee",
+    JUNIOR_SOFTWARE_ENGINEER="Jr Software Engineer",
+    SOFTWARE_ENGINEER="Software Engineer",
+    SENIOR_SOFTWARE_ENGINEER="Sr Software Engineer",
+    TECHNICAL_LEAD="Technical Lead"
 }
 export enum Blood_Group{
     AB_POSITIVE="AB+",
