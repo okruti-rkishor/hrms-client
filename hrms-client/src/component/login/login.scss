@@ -100,7 +100,8 @@
         //right: 0;
         width: 60%;
         margin-left: auto;
-        background: #c0dbea;
+        //background: #c0dbea;
+        background-color: #1677ff33;
         height: 100%;
         border-radius: 24px;
     }
@@ -191,7 +192,7 @@
 
     button{
         background: white;
-        border:2px solid #b2ccdb;
+        border: 2px solid #b2ccdb;
 
         &:nth-child(2){
             img{

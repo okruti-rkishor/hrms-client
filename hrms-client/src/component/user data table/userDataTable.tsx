@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Input, InputNumber, Popconfirm, Table, Tag, Typography, Modal, Select} from 'antd';
+import {Form, Input, Popconfirm, Table, Tag, Typography, Select} from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 import './userDataTable.scss';
 import restApi from "../../services/http/api";
@@ -11,21 +11,8 @@ interface Item {
     firstName: string;
     lastName: string;
     email: string;
-    // address: string;
     role: string;
 }
-
-// const originData: Item[] = [];
-// for (let i = 0; i < 20; i++) {
-//     // originData.push({
-//     //     key: i.toString(),
-//     //     firstName: `Edward ${i}`,
-//     //     lastName: `Singh`,
-//     //     email: `edward${i}@gmail.com`,
-//     //     // address: `London Park no. ${i}`,
-//     //     role: 'developer',
-//     // });
-// }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
@@ -37,8 +24,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
 }
 
-const EditableCell: React.FC<EditableCellProps> = ({
-                                                       editing,
+const EditableCell: React.FC<EditableCellProps> = ({   editing,
                                                        dataIndex,
                                                        title,
                                                        inputType,
@@ -47,8 +33,8 @@ const EditableCell: React.FC<EditableCellProps> = ({
                                                        children,
                                                        ...restProps
                                                    }) => {
+
     const inputNode = inputType === 'number' ? <Select placeholder="Select the role"
-                                                       // variant="borderless"
                                                        // defaultValue={'EMPLOYEE'}
                                                        style={{ flex: 1 }}
                                                        options={[
@@ -56,47 +42,49 @@ const EditableCell: React.FC<EditableCellProps> = ({
                                                            { value: 'HR', label: 'HR' },
                                                            { value: 'EMPLOYEE', label: 'EMPLOYEE' },
                                                            { value: 'GUEST USER', label: 'GUEST USER' },
-                                                       ]}/> : <Input />;
+                                                       ]}
+                                                /> : <Input />;
 
-    return (
-        <td {...restProps}>
-            {editing ? (
-                <Form.Item
-                    name={dataIndex}
-                    style={{ margin: 0 }}
-                    rules={[
-                        {
-                            required: true,
-                            message: `Please Input ${title}!`,
-                        },
-                    ]}
-                >
-                    {inputNode}
-                </Form.Item>
-            ) : (
-                children
-            )}
-        </td>
-    );
-};
+        return (
+            <td {...restProps}>
+                {editing ? (
+                    <Form.Item
+                        name={dataIndex}
+                        style={{ margin: 0 }}
+                        rules={[
+                            {
+                                required: true,
+                                message: `Please Input ${title}!`,
+                            }
+                        ]}
+                    >
+                        {inputNode}
+                    </Form.Item>
+                ) : (
+                    children
+                )}
+            </td>
+        );
+    };
 
 const TempFile: React.FC = () => {
     const [form] = Form.useForm();
-    // const [data, setData] = useState<item[]>([]);
     const [editingKey, setEditingKey] = useState('');
-
-
     const [userData, setUserData] = useState<Item[]>([]);
+
     useEffect(()=>{
         usersData();
     },[]);
 
     const usersData = async () => {
         const response = await restApi.allUsersData();
-        setUserData(response)
-        console.log('Success:', response);
+        const newResponse = response.map((item:any)=>{
+            return {
+                ...item, email:((item.email).toLowerCase())
+            };
+        })
+        setUserData(newResponse)
     };
-
 
     const isEditing = (record: Item) => record.id === editingKey;
 
@@ -139,12 +127,14 @@ const TempFile: React.FC = () => {
             dataIndex: 'firstName',
             width: '15%',
             editable: true,
+            sorter: (a:any, b:any) => a.firstName.localeCompare(b.firstName),
         },
         {
             title: 'Last name',
             dataIndex: 'lastName',
             width: '15%',
             editable: true,
+            sorter: (a:any, b:any) => a.lastName.localeCompare(b.lastName),
         },
         {
             title: 'Email',
@@ -152,12 +142,6 @@ const TempFile: React.FC = () => {
             width: '25%',
             editable: true,
         },
-        // {
-        //     title: 'address',
-        //     dataIndex: 'address',
-        //     width: '40%',
-        //     editable: true,
-        // },
         {
             title: 'Role',
             dataIndex: 'role',
@@ -181,7 +165,6 @@ const TempFile: React.FC = () => {
                             <Tag color={color} key={role}>
                                 {role.toUpperCase()}
                             </Tag>
-
                         }
                     </>
                 );
