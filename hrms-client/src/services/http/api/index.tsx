@@ -17,6 +17,7 @@ export default {
     allUsersData:() => rest.get(base + "user/all"),
     userCount:() => rest.get(base + "user/count-by-role"),
     userCreate:(data: any) => rest.post(base + "user/register", { }, data),
+    userLogin:(data: any) => rest.post(base + "auth/login", { }, data),
     employeeCreate:(data: any) => rest.post(base + "employee", { }, data),
     employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data),
     documentUpload:(data:any) => rest.post(base+ "document",{},data)

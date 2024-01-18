@@ -6,7 +6,9 @@ import axios from "axios";
 import UserSignup from "../user/userSignup";
 import User from "../user/user";
 // import UserContext from "../../context/userContext";
+import { useNavigate } from "react-router-dom";
 import { Button, Checkbox, Form, Input } from "antd";
+import  rest from '../../services/http/api/index'
 
 type emailInputValueType = {
     username?: string;
@@ -21,24 +23,15 @@ type FieldType = {
 export default function Login() {
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState<any>({});
-  const [userInputValues, setUserInputValues] = useState<emailInputValueType>(
-    {}
-  );
-  const [userSignupModalStatus, setUserSignupModalStatus] =
-    useState<boolean>(false);
-
-  const [emailInputValue, setEmailInputValue] = useState<string>(
-
-    ""
-  );
-  const [passwordInputValue, setPasswordInputValue] = useState<string>(
-    ""
-  );
+  const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
+  const [userSignupModalStatus, setUserSignupModalStatus] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => {
       setUser(codeResponse);
       console.log(codeResponse);
+      // navigate("/");
     },
     onError: (error) => console.log("Login Failed:", error),
   });
@@ -47,10 +40,13 @@ export default function Login() {
     setProfile("");
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = async(values: any) => {
     console.log("Success:", values);
     //Api call
     console.log(userInputValues);
+    const response = await rest.userLogin(userInputValues);
+    console.log(response);
+
   };
 
   const setInputValues = useCallback((email: string, password: string) => {
@@ -75,6 +71,7 @@ export default function Login() {
          )
          .then((res) => {
            setProfile(res.data);
+           navigate("/"); 
            console.log(res.data);
          })
          .catch((err) => console.log(err));
@@ -171,7 +168,6 @@ export default function Login() {
 
                       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <div>
-
                           <div className="login-button">
                             <Button type="primary" htmlType="submit">
                               {" "}
@@ -195,7 +191,7 @@ export default function Login() {
                   <p>or continue with</p>
                   {profile ? <User data={profile} onLogout={onLogout} /> : ""}
                   <div className={"all-link"}>
-                    <button>
+                    <button onClick={()=>{login()}}>
                       <img src="./images/google.png" />
                     </button>
                     <button>
