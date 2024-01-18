@@ -20,6 +20,12 @@
     padding: unset;
   }
 
+  input.ant-input {
+    &[type="password"], &[type="text"] {
+      padding: 4px 11px !important;
+    }
+  }
+
   //.ant-select.ant-select-in-form-item {
   //  width: 100%;
   //  height: 100%;

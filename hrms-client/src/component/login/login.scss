@@ -1,5 +1,7 @@
-
 .login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-height: 100vh;
     width: 100%;
     background-repeat: no-repeat !important;
@@ -9,16 +11,74 @@
     background-image: linear-gradient(to right, skyblue,#ECA5D8);
 
     .loginPage{
-        position: absolute;
-        top: 10vh;
-        left: 10vw;
-        right: 10vw;
-        //bottom: 20vh;
-        //margin: auto;
-
-        //height: 100%;
+        //position: absolute;
+        //top: 10vh;
+        //left: 10vw;
+        //right: 10vw;
 
         max-width: 1440px;
+        width: 1024px;
+
+        .hrms-logo {
+            height: 36px;
+            width: 36px;
+        }
+    }
+
+    &-title-text {
+        margin-top: 16px;
+    }
+
+    &-title-heading {
+        font-size: 42px;
+    }
+
+    &-credentials{
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-top: 16px;
+
+        > div {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            gap: 5px;
+
+            input{
+                background-color: #1677ff1a;
+            }
+        }
+
+        .ant-input-status-error {
+            &[name="username"] {
+                background-color: #ff4d4f1a;
+            }
+        }
+
+        .ant-input-affix-wrapper {
+            background-color: #1677ff1a;
+
+            &-status-error {
+                background-color: #ff4d4f1a;
+            }
+
+            input{
+                background-color: unset;
+                padding: 4px 11px;
+            }
+        }
+
+        .ant-col-offset-8 {
+            margin-inline-start: unset !important;
+        }
+    }
+
+    .login-button{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 16px;
     }
 }
 
@@ -28,6 +88,7 @@
     border-radius: 24px;
     overflow: hidden;
     background: white;
+    //border: 1px solid blue;
 }
 
 .right{
@@ -90,37 +151,9 @@
     width:50%;
 }
 
-.login-credentials{
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-
-    >div{
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-        gap: 5px;
-        input{
-            height: 38px;
-            background: #61dafb;
-            opacity: 0.5;
-            border: none;
-            border-radius: 5px;
-        }
-    }
-}
-
 .login-here{
     padding: 48px 0 48px 48px;
    //margin: 35px 120px 0 80px;
-
-    h2{
-        color:#e2a7bd;
-    }
-
-    p{
-        font-weight: 500;
-    }
 
     &-detail{
         text-align: left;
@@ -130,14 +163,12 @@
 .link-button{
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    margin: 20px 0 0 0;
+    gap: 10px;
+    //margin: 16px 0 0 0;
     justify-content: center;
     align-items: center;
-
-    p{
-        margin:5px 0;
-    }
+    margin-right: auto;
+    max-width: 80%;
 
     button{
         width: 100px;
@@ -151,19 +182,11 @@
     }
 }
 
-.login-button{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-}
-
 .all-link{
     display: flex;
-    gap: 24px;
+    gap: 16px 24px;
     flex-wrap: wrap;
-    max-width: 80%;
+    //max-width: 80%;
     justify-content: center;
 
     button{

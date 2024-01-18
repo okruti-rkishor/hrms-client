@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Input, InputNumber, Popconfirm, Table, Tag, Typography} from 'antd';
+import {Form, Input, InputNumber, Popconfirm, Table, Tag, Typography, Modal, Select} from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
-// import { DeleteButton } from "@refinedev/antd";
 import './userDataTable.scss';
 import restApi from "../../services/http/api";
+import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
 
 
 interface Item {
@@ -47,7 +47,16 @@ const EditableCell: React.FC<EditableCellProps> = ({
                                                        children,
                                                        ...restProps
                                                    }) => {
-    const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+    const inputNode = inputType === 'number' ? <Select placeholder="Select the role"
+                                                       // variant="borderless"
+                                                       // defaultValue={'EMPLOYEE'}
+                                                       style={{ flex: 1 }}
+                                                       options={[
+                                                           { value: 'ADMIN', label: 'ADMIN' },
+                                                           { value: 'HR', label: 'HR' },
+                                                           { value: 'EMPLOYEE', label: 'EMPLOYEE' },
+                                                           { value: 'GUEST USER', label: 'GUEST USER' },
+                                                       ]}/> : <Input />;
 
     return (
         <td {...restProps}>
@@ -153,27 +162,29 @@ const TempFile: React.FC = () => {
             title: 'Role',
             dataIndex: 'role',
             width: '25%',
-            editable: false,
+            editable: true,
             render: (_:any, { role}:any) => {
-                        let color;
-                        if (role === 'ADMIN') {
-                            color = 'geekblue';
-                        } else if(role === 'HR') {
-                            color = 'pink';
-                        } else if(role === 'EMPLOYEE') {
-                            color = 'green';
-                        } else if(role === 'GUEST USER') {
-                            color = 'volcano';
-                        }
+                let color;
+                if (role === 'ADMIN') {
+                    color = 'geekblue';
+                } else if(role === 'HR') {
+                    color = 'pink';
+                } else if(role === 'EMPLOYEE') {
+                    color = 'green';
+                } else if(role === 'GUEST USER') {
+                    color = 'volcano';
+                }
 
-                        return (
-                            <>
-                            {role &&  <Tag color={color} key={role}>
-                    {role.toUpperCase()}
-                </Tag>
-            }
-            </>
-                        );
+                return (
+                    <>
+                        {role &&
+                            <Tag color={color} key={role}>
+                                {role.toUpperCase()}
+                            </Tag>
+
+                        }
+                    </>
+                );
             },
         },
         {
@@ -185,15 +196,18 @@ const TempFile: React.FC = () => {
                 return editable ? (
                     <span>
                         <Typography.Link onClick={() => save(record.id)} style={{ marginRight: 8 }}>
-                          Save
+                          {/*Save*/}
+                          <SaveTwoTone twoToneColor="#52c41a" style={{ fontSize: '18px', marginLeft: '10px' }}/>
                         </Typography.Link>
                         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                          <a>Cancel</a>
+                          {/*<a>Cancel</a>*/}
+                          <a><CloseOutlined style={{ color: '#950a11', fontSize: '18px', marginLeft: '10px' }}/></a>
                         </Popconfirm>
                     </span>
                 ) : (
                     <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                        Edit
+                        {/*Edit*/}
+                        <EditTwoTone style={{ fontSize: '18px', marginLeft: '10px' }}/>
                     </Typography.Link>
                 );
             },
@@ -208,7 +222,7 @@ const TempFile: React.FC = () => {
             ...col,
             onCell: (record: Item) => ({
                 record,
-                inputType: col.dataIndex === 'age' ? 'number' : 'text',
+                inputType: col.dataIndex === 'role' ? 'number' : 'text',
                 dataIndex: col.dataIndex,
                 title: col.title,
                 editing: isEditing(record),

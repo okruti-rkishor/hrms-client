@@ -104,16 +104,17 @@ export default function Login() {
             <div className={"left"}>
               <div className={"login-here"}>
                 <div className={"login-here-detail"}>
-                  <h2>Logo Here</h2>
-                  <p>welcome back !!!</p>
-                  <h1>Log In</h1>
+                  {/*<h2>Logo Here</h2>*/}
+                  <img src='./images/logos/hrms-favicon.png' className='hrms-logo'/>
+                  <p className='login-title-text'>welcome back !!!</p>
+                  <h1 className='login-title-heading'>Log In</h1>
                 </div>
                 <div className={"login-credentials"}>
                   <div>
                     <Form
                       name="basic"
                       labelCol={{ span: 8 }}
-                      wrapperCol={{ span: 16 }}
+                      wrapperCol={{ span: 18 }}
                       style={{ maxWidth: 600 }}
                       initialValues={{ remember: true }}
                       onFinish={onFinish}
@@ -215,14 +216,10 @@ export default function Login() {
             </div>
             <div className={"right"}>
               <div className={"girl-cactus"}></div>
-              <div
-                className={"girl"}
-                style={{ backgroundImage: "url(./images/girl2.png)" }}
-              ></div>
-              <div
-                className={"cactus"}
-                style={{ backgroundImage: "url(./images/cactus2.png)" }}
-              ></div>
+              <div className='right-images'>
+                <div className={"girl"} style={{ backgroundImage: "url(./images/girl2.png)" }}></div>
+                <div className={"cactus"} style={{ backgroundImage: "url(./images/cactus2.png)" }}></div>
+              </div>
             </div>
           </div>
           <div></div>

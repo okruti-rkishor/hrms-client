@@ -1,27 +1,18 @@
-import React, {useContext, useState} from "react";
-import {Gender} from "../../constant/constant";
+import React, {useState} from "react";
 import {Button, Form, Input, Select} from "antd";
 import {PageHeader} from "@ant-design/pro-layout";
 import './userCreate.scss'
-// import UserContext from "../../context/userContext";
 import restApi from "../../services/http/api/index";
 
-const UserSignup = (props: any) => {
+const UserCreate = (props: any) => {
 
     const  onFinish = async (values: any) => {
         const response = await restApi.userCreate(values);
-
-        // if(response===201){
-        //     console.log('Success:', response);
-        // } else{
-        //     console.log('newUser not created');
-        // }
     };
 
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
-
 
     return (
         <div className='user-create-section'>
@@ -29,7 +20,6 @@ const UserSignup = (props: any) => {
                 <PageHeader
                     className="site-page-header"
                     title="User Create"
-                    // breadcrumb={{ }}
                     subTitle="Process of users creation starts from here"
                 />
                 <Form
@@ -51,7 +41,7 @@ const UserSignup = (props: any) => {
                                        {pattern: new RegExp("^[A-Za-z\\s]+$"), message: ""}
                                    ]}
                         >
-                            <Input />
+                            <Input placeholder="Enter first name" />
                         </Form.Item>
 
                         <Form.Item label="Last Name"
@@ -61,7 +51,7 @@ const UserSignup = (props: any) => {
                                        {pattern: new RegExp("^[A-Za-z\\s]+$"), message: ""}
                                    ]}
                         >
-                            <Input />
+                            <Input placeholder="Enter last name" />
                         </Form.Item>
 
                         <Form.Item
@@ -71,7 +61,7 @@ const UserSignup = (props: any) => {
                                 { pattern: new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/), message: "Not a valid mailId" },
                             ]}
                         >
-                            <Input />
+                            <Input placeholder="Enter email-id" />
                         </Form.Item>
 
                         <Form.Item label={"Role"}
@@ -82,7 +72,7 @@ const UserSignup = (props: any) => {
                                        message:"select the role"
                                    }]}
                         >
-                            <Select>
+                            <Select placeholder="select the role">
                                 <Select.Option value={'ADMIN'}>ADMIN</Select.Option>
                                 <Select.Option value={'HR'}>HR</Select.Option>
                                 <Select.Option value={'EMPLOYEE'}>EMPLOYEE</Select.Option>
@@ -98,7 +88,7 @@ const UserSignup = (props: any) => {
                             rules={[{ pattern: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/), message: "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required" },
                                 { required: true, message: "Password name is required.", }]}
                         >
-                            <Input.Password />
+                            <Input.Password placeholder="enter password"/>
                         </Form.Item>
 
                         <Form.Item
@@ -122,7 +112,7 @@ const UserSignup = (props: any) => {
                                 }),
                             ]}
                         >
-                            <Input.Password />
+                            <Input.Password placeholder="confirm password"/>
                         </Form.Item>
                     </div>
 
@@ -137,4 +127,4 @@ const UserSignup = (props: any) => {
     )
 }
 
-export default UserSignup;
+export default UserCreate;
