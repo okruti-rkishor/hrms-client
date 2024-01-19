@@ -1,13 +1,10 @@
-import React from "react";
 import "./login.scss";
-import { useState, useCallback, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-import UserSignup from "../user/userSignup";
 import User from "../user/user";
-// import UserContext from "../../context/userContext";
-import { useNavigate } from "react-router-dom";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, Form, Input } from "antd";
 import  rest from '../../services/http/api/index'
 
 type emailInputValueType = {
@@ -15,23 +12,22 @@ type emailInputValueType = {
     password?: string;
 };
 
-type FieldType = {
-  username?: string;
-  password?: string;
-};
+// type FieldType = {
+//   username?: string;
+//   password?: string;
+// };
 
 export default function Login() {
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState<any>({});
   const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
-  const [userSignupModalStatus, setUserSignupModalStatus] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => {
       setUser(codeResponse);
       console.log(codeResponse);
-      // navigate("/");
+       navigate("/");
     },
     onError: (error) => console.log("Login Failed:", error),
   });
@@ -49,9 +45,9 @@ export default function Login() {
 
   };
 
-  const setInputValues = useCallback((email: string, password: string) => {
-    setUserInputValues({username:email,password:password});
-  },[]);
+  // const setInputValues = useCallback((email: string, password: string) => {
+  //   setUserInputValues({username:email,password:password});
+  // },[]);
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -76,7 +72,7 @@ export default function Login() {
          })
          .catch((err) => console.log(err));
      }
-   }, [user]);
+   }, [user, navigate]);
 
   const onChangeHandel = (e: any) => {
     setUserInputValues((prev) => ({
@@ -87,21 +83,13 @@ export default function Login() {
   };
   return (
     <>
-      {userSignupModalStatus ? (
-        <UserSignup
-          setInputValues={setInputValues}
-          setUserSignupModalStatus={setUserSignupModalStatus}
-        />
-      ) : (
-        ""
-      )}
       <div className='login'>
         <div className='loginPage'>
           <div className='loginPageDetail'>
             <div className='left'>
               <div className='login-here'>
                 <div className='login-here-detail'>
-                  <img src='icons/hrms-favicon.png' className='hrms-logo'/>
+                  <Link to={'/'}> <img src='icons/hrms-favicon.png' alt='Hrms Logo' className='hrms-logo'/></Link>
                   <p className='login-title-text'>welcome back !!!</p>
                   <h1 className='login-title-heading'>Log In</h1>
                 </div>
@@ -126,7 +114,7 @@ export default function Login() {
                             message: "Please input your Email!",
                           },
                           {
-                            pattern: new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
+                            pattern: new RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/),
                             message: "Enter a valid email",
                           },
                         ]}
@@ -163,14 +151,6 @@ export default function Login() {
                         <Button type="primary" htmlType="submit">
                           {" "}
                           Login &#8640;
-                        </Button>
-                        <Button
-                            type="primary"
-                            onClick={() => {
-                              setUserSignupModalStatus(true);
-                            }}
-                        >
-                          Sign Up &#8640;
                         </Button>
                       </div>
                     </Form.Item>

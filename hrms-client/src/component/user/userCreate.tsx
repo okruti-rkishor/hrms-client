@@ -1,4 +1,3 @@
-import React, {useState} from "react";
 import {Button, Form, Input, Select} from "antd";
 import {PageHeader} from "@ant-design/pro-layout";
 import './userCreate.scss'
@@ -7,7 +6,7 @@ import restApi from "../../services/http/api/index";
 const UserCreate = (props: any) => {
 
     const  onFinish = async (values: any) => {
-        const response = await restApi.userCreate(values);
+        await restApi.userCreate(values);
     };
 
     const onFinishFailed = (errorInfo: any) => {

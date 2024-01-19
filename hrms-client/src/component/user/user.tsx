@@ -1,7 +1,4 @@
-import React, {memo, useEffect} from 'react';
 import "./user.scss";
-import axios from "axios";
-
 
 const User = (({data,onLogout}:any) => {
 
@@ -26,15 +23,6 @@ const User = (({data,onLogout}:any) => {
         </div>
 
     )
-
-
-
-
-
-
-
-
-
 })
 
 export default User;

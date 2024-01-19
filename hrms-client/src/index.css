@@ -52,8 +52,12 @@ body::-webkit-scrollbar-thumb {
   border-left: 5px solid #1677ff !important;
 }
 
-.ant-form-item-control-input {
+/* .ant-form-item-control-input {
 
+} */
+
+.ant-form-item .ant-form-item-explain-error {
+  font-size: 12px;
 }
 
 .ant-input-affix-wrapper {

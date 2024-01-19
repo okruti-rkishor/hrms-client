@@ -110,35 +110,41 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
       title: 'Employee Code',
       dataIndex: 'employeeCode',
       // width: '10%',
+      key: "employeeCode",
       editable: true,
     },
     {
       title: 'Name',
       dataIndex: 'employeeName',
       // width: '25%',
+      key: "employeeName",
       editable: true,
     },
     {
       title: 'Designation',
       dataIndex: 'designation',
       // width: '15%',
+      key: "designation",
       editable: true,
     },
     {
       title: 'Official Email',
       dataIndex: 'officialEmail',
       // width: '40%',
+      key: "officialEmail",
       editable: true,
     },
     {
       title: 'Contact',
       dataIndex: 'contact',
       // width: '40%',
+      key: "contact",
       editable: true,
     },
     {
       title: 'operation',
       dataIndex: 'operation',
+      key: 'operation',
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
         return editable ? (
