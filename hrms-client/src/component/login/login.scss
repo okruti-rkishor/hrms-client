@@ -39,15 +39,8 @@
         gap: 30px;
         margin-top: 16px;
 
-        > div {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-            gap: 5px;
-
-            input{
-                background-color: #1677ff1a;
-            }
+        input{
+            background-color: #1677ff1a;
         }
 
         .ant-input-status-error {
@@ -74,11 +67,94 @@
         }
     }
 
-    .login-button{
+    .login-button {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         margin-top: 16px;
+
+        button[type="submit"], button[type="button"] {
+            height: unset;
+            padding: 5px 30px;
+            background-color: #ff88be;
+            border: unset;
+            border-radius: 24px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #ff6cae;
+                transition: all 200ms ease-in-out;
+            }
+        }
+    }
+
+    .social-icons{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        margin-right: auto;
+
+        p {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        &__buttons {
+            display: flex;
+            gap: 16px 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+
+            //button{
+            //    background: white;
+            //    border: 2px solid #b2ccdb;
+            //
+            //    &:nth-child(2){
+            //        img{
+            //            width:23px;
+            //        }
+            //    }
+            //
+            //    &:nth-child(3){
+            //        img{
+            //            width:22px;
+            //        }
+            //    }
+            //
+            //    &:nth-child(4){
+            //        img{
+            //            width:23px;
+            //        }
+            //    }
+            //
+            //    &:nth-child(5){
+            //        img{
+            //            width:22px;
+            //        }
+            //    }
+            //}
+
+            button {
+                border: 1px solid #c0dbea;
+                background-color: unset;
+                padding: 4px 24px;
+                border-radius: 24px;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            img {
+                width: 60%;
+                //height: 50%;
+            }
+        }
     }
 }
 
@@ -95,7 +171,7 @@
     position:relative;
     width:50%;
 
-    .girl-cactus{
+    .right-section-bg{
         //position: absolute;
         //right: 0;
         width: 60%;
@@ -153,75 +229,14 @@
 }
 
 .login-here{
-    padding: 48px 0 48px 48px;
-   //margin: 35px 120px 0 80px;
+    padding: 40px 0 40px 40px;
 
     &-detail{
         text-align: left;
     }
 }
 
-.link-button{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    //margin: 16px 0 0 0;
-    justify-content: center;
-    align-items: center;
-    margin-right: auto;
-    max-width: 80%;
 
-    button{
-        width: 100px;
-        height: 40px;
-        border-radius: 50px;
-        color:white;
-        font-weight: 600;
-        border:none;
-        background: #e2a7bd;
-        cursor:pointer;
-    }
-}
-
-.all-link{
-    display: flex;
-    gap: 16px 24px;
-    flex-wrap: wrap;
-    //max-width: 80%;
-    justify-content: center;
-
-    button{
-        background: white;
-        border: 2px solid #b2ccdb;
-
-        &:nth-child(2){
-            img{
-                width:23px;
-
-            }
-        }
-
-        &:nth-child(3){
-            img{
-                width:22px;
-
-            }
-        }
-
-        &:nth-child(4){
-            img{
-                width:23px;
-
-            }
-        }
-
-        &:nth-child(5){
-            img{
-                width:22px;
-            }
-        }
-    }
-}
 
 .account{
     display: flex;

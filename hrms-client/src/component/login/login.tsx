@@ -71,7 +71,7 @@ export default function Login() {
          )
          .then((res) => {
            setProfile(res.data);
-           navigate("/"); 
+           navigate("/");
            console.log(res.data);
          })
          .catch((err) => console.log(err));
@@ -95,20 +95,18 @@ export default function Login() {
       ) : (
         ""
       )}
-      <div className={"login"}>
-        <div className={"loginPage"}>
-          <div className={"loginPageDetail"}>
-            <div className={"left"}>
-              <div className={"login-here"}>
-                <div className={"login-here-detail"}>
-                  {/*<h2>Logo Here</h2>*/}
-                  <img src='./images/logos/hrms-favicon.png' className='hrms-logo'/>
+      <div className='login'>
+        <div className='loginPage'>
+          <div className='loginPageDetail'>
+            <div className='left'>
+              <div className='login-here'>
+                <div className='login-here-detail'>
+                  <img src='icons/hrms-favicon.png' className='hrms-logo'/>
                   <p className='login-title-text'>welcome back !!!</p>
                   <h1 className='login-title-heading'>Log In</h1>
                 </div>
-                <div className={"login-credentials"}>
-                  <div>
-                    <Form
+                <div className='login-credentials'>
+                  <Form
                       name="basic"
                       labelCol={{ span: 8 }}
                       wrapperCol={{ span: 18 }}
@@ -118,8 +116,8 @@ export default function Login() {
                       onFinishFailed={onFinishFailed}
                       autoComplete="off"
                       layout="vertical"
-                    >
-                      <Form.Item
+                  >
+                    <Form.Item
                         name="username"
                         label="Email"
                         rules={[
@@ -128,21 +126,18 @@ export default function Login() {
                             message: "Please input your Email!",
                           },
                           {
-                            pattern: new RegExp(
-                              /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                            ),
+                            pattern: new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/),
                             message: "Enter a valid email",
                           },
                         ]}
-                      >
-                        <Input
-                        name="username"
-                          onChange={onChangeHandel}
-                        //   value={emailInputValue}
-                          value={userInputValues.username}
-                        />
-                      </Form.Item>
-                      <Form.Item<FieldType>
+                    >
+                      <Input name="username"
+                             onChange={onChangeHandel}
+                             value={userInputValues.username}
+                             placeholder = 'enter your username'
+                      />
+                    </Form.Item>
+                    <Form.Item
                         label="Password"
                         name="password"
                         rules={[
@@ -151,70 +146,67 @@ export default function Login() {
                             message: "Please input your password!",
                           },
                           {
-                            pattern: new RegExp(
-                              /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-                            ),
-                            message:
-                              "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required",
+                            pattern: new RegExp(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/),
+                            message: "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required",
                           },
                         ]}
-                      >
-                        <Input.Password
-                        name="password"
-                          onChange={onChangeHandel}
-                          value={userInputValues.password}
-                        />
-                      </Form.Item>
+                    >
+                      <Input.Password name="password"
+                                      onChange={onChangeHandel}
+                                      value={userInputValues.password}
+                                      placeholder = 'enter your password'
+                      />
+                    </Form.Item>
 
-                      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                        <div>
-                          <div className="login-button">
-                            <Button type="primary" htmlType="submit">
-                              {" "}
-                              Login &#8640;
-                            </Button>
-                            <Button
-                              type="primary"
-                              onClick={() => {
-                                setUserSignupModalStatus(true);
-                              }}
-                            >
-                              Sign Up &#8640;
-                            </Button>
-                          </div>
+                    <Form.Item wrapperCol={{ offset: 8, span: 18 }}>
+                      <div className="login-button">
+                        <Button type="primary" htmlType="submit">
+                          {" "}
+                          Login &#8640;
+                        </Button>
+                        <Button
+                            type="primary"
+                            onClick={() => {
+                              setUserSignupModalStatus(true);
+                            }}
+                        >
+                          Sign Up &#8640;
+                        </Button>
+                      </div>
+                    </Form.Item>
+
+                    <Form.Item wrapperCol={{ offset: 8, span: 18 }}>
+                      <div className='social-icons'>
+                        <p>or continue with</p>
+                        {profile ? <User data={profile} onLogout={onLogout} /> : ""}
+                        <div className='social-icons__buttons'>
+                          <button onClick={()=>{login()}} >
+                            <img src='icons/google.svg' alt='google' />
+                          </button>
+                          <button>
+                            <img src='icons/facebook.svg' alt='facebook' />
+                          </button>
+                          <button>
+                            <img src='icons/instagram.svg' alt='instagram' />
+                          </button>
+                          <button>
+                            <img src='icons/github.svg' alt='github' />
+                          </button>
+                          <button>
+                            <img src='icons/linkedin.svg' alt='linkedin' />
+                          </button>
                         </div>
-                      </Form.Item>
-                    </Form>
-                  </div>
-                </div>
-                <div className={"link-button"}>
-                  <p>or continue with</p>
-                  {profile ? <User data={profile} onLogout={onLogout} /> : ""}
-                  <div className={"all-link"}>
-                    <button onClick={()=>{login()}}>
-                      <img src="./images/google.png" />
-                    </button>
-                    <button>
-                      <img src="./images/github.png" />
-                    </button>
-                    <button>
-                      <img src="./images/facebook.png" />
-                    </button>
-                    <button>
-                      <img src="./images/linkedin.png" />
-                    </button>
-                    <button>
-                      <img src="./images/instagram.png" />
-                    </button>
-                  </div>
+                      </div>
+                    </Form.Item>
+                  </Form>
                 </div>
               </div>
             </div>
-            <div className={"right"}>
-              <div className={"girl-cactus"}></div>
+            <div className='right'>
+              <div className='right-section-bg'></div>
               <div className='right-images'>
-                <div className={"girl"} style={{ backgroundImage: "url(./images/girl2.png)" }}></div>
-                <div className={"cactus"} style={{ backgroundImage: "url(./images/cactus2.png)" }}></div>
+                <div className='girl' style={{ backgroundImage: "url(./images/girl2.png)" }}></div>
+                <div className='cactus' style={{ backgroundImage: "url(./images/cactus2.png)" }}></div>
               </div>
             </div>
           </div>
