@@ -22,17 +22,17 @@ import '../form/formComponent.scss';
 import { Steps } from 'antd';
 import restApi from "../../services/http/api/index";
 import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined,MinusCircleOutlined } from '@ant-design/icons';
-import {Designation, Gender, Type_Time, Status,Blood_Group} from "../../../src/constant/constant";
+import {Designation, Gender, Type_Time, Status,Blood_Group,Documents} from "../../../src/constant/constant";
 import { Tabs } from 'antd';
 import type { TabsProps,UploadProps } from 'antd';
+import axios from "axios";
 
 
 const FormComponent = () =>{
     const [current, setCurrent] = useState(0);
     const { RangePicker } = DatePicker;
     const [form] = Form.useForm();
-    const [employeeData,setEmployeeData]=useState<any>({"title":"Mr"});
-
+    const [employeeData,setEmployeeData]=useState<any>({title:"Mr",bloodGroup:"AB_POSITIVE",gender:"MALE",familyDetails:[{gender:"MALE"}]});
     const steps = [
         {
             title: 'Personal Details',
@@ -65,22 +65,20 @@ const FormComponent = () =>{
             content: 'Last-content',
         },
     ];
-
+    const [document,setDocument]=useState<any>();
     const onChange = (value: any) => {
-        console.log(steps[current].fields,current);
-        // setCurrent(value);
-        console.log(steps[current]);
-         form.validateFields(steps[current].fields).then((result)=>{
-             console.log(result,value);
-             setCurrent(value);
-         }).catch((error)=>{
-             console.log("error",error,value);
-
-         });
+        console.log(employeeData);
+        setCurrent(value);
+        // form.validateFields(steps[current].fields).then((result)=>{
+        //     console.log(result,value);
+        //     setCurrent(value);
+        // }).catch((error)=>{
+        //     console.log("error",error,value);
+        //
+        // });
     };
-
     const onFinish = async (value:object) =>{
-        console.log("1111",employeeData);
+        console.log("1111",value,employeeData);
         const payload={
             "status": employeeData.status,
             "employeeCode": "ok12375",
@@ -102,7 +100,7 @@ const FormComponent = () =>{
             "qualification":employeeData.qualification,
             "email": employeeData.personalEmail,
             "contact": employeeData.contact,
-            "bloodGroup":"O-",
+            "bloodGroup":employeeData.blood_group,
             "presentAddress": {
                 "line1": employeeData.houseNumber,
                 "line2": employeeData.streetAddress,
@@ -140,7 +138,7 @@ const FormComponent = () =>{
                     "name": employeeData.relationfirstName+employeeData.relationmiddleName+employeeData.relationlastName,
                     "gender": employeeData.gender,
                     "relationType": employeeData.relationDetail,
-                    "mobileNumber": employeeData.relationGender
+                    "mobileNumber": employeeData.relationContact
                 }
             ],
             "bankDetails": [
@@ -162,11 +160,11 @@ const FormComponent = () =>{
         const response = await restApi.employeeCreate(payload);
         console.log(response);
     }
+    const [fileUpload,setFileUpload]=useState<any>();
 
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
     const fileProps: UploadProps = {
-        action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
         onChange(info) {
             console.log(info);
             if (info.file.status !== 'uploading') {
@@ -179,18 +177,15 @@ const FormComponent = () =>{
             }
 
         },
-
     };
 
-    const normFile = (e: any) => {
-        console.log('Upload event:', e);
-        if (Array.isArray(e)) {
-            return e;
-        }
-        return e?.fileList;
-    };
     const onChangeTabs =(key:string) =>{
         console.log(key);
+    }
+
+    const customRequest = async ({ file, onSuccess, onError}:any)=> {
+        let documentPayload = {"document-type": Object.keys(document)[0], "file": file}
+        const response = await restApi.documentUpload(documentPayload).then((info)=> onSuccess("done")).catch((info)=>onError("error"));
     }
 
     return (
@@ -205,14 +200,16 @@ const FormComponent = () =>{
                 <Form onFinish={onFinish}
                       style={{width:"74%"}}
                       onValuesChange={(e)=>{
-                          setEmployeeData({...employeeData,...e});
+                          console.log(e,current);
+                          current<=5?setEmployeeData({...employeeData,...e}):setDocument({...document,...e});
+
                       }}
                       form={form}
                       className= 'employee-create-form'
                 >
                     {current === 0 && (<>
                         <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}
-                        className={"employee-create-inputs"}>
+                             className={"employee-create-inputs"}>
                             <Form.Item label={"Title"}
                                        name={"title"}
                                        required={true}
@@ -273,14 +270,15 @@ const FormComponent = () =>{
                             <Form.Item label={"Gender"}
                                        name={"gender"}
                             >
-                                {/*<Select style={{height:"40px"}} defaultValue={Gender.MALE}>*/}
-                                {/*    <Select.Option value={Gender.MALE}>Male</Select.Option>*/}
-                                {/*    <Select.Option value={Gender.FEMALE}>Female</Select.Option>*/}
-                                {/*</Select>*/}
-                                <Radio.Group style={{display:"flex"}} defaultValue={Gender.MALE}>
-                                    <Radio.Button value={Gender.MALE} style={{height:"40px",textAlign:"center"}}>Male</Radio.Button>
-                                    <Radio.Button value={Gender.FEMALE} style={{height:"40px",textAlign:"center"}}>Female</Radio.Button>
-
+                                <Radio.Group style={{display:"flex"}} defaultValue={Object.keys(Gender)[0]}>
+                                    {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
+                                        <Radio.Button value={key}
+                                                      style={{height:"40px",textAlign:"center"}}
+                                                      defaultChecked = {true}
+                                        >
+                                            {Gender[key]}
+                                        </Radio.Button>
+                                    )}
                                 </Radio.Group>
                             </Form.Item>
                             <Form.Item label="Date of Birth"
@@ -293,16 +291,17 @@ const FormComponent = () =>{
                                 <DatePicker style={{width:"100%"}} disabledDate={(current) => current.isAfter(new Date())}/>
                             </Form.Item>
                             <Form.Item label="Blood Group"
-                                       name={"BG"}>
-                                <Select style={{height:"40px"}} defaultValue={Blood_Group.AB_POSITIVE}>
-                                    <Select.Option value={"AB_POSITIVE"}>{Blood_Group.AB_POSITIVE}</Select.Option>
-                                    <Select.Option value={"AB_NEGATIVE"}>{Blood_Group.AB_NEGATIVE}</Select.Option>
-                                    <Select.Option value={"A_POSITIVE"}>{Blood_Group.A_POSITIVE}</Select.Option>
-                                    <Select.Option value={"A_NEGATIVE"}>{Blood_Group.A_NEGATIVE}</Select.Option>
-                                    <Select.Option value={"B_POSITIVE"}>{Blood_Group.B_POSITIVE}</Select.Option>
-                                    <Select.Option value={"B_NEGATIVE"}>{Blood_Group.B_NEGATIVE}</Select.Option>
-                                    <Select.Option value={"O_POSITIVE"}>{Blood_Group.O_NEGATIVE}</Select.Option>
-                                    <Select.Option value={"O_NEGATIVE"}>{Blood_Group.O_POSITIVE}</Select.Option>
+                                       name={"blood_group"}
+                                       initialValue={"AB_POSITIVE"}>
+                                <Select style={{height:"40px"}} defaultValue={Object.keys(Blood_Group)[0]}>
+                                    {(Object.keys(Blood_Group) as Array<keyof typeof Blood_Group>).map((key) =>
+                                        <Select.Option value={key}
+                                                      style={{height:"40px",textAlign:"center"}}
+                                                      defaultChecked = {true}
+                                        >
+                                            {Blood_Group[key]}
+                                        </Select.Option>
+                                    )}
                                 </Select>
                             </Form.Item>
 
@@ -323,6 +322,9 @@ const FormComponent = () =>{
                                                    }
                                                    if (value< 18) {
                                                        return Promise.reject("Age can't be less than 18");
+                                                   }
+                                                   if (value> 45) {
+                                                       return Promise.reject("Age can't be less than 45");
                                                    }
                                                    return Promise.resolve();
                                                },
@@ -483,9 +485,15 @@ const FormComponent = () =>{
                                            message:"select your status"
                                        }]}
                             >
-                                <Select style={{height:"40px"}} defaultValue={Status.Active}>
-                                    <Select.Option value="Active">{Status.Active}</Select.Option>
-                                    <Select.Option value="InActive">{Status.InActive}</Select.Option>
+
+                                <Select style={{height:"40px"}} defaultValue={Object.keys(Status)[0]}>
+                                {(Object.keys(Status) as Array<keyof typeof Status>).map((key) =>
+                                    <Select.Option value={key}
+                                                   style={{height:"40px",textAlign:"center"}}
+                                    >
+                                        {Status[key]}
+                                    </Select.Option>
+                                )}
                                 </Select>
                             </Form.Item>
                             <Form.Item label={"Personal Mail"}
@@ -580,21 +588,13 @@ const FormComponent = () =>{
                                        }]}
                             >
                                 <Select>
-                                    <Select.Option value={"JUNIOR_SOFTWARE_ENGINEER"}>
-                                        {Designation.JUNIOR_SOFTWARE_ENGINEER}
-                                    </Select.Option>
-                                    <Select.Option value={"TRAINEE"}>
-                                        {Designation.TRAINEE}
-                                    </Select.Option>
-                                    <Select.Option value={"JUNIOR_SOFTWARE_ENGINEER"}>
-                                        {Designation.JUNIOR_SOFTWARE_ENGINEER}
-                                    </Select.Option>
-                                    <Select.Option value={"SENIOR_SOFTWARE_ENGINEER"}>
-                                        {Designation.SENIOR_SOFTWARE_ENGINEER}
-                                    </Select.Option>
-                                    <Select.Option value={"TECHNICAL_LEAD"}>
-                                        {Designation.TECHNICAL_LEAD}
-                                    </Select.Option>
+                                    {(Object.keys(Designation) as Array<keyof typeof Designation>).map((key) =>
+                                        <Select.Option value={key}
+                                                       style={{height:"40px",textAlign:"center"}}
+                                        >
+                                            {Designation[key]}
+                                        </Select.Option>
+                                    )}
                                 </Select>
                             </Form.Item>
                             <Form.Item label="Type"
@@ -605,9 +605,13 @@ const FormComponent = () =>{
                                        }]}
                             >
                                 <Select style={{width:"100%"}}>
-                                    <Select.Option value={Type_Time.PARTTIME}>intern</Select.Option>
-                                    <Select.Option value={Type_Time.HYBRID}>part time</Select.Option>
-                                    <Select.Option value={Type_Time.FULLTIME}>full time</Select.Option>
+                                    {(Object.keys(Type_Time) as Array<keyof typeof Type_Time>).map((key) =>
+                                        <Select.Option value={key}
+                                                       style={{height:"40px",textAlign:"center"}}
+                                        >
+                                            {Type_Time[key]}
+                                        </Select.Option>
+                                    )}
                                 </Select>
                             </Form.Item>
                             <Form.Item label={"Total experience"}
@@ -637,7 +641,7 @@ const FormComponent = () =>{
                     {current === 4 && (<>
                         <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}>
                             <Form.Item label={"Relation Detail"} name={"relationDetail"} required={true}>
-                                <Select style={{height:"40px"}}>
+                                <Select style={{ height: "40px" }}>
                                     <Select.Option value="Father">Father</Select.Option>
                                     <Select.Option value="Mother">Mother</Select.Option>
                                 </Select>
@@ -690,11 +694,44 @@ const FormComponent = () =>{
                             </Form.Item>
 
                             <Form.Item label={"Gender"} name={"relationGender"}>
-                                <Radio.Group style={{display:"flex"}} defaultValue={Gender.MALE}>
-                                    <Radio.Button value={Gender.MALE} style={{height:"40px",textAlign:"center"}}>Male</Radio.Button>
-                                    <Radio.Button value={Gender.FEMALE} style={{height:"40px",textAlign:"center"}}>Female</Radio.Button>
+                                <Radio.Group style={{display:"flex"}} defaultValue={Object.keys(Gender)[0]}>
+                                    {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
+                                        <Radio.Button value={key}
+                                                      style={{height:"40px",textAlign:"center"}}
+                                                      defaultChecked = {true}
+                                        >
+                                            {Gender[key]}
+                                        </Radio.Button>
+
+                                    )}
 
                                 </Radio.Group>
+                            </Form.Item>
+                            <Form.Item label={"Contact Number"} name={"relationContact"} required={true}
+                                       rules={[
+                                           {
+                                               required: true,
+                                               message: "Please enter Contact Number",
+                                           },
+                                           () => ({
+                                               validator(_, value) {
+                                                   if (!value) {
+                                                       return Promise.reject();
+                                                   }
+                                                   if (isNaN(value)) {
+                                                       return Promise.reject("Contact Number has to be a number.");
+                                                   }
+                                                   if (value.length < 10) {
+                                                       return Promise.reject("Contact Number can't be less than 10 digits");
+                                                   }
+                                                   if (value.length > 10) {
+                                                       return Promise.reject("Contact Number can't be more than 10 digits");
+                                                   }
+                                                   return Promise.resolve();
+                                               },
+                                           }),
+                                       ]}>
+                                <Input prefix={+91} required={true} style={{width:"100%"}}/>
                             </Form.Item>
 
                         </div>
@@ -768,34 +805,20 @@ const FormComponent = () =>{
                                 <Input required={true} style={{height:"40px"}}/>
                             </Form.Item>
 
-
-                            {/*<Form.Item label={"Document"}>*/}
-                            {/*    /!*<Tabs*!/*/}
-                            {/*    /!*    defaultActiveKey="1"*!/*/}
-                            {/*    /!*    items={itemsTabs}*!/*/}
-                            {/*    /!*    onChange={onChangeTabs}*!/*/}
-                            {/*    /!*    // indicator={{ size: (origin) => origin - 20, align: alignValue }}*!/*/}
-                            {/*    /!*>*!/*/}
-
-
-                            {/*    /!*</Tabs>*!/*/}
-                            {/*</Form.Item>*/}
                         </div>
                     </>)}
                     {current===6 && (<>
-                    <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}>
-                        <Form.Item name={"10th"} label={"10th"}>
-                            <Upload {...fileProps}>
-                                <Button icon={<UploadOutlined />}>Upload</Button>
-                            </Upload>
-                        </Form.Item>
-                        <Form.Item name={"12th"} label={"12th"}>
-                            <Upload {...fileProps}>
-                                <Button icon={<UploadOutlined />}>Upload</Button>
-                            </Upload>
-                        </Form.Item>
-                    </div>
-                        </>)}
+                        <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}>
+                            {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key) =>
+                                <Form.Item name={key} label={Documents[key]}>
+                                    <Upload {...fileProps} customRequest={customRequest} maxCount={1}>
+                                        <Button icon={<UploadOutlined />}>Upload</Button>
+                                    </Upload>
+                                </Form.Item>
+
+                            )}
+                        </div>
+                    </>)}
                     {current===6 && (<>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">

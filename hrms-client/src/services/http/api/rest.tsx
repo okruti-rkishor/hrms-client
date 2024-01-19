@@ -16,11 +16,15 @@ function RestApi(base:any){
         timeout: 300000
     });
 
-    async function post(uriTemplate:string, pathArgs:any, body:any, queryArgs?:any, timeout?:number) {
+    async function post(uriTemplate:string, pathArgs:any, body:any, queryArgs?:any, timeout?:number,headers?:any) {
         const uri = pathArgs ? Mustache.render(uriTemplate, pathArgs) : uriTemplate;
         console.log("POST " + uri, queryArgs ? queryArgs : "");
         console.log(JSON.stringify(body));
+
         const config:AxiosRequestConfig = { params: queryArgs || {} };
+        if(headers){
+            config.headers = headers;
+        }
         if (timeout) {
             const response = await httpForTimeOut.get("/config.json");
             config.timeout = response.data.timeout;
