@@ -24,11 +24,11 @@ function Home() {
             if(response[i].role === 'ADMIN') {
                 setCountAdmin(response[0].count);
             } else if(response[i].role === 'HR') {
-                setCountHR(response[1].count);
+                setCountHR(response[2].count);
             } else if(response[i].role === 'EMPLOYEE') {
-                setCountEmployee(response[3].count);
+                setCountEmployee(response[1].count);
             } else if(response[i].role === null) {
-                setCountUser(response[2].count);
+                setCountUser(response[3].count);
             }
         }
     };
