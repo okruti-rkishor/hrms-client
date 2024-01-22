@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import {Link, Outlet} from "react-router-dom";
-import { Layout, Card } from "antd";
-import CountUp from "react-countup";
-import { Col, Divider, Row } from "antd";
+import { Row } from "antd";
 import "./home.scss";
 import restApi from "../../services/http/api";
 import UserCountCard from "./userCountCard";
+import EventCounter from './eventCounter';
 
 function Home() {
   const [countAdmin, setCountAdmin] = useState(0);
@@ -16,6 +14,7 @@ function Home() {
   useEffect(() => {
     void userCount();
   }, []);
+
 
   const userCount = async () => {
     const response = await restApi.userCount();
@@ -57,52 +56,24 @@ function Home() {
 
   return (
     <div className="home-page">
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        {userCountCardProps.map((card: any,index) => (
-          <UserCountCard
-            key={index}
-            title={card.title}
-            count={card.count}
-            className={card.className}
-          />
-        ))}
-      </Row>
+      <div className='user-cards'>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+          {userCountCardProps.map((card: any,index) => (
+              <UserCountCard
+                  key={index}
+                  title={card.title}
+                  count={card.count}
+                  className={card.className + ' user-card'}
+              />
+          ))}
+        </Row>
+      </div>
+
+      <div className='events-section'>
+        <EventCounter />
+      </div>
     </div>
   );
 }
-export default Home;
 
-{/* <Col className="gutter-row" span={6}>
-          <UserCountCard title="HR" count={countHR} className="hr-user" />
-          
-        </Col>
-        <Col className="gutter-row" span={6}>
-          <UserCountCard
-            title="Employee"
-            count={countEmployee}
-            className="employee"
-          />
-          { <Card  title="Employee" className='employee' >
-                        <CountUp
-                            start={0}
-                            end={countEmployee}
-                            duration={2}
-                            className='user-count'
-                        />
-                    </Card> }
-        </Col>
-        <Col className="gutter-row" span={6}>
-          { <Card  title="Guest Users" className='guest-users' >
-                        <CountUp
-                            start={0}
-                            end={countUser}
-                            duration={2}
-                            className='user-count'
-                        />
-                    </Card> }
-          <UserCountCard
-            title="Guest Users"
-            count={countUser}
-            className="guest-users"
-          />
-        </Col> */}
+export default Home;
