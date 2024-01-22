@@ -93,33 +93,31 @@ function EmployeeSearch() {
     let tempFormData = {};
     let tempResponse: [] = [];
     if (values && values !== undefined) {
-      if (values.name && values.name) {
+      if (values.name) {
         tempFormData = { ...tempFormData, name: values.name };
       }
-      if (values.employeeCode && values.employeeCode) {
+      if (values.employeeCode) {
         tempFormData = { ...tempFormData, employeeCode: values.employeeCode };
       }
-      if (values.joiningDate && values.joiningDate) {
+      if (values.joiningDate) {
         tempFormData = {
           ...tempFormData,
           joiningDate: convert(values.joiningDate),
         };
       }
-      if (values.designation && values.designation) {
+      if (values.designation) {
         tempFormData = { ...tempFormData, designation: values.designation };
       }
-      if (values.contact && values.contact) {
+      if (values.contact) {
         tempFormData = { ...tempFormData, contact: values.contact };
       }
-      if (values.documentNumber && values.documentNumber) {
+      if (values.documentNumber) {
         tempFormData = {
           ...tempFormData,
           documentNumber: values.documentNumber,
         };
       }
     }
-
-    console.log(tempFormData);
     try {
       const response = await rest.employeeSearch(tempFormData);
 
@@ -147,92 +145,87 @@ function EmployeeSearch() {
 
   return (
     <div className="employee-search">
-      <div>
-        <h1 className="title-heading">Employee Search</h1>
-        <Form
-          form={form}
-          name="advanced_search"
-          className="ant-advanced-search-form"
-          layout="horizontal"
-          onFinish={onFinish}
-        >
-          <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-            <Col className="gutter-row" span={8}>
-              <Form.Item name={`name`} label={`Name`}>
-                <Input placeholder="Name" />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <Form.Item name={`employeeCode`} label={`Employee Code`}>
-                <Input placeholder="Employee Code" />
-              </Form.Item>
-            </Col>
+      <h1 className="title-heading">Employee Search</h1>
+      <Form
+        form={form}
+        name="advanced_search"
+        className="ant-advanced-search-form"
+        layout="horizontal"
+        onFinish={onFinish}
+      >
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+          <Col className="gutter-row" span={8}>
+            <Form.Item name={`name`} label={`Name`}>
+              <Input placeholder="Name" />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <Form.Item name={`employeeCode`} label={`Employee Code`}>
+              <Input placeholder="Employee Code" />
+            </Form.Item>
+          </Col>
 
-            <Col className="gutter-row" span={8}>
-              <FormItem name={`joiningDate`} label={`Joining Date`}>
-                <DatePicker />
-              </FormItem>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <Form.Item
-                label={"Designation"}
-                name={"designation"}
-                required={true}
-                initialValue={Object.keys(Designation)[1]}
-                rules={[
-                  {
-                    required: true,
-                    message: "Select your designation",
-                  },
-                ]}
-              >
-                <Select 
-                defaultValue={Designation.JUNIOR_SOFTWARE_ENGINEER}
-               
-                >
-                  {enumKeysArray.map((key) => (
-                    <Select.Option key={key} value={key}>
-                      {Designation[key]}
-                    </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <Form.Item name={`documentNumber`} label={`Document Number`}>
-                <Input placeholder="Document Number" />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" span={8}>
-              <Form.Item name={`contact`} label={`Contact`}>
-                <Input placeholder="Contact" />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              span={24}
+          <Col className="gutter-row" span={8}>
+            <FormItem name={`joiningDate`} label={`Joining Date`}>
+              <DatePicker />
+            </FormItem>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <Form.Item
+              label={"Designation"}
+              name={"designation"}
+              required={true}
+              initialValue={Object.keys(Designation)[1]}
+              rules={[
+                {
+                  required: true,
+                  message: "Select your designation",
+                },
+              ]}
+            >
+              <Select defaultValue={Designation.JUNIOR_SOFTWARE_ENGINEER}>
+                {enumKeysArray.map((key) => (
+                  <Select.Option key={key} value={key}>
+                    {Designation[key]}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <Form.Item name={`documentNumber`} label={`Document Number`}>
+              <Input placeholder="Document Number" />
+            </Form.Item>
+          </Col>
+          <Col className="gutter-row" span={8}>
+            <Form.Item name={`contact`} label={`Contact`}>
+              <Input placeholder="Contact" />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            span={24}
+            style={{
+              textAlign: "right",
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Search
+            </Button>
+            <Button
               style={{
-                textAlign: "right",
+                margin: "0 8px",
+              }}
+              onClick={() => {
+                form.resetFields();
               }}
             >
-              <Button type="primary" htmlType="submit">
-                Search
-              </Button>
-              <Button
-                style={{
-                  margin: "0 8px",
-                }}
-                onClick={() => {
-                  form.resetFields();
-                }}
-              >
-                Clear
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
+              Clear
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       <hr />
       <div className="search-result-list">
         {showTableStatus !== true ? (

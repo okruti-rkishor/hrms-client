@@ -2,11 +2,15 @@ import {Button, Form, Input, Select} from "antd";
 import {PageHeader} from "@ant-design/pro-layout";
 import './userCreate.scss'
 import restApi from "../../services/http/api/index";
+import {  useNavigate } from "react-router-dom";
 
 const UserCreate = (props: any) => {
+    const navigate = useNavigate();
 
     const  onFinish = async (values: any) => {
         await restApi.userCreate(values);
+        navigate('/');
+
     };
 
     const onFinishFailed = (errorInfo: any) => {
