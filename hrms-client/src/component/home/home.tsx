@@ -22,13 +22,13 @@ function Home() {
         const response = await restApi.userCount();
         for (let i=0; i<response.length; i++) {
             if(response[i].role === 'ADMIN') {
-                setCountAdmin(response[2].count);
+                setCountAdmin(response[0].count);
             } else if(response[i].role === 'HR') {
                 setCountHR(response[1].count);
             } else if(response[i].role === 'EMPLOYEE') {
                 setCountEmployee(response[3].count);
             } else if(response[i].role === null) {
-                setCountUser(response[0].count);
+                setCountUser(response[2].count);
             }
         }
     };
