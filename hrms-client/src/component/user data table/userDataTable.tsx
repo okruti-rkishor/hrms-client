@@ -100,11 +100,16 @@ const TempFile: React.FC = () => {
     const save = async (key: string) => {
         try {
             const row = (await form.validateFields()) as Item;
-
             const newData = [...userData];
             const index = newData.findIndex((item) => key === item.id);
             if (index > -1) {
-                const item = newData[index];
+                //call API
+                const editedData :any = { ...row};
+            //    delete editedData.id;
+                const editResponse = await restApi.userEdit(editedData,key);
+                console.log(editResponse)
+                const item :any = newData[index];
+                // const item = newData[index];
                 newData.splice(index, 1, {
                     ...item,
                     ...row,
