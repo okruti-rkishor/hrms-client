@@ -13,6 +13,8 @@ import UserDataTable from "./component/user data table/userDataTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmployeeSearch from './component/employee/employeeSearch';
+import ForgottenPassword from './component/forgottenPassword/forgottenPassword';
+import Birthday from './component/birthday/birthday';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -24,10 +26,12 @@ const router = createBrowserRouter(
                 <Route path='/user/detail' element={<UserDataTable/>}/>
                 <Route path='/user/create' element={<UserCreate/>}/>
                 <Route path='/employee/search' element={<EmployeeSearch />}/>
+                <Route path='/employee/birthday/:id' element={<Birthday />}/>
                 {/*<Route path='/temp' element={<TempFile />}/>*/}
             </Route>
 
             <Route path='/login' element={<Login/>}/>
+            <Route path='/login/user/forgotten-password' element={<ForgottenPassword />} />
             <Route path='*' element={<Error/>}/>
         </>
     )

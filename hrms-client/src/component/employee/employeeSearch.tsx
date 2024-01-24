@@ -1,17 +1,17 @@
 import ReactDOM from "react-dom";
 import { useState } from "react";
 // import 'antd/dist/antd.css';
-import { Form, Row, Col, Input, Button } from "antd";
-import { PageHeader } from "@ant-design/pro-layout";
+import { Form, Row, Col, Input, Button,  DatePicker, Select  } from "antd";
+// import { PageHeader } from "@ant-design/pro-layout";
 import "./employeeSearch.scss";
-import type { DatePickerProps } from "antd";
-import { DatePicker, Space, Select } from "antd";
+// import type { DatePickerProps, Space } from "antd";
+import {} from "antd";
 import {
   Designation,
-  Gender,
-  Type_Time,
-  Status,
-  Blood_Group,
+  // Gender,
+  // Type_Time,
+  // Status,
+  // Blood_Group,
 } from "../../../src/constant/constant";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
@@ -131,7 +131,7 @@ function EmployeeSearch() {
         const formattedDesignation = designation.join(" "); // convert array of string to string saprated with space
         return {
           ...employee,
-          employeeName: `${employee.name.firstName} ${employee.name.middleName} ${employee.name.lastName}`,
+          employeeName: `${employee.name.firstName}${employee.name.middleName!==null?" "+employee.name.middleName:""} ${employee.name.lastName}`,
           designation: formattedDesignation,
         };
       });
