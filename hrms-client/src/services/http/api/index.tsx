@@ -21,9 +21,11 @@ export default {
     userEdit:(data: any, id: string) => rest.put(base + `user/${id}`, {}, data),
     employeeCreate:(data: any) => rest.post(base + "employee", {}, data),
     employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data),
-    documentUpload:(data:any) => rest.post(base+ "document/upload",{}, data,'',0,{
-            'Content-Type': 'multipart/form-data'
-        })
+    documentUpload:(data:any) => rest.post(base+ "document/upload",{}, data,'',0,{'Content-Type': 'multipart/form-data'}),
+    sendOtp:(email: string) => rest.post(base + `auth/forget-password/${email}`, { },{}),
+    verifyOtp:(data: any) => rest.post(base + `auth/verify-otp`,{},{}, data),
+ 
+
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),
     // unAssigned:(le_id: string, lec_id: string) => rest.get(base + "/assigned?assigned=false", { le_id, lec_id}),
