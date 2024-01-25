@@ -32,7 +32,8 @@ const FormComponent = () =>{
     const [current, setCurrent] = useState(0);
     const { RangePicker } = DatePicker;
     const [form] = Form.useForm();
-    const [employeeData,setEmployeeData]=useState<any>({title:"Mr",bloodGroup:"AB_POSITIVE",gender:"MALE",familyDetails:[{gender:"MALE"}]});
+    const [employeeData,setEmployeeData]=useState<any>({title:"Mr",blood_group:"NONE",gender:"MALE",status:"ACTIVE",
+        familyDetails:[{gender:"MALE"}]});
     const steps = [
         {
             title: 'Personal Details',
@@ -65,20 +66,19 @@ const FormComponent = () =>{
             content: 'Last-content',
         },
     ];
-    const [document,setDocument]=useState<any>();
+    const [document,setDocument]=useState<any>({});
+    const [fileUpload,setFileUpload]=useState<any>([]);
+    const [isButtonDisabled, setButtonDisabled] = useState(true);
+    // const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false);
     const onChange = (value: any) => {
-        console.log(employeeData);
         setCurrent(value);
-        // form.validateFields(steps[current].fields).then((result)=>{
-        //     console.log(result,value);
-        //     setCurrent(value);
-        // }).catch((error)=>{
-        //     console.log("error",error,value);
-        //
-        // });
+        form.validateFields(steps[current].fields).then((result)=>{
+            setCurrent(value);
+        }).catch((error)=>{
+            console.log("error",error,value);
+        });
     };
     const onFinish = async (value:object) =>{
-        console.log("1111",value,employeeData);
         const payload={
             "status": employeeData.status,
             "employeeCode": "ok12375",
@@ -149,26 +149,19 @@ const FormComponent = () =>{
                     "branchCode": employeeData.ifscCode,
                     "ifscCode": employeeData.ifscCode
                 }
-            ]
-            // "documents": [
-            //     {
-            //         "id":""
-            //     }
-            // ]
+            ],
+            "documents": fileUpload
         };
-        console.log(payload);
         const response = await restApi.employeeCreate(payload);
-        console.log(response);
     }
-    const [fileUpload,setFileUpload]=useState<any>();
 
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
     const fileProps: UploadProps = {
         onChange(info) {
-            console.log(info);
+            //console.log(info);
             if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
+                //console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
@@ -179,13 +172,41 @@ const FormComponent = () =>{
         },
     };
 
-    const onChangeTabs =(key:string) =>{
-        console.log(key);
-    }
 
     const customRequest = async ({ file, onSuccess, onError}:any)=> {
-        let documentPayload = {"document-type": Object.keys(document)[0], "file": file}
-        const response = await restApi.documentUpload(documentPayload).then((info)=> onSuccess("done")).catch((info)=>onError("error"));
+        let documentstype=Object.keys(document);
+        let documentKey = Object.keys(document);
+        let documentPayload:any = {"document-type": documentKey.length===1?Object.keys(document)[0]:Object.keys(document)[1], "file": file};
+        if(documentKey.length>1){
+            documentPayload["document-number"] = Object.values(document)[0];
+        }
+
+        const response = await restApi.documentUpload(documentPayload).then((info)=>{
+            onSuccess("done");
+                setFileUpload([...fileUpload, {"id": info.id,"documentType":info.documentType}]);
+                setDocument({});
+                // setUploadButtonDisabled(true);
+
+        }).catch((info)=>{
+            onError("error")
+        });
+    }
+
+    const onRemoveFile = async (key:any) => {
+        let response=fileUpload.find((item:any)=>{
+            if(item.documentType===key) return item.id;
+            else return "";
+        });
+        if(response){
+            await restApi.documentDelete(`${response.id}`).then((info)=>{
+                console.log(info);
+            }).catch((info)=>{
+                console.log(info);
+                delete employeeData[key];
+                console.log(employeeData);
+            });
+        }
+
     }
 
     return (
@@ -200,9 +221,11 @@ const FormComponent = () =>{
                 <Form onFinish={onFinish}
                       style={{width:"74%"}}
                       onValuesChange={(e)=>{
-                          console.log(e,current);
-                          current<=5?setEmployeeData({...employeeData,...e}):setDocument({...document,...e});
-
+                          console.log("e",e);
+                          if(current>5){
+                              setDocument({...document,...e});
+                          }
+                         setEmployeeData({...employeeData,...e});
                       }}
                       form={form}
                       className= 'employee-create-form'
@@ -272,7 +295,7 @@ const FormComponent = () =>{
                             >
                                 <Radio.Group style={{display:"flex"}} defaultValue={Object.keys(Gender)[0]}>
                                     {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
-                                        <Radio.Button value={key}
+                                        <Radio.Button value={key} key={key}
                                                       style={{height:"40px",textAlign:"center"}}
                                                       defaultChecked = {true}
                                         >
@@ -292,13 +315,10 @@ const FormComponent = () =>{
                             </Form.Item>
                             <Form.Item label="Blood Group"
                                        name={"blood_group"}
-                                       initialValue={"AB_POSITIVE"}>
-                                <Select style={{height:"40px"}} defaultValue={Object.keys(Blood_Group)[0]}>
+                                       initialValue={Object.keys(Blood_Group)[8]}>
+                                <Select listItemHeight={9} listHeight={310}>
                                     {(Object.keys(Blood_Group) as Array<keyof typeof Blood_Group>).map((key) =>
-                                        <Select.Option value={key}
-                                                      style={{height:"40px",textAlign:"center"}}
-                                                      defaultChecked = {true}
-                                        >
+                                        <Select.Option value={key} key={key}>
                                             {Blood_Group[key]}
                                         </Select.Option>
                                     )}
@@ -361,7 +381,7 @@ const FormComponent = () =>{
                         </div>
                     </>)}
                     {current === 1 && (<>
-                        <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}}>
+                        <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"employee-create-inputs"}>
                             <label>Present Address</label>
                             <Form.Item label={"House number"}
                                        name={"houseNumber"}
@@ -475,7 +495,7 @@ const FormComponent = () =>{
                         </div>
                     </>)}
                     {current === 2 && (<>
-                        <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}}>
+                        <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"employee-create-inputs"}>
                             <label>Personal Contact</label>
                             <Form.Item label={"Status"}
                                        required={true}
@@ -484,11 +504,12 @@ const FormComponent = () =>{
                                            required:true,
                                            message:"select your status"
                                        }]}
+                                       initialValue={Object.keys(Status)[0]}
                             >
 
                                 <Select style={{height:"40px"}} defaultValue={Object.keys(Status)[0]}>
                                 {(Object.keys(Status) as Array<keyof typeof Status>).map((key) =>
-                                    <Select.Option value={key}
+                                    <Select.Option value={key} key={key}
                                                    style={{height:"40px",textAlign:"center"}}
                                     >
                                         {Status[key]}
@@ -589,7 +610,7 @@ const FormComponent = () =>{
                             >
                                 <Select>
                                     {(Object.keys(Designation) as Array<keyof typeof Designation>).map((key) =>
-                                        <Select.Option value={key}
+                                        <Select.Option value={key} key={key}
                                                        style={{height:"40px",textAlign:"center"}}
                                         >
                                             {Designation[key]}
@@ -606,7 +627,7 @@ const FormComponent = () =>{
                             >
                                 <Select style={{width:"100%"}}>
                                     {(Object.keys(Type_Time) as Array<keyof typeof Type_Time>).map((key) =>
-                                        <Select.Option value={key}
+                                        <Select.Option value={key} key={key}
                                                        style={{height:"40px",textAlign:"center"}}
                                         >
                                             {Type_Time[key]}
@@ -620,14 +641,45 @@ const FormComponent = () =>{
                                        rules={[{
                                            required:true,
                                            message:"select your experience"
-                                       }]}
+                                       },() => ({
+                                           validator(_, value) {
+                                               if (!value) {
+                                                   return Promise.reject();
+                                               }
+                                               if (isNaN(value)) {
+                                                   return Promise.reject("Experience has to be a number.");
+                                               }
+                                               if (value.length < 0) {
+                                                   return Promise.reject("Experience can't be negative");
+                                               }
+                                               if (value.length > 45) {
+                                                   return Promise.reject("Experience can't be more than 45 digits");
+                                               }
+                                               return Promise.resolve();
+                                           },
+                                       })]}
+
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item label={"Skills"} name={"skills"} required={true}>
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={"Total CTC"} name={"CTC"} required={true}>
+                            <Form.Item label={"Total CTC"} name={"CTC"} required={true} rules={[
+                                () => ({
+                                validator(_, value) {
+                                    if (!value) {
+                                        return Promise.reject();
+                                    }
+                                    if (isNaN(value)) {
+                                        return Promise.reject("CTC has to be a number.");
+                                    }
+                                    if (value.length < 0) {
+                                        return Promise.reject("CTC can't be negative");
+                                    }
+                                    return Promise.resolve();
+                                },
+                            })]}>
                                 <Input />
                             </Form.Item>
                             <Form.Item label={"Reason for Leaving"} name={"reason"} required={true}>
@@ -639,7 +691,7 @@ const FormComponent = () =>{
                         </div>
                     </>)}
                     {current === 4 && (<>
-                        <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}>
+                        <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
                             <Form.Item label={"Relation Detail"} name={"relationDetail"} required={true}>
                                 <Select style={{ height: "40px" }}>
                                     <Select.Option value="Father">Father</Select.Option>
@@ -696,7 +748,7 @@ const FormComponent = () =>{
                             <Form.Item label={"Gender"} name={"relationGender"}>
                                 <Radio.Group style={{display:"flex"}} defaultValue={Object.keys(Gender)[0]}>
                                     {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
-                                        <Radio.Button value={key}
+                                        <Radio.Button value={key} key={key}
                                                       style={{height:"40px",textAlign:"center"}}
                                                       defaultChecked = {true}
                                         >
@@ -808,15 +860,61 @@ const FormComponent = () =>{
                         </div>
                     </>)}
                     {current===6 && (<>
-                        <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}>
-                            {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key) =>
-                                <Form.Item name={key} label={Documents[key]}>
-                                    <Upload {...fileProps} customRequest={customRequest} maxCount={1}>
-                                        <Button icon={<UploadOutlined />}>Upload</Button>
-                                    </Upload>
-                                </Form.Item>
+                        <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
 
-                            )}
+                            {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key) => {
+                                return (key==="AADHAAR_CARD" || key==="PAN_CARD") ? <div className={"uploadDocument"} key={key}>
+                                    <div>
+                                    <label style={{textWrap:"nowrap"}}>{key} :</label>
+                                    </div>
+                                    <div className={"uploadDocument_withNumber"}>
+                                        <Form.Item name={key}>
+                                            <Upload {...fileProps} customRequest={customRequest} maxCount={1}>
+                                                <Button icon={<UploadOutlined />} disabled={!(employeeData[key+"number"] && employeeData[key+"number"].length==12 )}>Upload</Button>
+                                            </Upload>
+                                    </Form.Item>
+                                    <Form.Item name={key+"number"} rules={[
+                                        () => ({
+                                            validator(_, value) {
+                                                // if (isNaN(value)) {
+                                                //     return Promise.reject("number has to be a number.");
+                                                // }
+                                                if(value<0){
+                                                    setButtonDisabled(true);
+                                                    return Promise.reject("number cannot be negative 12.");
+                                                }
+
+                                                if(value.length>12){
+                                                    setButtonDisabled(true);
+                                                    return Promise.reject("number cannot be greater than 12.");
+                                                }
+
+                                                if(value.length===12){
+                                                    setButtonDisabled(false);
+                                                    return Promise.resolve();
+                                                }else if(value.length<12){
+                                                    setButtonDisabled(true);
+                                                    return Promise.reject("number cannot be less than 12.");
+
+                                                }
+                                                return Promise.resolve();
+                                            },
+                                        }
+                                        ),
+                                    ]}
+                                    >
+                                        <Input style={{height:"32px",maxWidth:"150px"}}/>
+                                    </Form.Item>
+                                    </div>
+
+                                            </div>: <Form.Item name={key} label={Documents[key]}>
+                                    <Upload {...fileProps} customRequest={customRequest} maxCount={1} onRemove={()=>onRemoveFile(key)
+                                    }>
+                                                <Button icon={<UploadOutlined />} disabled={!!employeeData[key]}>Upload</Button>
+                                            </Upload>
+                                    </Form.Item>
+                                        }
+                                        )}
                         </div>
                     </>)}
                     {current===6 && (<>

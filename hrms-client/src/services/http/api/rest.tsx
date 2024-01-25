@@ -102,4 +102,4 @@ function RestApi(base:any){
     };
 }
 
-export const hrms = RestApi("/hrms");
+export const hrms = RestApi("http://43.205.255.228:8080/hrms");

@@ -3,13 +3,13 @@ export enum Gender {
     FEMALE="Female"
 }
 export enum Type_Time{
-    PARTTIME="Partime",
-    FULLTIME="FullTime",
+    PART_TIME="Partime",
+    FULL_TIME="FullTime",
     HYBRID="Hybrid"
 }
 export enum Status{
-    Active="Active",
-    InActive="InActive"
+    ACTIVE="Active",
+    IN_ACTIVE="InActive"
 
 }
 export enum Designation{
@@ -27,7 +27,8 @@ export enum Blood_Group{
     B_POSITIVE="B",
     B_NEGATIVE="B-",
     O_POSITIVE="O+",
-    O_NEGATIVE="O-"
+    O_NEGATIVE="O-",
+    NONE="None"
 }
 export enum Documents{
     SSC="10th MARKSHEETS",
@@ -35,8 +36,6 @@ export enum Documents{
     RESUME="RESUME",
     JOINING_LETTER="JOINING LETTER",
     TRAINING_CERTIFICATE="TRAINING CERTIFICATE",
-    AADHAAR_CARD="AADHAAR CARD",
-    PAN_CARD="PAN CARD",
     OFFER_LETTER="OFFER LETTER",
     RELIVING_LETTER="RELIEVING LETTER",
     EXPERIENCE_LETTER="EXPERIENCE LETTER",
@@ -44,5 +43,7 @@ export enum Documents{
     BIRTHDAY_PHOTO="BIRTHDAY PHOTO",
     SIGNATURE_PHOTO="SIGNATURE PHOTO",
     APPOINTMENT_LETTER="APPOINTMENT LETTER",
-    AGREEMENT_LETTER="AGREEMENT LETTER"
+    AGREEMENT_LETTER="AGREEMENT LETTER",
+    AADHAAR_CARD="AADHAAR CARD",
+    PAN_CARD="PAN CARD",
 }

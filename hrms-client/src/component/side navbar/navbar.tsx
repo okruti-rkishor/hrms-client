@@ -8,6 +8,7 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import {Link} from 'react-router-dom'
 import './navbar.scss'
 
 
@@ -33,14 +34,14 @@ const items: MenuItem[] = [
     // getItem('Option 1', '1', <PieChartOutlined />),
     // getItem('Option 2', '2', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
-        getItem(<a className='side-navbar__button' href='/user/create'>Create</a>, '3', ),
-        getItem(<a className='side-navbar__button' href='/user/detail'>List</a>, '4', ),
+        getItem( <Link to={'/user/create'} className='side-navbar__button'>Create </Link>, '3', ),
+        getItem(<Link className='side-navbar__button' to='/user/detail'>List</Link>, '4', ),
         // getItem('User 2', '4'),
         // getItem('User 3', '5'),
     ]),
     getItem('Employee', 'sub2', <TeamOutlined />, [
-        getItem(<a className='side-navbar__button' href='/employee/search'>Search</a>, '6'),
-        getItem(<a className='side-navbar__button' href='/employee/create'>Create</a>, '8')
+        getItem(<Link className='side-navbar__button' to='/employee/search'>Search</Link>, '6'),
+        getItem(<Link className='side-navbar__button' to='/employee/create'>Create</Link>, '8')
     ]),
     // getItem('Files', '9', <FileOutlined />),
 ];

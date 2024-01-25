@@ -95,6 +95,36 @@ label{
 }
 .ant-upload-wrapper{
   display:flex;
-  gap: 70px;
+  gap: 45px;
 }
+.ant-form-item-control-input-content{
+  display: flex;
+}
+.uploadDocument{
+  display:flex;
+  gap:62px;
+
+  &_withNumber{
+    display:flex;
+    gap:45px;
+    flex-direction: row-reverse;
+
+
+  }
+  &:last-child{
+    gap:104px;
+
+  }
+  .ant-form-item-explain-error{
+    max-width: 150px;
+  }
+
+
+
+}
+//.rc-virtual-list-holder::-webkit-scrollbar{
+//
+//    display: none;
+//
+//}
 
