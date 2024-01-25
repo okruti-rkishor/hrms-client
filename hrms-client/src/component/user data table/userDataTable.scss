@@ -5,8 +5,6 @@
 }
 
 .user-data-table {
-  max-width: 85vw;
-  margin: 40px 60px 40px auto;
 
   .ant-table-content {
     max-height: 450px;
@@ -28,6 +26,20 @@
     }
   }
 }
+
+.ant-dropdown {
+  .ant-table-filter-dropdown {
+    .ant-dropdown-menu {
+      max-height: unset;
+      overflow: unset;
+    }
+
+    label.ant-checkbox-wrapper {
+      width: 75px;
+    }
+  }
+}
+
 
 ::-webkit-scrollbar-track {
   //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);

@@ -35,8 +35,21 @@ body::-webkit-scrollbar {
 
 body::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #FFF;
+  background-color: #ffffff;
   background-image: linear-gradient(135deg, #5FA4E6 25%, #665DCD 40%);
+}
+
+.data-table {
+  max-width: 90vw;
+  margin: 32px 32px 32px auto;
+  padding: 24px 40px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.ant-page-header {
+  padding: 0;
+  margin-bottom: 10px;
 }
 
 .ant-input {

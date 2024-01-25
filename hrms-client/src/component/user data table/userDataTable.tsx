@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Input, Popconfirm, Table, Tag, Typography, Select} from 'antd';
+import {useSearchParams} from 'react-router-dom';
+import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout} from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 import './userDataTable.scss';
 import restApi from "../../services/http/api";
@@ -41,7 +42,6 @@ const EditableCell: React.FC<EditableCellProps> = ({   editing,
                                                            { value: 'ADMIN', label: 'ADMIN' },
                                                            { value: 'HR', label: 'HR' },
                                                            { value: 'EMPLOYEE', label: 'EMPLOYEE' },
-                                                           { value: 'GUEST USER', label: 'GUEST USER' },
                                                        ]}
                                                 /> : <Input />;
 
@@ -71,6 +71,8 @@ const TempFile: React.FC = () => {
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState('');
     const [userData, setUserData] = useState<Item[]>([]);
+    const [navigatedUser] = useSearchParams();
+
 
     useEffect(()=>{
         usersData();
@@ -150,8 +152,24 @@ const TempFile: React.FC = () => {
         {
             title: 'Role',
             dataIndex: 'role',
-            width: '25%',
+            filters: [
+                {
+                    text: 'Admin',
+                    value: 'ADMIN',
+                },
+                {
+                    text: 'HR',
+                    value: 'HR',
+                },
+                {
+                    text: 'Employee',
+                    value: 'EMPLOYEE',
+                },
+            ],
             editable: true,
+            defaultFilteredValue: [navigatedUser.get('userTitle') ?? ""],
+            onFilter: (value: any, record: any) => record.role.includes(value),
+            width: '25%',
             render: (_:any, { role}:any) => {
                 let color;
                 if (role === 'ADMIN') {
@@ -160,8 +178,6 @@ const TempFile: React.FC = () => {
                     color = 'pink';
                 } else if(role === 'EMPLOYEE') {
                     color = 'green';
-                } else if(role === 'GUEST USER') {
-                    color = 'volcano';
                 }
 
                 return (
@@ -219,11 +235,10 @@ const TempFile: React.FC = () => {
     });
 
     return (
-        <div className='user-data-table'>
+        <Layout className='data-table user-data-table'>
             <PageHeader
                 className="site-page-header"
                 title="User Details"
-                // breadcrumb={{ }}
                 subTitle="The list of all registered users"
             />
             <Form form={form} component={false} >
@@ -235,7 +250,6 @@ const TempFile: React.FC = () => {
                     }}
                     rowKey="id"
                     bordered
-                    // dataSource={data}
                     dataSource={userData}
                     columns={mergedColumns}
                     rowClassName="editable-row"
@@ -244,7 +258,7 @@ const TempFile: React.FC = () => {
                     }}
                 />
             </Form>
-        </div>
+        </Layout>
     );
 };
 

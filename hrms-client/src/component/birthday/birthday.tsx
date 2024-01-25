@@ -1,7 +1,8 @@
 import React from 'react';
-import { Table } from 'antd';
+import {Layout, Table} from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
 import { useParams } from 'react-router-dom';
+import {PageHeader} from "@ant-design/pro-layout";
 
 
 interface DataType {
@@ -11,7 +12,7 @@ interface DataType {
     math: number;
     english: number;
   }
-  
+
   const columns: TableColumnsType<DataType> = [
     {
       title: 'Name',
@@ -42,7 +43,7 @@ interface DataType {
       },
     },
   ];
-  
+
   const data: DataType[] = [
     {
       key: '1',
@@ -73,18 +74,27 @@ interface DataType {
       english: 89,
     },
   ];
-  
+
   const onChange: TableProps<DataType>['onChange'] = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
   };
 
 
 function Birthday(){
-  const { birthdayData } = useParams();
-console.log("New",birthdayData);
-    return(<>
-    <Table columns={columns} dataSource={data} onChange={onChange} />
-    </>)
+  const { events } = useParams();
+  console.log("New",events);
+
+  return(
+      <Layout className='data-table'>
+        <PageHeader
+            className=""
+            title="Birthday"
+            subTitle="The list of all upcoming birthdays"
+        />
+        <Table columns={columns} dataSource={data} onChange={onChange} />
+      </Layout>
+
+  )
 }
 
 export default Birthday;

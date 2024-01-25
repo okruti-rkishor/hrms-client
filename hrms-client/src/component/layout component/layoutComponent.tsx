@@ -23,7 +23,7 @@ function LayoutComponent() {
         <>
             <Layout>
                 <HeaderComponent />
-                <Layout>
+                <Layout style={{background: '#f0f0f0'}}>
                     <Navbar />
                     <Content style={contentStyle}><Outlet /></Content>
                 </Layout>

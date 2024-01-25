@@ -44,7 +44,7 @@
         }
 
         .ant-input-status-error {
-            &[name="username"] {
+            &[type="text"] {
                 background-color: #ff4d4f1a;
             }
         }

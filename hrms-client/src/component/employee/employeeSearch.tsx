@@ -144,7 +144,7 @@ function EmployeeSearch() {
   };
 
   return (
-    <div className="employee-search">
+    <div className="data-table employee-search">
       <h1 className="title-heading">Employee Search</h1>
       <Form
         form={form}

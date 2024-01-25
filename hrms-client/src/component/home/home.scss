@@ -1,6 +1,6 @@
 .home-page {
-  max-width: 85vw;
-  margin: 48px 60px 48px auto;
+  //max-width: 90vw;
+  //margin: 40px 40px 40px auto;
 
   .gutter-row {
     .user-card {
@@ -37,13 +37,13 @@
       }
     }
 
-    .guest-users {
-      background: linear-gradient(45deg, rgba(#FF998B,0.5) 0%, rgba(#FF6D88,0.8) 100%);
-
-      &:hover {
-        box-shadow: 0 5px 20px rgba(#FF998B, 0.5);
-      }
-    }
+    //.guest-users {
+    //  background: linear-gradient(45deg, rgba(#FF998B,0.5) 0%, rgba(#FF6D88,0.8) 100%);
+    //
+    //  &:hover {
+    //    box-shadow: 0 5px 20px rgba(#FF998B, 0.5);
+    //  }
+    //}
   }
 
   .ant-card {
@@ -66,5 +66,9 @@
       font-weight: 700;
       color: white;
     }
+  }
+
+  .events-section {
+    margin-top: 40px;
   }
 }

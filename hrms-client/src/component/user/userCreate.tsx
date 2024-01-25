@@ -18,7 +18,7 @@ const UserCreate = (props: any) => {
     };
 
     return (
-        <div className='user-create-section'>
+        <div className='data-table user-create-section'>
             <div style={{width:"50%"}}>
                 <PageHeader
                     className="site-page-header"
@@ -79,7 +79,6 @@ const UserCreate = (props: any) => {
                                 <Select.Option value={'ADMIN'}>ADMIN</Select.Option>
                                 <Select.Option value={'HR'}>HR</Select.Option>
                                 <Select.Option value={'EMPLOYEE'}>EMPLOYEE</Select.Option>
-                                <Select.Option value={'GUEST USER'}>GUEST USER</Select.Option>
                             </Select>
                         </Form.Item>
 
