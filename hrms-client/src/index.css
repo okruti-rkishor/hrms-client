@@ -47,11 +47,6 @@ body::-webkit-scrollbar-thumb {
   border-radius: 8px;
 }
 
-.ant-page-header {
-  padding: 0;
-  margin-bottom: 10px;
-}
-
 .ant-input {
   border-radius: 4px !important;
   border-left: 5px solid #1677ff !important;

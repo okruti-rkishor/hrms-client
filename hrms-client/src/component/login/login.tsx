@@ -163,9 +163,11 @@ export default function Login() {
                         placeholder="enter your password"
                       />
                     </Form.Item>
-                    <Form.Item style={{ textAlign: "right" }}>
-                      <Link to={"user/forgotten-password"}>
-                        Forgotten Password
+                    <Form.Item style={{ textAlign: "right", marginBottom: 'none' }}>
+                      <Link to={"user/forgotten-password"}
+                            className='forgot-password'
+                            style={{textAlign: "right" }}>
+                        Forgot Password?
                       </Link>
                     </Form.Item>
 

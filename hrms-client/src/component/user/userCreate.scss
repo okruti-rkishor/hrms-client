@@ -1,19 +1,38 @@
 .user-create-section {
   //max-width: 85vw;
   //margin: 40px auto;
-  //display: flex;
-  //flex-direction: column;
-  //align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .user-create-form {
 
   }
 
+  .data-table {
+    margin: 32px;
+    padding: 40px;
+  }
+
   .user-create-inputs {
     display: flex;
     flex-direction: column;
-    margin-top: 35px;
+    margin-top: 24px;
     gap: 8px;
+  }
+
+  .ant-form-item {
+    .ant-row {
+      align-items: center;
+    }
+
+    .ant-form-item-control-input-content {
+      justify-content: center;
+    }
+
+    button[type="submit"] {
+      margin-top: 16px;
+    }
   }
 
   .ant-page-header {

@@ -82,7 +82,7 @@ class ApiInterceptor extends React.Component<any, any> {
             <div>
                 {!_.isEmpty(this.state.loading) ?
                     <div style={{
-                        position: "absolute", top: 0, left: 200, right: 0, bottom: 0,
+                        position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
                         zIndex: 20000,
                         color: "white",
                         display: "flex",
@@ -91,7 +91,6 @@ class ApiInterceptor extends React.Component<any, any> {
                     }}>
                         <div className="loader" style={{}}>
                             <span className="loading-spin"></span>
-                            {/*<Spin tip="Loading..."/>*/}
                         </div>
                     </div>: null}
             </div>

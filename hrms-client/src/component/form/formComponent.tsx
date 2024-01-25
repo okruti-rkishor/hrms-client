@@ -210,7 +210,7 @@ const FormComponent = () =>{
     }
 
     return (
-        <div className='parent employee-create-section'>
+        <div className='parent employee-create-section data-table'>
             <div className="forms-steps">
                 <Steps current={current}
                        items={items}

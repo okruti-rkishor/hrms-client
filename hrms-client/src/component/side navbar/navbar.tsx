@@ -40,8 +40,8 @@ const items: MenuItem[] = [
         // getItem('User 3', '5'),
     ]),
     getItem('Employee', 'sub2', <TeamOutlined />, [
+        getItem(<Link className='side-navbar__button' to='/employee/create'>Create</Link>, '5'),
         getItem(<Link className='side-navbar__button' to='/employee/search'>Search</Link>, '6'),
-        getItem(<Link className='side-navbar__button' to='/employee/create'>Create</Link>, '8')
     ]),
     // getItem('Files', '9', <FileOutlined />),
 ];

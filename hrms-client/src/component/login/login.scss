@@ -10,7 +10,7 @@
     position: relative;
     background-image: linear-gradient(to right, skyblue,#ECA5D8);
 
-    .loginPage{
+    .loginPage {
         //position: absolute;
         //top: 10vh;
         //left: 10vw;
@@ -22,6 +22,14 @@
         .hrms-logo {
             height: 36px;
             width: 36px;
+        }
+    }
+
+    .login-here{
+        padding: 32px 0 32px 32px;
+
+        &-detail{
+            text-align: left;
         }
     }
 
@@ -65,13 +73,27 @@
         .ant-col-offset-8 {
             margin-inline-start: unset !important;
         }
+
+        .ant-form-item {
+            margin-bottom: 16px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        .forgot-password {
+            font-size: 12px;
+            margin-top: -10px;
+            width: 100%;
+        }
     }
 
     .login-button {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        margin-top: 16px;
+        width: 100%;
 
         button[type="submit"], button[type="button"] {
             height: unset;
@@ -106,38 +128,9 @@
 
         &__buttons {
             display: flex;
-            gap: 16px 24px;
+            gap: 8px 16px;
             flex-wrap: wrap;
             justify-content: center;
-
-            //button{
-            //    background: white;
-            //    border: 2px solid #b2ccdb;
-            //
-            //    &:nth-child(2){
-            //        img{
-            //            width:23px;
-            //        }
-            //    }
-            //
-            //    &:nth-child(3){
-            //        img{
-            //            width:22px;
-            //        }
-            //    }
-            //
-            //    &:nth-child(4){
-            //        img{
-            //            width:23px;
-            //        }
-            //    }
-            //
-            //    &:nth-child(5){
-            //        img{
-            //            width:22px;
-            //        }
-            //    }
-            //}
 
             button {
                 border: 1px solid #c0dbea;
@@ -228,13 +221,7 @@
     width:50%;
 }
 
-.login-here{
-    padding: 40px 0 40px 40px;
 
-    &-detail{
-        text-align: left;
-    }
-}
 
 
 

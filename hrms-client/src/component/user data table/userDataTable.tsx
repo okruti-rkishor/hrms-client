@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout} from 'antd';
+import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout, Divider} from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
 import './userDataTable.scss';
 import restApi from "../../services/http/api";
@@ -253,11 +253,12 @@ const TempFile: React.FC = () => {
 
     return (
         <Layout className='data-table user-data-table'>
-            <PageHeader
-                className="site-page-header"
-                title="User Details"
-                subTitle="The list of all registered users"
-            />
+            <Divider orientation="left">
+                <PageHeader
+                    className="site-page-header"
+                    title="Users List"
+                />
+            </Divider>
             <Form form={form} component={false} >
                 <Table
                     components={{

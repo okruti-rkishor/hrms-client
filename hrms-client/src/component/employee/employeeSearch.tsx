@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 // import 'antd/dist/antd.css';
-import { Form, Row, Col, Input, Button,  DatePicker, Select  } from "antd";
+import {Form, Row, Col, Input, Button, DatePicker, Select, Divider} from "antd";
 // import { PageHeader } from "@ant-design/pro-layout";
 import "./employeeSearch.scss";
 // import type { DatePickerProps, Space } from "antd";
@@ -15,6 +15,7 @@ import {
 } from "../../../src/constant/constant";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
+import {PageHeader} from "@ant-design/pro-layout";
 const FormItem = Form.Item;
 
 export interface employeeInterface {
@@ -145,7 +146,13 @@ function EmployeeSearch() {
 
   return (
     <div className="data-table employee-search">
-      <h1 className="title-heading">Employee Search</h1>
+      <Divider orientation="left">
+        <PageHeader
+            className=""
+            title="Employee Search"
+        />
+      </Divider>
+      {/*<h1 className="title-heading">Employee Search</h1>*/}
       <Form
         form={form}
         name="advanced_search"

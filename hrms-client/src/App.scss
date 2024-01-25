@@ -1,0 +1,32 @@
+.App {
+  display: flex;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.ant-page-header {
+  padding: 0;
+  /*margin-bottom: 20px;*/
+}
+
+.ant-page-header .ant-page-header-heading-left {
+  margin-block: unset;
+}
+
+.ant-page-header .ant-page-header-heading-title {
+  margin-inline-end: unset;
+}
+
+/*.site-page-header {*/
+/*  border-bottom: 1px solid #d8d8d8;*/
+/*}*/
+
+.ant-divider {
+  &.ant-divider-horizontal.ant-divider-with-text {
+    margin: 0 0 20px;
+
+    &:before, &:after {
+      border-block-start-color: #d8d8d8;
+    }
+  }
+}

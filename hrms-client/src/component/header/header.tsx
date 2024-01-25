@@ -9,7 +9,7 @@ const HeaderComponent = () => {
       <Row>
         <Col span={16}>
           <Link to={"/"}>
-            <h1 style={{ color: "white" }}>HR Management System</h1>
+            <h1 style={{ color: "white", textAlign: 'left' }}>HR Management System</h1>
           </Link>
         </Col>
         <Col>

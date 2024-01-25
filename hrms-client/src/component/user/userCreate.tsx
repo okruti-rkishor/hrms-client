@@ -1,8 +1,9 @@
-import {Button, Form, Input, Select} from "antd";
+import {Button, Divider, Form, Input, Select} from "antd";
 import {PageHeader} from "@ant-design/pro-layout";
 import './userCreate.scss'
 import restApi from "../../services/http/api/index";
 import {  useNavigate } from "react-router-dom";
+import React from "react";
 
 const UserCreate = (props: any) => {
     const navigate = useNavigate();
@@ -18,13 +19,15 @@ const UserCreate = (props: any) => {
     };
 
     return (
-        <div className='data-table user-create-section'>
-            <div style={{width:"50%"}}>
-                <PageHeader
-                    className="site-page-header"
-                    title="User Create"
-                    subTitle="Process of users creation starts from here"
-                />
+        <div className='user-create-section'>
+            <div className='data-table' style={{width:"50%"}}>
+                <Divider orientation="left">
+                    <PageHeader
+                        className="site-page-header"
+                        title="User Create"
+                    />
+                </Divider>
+
                 <Form
                     name="basic"
                     labelCol={{ span: 8 }}
