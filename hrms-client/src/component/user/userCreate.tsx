@@ -4,14 +4,16 @@ import './userCreate.scss'
 import restApi from "../../services/http/api/index";
 import {  useNavigate } from "react-router-dom";
 import React from "react";
+import { User_type } from "../../constant/constant";
 
 const UserCreate = (props: any) => {
+    const userTypesEnum = Object.keys(User_type);
+    console.log(userTypesEnum);
     const navigate = useNavigate();
 
     const  onFinish = async (values: any) => {
         await restApi.userCreate(values);
         navigate('/');
-
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -79,9 +81,7 @@ const UserCreate = (props: any) => {
                                    }]}
                         >
                             <Select placeholder="select the role">
-                                <Select.Option value={'ADMIN'}>ADMIN</Select.Option>
-                                <Select.Option value={'HR'}>HR</Select.Option>
-                                <Select.Option value={'EMPLOYEE'}>EMPLOYEE</Select.Option>
+                                {userTypesEnum.map(userType=> <Select.Option key={userType} value={userType}>{userType.toString().toLowerCase()}</Select.Option>)}
                             </Select>
                         </Form.Item>
 

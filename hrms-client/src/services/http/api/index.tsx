@@ -24,8 +24,9 @@ export default {
     // documentUpload:(data:any) => rest.post(base+ "document/upload",{}, data,'',0,{'Content-Type': 'multipart/form-data'}),
     documentUpload:(data:any) => rest.post(base+ "document/upload",{}, data,'',0,{'Content-Type': 'multipart/form-data'}),
     documentDelete:(id: string) => rest.del(base + `document/${id}`, {}, id),
-    sendOtp:(email: string) => rest.post(base + `auth/forget-password/${email}`, { },{}),
+    sendOtp:(data: any) => rest.post(base + `auth/send-otp`, {},{},data),
     verifyOtp:(data: any) => rest.post(base + `auth/verify-otp`,{},{}, data),
+    generatePassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),
     // unAssigned:(le_id: string, lec_id: string) => rest.get(base + "/assigned?assigned=false", { le_id, lec_id}),

@@ -47,3 +47,9 @@ export enum Documents{
     AADHAAR_CARD="AADHAAR CARD",
     PAN_CARD="PAN CARD",
 }
+
+export enum User_type {
+    EMPLOYEE = "Employee",
+    ADMIN = "Admin",
+    HR = "Hr",
+}
