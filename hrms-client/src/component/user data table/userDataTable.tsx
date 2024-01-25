@@ -79,13 +79,18 @@ const TempFile: React.FC = () => {
     },[]);
 
     const usersData = async () => {
-        const response = await restApi.allUsersData();
-        const newResponse = response.map((item:any)=>{
-            return {
-                ...item, email:((item.email).toLowerCase())
-            };
-        })
-        setUserData(newResponse)
+        try {
+            const response = await restApi.allUsersData();
+            const newResponse = response.map((item: any) => {
+                return {
+                    ...item, email: ((item.email).toLowerCase())
+                };
+            })
+            setUserData(newResponse)
+        }
+        catch(err){
+            console.log(err);
+        }
     };
 
     const isEditing = (record: Item) => record.id === editingKey;
@@ -99,6 +104,14 @@ const TempFile: React.FC = () => {
         setEditingKey('');
     };
 
+    const getDefaultFilter=()=>{
+        if(navigatedUser.get('userTitle')){
+            return [navigatedUser.get('userTitle')];
+        }else {
+            return [];
+        }
+    }
+
     const save = async (key: string) => {
         try {
             const row = (await form.validateFields()) as Item;
@@ -107,7 +120,7 @@ const TempFile: React.FC = () => {
             if (index > -1) {
                 //call API
                 const editedData :any = { ...row};
-            //    delete editedData.id;
+                // delete editedData.id;
                 const editResponse = await restApi.userEdit(editedData,key);
                 console.log(editResponse)
                 const item :any = newData[index];
@@ -167,8 +180,10 @@ const TempFile: React.FC = () => {
                 },
             ],
             editable: true,
-            defaultFilteredValue: [navigatedUser.get('userTitle') ?? ""],
-            onFilter: (value: any, record: any) => record.role.includes(value),
+            defaultFilteredValue: getDefaultFilter(),
+            onFilter: (value: any, record: any) => {
+               return record.role.includes(value);
+            },
             width: '25%',
             render: (_:any, { role}:any) => {
                 let color;
@@ -222,6 +237,7 @@ const TempFile: React.FC = () => {
         if (!col.editable) {
             return col;
         }
+
         return {
             ...col,
             onCell: (record: Item) => ({
@@ -233,6 +249,7 @@ const TempFile: React.FC = () => {
             }),
         };
     });
+
 
     return (
         <Layout className='data-table user-data-table'>
@@ -251,6 +268,7 @@ const TempFile: React.FC = () => {
                     rowKey="id"
                     bordered
                     dataSource={userData}
+                    // @ts-ignore
                     columns={mergedColumns}
                     rowClassName="editable-row"
                     pagination={{
