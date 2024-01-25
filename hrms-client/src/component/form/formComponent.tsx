@@ -71,7 +71,7 @@ const FormComponent = () =>{
     const [isButtonDisabled, setButtonDisabled] = useState(true);
     // const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false);
     const onChange = (value: any) => {
-        setCurrent(value);
+        // setCurrent(value);
         form.validateFields(steps[current].fields).then((result)=>{
             setCurrent(value);
         }).catch((error)=>{
@@ -199,11 +199,14 @@ const FormComponent = () =>{
         });
         if(response){
             await restApi.documentDelete(`${response.id}`).then((info)=>{
+                const newValue=employeeData;
+                delete employeeData[key];
+                setEmployeeData({...newValue});
+                console.log("employeedata",employeeData);
                 console.log(info);
             }).catch((info)=>{
                 console.log(info);
-                delete employeeData[key];
-                console.log(employeeData);
+
             });
         }
 
@@ -863,6 +866,7 @@ const FormComponent = () =>{
                         <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
 
                             {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key) => {
+                                // console.log("keys",key,employeeData[key]);
                                 return (key==="AADHAAR_CARD" || key==="PAN_CARD") ? <div className={"uploadDocument"} key={key}>
                                     <div>
                                     <label style={{textWrap:"nowrap"}}>{key} :</label>
@@ -876,9 +880,9 @@ const FormComponent = () =>{
                                     <Form.Item name={key+"number"} rules={[
                                         () => ({
                                             validator(_, value) {
-                                                // if (isNaN(value)) {
-                                                //     return Promise.reject("number has to be a number.");
-                                                // }
+                                                if (isNaN(value)) {
+                                                    return Promise.reject("number has to be a number.");
+                                                }
                                                 if(value<0){
                                                     setButtonDisabled(true);
                                                     return Promise.reject("number cannot be negative 12.");
@@ -910,7 +914,7 @@ const FormComponent = () =>{
                                             </div>: <Form.Item name={key} label={Documents[key]}>
                                     <Upload {...fileProps} customRequest={customRequest} maxCount={1} onRemove={()=>onRemoveFile(key)
                                     }>
-                                                <Button icon={<UploadOutlined />} disabled={!!employeeData[key]}>Upload</Button>
+                                                <Button icon={<UploadOutlined />} disabled={!!(employeeData[key])}>Upload</Button>
                                             </Upload>
                                     </Form.Item>
                                         }
