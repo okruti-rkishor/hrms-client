@@ -3,6 +3,7 @@ import { useState } from "react";
 import rest from "../../services/http/api";
 import "../forgottenPassword/forgottenPassword.scss";
 import Password from "antd/es/input/Password";
+import Column from "antd/es/table/Column";
 
 function ForgottenPassword() {
   const [email, setEmail] = useState("");
@@ -42,6 +43,7 @@ function ForgottenPassword() {
 
   return (
     <>
+         <div className="outer-section-forgotten-passsword"><h1 style={{ fontWeight: 900,textAlign:"center" }}>Forgotten Password</h1>    
       <div className="forgotten-password-container">
         <div className="forgot-password-logo">
           <div>
@@ -335,7 +337,6 @@ function ForgottenPassword() {
         </div>
         <div className="forget-password-content-container">
           <div className="titel-heading">
-            <h1 style={{ fontWeight: 900 }}>Forgotten Password</h1>
             <h3 style={{ margin: "20px 0px" }}>Verify your email address</h3>
           </div>
           <div className="form-field">
@@ -368,7 +369,10 @@ function ForgottenPassword() {
                   name={"otp"}
                   rules={[
                     { required: true, message: "Please input OTP!" },
-                    { pattern: new RegExp("^[A-Za-z\\s]+$"), message: "" },
+                    {
+                      pattern: new RegExp(/^\d{4}$/),
+                      message: "Otp should be a number and only 4 digit",
+                    },
                   ]}
                 >
                   <Input
@@ -474,6 +478,7 @@ function ForgottenPassword() {
           </div>
         </div>
       </div>
+      </div>   
     </>
   );
 }
