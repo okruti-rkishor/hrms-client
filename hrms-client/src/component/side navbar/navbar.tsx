@@ -1,18 +1,16 @@
 import React, {useState} from 'react';
 import {
-    DesktopOutlined,
-    FileOutlined,
-    PieChartOutlined,
+    FormOutlined,
+    SolutionOutlined,
     TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu } from 'antd';
 import {Link} from 'react-router-dom'
 import './navbar.scss'
 
-
-const { Header, Content, Footer, Sider } = Layout;
+const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -31,34 +29,28 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    // getItem('Option 1', '1', <PieChartOutlined />),
-    // getItem('Option 2', '2', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [
-        getItem( <Link to={'/user/create'} className='side-navbar__button'>Create </Link>, '3', ),
-        getItem(<Link className='side-navbar__button' to='/user/detail'>List</Link>, '4', ),
-        // getItem('User 2', '4'),
-        // getItem('User 3', '5'),
+        getItem('Create', '1', <Link to={'/user/create'} className='side-navbar__button'><FormOutlined/></Link>),
+        getItem('List', '2', <Link to={'/user/detail'} className='side-navbar__button'><SolutionOutlined/></Link>),
+        // getItem( <Link to={'/user/create'} className='side-navbar__button'>Create</Link>, '3', ),
+        // getItem(<Link className='side-navbar__button' to='/user/detail'>List</Link>, '4', ),
     ]),
     getItem('Employee', 'sub2', <TeamOutlined />, [
-        getItem(<Link className='side-navbar__button' to='/employee/create'>Create</Link>, '5'),
-        getItem(<Link className='side-navbar__button' to='/employee/search'>Search</Link>, '6'),
+        getItem('Create', '3', <Link to={'/employee/create'} className='side-navbar__button'><FormOutlined/></Link>),
+        getItem('List', '4', <Link to='/employee/search' className='side-navbar__button'><SolutionOutlined/></Link>),
+
+        // getItem(<Link className='side-navbar__button' to='/employee/create'>Create</Link>, '5'),
+        // getItem(<Link className='side-navbar__button' to='/employee/search'>Search</Link>, '6'),
     ]),
-    // getItem('Files', '9', <FileOutlined />),
 ];
+
 
 const Navbar: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
 
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-    } = theme.useToken();
-
     return (
         <div className='side-navbar'>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                {/*<div className="demo-logo-vertical">*/}
-                {/*    <h1 style={{color: 'white'}}>HRMS</h1>*/}
-                {/*</div>*/}
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} style={{ position: 'unset' }}/>
             </Sider>
         </div>

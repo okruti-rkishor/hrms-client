@@ -4,7 +4,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import User from "../user/user";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Form, Input, Checkbox } from "antd";
+import {Button, Form, Input, Checkbox, Image} from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import rest from "../../services/http/api/index";
 
@@ -95,11 +95,11 @@ export default function Login() {
               <div className="login-here">
                 <div className="login-here-detail">
                   <Link to={"/"}>
-                    {" "}
-                    <img
-                      src="icons/hrms-favicon.png"
-                      alt="Hrms Logo"
-                      className="hrms-logo"
+                    <Image
+                        preview={false}
+                        src="icons/hrms-favicon.png"
+                        alt="Hrms Logo"
+                        className="hrms-logo"
                     />
                   </Link>
                   <p className="login-title-text">welcome back !!!</p>
@@ -164,7 +164,7 @@ export default function Login() {
                       />
                     </Form.Item>
                     <Form.Item style={{ textAlign: "right", marginBottom: 'none' }}>
-                      <Link to={"user/forgotten-password"}
+                      <Link to={"/forgot-password"}
                             className='forgot-password'
                             style={{textAlign: "right" }}>
                         Forgot Password?
