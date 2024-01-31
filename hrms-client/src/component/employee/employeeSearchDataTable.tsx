@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { employeeInterface } from './employeeSearch';
+import { useNavigate } from 'react-router-dom';
 
 interface Item {
   id: string;
@@ -71,6 +72,7 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = (record: Item) => record.key === editingKey;
+  const navigate = useNavigate();
 
   const edit = (record: Partial<Item> & { key: React.Key }) => {
     form.setFieldsValue({ name: '', age: '', address: '', ...record });
@@ -149,7 +151,7 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
         const editable = isEditing(record);
         return editable ? (
           <span>
-            <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
+            <Typography.Link onClick={() => (save(record.key))} style={{ marginRight: 8 }}>
               Save
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
@@ -157,8 +159,8 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
             </Popconfirm>
           </span>
         ) : (
-          <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
+          <Typography.Link disabled={editingKey !== ''} onClick={() => navigate(`/employee/create/${record.id}`)}>
+            Edit current
           </Typography.Link>
         );
       },

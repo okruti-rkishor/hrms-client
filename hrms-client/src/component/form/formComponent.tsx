@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState,} from "react";
 import {
     Input,
     Form,
@@ -26,6 +26,8 @@ import {Designation, Gender, Type_Time, Status,Blood_Group,Documents} from "../.
 import { Tabs } from 'antd';
 import type { TabsProps,UploadProps } from 'antd';
 import axios from "axios";
+import {useParams} from "react-router-dom";
+import dayjs from 'dayjs'
 
 
 const FormComponent = () =>{
@@ -38,12 +40,10 @@ const FormComponent = () =>{
         {
             title: 'Personal Details',
             content: 'First-content',
-            fields:["title","firstName","middleName","lastName","gender","DOB"],
         },
         {
             title: 'Address',
             content: 'Second-content',
-            fields:["houseNumber","streetAddress","city","state","postcode"]
         },
         {
             title: 'Contact',
@@ -68,25 +68,25 @@ const FormComponent = () =>{
     ];
     const [document,setDocument]=useState<any>({});
     const [fileUpload,setFileUpload]=useState<any>([]);
-    const [isButtonDisabled, setButtonDisabled] = useState(true);
-    // const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false);
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
     const onChange = (value: any) => {
-        // setCurrent(value);
-        form.validateFields(steps[current].fields).then((result)=>{
+        setCurrent(value);
+        form.validateFields().then((result)=>{
             setCurrent(value);
         }).catch((error)=>{
             console.log("error",error,value);
         });
+
     };
     const onFinish = async (value:object) =>{
         const payload={
             "status": employeeData.status,
-            "employeeCode": "ok12375",
+            "employeeCode": "ok12371",
             "designation": employeeData.designation,
             "joiningDate": employeeData.joiningDate,
             "exitDate": null,
-            "officialEmail": employeeData.companyEmail,
-            "totalExperience": employeeData.experience,
+            "officialEmail": employeeData.officialEmail,
+            "totalExperience": employeeData.totalExperience,
             "type": employeeData.type,
             "name": {
                 "title": employeeData.title,
@@ -95,55 +95,55 @@ const FormComponent = () =>{
                 "lastName": employeeData.lastName
             },
             "gender": employeeData.gender,
-            "dateOfBirth": employeeData.dateofBirth,
+            "dateOfBirth": employeeData.dateOfBirth,
             "age": employeeData.age,
             "qualification":employeeData.qualification,
-            "email": employeeData.personalEmail,
+            "email": employeeData.email,
             "contact": employeeData.contact,
-            "bloodGroup":employeeData.blood_group,
+            "bloodGroup":employeeData.bloodGroup,
             "presentAddress": {
-                "line1": employeeData.houseNumber,
-                "line2": employeeData.streetAddress,
+                "line1": employeeData.line1,
+                "line2": employeeData.line2,
                 "city": employeeData.city,
                 "state": employeeData.state,
-                "zipCode": employeeData.postcode
+                "zipCode": employeeData.zipCode
             },
             "permanentAddress": {
-                "line1": employeeData.houseNumber,
-                "line2": null,
+                "line1": employeeData.line1,
+                "line2": employeeData.line2,
                 "city": employeeData.city,
                 "state": employeeData.state,
-                "zipCode": employeeData.postcode
+                "zipCode": employeeData.zipCode
             },
             "previousExperiences": [
                 {
-                    "employerName": employeeData.companyName,
+                    "employerName": employeeData.employerName,
                     "designation": employeeData.designation,
                     "duration": {
-                        "startDate": employeeData.experiencePicker[0],
-                        "endDate":  employeeData.experiencePicker[1]
+                        "startDate": employeeData.duration[0],
+                        "endDate":  employeeData.duration[1]
                     },
-                    "totalExperience": employeeData.experience,
-                    "annualCTC": employeeData.CTC,
+                    "totalExperience": employeeData.totalExperience,
+                    "annualCTC": employeeData.annualCTC,
                     "skills": [
                         employeeData.skills,
                         employeeData.skills,
                         employeeData.skills
                     ],
-                    "reasonForLeaving": employeeData.reason
+                    "reasonForLeaving": employeeData.reasonForLeaving
                 }
             ],
             "familyDetails": [
                 {
-                    "name": employeeData.relationfirstName+employeeData.relationmiddleName+employeeData.relationlastName,
+                    "name": employeeData.relationfirstName+" "+employeeData.relationmiddleName+" "+employeeData.relationlastName,
                     "gender": employeeData.gender,
-                    "relationType": employeeData.relationDetail,
-                    "mobileNumber": employeeData.relationContact
+                    "relationType": employeeData.relationType,
+                    "mobileNumber": employeeData.mobileNumber
                 }
             ],
             "bankDetails": [
                 {
-                    "accountHolderName": employeeData.accountholderName,
+                    "accountHolderName": employeeData.accountHolderName,
                     "accountNumber": employeeData.accountNumber,
                     "branchName": employeeData.branchName,
                     "branchCode": employeeData.ifscCode,
@@ -154,6 +154,7 @@ const FormComponent = () =>{
         };
         const response = await restApi.employeeCreate(payload);
     }
+    let {id}=useParams();
 
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
@@ -184,8 +185,8 @@ const FormComponent = () =>{
         const response = await restApi.documentUpload(documentPayload).then((info)=>{
             onSuccess("done");
                 setFileUpload([...fileUpload, {"id": info.id,"documentType":info.documentType}]);
+                setButtonDisabled(true);
                 setDocument({});
-                // setUploadButtonDisabled(true);
 
         }).catch((info)=>{
             onError("error")
@@ -193,24 +194,47 @@ const FormComponent = () =>{
     }
 
     const onRemoveFile = async (key:any) => {
+        console.log("key",key);
         let response=fileUpload.find((item:any)=>{
-            if(item.documentType===key) return item.id;
+            if(item.documentType===key) {
+                return item.id;
+            }
             else return "";
         });
+        console.log("response",response);
         if(response){
             await restApi.documentDelete(`${response.id}`).then((info)=>{
-                const newValue=employeeData;
-                delete employeeData[key];
-                setEmployeeData({...newValue});
-                console.log("employeedata",employeeData);
-                console.log(info);
+                const newValue= {...employeeData};
+                delete newValue[key];
+                setButtonDisabled(false);
+                if(document.length>1)delete newValue[key+"number"];
+                setEmployeeData(newValue);
+                const newFile=[...fileUpload];
+                newFile.splice(newFile.findIndex(fileResponse=>fileResponse.id===response.id),1);
+                setFileUpload(newFile);
+
+
+
             }).catch((info)=>{
                 console.log(info);
-
             });
         }
-
     }
+    useEffect(()=>{
+        if(id!=null){
+            restApi.employeeDetailsByID(`${id}`).then((response)=> {
+                    const { name,presentAddress,permanentAddress,...withoutKeyToBeRemoved  } = response;
+                    const after = { ...name,...presentAddress,...permanentAddress,...response.bankDetails[0],...response.familyDetails[0],...response.previousExperiences[0],...withoutKeyToBeRemoved };
+                    form.setFieldsValue({...after,dateOfBirth:dayjs(response.dateOfBirth),joiningDate:dayjs(response.joiningDate),duration:[dayjs(response.previousExperiences[0].duration.startDate),dayjs(response.previousExperiences[0].duration.endDate)]});
+            }
+
+            ).catch((error)=>console.log(error));
+        }
+        },[]);
+
+
+
+
 
     return (
         <div className='parent employee-create-section data-table'>
@@ -224,11 +248,17 @@ const FormComponent = () =>{
                 <Form onFinish={onFinish}
                       style={{width:"74%"}}
                       onValuesChange={(e)=>{
-                          console.log("e",e);
                           if(current>5){
                               setDocument({...document,...e});
+                              const key=Object.keys(e)[0];
+                              if(employeeData[key]){
+                                  onRemoveFile(key)
+                              }else{
+                                  setEmployeeData({...employeeData,...e});
+                              }
+                          }else{
+                              setEmployeeData({...employeeData,...e});
                           }
-                         setEmployeeData({...employeeData,...e});
                       }}
                       form={form}
                       className= 'employee-create-form'
@@ -308,16 +338,16 @@ const FormComponent = () =>{
                                 </Radio.Group>
                             </Form.Item>
                             <Form.Item label="Date of Birth"
-                                       name={"dateofBirth"}
+                                       name={"dateOfBirth"}
                                        rules={[{
                                            required: true,
                                            message: 'Please fill your DOB!',
                                        },]}
                             >
-                                <DatePicker style={{width:"100%"}} disabledDate={(current) => current.isAfter(new Date())}/>
+                                <DatePicker style={{width:"100%"}} format="YYYY-MM-DD"/>
                             </Form.Item>
                             <Form.Item label="Blood Group"
-                                       name={"blood_group"}
+                                       name={"bloodGroup"}
                                        initialValue={Object.keys(Blood_Group)[8]}>
                                 <Select listItemHeight={9} listHeight={310}>
                                     {(Object.keys(Blood_Group) as Array<keyof typeof Blood_Group>).map((key) =>
@@ -387,7 +417,7 @@ const FormComponent = () =>{
                         <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"employee-create-inputs"}>
                             <label>Present Address</label>
                             <Form.Item label={"House number"}
-                                       name={"houseNumber"}
+                                       name={"line1"}
                                        required={true}
                                        rules={[
                                            {
@@ -410,7 +440,7 @@ const FormComponent = () =>{
                                 <Input required={true}/>
                             </Form.Item>
                             <Form.Item label={"Street address"}
-                                       name={"streetAddress"}
+                                       name={"line2"}
                                        required={true}
                                        rules={[{
                                            required:true,
@@ -467,7 +497,7 @@ const FormComponent = () =>{
                                 <Input required={true}/>
                             </Form.Item>
                             <Form.Item label={"Postcode"}
-                                       name={"postcode"}
+                                       name={"zipCode"}
                                        required={true}
                                        rules={[
                                            {
@@ -521,7 +551,7 @@ const FormComponent = () =>{
                                 </Select>
                             </Form.Item>
                             <Form.Item label={"Personal Mail"}
-                                       name={"personalEmail"}
+                                       name={"email"}
                                        required={true}
                                        rules={[
                                            {
@@ -537,7 +567,7 @@ const FormComponent = () =>{
                                 <Input required={true}/>
                             </Form.Item>
                             <Form.Item label={"Company Mail"}
-                                       name={"companyEmail"}
+                                       name={"officialEmail"}
                                        required={true}
                                        rules={[
                                            {
@@ -585,7 +615,7 @@ const FormComponent = () =>{
                                        name={"joiningDate"}
                                        required={true}
                             >
-                                <DatePicker style={{width:"100%"}} format={"YYYY-MM-DD"}/>
+                                <DatePicker style={{width:"100%"}} format="YYYY-MM-DD"/>
 
                             </Form.Item>
                         </div>
@@ -594,7 +624,7 @@ const FormComponent = () =>{
                         <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"Experience employee-create-inputs"}>
                             <label className={"Experience_detail"}>Fill the Experience Detail here</label>
                             <Form.Item label={"Company Name"}
-                                       name={"companyName"}
+                                       name={"employerName"}
                                        required={true}
                                        rules={[{
                                            required:true,
@@ -639,7 +669,7 @@ const FormComponent = () =>{
                                 </Select>
                             </Form.Item>
                             <Form.Item label={"Total experience"}
-                                       name={"experience"}
+                                       name={"totalExperience"}
                                        required={true}
                                        rules={[{
                                            required:true,
@@ -668,7 +698,7 @@ const FormComponent = () =>{
                             <Form.Item label={"Skills"} name={"skills"} required={true}>
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={"Total CTC"} name={"CTC"} required={true} rules={[
+                            <Form.Item label={"Total CTC"} name={"annualCTC"} required={true} rules={[
                                 () => ({
                                 validator(_, value) {
                                     if (!value) {
@@ -685,17 +715,17 @@ const FormComponent = () =>{
                             })]}>
                                 <Input />
                             </Form.Item>
-                            <Form.Item label={"Reason for Leaving"} name={"reason"} required={true}>
+                            <Form.Item label={"Reason for Leaving"} name={"reasonForLeaving"} required={true}>
                                 <Input />
                             </Form.Item>
-                            <Form.Item name="experiencePicker" label="start to end" required={true}>
+                            <Form.Item name="duration" label="start to end" required={true}>
                                 <RangePicker style={{width:"100%"}}/>
                             </Form.Item>
                         </div>
                     </>)}
                     {current === 4 && (<>
                         <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
-                            <Form.Item label={"Relation Detail"} name={"relationDetail"} required={true}>
+                            <Form.Item label={"Relation Detail"} name={"relationType"} required={true}>
                                 <Select style={{ height: "40px" }}>
                                     <Select.Option value="Father">Father</Select.Option>
                                     <Select.Option value="Mother">Mother</Select.Option>
@@ -762,7 +792,7 @@ const FormComponent = () =>{
 
                                 </Radio.Group>
                             </Form.Item>
-                            <Form.Item label={"Contact Number"} name={"relationContact"} required={true}
+                            <Form.Item label={"Contact Number"} name={"mobileNumber"} required={true}
                                        rules={[
                                            {
                                                required: true,
@@ -793,7 +823,7 @@ const FormComponent = () =>{
                     </>)}
                     {current === 5 && (<>
                         <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
-                            <Form.Item name={"accountholderName"} label={"Account Holder Name"} rules={[
+                            <Form.Item name={"accountHolderName"} label={"Account Holder Name"} rules={[
 
                                 () => ({
                                     validator(_, value) {
@@ -866,54 +896,47 @@ const FormComponent = () =>{
                         <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
 
                             {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key) => {
-                                // console.log("keys",key,employeeData[key]);
                                 return (key==="AADHAAR_CARD" || key==="PAN_CARD") ? <div className={"uploadDocument"} key={key}>
                                     <div>
                                     <label style={{textWrap:"nowrap"}}>{key} :</label>
                                     </div>
                                     <div className={"uploadDocument_withNumber"}>
-                                        <Form.Item name={key}>
-                                            <Upload {...fileProps} customRequest={customRequest} maxCount={1}>
-                                                <Button icon={<UploadOutlined />} disabled={!(employeeData[key+"number"] && employeeData[key+"number"].length==12 )}>Upload</Button>
+                                        <Form.Item name={key} key={key}>
+                                            <Upload {...fileProps} customRequest={customRequest} maxCount={1} key={key}>
+                                                <Button icon={<UploadOutlined />} disabled={!!employeeData[key]}>Upload</Button>
                                             </Upload>
                                     </Form.Item>
                                     <Form.Item name={key+"number"} rules={[
                                         () => ({
-                                            validator(_, value) {
-                                                if (isNaN(value)) {
-                                                    return Promise.reject("number has to be a number.");
-                                                }
-                                                if(value<0){
-                                                    setButtonDisabled(true);
-                                                    return Promise.reject("number cannot be negative 12.");
-                                                }
+                                                validator(_, value) {
+                                                    if (isNaN(value)) {
+                                                        return Promise.reject("number has to be a number.");
+                                                    }
+                                                    if(value<0){
+                                                        return Promise.reject("number cannot be negative.");
+                                                    }
 
-                                                if(value.length>12){
-                                                    setButtonDisabled(true);
-                                                    return Promise.reject("number cannot be greater than 12.");
-                                                }
+                                                    if(value.length>12){
+                                                        return Promise.reject("number cannot be greater than 12.");
+                                                    }
 
-                                                if(value.length===12){
-                                                    setButtonDisabled(false);
+                                                    if(value.length===12){
+                                                        return Promise.resolve();
+                                                    }else if(value.length<12){
+                                                        return Promise.reject("number cannot be less than 12.");
+
+                                                    }
                                                     return Promise.resolve();
-                                                }else if(value.length<12){
-                                                    setButtonDisabled(true);
-                                                    return Promise.reject("number cannot be less than 12.");
-
-                                                }
-                                                return Promise.resolve();
-                                            },
-                                        }
+                                                },
+                                            }
                                         ),
-                                    ]}
-                                    >
-                                        <Input style={{height:"32px",maxWidth:"150px"}}/>
+                                    ]} key={key}>
+                                        <Input style={{height:"32px",maxWidth:"150px"}} disabled={isButtonDisabled && !!(employeeData[key])} key={key}/>
                                     </Form.Item>
                                     </div>
 
                                             </div>: <Form.Item name={key} label={Documents[key]}>
-                                    <Upload {...fileProps} customRequest={customRequest} maxCount={1} onRemove={()=>onRemoveFile(key)
-                                    }>
+                                    <Upload {...fileProps} customRequest={customRequest} maxCount={1} >
                                                 <Button icon={<UploadOutlined />} disabled={!!(employeeData[key])}>Upload</Button>
                                             </Upload>
                                     </Form.Item>
@@ -934,6 +957,8 @@ const FormComponent = () =>{
             </div>
         </div>
     )
+
+
 }
 
 export default FormComponent;

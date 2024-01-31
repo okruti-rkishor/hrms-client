@@ -26,7 +26,12 @@ const router = createBrowserRouter(
                 <Route path='/user/detail' element={<UserDataTable/>}/>
                 <Route path='/user/create' element={<UserCreate/>}/>
                 <Route path='/employee/search' element={<EmployeeSearch />}/>
+
                 <Route path='/event/birthday' element={<Birthday />}/>
+
+                <Route path='/event/birthday/:id' element={<Birthday />}/>
+                <Route path={'/employee/create/:id'} element={<FormComponent/>}/>
+
                 {/*<Route path='/temp' element={<TempFile />}/>*/}
             </Route>
 

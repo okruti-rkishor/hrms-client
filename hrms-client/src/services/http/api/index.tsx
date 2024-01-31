@@ -26,7 +26,12 @@ export default {
     documentDelete:(id: string) => rest.del(base + `document/${id}`, {}, id),
     sendOtp:(data: any) => rest.post(base + `auth/send-otp`, {},{},data),
     verifyOtp:(data: any) => rest.post(base + `auth/verify-otp`,{},{}, data),
+
     resetPassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
+
+    generatePassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
+    employeeDetailsByID:(id: any) => rest.get(base + `employee/${id}`)
+
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),
     // unAssigned:(le_id: string, lec_id: string) => rest.get(base + "/assigned?assigned=false", { le_id, lec_id}),
