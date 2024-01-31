@@ -2,6 +2,7 @@ import { Header } from "antd/es/layout/layout";
 import { Button, Col, Row } from "antd";
 import "./header.scss";
 import { Link } from "react-router-dom";
+import UserLoginCard from "../home/userLoginCard";
 
 const HeaderComponent = () => {
   return (
@@ -13,6 +14,7 @@ const HeaderComponent = () => {
           </Link>
         </Col>
         <Col>
+          <UserLoginCard />
           <Button className={"login-button"} href={"/login"}>
             Log In
           </Button>

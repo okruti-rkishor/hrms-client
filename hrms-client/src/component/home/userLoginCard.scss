@@ -1,0 +1,15 @@
+.user-login-card {
+  display: flex;
+}
+
+.user-login-popover {
+  background: white;
+  padding: 5px 5px 8px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  width: 38px;
+  cursor: pointer;
+}
