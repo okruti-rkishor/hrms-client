@@ -8,6 +8,7 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
     const navigate = useNavigate();
 
     const handleClick = () => {
+        console.log(title)
         navigate(`/user/detail?userTitle=${title.toUpperCase()}`);
     };
 
@@ -28,14 +29,13 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
 }
 
 
-
 function EventsCountCard ({ title = "", count = 0, className = "", ...props }) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        navigate(`/event/birthday/${{events: props.eventType.birthday}}`);
+        navigate(`/event/birthday`);
         // navigate('/login')
-        console.log(props.eventType);
+        // console.log(props.eventType);
     };
 
     return (

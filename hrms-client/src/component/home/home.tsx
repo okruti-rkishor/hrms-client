@@ -9,11 +9,11 @@ import {PageHeader} from "@ant-design/pro-layout";
 
 const eventData = {
   birthDay: [
-    { employeeName: "Gaurav Joshi", dateOfBirth: "2024-01-24" },
-    { employeeName: "Gaurav Joshi", dateOfBirth: "2024-01-2" },
-    { employeeName: "Gaurav Joshi", dateOfBirth: "2024-01-28" },
-    { employeeName: "Gaurav Joshi", dateOfBirth: "2024-01-30" },
-    { employeeName: "Gaurav Joshi", dateOfBirth: "2024-01-23" },
+    { employeeName: "Anay", dateOfBirth: "2024-01-24" },
+    { employeeName: "Abhishek", dateOfBirth: "2024-01-2" },
+    { employeeName: "Raghu", dateOfBirth: "2024-01-28" },
+    { employeeName: "Rahul Kumar", dateOfBirth: "2024-01-30" },
+    { employeeName: "DJ", dateOfBirth: "2024-01-23" },
   ],
 };
 
