@@ -1,35 +1,30 @@
 import "./login.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import User from "../user/user";
 import { Link, useNavigate } from "react-router-dom";
-import {Button, Form, Input, Checkbox, Image} from "antd";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import {Button, Form, Input, Image} from "antd";
 import rest from "../../services/http/api/index";
+import {jwtDecode} from 'jwt-decode';
+import UserLoginContext from "../../context/userLoginContext";
 
 type emailInputValueType = {
   email?: string;
   password?: string;
 };
 
-// type FieldType = {
-//   username?: string;
-//   password?: string;
-// };
-
 export default function Login() {
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState<any>({});
-  const [userInputValues, setUserInputValues] = useState<emailInputValueType>(
-    {}
-  );
+  const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
   const navigate = useNavigate();
+  const [decodeToken, setDecodeToken] = useState({ });
+  const { newUser, setNewUser,} = useContext<any>(UserLoginContext);
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse: any) => {
       setUser(codeResponse);
-      console.log(codeResponse);
       navigate("/");
     },
     onError: (error) => console.log("Login Failed:", error),
@@ -40,20 +35,34 @@ export default function Login() {
   };
 
   const onFinish = async (values: any) => {
-    console.log("Success:", values);
-    //Api call
-    console.log(userInputValues);
     const response = await rest.userLogin(userInputValues);
-    if ("response") {
+    const token = response.jsonToken;
+    let decoded = null;
+
+    if (response.jsonToken) {
+      try {
+        // Decode the token without the secret key
+        decoded = (jwtDecode(token));
+        setDecodeToken(decoded);
+        console.log('Decoded JWT:', decoded);
+      } catch (error:any) {
+        console.error('Error decoding JWT:', error.message);
+      }
+      const userLoginData = await rest.userLoginDetail(values.email);
+      const userCardData = {...userLoginData,loginStatus:true};
+      setNewUser(userCardData);
+      console.log("User Data =", userLoginData);
       navigate("/");
+    } else {
+      navigate("/login");
     }
 
-    console.log(response);
+    console.log("Response =", response);
   };
 
-  // const setInputValues = useCallback((email: string, password: string) => {
-  //   setUserInputValues({username:email,password:password});
-  // },[]);
+
+
+
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -74,7 +83,6 @@ export default function Login() {
         .then((res) => {
           setProfile(res.data);
           navigate("/");
-          console.log(res.data);
         })
         .catch((err) => console.log(err));
     }

@@ -13,7 +13,8 @@ export default {
     // isCodeExist: (le_id: string, lec_id: string, code:string) => rest.get(base + "/code/{{code}}/exists", { le_id, lec_id, code }),
     // isNameExist: (le_id: string, lec_id: string, name: string) => rest.get(base + "/name/{{name}}/exists", { le_id, lec_id, name }),
     // assignToCustomer:(le_id: string, lec_id: string, id: string, data: any) => rest.post(base + "/{{id}}/customer", { le_id, lec_id, id }, data),
-    // userData:
+
+
     allUsersData:() => rest.get(base + "user/all"),
     userCount:() => rest.get(base + "user/count-by-role"),
     userCreate:(data: any) => rest.post(base + "user/register", {}, data),
@@ -26,11 +27,10 @@ export default {
     documentDelete:(id: string) => rest.del(base + `document/${id}`, {}, id),
     sendOtp:(data: any) => rest.post(base + `auth/send-otp`, {},{},data),
     verifyOtp:(data: any) => rest.post(base + `auth/verify-otp`,{},{}, data),
-
     resetPassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
-
     generatePassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
-    employeeDetailsByID:(id: any) => rest.get(base + `employee/${id}`)
+    employeeDetailsByID:(id: any) => rest.get(base + `employee/${id}`),
+    userLoginDetail:(mail: any) => rest.get(base + `user?email=${mail}`),
 
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),

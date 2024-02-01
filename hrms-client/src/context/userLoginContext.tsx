@@ -25,7 +25,7 @@ const UserLoginContext = createContext<UserContextType>({});
 export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [newUser, setNewUser] = useState<UserLoginInterface | null>({
+  const [newUser, setNewUser] = useState<any>({
     loginStatus: false,
     id: "",
     email: "",

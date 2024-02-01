@@ -1,8 +1,4 @@
-.user-login-card {
-  display: flex;
-}
-
-.user-login-popover {
+.user-login-avatar {
   background: white;
   padding: 5px 5px 8px;
   border-radius: 50px;
@@ -13,3 +9,27 @@
   width: 38px;
   cursor: pointer;
 }
+
+.user-login-card {
+  .ant-card .ant-card-body {
+    padding: 16px;
+  }
+
+  .logout-button {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+
+    > button {
+      height: unset;
+      padding: 4px 16px;
+      border: unset;
+      border-radius: 24px;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+  }
+}
+
