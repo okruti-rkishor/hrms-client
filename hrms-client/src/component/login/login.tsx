@@ -41,28 +41,20 @@ export default function Login() {
 
     if (response.jsonToken) {
       try {
-        // Decode the token without the secret key
         decoded = (jwtDecode(token));
         setDecodeToken(decoded);
-        console.log('Decoded JWT:', decoded);
       } catch (error:any) {
         console.error('Error decoding JWT:', error.message);
       }
+
       const userLoginData = await rest.userLoginDetail(values.email);
       const userCardData = {...userLoginData,loginStatus:true};
       setNewUser(userCardData);
-      console.log("User Data =", userLoginData);
       navigate("/");
     } else {
       navigate("/login");
     }
-
-    console.log("Response =", response);
   };
-
-
-
-
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);

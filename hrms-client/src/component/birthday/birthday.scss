@@ -1,0 +1,27 @@
+.birthday-event-section {
+
+  .today-birthday {
+    &-section {
+      padding: 20px 0;
+      margin-bottom: 100px;
+      background-color: highlight;
+      color: black;
+    }
+
+    &-title {
+      line-height: 60px;
+      font-size: 40px;
+    }
+
+    &-name {
+      font-size: 18px;
+      line-height: 24px;
+      padding: 0;
+    }
+  }
+
+  .other-birthday-list {
+    display: flex;
+    justify-content: space-around;
+  }
+}

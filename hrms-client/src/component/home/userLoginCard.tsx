@@ -1,9 +1,8 @@
 import React, {useContext} from 'react';
 import {Avatar, Button, Card, Popover, Tag,} from 'antd';
-import './userLoginCard.scss';
 import UserLoginContext from "../../context/userLoginContext";
-import {jwtDecode} from "jwt-decode";
 import rest from "../../services/http/api";
+import './userLoginCard.scss';
 
 const { Meta } = Card;
 
@@ -31,7 +30,6 @@ const UserDataContent = () => {
                 lastName: "",
                 role: "",
             });
-            console.log("Logged out the User!")
         } catch (error:any) {
             console.error('Unable to Logout the User:', error.message);
         }
@@ -43,8 +41,7 @@ const UserDataContent = () => {
             className='user-login-card'
             cover={
                 <img
-                    alt="example"
-                    // src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    alt="example cover"
                     src="https://picsum.photos/id/1/300/180?blur=3"
                 />
             }
@@ -71,7 +68,6 @@ const UserDataContent = () => {
 
 
 const UserLoginCard = () => {
-
     return (
         <Popover content={<UserDataContent />}  trigger="click">
             <div className='user-login-avatar'>

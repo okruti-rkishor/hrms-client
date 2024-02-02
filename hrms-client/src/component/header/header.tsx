@@ -9,7 +9,6 @@ import {useContext} from "react";
 
 const HeaderComponent = () => {
   const {newUser} = useContext<any>(UserLoginContext);
-  console.log("Is user logged in? :", newUser.loginStatus);
 
   return (
     <Header>

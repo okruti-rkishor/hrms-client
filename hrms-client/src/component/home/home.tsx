@@ -23,7 +23,7 @@ function Home() {
   const [countEmployee, setCountEmployee] = useState(0);
   const [events, setEvents] = useState(eventData);
   const {todayBirthday,pastBirthday,upcomingBirthday,setTodayBirthday,setPastBirthday,setUpcomingBirthday, myValue, updateValue } = useContext<any>(BirthdayContext);
- 
+
 
   // const navigate = useNavigate();
 
@@ -34,17 +34,13 @@ function Home() {
 
   const getAllBirthday = async () => {
     const response = await restApi.allBirthday();
-    console.log("getAllBirthday", response)
-    setTodayBirthday(response.today);
-    setUpcomingBirthday(response.upcoming);
-    setPastBirthday(response.passed);
+    setTodayBirthday(response.today??[]);
+    setUpcomingBirthday(response.upcoming??[]);
+    setPastBirthday(response.passed??[]);
   };
 
   const userCount = async () => {
     const response = await restApi.userCount();
-    // const birthdayResponse = await restApi.
-    console.log(response);
-    // updateValue(response);
 
     for (let i = 0; i < response.length; i++) {
       if (response[i].role === "ADMIN") {

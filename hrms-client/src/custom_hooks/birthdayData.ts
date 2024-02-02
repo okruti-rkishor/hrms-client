@@ -12,16 +12,17 @@ const BirthdayData=()=>{
     },[])
     const getAllUser =async()=>{
         if(!(todayBirthday.length||pastBirthday.length||upcomingBirthday.length)){
-        
+
                 const response = await rest.allBirthday();
                 if(response){
                     setValue(response)
-                    setTodayBirthday(response.today);
-                    setUpcomingBirthday(response.upcoming);
-                    setPastBirthday(response.passed);
+                    setTodayBirthday(response.today??[]);
+                    setUpcomingBirthday(response.upcoming??[]);
+                    setPastBirthday(response.passed??[]);
                 }
         }
     }
    return [value];
 }
+
 export default BirthdayData;
