@@ -1,13 +1,14 @@
 import React, {useContext} from 'react';
-import {Avatar, Button, Card, Form, Popover, Tag,} from 'antd';
+import {Avatar, Button, Card, Popover, Tag,} from 'antd';
 import './userLoginCard.scss';
 import UserLoginContext from "../../context/userLoginContext";
+import {jwtDecode} from "jwt-decode";
+import rest from "../../services/http/api";
 
 const { Meta } = Card;
 
 const UserDataContent = () => {
-    const {newUser} = useContext<any>(UserLoginContext);
-    console.log(newUser);
+    const {newUser, setNewUser} = useContext<any>(UserLoginContext);
     const role = newUser.role;
 
     let color;
@@ -19,6 +20,23 @@ const UserDataContent = () => {
         color = 'green';
     }
 
+    const handleLogout = async () => {
+        try {
+            await rest.userLogout();
+            setNewUser({
+                loginStatus: false,
+                id: "",
+                email: "",
+                firstName: "",
+                lastName: "",
+                role: "",
+            });
+            console.log("Logged out the User!")
+        } catch (error:any) {
+            console.error('Unable to Logout the User:', error.message);
+        }
+    }
+
     return (
         <Card
             style={{ width: 300 }}
@@ -26,32 +44,33 @@ const UserDataContent = () => {
             cover={
                 <img
                     alt="example"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    // src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    src="https://picsum.photos/id/1/300/180?blur=3"
                 />
             }
         >
             <Meta
                 title = {`${newUser.firstName} ${newUser.lastName}`}
                 description={[
-                    <div>
-                        <p>{newUser.email}</p>
+                    <>
+                        <h5 className='user-card-mail'>{newUser.email}</h5>
                         {role &&
-                            <Tag color={color} key={role}>
+                            <Tag color={color} key={role} className='user-card-role'>
                                 {role.toUpperCase()}
                             </Tag>
                         }
-                    </div>
+                    </>
                 ]}
             />
             <div className="logout-button">
-                <Button type="primary" danger htmlType="submit">Logout &#8640;</Button>
+                <Button type="primary" onClick={handleLogout}>Logout &#8640;</Button>
             </div>
         </Card>
     )
 };
 
+
 const UserLoginCard = () => {
-    // const {newUser} = useContext<any>(UserLoginContext);
 
     return (
         <Popover content={<UserDataContent />}  trigger="click">

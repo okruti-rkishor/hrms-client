@@ -11,14 +11,36 @@
 }
 
 .user-login-card {
-  .ant-card .ant-card-body {
+
+  &.ant-card {
+    .ant-card-meta-title {
+      font-size: 24px;
+      line-height: 28px;
+    }
+  }
+
+  .ant-card-body {
     padding: 16px;
+  }
+
+  .user-card-mail {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000000cc;
+    margin-bottom: 8px;
+  }
+
+  .user-card-role {
+    padding: 1px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid;
   }
 
   .logout-button {
     width: 100%;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 36px;
 
     > button {
       height: unset;
@@ -29,6 +51,12 @@
       font-size: 16px;
       font-weight: 500;
       cursor: pointer;
+      background-color: #ff88be;
+
+      &:hover {
+        background-color: #ff6cae !important;
+        transition: all 250ms ease-in-out;
+      }
     }
   }
 }

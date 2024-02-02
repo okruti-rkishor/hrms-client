@@ -3,8 +3,14 @@ import { Button, Col, Row } from "antd";
 import "./header.scss";
 import { Link } from "react-router-dom";
 import UserLoginCard from "../home/userLoginCard";
+import UserLoginContext from "../../context/userLoginContext";
+import {useContext} from "react";
+
 
 const HeaderComponent = () => {
+  const {newUser} = useContext<any>(UserLoginContext);
+  console.log("Is user logged in? :", newUser.loginStatus);
+
   return (
     <Header>
       <Row>
@@ -14,11 +20,12 @@ const HeaderComponent = () => {
           </Link>
         </Col>
         <Col>
-          <UserLoginCard />
-          <Button className={"login-button"} href={"/login"}>
-            Log In
-          </Button>
-          {/*<Button className={'signup-button'} href={'/login'}>Sign Up</Button>*/}
+          {
+            newUser.loginStatus ? <UserLoginCard /> :
+                <Button className={"login-button"} href={"/login"}>
+                  Log In
+                </Button>
+          }
         </Col>
       </Row>
     </Header>
