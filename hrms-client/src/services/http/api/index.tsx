@@ -31,6 +31,8 @@ export default {
     generatePassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
     employeeDetailsByID:(id: any) => rest.get(base + `employee/${id}`),
     userLoginDetail:(mail: any) => rest.get(base + `user?email=${mail}`),
+    allBirthday:() => rest.get(base + "event/birthday"),
+
 
 
     // assignedCustomers:(le_id: string, lec_id: string, id: string) => rest.get(base + "/{{id}}/customer", { le_id, lec_id, id }),

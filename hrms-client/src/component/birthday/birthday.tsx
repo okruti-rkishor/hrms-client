@@ -1,7 +1,11 @@
-import {Key, useState} from 'react';
+import {Key, useState, useContext, useEffect} from 'react';
 import {Layout, Table } from 'antd';
 import {PageHeader} from "@ant-design/pro-layout";
 import dayjs from 'dayjs'
+import BirthdayContext from '../../context/birthdayContext';
+import rest from '../../services/http/api'
+import BirthdayData from '../../hooks/birthdayData';
+
 
 type Employee = {
   key: Key;
@@ -33,24 +37,31 @@ const columns = [
 
 
 const Birthday = () => {
-  // const todayDate = createTodayDate()
-  const [todayBirthday, setTodayBirthday] = useState(data.filter(item=>(dayjs(item.dateOfBirth)).isSame(dayjs().format('YYYY-MM-DD')),'day'))
-  const [upcommingBirthday, setUpcomming] = useState(data.filter(item=>(new Date(item.dateOfBirth.toString())) >= new Date()))
-  const [previousBirthday, setPreviousBirthday] = useState(data.filter(item=>(new Date(item.dateOfBirth.toString())) <= new Date()))
+  const [value]:any = BirthdayData();
+  
+  const {todayBirthday,pastBirthday,upcomingBirthday,setTodayBirthday,setPastBirthday,setUpcomingBirthday, myValue, updateValue } = useContext<any>(BirthdayContext);
+
   const onChange = (pagination:any, filters:any, sorter:any) => {
     console.log('Table onChange:', pagination, filters, sorter);
     // Add your logic here for handling table changes
   };
-console.log("upcommingBirthday",upcommingBirthday)
-console.log("previousBirthday", previousBirthday)
+console.log("upcommingBirthday",upcomingBirthday)
+console.log("previousBirthday", pastBirthday)
 console.log("todayBirthday", todayBirthday)
 
+useEffect(()=>{ 
+  
+},[])
+const getAllBirthdays = async()=>{
+  const resp = await rest.allBirthday()
 
+}
+console.log(value);
   return (
             <Layout className='data-table'>
-              <div style={{height:'50px', marginBottom:'100px',backgroundColor:"Highlight",color:"black"}}>
+              <div style={{height:"fit-content", marginBottom:'100px',backgroundColor:"Highlight",color:"black"}}>
                 <h3>Today Birthday</h3>
-                {todayBirthday.map(user=><div>{user.employeeName}</div>)}
+                {todayBirthday.map((user:any)=><span style={{margin:"30px", padding:'0px'}} key={user.name}>{user.employeeName}</span>)}
               </div>
               <div style={{display:"flex", justifyContent:"space-evenly"}}>
               <PageHeader
@@ -58,14 +69,14 @@ console.log("todayBirthday", todayBirthday)
                   title="Upcoming Birthdays"
                   subTitle="The list of all upcoming birthdays"
             >
-              <Table columns={columns} dataSource={upcommingBirthday} onChange={onChange} />
+              <Table columns={columns} dataSource={upcomingBirthday} onChange={onChange} />
             </PageHeader>
             <PageHeader
                   className=""
                   title="Past Birthdays"
                   subTitle="The list of all previous birthdays"
             >
-              <Table columns={columns} dataSource={previousBirthday} onChange={onChange} />
+              <Table columns={columns} dataSource={pastBirthday} onChange={onChange} />
             </PageHeader>
               </div>
             </Layout>
