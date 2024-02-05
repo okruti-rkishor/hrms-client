@@ -6,38 +6,24 @@ import { EventsCountCard, UserCountCard } from "./userCountCard";
 import "./home.scss";
 import { PageHeader } from "@ant-design/pro-layout";
 import BirthdayContext from "../../context/birthdayContext";
-
-const eventData = {
-  birthDay: [
-    { employeeName: "Anay", dateOfBirth: "2024-01-24" },
-    { employeeName: "Abhishek", dateOfBirth: "2024-01-2" },
-    { employeeName: "Raghu", dateOfBirth: "2024-01-28" },
-    { employeeName: "Rahul Kumar", dateOfBirth: "2024-01-30" },
-    { employeeName: "DJ", dateOfBirth: "2024-01-23" },
-  ],
-};
+import BirthdayData from "../../custom_hooks/birthdayData";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  BirthdayData();
   const [countAdmin, setCountAdmin] = useState(0);
   const [countHR, setCountHR] = useState(0);
   const [countEmployee, setCountEmployee] = useState(0);
-  const [events, setEvents] = useState(eventData);
-  const {todayBirthday,pastBirthday,upcomingBirthday,setTodayBirthday,setPastBirthday,setUpcomingBirthday, myValue, updateValue } = useContext<any>(BirthdayContext);
-
-
-  // const navigate = useNavigate();
+  const { birthdayData, anniversaryData } = useContext<any>(BirthdayContext);
+  // const birthdayCount = birthdayData.today.length + birthdayData.passed.length + birthdayData.upcoming.length;
+  const birthdayCount = 0;
+  const anniversaryCount = 0;
+  // const anniversaryCount =anniversaryData.today.length + anniversaryData.passed.length + anniversaryData.upcoming.length;
+  const navigate = useNavigate();
 
   useEffect(() => {
     userCount();
-    getAllBirthday();
   }, []);
-
-  const getAllBirthday = async () => {
-    const response = await restApi.allBirthday();
-    setTodayBirthday(response.today??[]);
-    setUpcomingBirthday(response.upcoming??[]);
-    setPastBirthday(response.passed??[]);
-  };
 
   const userCount = async () => {
     const response = await restApi.userCount();
@@ -74,17 +60,17 @@ function Home() {
   const eventsCountCardProps = [
     {
       title: "Birthday",
-      count: events.birthDay.length,
+      count: birthdayCount,
       className: "admin",
     },
     {
       title: "Work Anniversary",
-      count: events.birthDay.length,
+      count: anniversaryCount,
       className: "hr-user",
     },
     {
       title: "Work Anniversary",
-      count: events.birthDay.length,
+      count: birthdayCount,
       className: "employee",
     },
   ];
@@ -117,8 +103,9 @@ function Home() {
               key={index}
               title={card.title}
               count={card.count}
-              eventType={events}
+              // eventType={events}
               className={card.className}
+              onClickCard={card.onclickCard}
             />
           ))}
         </Row>

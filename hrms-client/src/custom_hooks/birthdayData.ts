@@ -4,25 +4,52 @@ import rest from '../services/http/api'
 
 
 const BirthdayData=()=>{
-    const [value, setValue] = useState('')
-    const {todayBirthday,pastBirthday,upcomingBirthday,setTodayBirthday,setPastBirthday,setUpcomingBirthday} = useContext<any>(BirthdayContext);
+    const [birthdayTempData, setBirthdayTempData] = useState({})
+    const [anniversaryTempData, setAnniversaryTempData] = useState({})
+    const {updateBirthdayValue, updateAnniversaryValue} = useContext<any>(BirthdayContext);
+
+    const getBirthdayUser =async()=>{
+                try {
+                    const response = await rest.allBirthday();
+                if(response){
+                    const resp = {
+                        today:response.today??[],
+                        upcoming:response.upcoming??[],
+                        passed:response.passed??[]
+                    }
+                    // console.log(resp, "Birthday")
+                    setBirthdayTempData(resp)
+                    updateBirthdayValue(resp)                 
+                }
+                } catch (error) {
+                    
+                }
+    }
+    const getAnniversaryUser =async()=>{
+                try {
+                    const response = await rest.allAnniversary();
+                if(response){
+                    const resp = {
+                        today:response.today??[],
+                        upcoming:response.upcoming??[],
+                        passed:response.passed??[]
+                    }
+                    // console.log( resp,"Anniversary");
+                    setAnniversaryTempData(resp)
+                    updateAnniversaryValue(resp)
+                                     
+                }
+                } catch (error) {
+                    
+                }
+    }
 
     useEffect(()=>{
-        getAllUser();
+        getBirthdayUser();
+        getAnniversaryUser()
     },[])
-    const getAllUser =async()=>{
-        if(!(todayBirthday.length||pastBirthday.length||upcomingBirthday.length)){
 
-                const response = await rest.allBirthday();
-                if(response){
-                    setValue(response)
-                    setTodayBirthday(response.today??[]);
-                    setUpcomingBirthday(response.upcoming??[]);
-                    setPastBirthday(response.passed??[]);
-                }
-        }
-    }
-   return [value];
+   return [birthdayTempData, anniversaryTempData];
 }
 
 export default BirthdayData;

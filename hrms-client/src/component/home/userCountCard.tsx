@@ -32,22 +32,26 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
 function EventsCountCard ({ title = "", count = 0, className = "", ...props }) {
     const navigate = useNavigate();
 
-    const handleClick = () => {
+    const handleBirthdayClick = () => {
         navigate(`/event/birthday`);
-        // navigate('/login')
-        // console.log(props.eventType);
+
+    };
+    const handleAnniversaryClick = () => {
+        navigate(`/event/anniversary`);
+
     };
 
     return (
         <Col className="gutter-row" span={7}>
             <Card title={title}
                   className={`${className} user-card`}
-                  onClick={()=>{handleClick()}}
+                  onClick={()=>{title==="Birthday"?handleBirthdayClick():handleAnniversaryClick()}}
             >
                 <CountUp start={0}
                          end={count}
                          duration={2}
                          className="user-count"
+                         
                 />
 
                 {props.todayBirthday&&<p>props.todayBirthday</p>}

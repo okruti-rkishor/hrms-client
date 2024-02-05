@@ -14,7 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmployeeSearch from './component/employee/employeeSearch';
 import ForgotPassword from './component/forgotPassword/forgotPassword';
-import Birthday from './component/birthday/birthday';
+import Birthday from './component/events/birthday/birthday';
+import Anniversary from './component/events/anniversary/anniversary';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
                 <Route path='/employee/search' element={<EmployeeSearch />}/>
 
                 <Route path='/event/birthday' element={<Birthday />}/>
+                <Route path='/event/anniversary' element={<Anniversary />}/>
 
                 <Route path='/event/birthday/:id' element={<Birthday />}/>
                 <Route path={'/employee/create/:id'} element={<FormComponent/>}/>
