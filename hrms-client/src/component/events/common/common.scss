@@ -16,6 +16,12 @@
         gap: 24px;
       }
 
+      .ant-page-header-heading-title {
+        line-height: 36px;
+        font-size: 28px;
+        margin-bottom: 24px;
+      }
+
       .ant-page-header-heading {
         justify-content: center;
       }
@@ -66,11 +72,5 @@
   .other-birthday-list {
     display: flex;
     justify-content: space-around;
-  }
-
-  .ant-page-header-heading-title {
-    line-height: 36px;
-    font-size: 28px;
-    margin-bottom: 24px;
   }
 }

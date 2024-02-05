@@ -1,12 +1,11 @@
-import BirthdayData from "../../../custom_hooks/birthdayData";
+import EventData from "../../../custom_hooks/eventData";
 import Common from "../common/common";
-import BirthdayContext from "../../../context/birthdayContext";
+import EventContext from "../../../context/eventContext";
 import { useContext, useEffect } from "react";
 
 function Anniversary() {
-  BirthdayData('anniversary');
-  const { anniversaryData } = useContext<any>(BirthdayContext);
-  console.log("anniversary11", anniversaryData);
+  EventData('anniversary');
+  const { anniversaryData } = useContext<any>(EventContext);
   const data11 = anniversaryData;
 
   const newData = {
@@ -31,7 +30,7 @@ function Anniversary() {
     upcoming:
       (data11.upcoming &&
         data11.upcoming.map((item: any) => {
-          
+
           item.date = item.dateOfJoining ??item.dateOfJoining;
           delete item["dateOfJoining"];
           return item;

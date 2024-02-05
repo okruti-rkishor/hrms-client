@@ -5,6 +5,7 @@ import { PageHeader } from '@ant-design/pro-layout';
 import './userDataTable.scss';
 import restApi from "../../services/http/api";
 import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
+import {User_type} from "../../constant/constant";
 
 
 interface Item {
@@ -25,6 +26,8 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
 }
 
+const userTypesEnum = Object.keys(User_type);
+
 const EditableCell: React.FC<EditableCellProps> = ({   editing,
                                                        dataIndex,
                                                        title,
@@ -35,15 +38,13 @@ const EditableCell: React.FC<EditableCellProps> = ({   editing,
                                                        ...restProps
                                                    }) => {
 
-    const inputNode = inputType === 'number' ? <Select placeholder="Select the role"
-                                                       // defaultValue={'EMPLOYEE'}
-                                                       style={{ flex: 1 }}
-                                                       options={[
-                                                           { value: 'ADMIN', label: 'ADMIN' },
-                                                           { value: 'HR', label: 'HR' },
-                                                           { value: 'EMPLOYEE', label: 'EMPLOYEE' },
-                                                       ]}
-                                                /> : <Input />;
+    const inputNode = inputType === 'number' ? <Select placeholder="Select the role" style={{ flex: 1 }}>
+        {userTypesEnum.map(userType=>
+            <Select.Option key={userType} value={userType.toString().toUpperCase()}>
+                {userType.toString().toUpperCase()}
+            </Select.Option>)
+        }
+    </Select> : <Input />;
 
         return (
             <td {...restProps}>
@@ -107,6 +108,7 @@ const TempFile: React.FC = () => {
     const getDefaultFilter=()=>{
         if(navigatedUser.get('userTitle')){
             return [navigatedUser.get('userTitle')];
+
         }else {
             return [];
         }
@@ -250,13 +252,18 @@ const TempFile: React.FC = () => {
         };
     });
 
+    function capitalizeTitle(s: string){
+        return s.toLowerCase().replace( /\b./g, function(a: string){ return a.toUpperCase(); } );
+    }
 
     return (
         <Layout className='data-table user-data-table'>
             <Divider orientation="left">
                 <PageHeader
                     className="site-page-header"
-                    title="Users List"
+                    title= {navigatedUser.get('userTitle') ?
+                        `${capitalizeTitle(`${navigatedUser.get('userTitle')}`)} List` : 'Users List'
+                    }
                 />
             </Divider>
             <Form form={form} component={false} >

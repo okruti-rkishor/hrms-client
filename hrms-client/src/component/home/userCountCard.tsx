@@ -8,7 +8,6 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
     const navigate = useNavigate();
 
     const handleClick = () => {
-        console.log(title)
         navigate(`/user/detail?userTitle=${title.toUpperCase()}`);
     };
 
@@ -51,7 +50,7 @@ function EventsCountCard ({ title = "", count = 0, className = "", ...props }) {
                          end={count}
                          duration={2}
                          className="user-count"
-                         
+
                 />
 
                 {props.todayBirthday&&<p>props.todayBirthday</p>}

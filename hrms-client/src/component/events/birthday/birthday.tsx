@@ -1,12 +1,11 @@
-import BirthdayData from "../../../custom_hooks/birthdayData";
+import EventData from "../../../custom_hooks/eventData";
 import Common from "../common/common";
-import BirthdayContext from "../../../context/birthdayContext";
+import EventContext from "../../../context/eventContext";
 import { useContext } from "react";
 
 function Birthday() {
-  const [birthDayValue, anniveValue] = BirthdayData('birthday');
-  const { birthdayData } = useContext<any>(BirthdayContext);
-  console.log("Birthday:", birthdayData);
+  EventData('birthday');
+  const { birthdayData } = useContext<any>(EventContext);
   const data11 = birthdayData;
 
   const newData = {

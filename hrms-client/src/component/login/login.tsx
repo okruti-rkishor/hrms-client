@@ -1,7 +1,5 @@
 import "./login.scss";
-import { useState, useEffect, useContext } from "react";
-import { useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { useState, useContext } from "react";
 import User from "../user/user";
 import { Link, useNavigate } from "react-router-dom";
 import {Button, Form, Input, Image} from "antd";
@@ -21,14 +19,6 @@ export default function Login() {
   const navigate = useNavigate();
   const [decodeToken, setDecodeToken] = useState({ });
   const { newUser, setNewUser,} = useContext<any>(UserLoginContext);
-
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse: any) => {
-      setUser(codeResponse);
-      navigate("/");
-    },
-    onError: (error) => console.log("Login Failed:", error),
-  });
 
   const onLogout = () => {
     setProfile("");
@@ -59,26 +49,6 @@ export default function Login() {
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
   };
-
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user.access_token}`,
-              Accept: "application/json",
-            },
-          }
-        )
-        .then((res) => {
-          setProfile(res.data);
-          navigate("/");
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user, navigate]);
 
   const onChangeHandel = (e: any) => {
     setUserInputValues((prev) => ({
@@ -188,11 +158,7 @@ export default function Login() {
                           ""
                         )}
                         <div className="social-icons__buttons">
-                          <button
-                            onClick={() => {
-                              login();
-                            }}
-                          >
+                          <button>
                             <img src="icons/google.svg" alt="google" />
                           </button>
                           <button>

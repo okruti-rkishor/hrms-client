@@ -5,19 +5,27 @@ import restApi from "../../services/http/api/index";
 import {  useNavigate } from "react-router-dom";
 import React from "react";
 import { User_type } from "../../constant/constant";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import success = toast.success;
+import error = toast.error;
 
 const UserCreate = (props: any) => {
     const userTypesEnum = Object.keys(User_type);
-    console.log(userTypesEnum);
     const navigate = useNavigate();
 
-    const  onFinish = async (values: any) => {
-        await restApi.userCreate(values);
-        navigate('/');
+    const onFinish = async (values: any) => {
+        try {
+            await restApi.userCreate(values);
+            success("User created successfully");
+            navigate('/');
+        } catch (errInfo) {
+            console.error('Validate Failed:', errInfo);
+        }
     };
 
-    const onFinishFailed = (errorInfo: any) => {
-        console.log('Failed:', errorInfo);
+    const onFinishFailed = () => {
+        error("Error in user creation");
     };
 
     return (
@@ -81,7 +89,11 @@ const UserCreate = (props: any) => {
                                    }]}
                         >
                             <Select placeholder="select the role">
-                                {userTypesEnum.map(userType=> <Select.Option key={userType} value={userType}>{userType.toString().toLowerCase()}</Select.Option>)}
+                                {userTypesEnum.map(userType=>
+                                    <Select.Option key={userType} value={userType}>
+                                        {userType.toString().toUpperCase()}
+                                    </Select.Option>)
+                                }
                             </Select>
                         </Form.Item>
 

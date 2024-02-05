@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import BirthdayContext from "../context/birthdayContext";
+import EventContext from "../context/eventContext";
 import rest from '../services/http/api'
 
 
-const BirthdayData=(type?:string)=>{
+const EventData=(type?:string)=>{
     const [birthdayTempData, setBirthdayTempData] = useState({})
     const [anniversaryTempData, setAnniversaryTempData] = useState({})
-    const {updateBirthdayValue, updateAnniversaryValue} = useContext<any>(BirthdayContext);
+    const {updateBirthdayValue, updateAnniversaryValue} = useContext<any>(EventContext);
 
     const getBirthdayUser =async()=>{
                 try {
@@ -19,10 +19,10 @@ const BirthdayData=(type?:string)=>{
                     }
                     // console.log(resp, "Birthday")
                     setBirthdayTempData(resp)
-                    updateBirthdayValue(resp)                 
+                    updateBirthdayValue(resp)
                 }
                 } catch (error) {
-                    
+
                 }
     }
     const getAnniversaryUser =async()=>{
@@ -37,10 +37,10 @@ const BirthdayData=(type?:string)=>{
                     // console.log( resp,"Anniversary");
                     setAnniversaryTempData(resp)
                     updateAnniversaryValue(resp)
-                                     
+
                 }
                 } catch (error) {
-                    
+
                 }
     }
 
@@ -52,10 +52,10 @@ const BirthdayData=(type?:string)=>{
         }else{
             void getBirthdayUser();
             void getAnniversaryUser()
-        }    
+        }
     },[])
 
    return [birthdayTempData, anniversaryTempData];
 }
 
-export default BirthdayData;
+export default EventData;

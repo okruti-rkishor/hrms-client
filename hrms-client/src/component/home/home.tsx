@@ -5,16 +5,16 @@ import restApi from "../../services/http/api";
 import { EventsCountCard, UserCountCard } from "./userCountCard";
 import "./home.scss";
 import { PageHeader } from "@ant-design/pro-layout";
-import BirthdayContext from "../../context/birthdayContext";
-import BirthdayData from "../../custom_hooks/birthdayData";
+import EventContext from "../../context/eventContext";
+import EventData from "../../custom_hooks/eventData";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  BirthdayData();
+  EventData();
   const [countAdmin, setCountAdmin] = useState(0);
   const [countHR, setCountHR] = useState(0);
   const [countEmployee, setCountEmployee] = useState(0);
-  const { birthdayData, anniversaryData } = useContext<any>(BirthdayContext);
+  const { birthdayData, anniversaryData } = useContext<any>(EventContext);
   let birthdayCount = 0;
   let anniversaryCount = 0;
   {birthdayCount =((birthdayData.today&&birthdayData.today.length) + (birthdayData.passed&&birthdayData.passed.length) + (birthdayData.upcoming&&birthdayData.upcoming.length))}

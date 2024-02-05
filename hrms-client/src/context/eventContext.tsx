@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-const BirthdayContext = createContext({});
+const EventContext = createContext({});
 
-export const BirthdayProvider = ({ children }: any) => {
+export const EventContextProvider = ({ children }: any) => {
   const [birthdayData, setBirthdayData] = useState({});
   const [todayBirthday, setTodayBirthday] = useState([]);
   const [pastBirthday, setPastBirthday] = useState([]);
@@ -18,7 +18,7 @@ export const BirthdayProvider = ({ children }: any) => {
   };
 
   return (
-    <BirthdayContext.Provider
+    <EventContext.Provider
       value={{
         todayBirthday,
         pastBirthday,
@@ -35,8 +35,8 @@ export const BirthdayProvider = ({ children }: any) => {
       }}
     >
       {children}
-    </BirthdayContext.Provider>
+    </EventContext.Provider>
   );
 };
 
-export default BirthdayContext;
+export default EventContext;
