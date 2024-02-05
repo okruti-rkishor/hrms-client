@@ -2,26 +2,75 @@
 
   .today-birthday {
     &-section {
-      padding: 20px 0;
+      padding: 24px;
       margin-bottom: 100px;
-      background-color: highlight;
+      background-color: #e8f0fe;
       color: black;
-    }
+      border: 1px solid #f0f0f0;
+      border-radius: 8px;
 
-    &-title {
-      line-height: 60px;
-      font-size: 40px;
+      .ant-page-header-content {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+
+      .ant-page-header-heading {
+        justify-content: center;
+      }
     }
 
     &-name {
       font-size: 18px;
       line-height: 24px;
-      padding: 0;
+      padding: 5px 16px;
+      border-radius: 4px;
+
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 25%,
+              rgba(255, 255, 255, 0.30) 30%,
+              rgba(255, 255, 255, 0.10) 60%);
+      background-size: 500% 100%;
+      animation-name: today-birthday-loading;
+      animation-duration: 1.5s;
+      animation-timing-function: ease;
+      animation-iteration-count: infinite;
+
+      @keyframes today-birthday-loading {
+        0% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0 50%;
+        }
+      }
+
+      &:nth-child(3n) {
+        background-color: #bb86fc;
+        color: #782ed3;
+      }
+
+      &:nth-child(3n+1) {
+        background-color: #adc6ff;
+        color: #1d39c4;
+      }
+
+      &:nth-child(3n-1) {
+        background-color: #b7eb8f;
+        color: #389e0d;
+      }
     }
   }
 
   .other-birthday-list {
     display: flex;
     justify-content: space-around;
+  }
+
+  .ant-page-header-heading-title {
+    line-height: 36px;
+    font-size: 28px;
+    margin-bottom: 24px;
   }
 }
