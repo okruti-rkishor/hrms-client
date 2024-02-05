@@ -31,9 +31,13 @@ export default {
     resetPassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
     generatePassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
     employeeDetailsByID:(id: any) => rest.get(base + `employee/${id}`),
+
     userLoginDetail:(mail: any) => rest.get(base + `user?email=${mail}`),
     allBirthday:() => rest.get(base + "event/birthday"),
     allAnniversary:() => rest.get(base + "event/work"),
+
+
+    postEmployeeDetailsByID:(data: any,id:any) => rest.put(base + `employee/${id}`,{},data, {})
 
 
 

@@ -5,7 +5,9 @@ export enum Gender {
 export enum Type_Time{
     PART_TIME="Partime",
     FULL_TIME="FullTime",
-    HYBRID="Hybrid"
+    HYBRID="Hybrid",
+    FREELANCER="FreeLancer",
+    CONTRACT="Contract"
 }
 export enum Status{
     ACTIVE="Active",
@@ -46,6 +48,9 @@ export enum Documents{
     AGREEMENT_LETTER="AGREEMENT LETTER",
     AADHAAR_CARD="AADHAAR CARD",
     PAN_CARD="PAN CARD",
+    UG="UG",
+    PG="UG",
+    OTHER="OTHER"
 }
 
 export enum User_type {

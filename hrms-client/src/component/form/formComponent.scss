@@ -104,19 +104,25 @@ label{
   display:flex;
   gap:62px;
 
-  &_withNumber{
-    display:flex;
-    gap:45px;
-    flex-direction: row-reverse;
+  //&_withNumber{
+  //  display:flex;
+  //  gap:45px;
+  //  flex-direction: row-reverse;
+  //
+  //
+  //}
+  //&:last-child{
+  //  gap:104px;
+  //
+  //}
+  //.ant-form-item-explain-error{
+  //  max-width: 150px;
+  //}
+  label{
+    width: 174px;
+    display: block;
 
 
-  }
-  &:last-child{
-    gap:104px;
-
-  }
-  .ant-form-item-explain-error{
-    max-width: 150px;
   }
 
 
