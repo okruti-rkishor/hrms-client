@@ -13,7 +13,7 @@ class ApiInterceptor extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            loading: {},
+            loading: false,
             errorCode: 0
         };
     }
@@ -26,7 +26,8 @@ class ApiInterceptor extends React.Component<any, any> {
     axiosInterceptor = (rest:any) => {
         rest.http.interceptors.request.use(
             (config: any) => {
-                this.showLoader(config.url);
+                //his.showLoader(config.url);
+                this.setState({...this.state,loading:true});
 
                 // if (storeState.userProfile && storeState.userProfile.accessToken){
                 //     config.headers.Authorization =  "Bearer "+ storeState.userProfile.accessToken;
@@ -34,36 +35,39 @@ class ApiInterceptor extends React.Component<any, any> {
                 return config;
             },
             (error: any) => {
-                this.hideLoader(error.config.url);
+                //this.hideLoader(error.config.url);
+                this.setState({...this.state,loading:false});
                 Promise.reject(error)
             });
         rest.http.interceptors.response.use((response: any) => {
-            this.hideLoader(response.config.url);
+            //this.hideLoader(response.config.url);
+            this.setState({...this.state,loading:false});
             // Do something with response data
             return response;
         }, (error: any) => {
             this.logError(error);
-            this.hideLoader(error.config.url);
+            //this.hideLoader(error.config.url);
+            this.setState({...this.state,loading:false});
             // Do something with response error
             return Promise.reject(error);
         });
     };
 
-    showLoader = (url: string) => {
-        if (this.state.loading[url]) {
-            return;
-        }
-        this.setState({loading: {...this.state.loading, [url]: true}})
-    };
+    // showLoader = (url: string) => {
+    //     if (this.state.loading[url]) {
+    //         return;
+    //     }
+    //     this.setState({loading: {...this.state.loading, [url]: true}})
+    // };
 
-    hideLoader = (url: string) => {
-        if (!this.state.loading[url]) {
-            return;
-        }
-        const loading = {...this.state.loading};
-        delete loading[url];
-        this.setState({loading})
-    };
+    // hideLoader = (url: string) => {
+    //     if (!this.state.loading[url]) {
+    //         return;
+    //     }
+    //     const loading = {...this.state.loading};
+    //     delete loading[url];
+    //     this.setState({loading})
+    // };
 
     logError = async (error: any) => {
         let message = _.get(error, "response.data.message", "");
@@ -80,7 +84,7 @@ class ApiInterceptor extends React.Component<any, any> {
     render() {
         return (
             <div>
-                {!_.isEmpty(this.state.loading) ?
+                {this.state.loading ?
                     <div style={{
                         position: "absolute", top: 0, left: 0, right: 0, bottom: 0,
                         zIndex: 20000,
