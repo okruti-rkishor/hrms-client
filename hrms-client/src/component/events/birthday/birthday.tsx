@@ -4,7 +4,7 @@ import BirthdayContext from "../../../context/birthdayContext";
 import { useContext } from "react";
 
 function Birthday() {
-  const [birthDayValue, anniveValue] = BirthdayData();
+  const [birthDayValue, anniveValue] = BirthdayData('birthday');
   const { birthdayData } = useContext<any>(BirthdayContext);
   console.log("Birthday:", birthdayData);
   const data11 = birthdayData;

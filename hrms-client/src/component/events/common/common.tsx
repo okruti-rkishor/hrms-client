@@ -1,6 +1,5 @@
 import { Layout, Table } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-import BirthdayData from "../../../custom_hooks/birthdayData";
 import "./common.scss";
 
 export interface CommonComponentProps {
@@ -18,7 +17,7 @@ const Common: React.FC<CommonComponentProps> = ({ data, event }) => {
   const dataToday = data.today;
   const dataPassed = data.passed;
   const dataUpcoming = data.upcoming;
-  BirthdayData();
+
 
   const columns = [
     {

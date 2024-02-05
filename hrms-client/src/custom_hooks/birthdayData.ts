@@ -3,7 +3,7 @@ import BirthdayContext from "../context/birthdayContext";
 import rest from '../services/http/api'
 
 
-const BirthdayData=()=>{
+const BirthdayData=(type?:string)=>{
     const [birthdayTempData, setBirthdayTempData] = useState({})
     const [anniversaryTempData, setAnniversaryTempData] = useState({})
     const {updateBirthdayValue, updateAnniversaryValue} = useContext<any>(BirthdayContext);
@@ -44,9 +44,15 @@ const BirthdayData=()=>{
                 }
     }
 
-    useEffect(()=>{
-        getBirthdayUser();
-        getAnniversaryUser()
+    useEffect (()=>{
+        if(type==='birthday'){
+            void getBirthdayUser();
+        }else if(type === 'anniversary'){
+            void getAnniversaryUser()
+        }else{
+            void getBirthdayUser();
+            void getAnniversaryUser()
+        }    
     },[])
 
    return [birthdayTempData, anniversaryTempData];

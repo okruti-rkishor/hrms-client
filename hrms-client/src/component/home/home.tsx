@@ -15,11 +15,10 @@ function Home() {
   const [countHR, setCountHR] = useState(0);
   const [countEmployee, setCountEmployee] = useState(0);
   const { birthdayData, anniversaryData } = useContext<any>(BirthdayContext);
-  // const birthdayCount = birthdayData.today.length + birthdayData.passed.length + birthdayData.upcoming.length;
-  const birthdayCount = 0;
-  const anniversaryCount = 0;
-  // const anniversaryCount =anniversaryData.today.length + anniversaryData.passed.length + anniversaryData.upcoming.length;
-  const navigate = useNavigate();
+  let birthdayCount = 0;
+  let anniversaryCount = 0;
+  {birthdayCount =((birthdayData.today&&birthdayData.today.length) + (birthdayData.passed&&birthdayData.passed.length) + (birthdayData.upcoming&&birthdayData.upcoming.length))}
+   {anniversaryCount = ((anniversaryData.today&&anniversaryData.today.length) + (anniversaryData.passed&&anniversaryData.passed.length) + (anniversaryData.upcoming&&anniversaryData.upcoming.length))}
 
   useEffect(() => {
     userCount();

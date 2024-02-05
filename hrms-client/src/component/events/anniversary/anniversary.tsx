@@ -4,7 +4,7 @@ import BirthdayContext from "../../../context/birthdayContext";
 import { useContext, useEffect } from "react";
 
 function Anniversary() {
-  BirthdayData();
+  BirthdayData('anniversary');
   const { anniversaryData } = useContext<any>(BirthdayContext);
   console.log("anniversary11", anniversaryData);
   const data11 = anniversaryData;
@@ -31,7 +31,8 @@ function Anniversary() {
     upcoming:
       (data11.upcoming &&
         data11.upcoming.map((item: any) => {
-          item.date = item.dateOfJoining;
+          
+          item.date = item.dateOfJoining ??item.dateOfJoining;
           delete item["dateOfJoining"];
           return item;
         })) ||
