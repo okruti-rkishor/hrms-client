@@ -3,22 +3,13 @@ import { useState } from "react";
 import rest from "../../services/http/api";
 import "./forgotPassword.scss";
 import { Steps } from "antd";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ImageField } from "@refinedev/antd";
 
 function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [otp, setOtp] = useState("");
-  const [showOtpField, setShowOtpField] = useState(false);
-  const [disableStatus, setDisableStatus] = useState(false);
-  const [newPasswordShowSatatus, setNewPasswordShowSatatus] = useState(false);
   const [newPassword, setNewPassword] = useState("");
-  const notifySendOtp = () => toast("Send Otp your registerd email!");
-  const notifyVariedyOtp = () => toast("Otp varified successfully!");
-  const notifyVariedyOtpFaild = () => toast("try again with correct Otp!");
-  const notifyChangePassword = () => toast("Update Password Successfully!");
   const [current, setCurrent] = useState(0);
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -38,6 +29,38 @@ function ForgotPassword() {
     },
   ];
 
+  const onFinishSuccessToast = (errorInfo: any) => {
+    toast.success(`${errorInfo}!`, {
+      position: "bottom-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    console.log("Failed:", errorInfo);
+  };
+
+  const onFinishFailedToast = (errorInfo: any) => {
+    toast.error(`${errorInfo}!`, {
+      position: "bottom-right",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    console.log("Failed:", errorInfo);
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
   const stepsOnChange = (currentStep: any) => {
     // Validate the form fields if moving to the next step
     setCurrent(currentStep);
@@ -48,15 +71,15 @@ function ForgotPassword() {
     form
       .validateFields()
       .then(async () => {
-        // rest.sendOtp({ email: email });
         try {
           const error = await rest.sendOtp({ "to-email": email });
-          if (!error) setCurrent(current + 1);
+          if (!error) {
+            setCurrent(current + 1);
+            onFinishSuccessToast("OTP Send Successfully!");
+          }
         } catch (error) {
-          setCurrent(current - 1);
+          console.log(error);
         }
-
-        // notifySendOtp();
       })
       .catch((error) => {
         console.log("Validation error:", error);
@@ -64,26 +87,25 @@ function ForgotPassword() {
       });
   };
 
-  const varifyOtp = async() => {
-    // console.log({ email: email, otp: otp });
-    // form
-    //   .validateFields()
-    //   .then(async () => {
+  const varifyOtp = async (otpData: any) => {
+    console.log("otpData", otpData);
+    let resp = false;
+    form
+      .validateFields()
+      .then(async () => {
         try {
-          const resp = await rest.verifyOtp({ email: email, otp: otp });
-        if (resp) {
-          // notifyVariedyOtp();
-          setCurrent(current + 1);
-        } else {
-          // notifyVariedyOtpFaild()
-        }
+          resp = await rest.verifyOtp({ email: email, otp: otpData.otp });
+          if (resp === true) {
+            setCurrent(current + 1);
+            onFinishSuccessToast("OTP Verify Successful!")
+          } else {
+            onFinishFailedToast("OTP is Incorrect");
+          }
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
-      // })
-      // .catch((error) => {
-      //   // notifyVariedyOtpFaild();
-      // });
+      })
+      .catch((error) => {});
   };
 
   const resetPassword = () => {
@@ -96,8 +118,8 @@ function ForgotPassword() {
             password: newPassword,
             confirmPassword: newPassword,
           });
+          onFinishSuccessToast("Password Update Successful!");
           navigate("/login");
-          notifyChangePassword()
         } catch (error) {
           navigate("/forgot-password");
         }
@@ -131,7 +153,10 @@ function ForgotPassword() {
           {current === 0 && (
             <Form
               form={form}
-              // onFinish={() => stepsOnChange(current + 1)}
+              onFinish={() => generateOtp(current)}
+              onFinishFailed={() => {
+                onFinishFailedToast("Please Input Valid E-Mail");
+              }}
               className="forget-password-form"
             >
               <Form.Item
@@ -155,40 +180,67 @@ function ForgotPassword() {
                   placeholder="Enter email-id"
                 />
               </Form.Item>
-              <Button onClick={() => generateOtp(current)}>Generate Otp</Button>
+              <Button htmlType="submit">Generate Otp</Button>
             </Form>
           )}
           {current === 1 && (
             <Form
-              form={form}
-              // onFinish={() => varifyOtp()}
-              className="forget-password-form"
+              name="basic"
+              onFinish={varifyOtp}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
             >
               <Form.Item
-                label="0TP"
-                name={"otp"}
-                style={{ display: "flex" }}
+                label="Otp"
+                name="otp"
                 rules={[
-                  // { required: true, message: "Please enter the OTP" },
+                  { required: true, message: "Please input your username!" },
                   {
-                    pattern: new RegExp(/^\d{1,2}\/\d{1,2}\/\d{4}$/),
-                    message: "OTP should be a number and only 4 digits",
+                    pattern: new RegExp(/^\d{4}$/),
+                    message: "Not a valid Otp",
                   },
                 ]}
               >
-                <Input
-                  placeholder="Enter OTP"
-                  onChange={(e) => {
-                    setOtp(e.target.value);
-                  }}
-                  value={otp}
-                />
-                <br />
+                <Input />
               </Form.Item>
-              <Button htmlType="submit" onClick={() => varifyOtp()}>
-                Varify Otp
-              </Button>
+
+              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
             </Form>
+            // <Form
+            //   form={form}
+            //   onFinish={() => varifyOtp()}
+            //   onFinishFailed={()=>{onFinishFailed("Otp is not valid")}}
+            //   className="forget-password-form"
+            // >
+            //   <Form.Item
+            //     label="OTP"
+            //     name={"otp"}
+            //     style={{ display: "flex" }}
+            //     rules={[
+            //       { required: true, message: "Please enter the OTP" },
+            //       {
+            //         pattern: new RegExp(/^\d{1,2}\/\d{1,2}\/\d{4}$/),
+            //         message: "OTP should be a number and only 4 digits",
+            //       },
+            //     ]}
+            //   >
+            //     <Input
+            //       placeholder="Enter OTP"
+            //       onChange={(e) => {
+            //         setOtp(e.target.value);
+            //       }}
+            //       value={otp}
+            //     />
+            //     <br />
+            //   </Form.Item>
+            //   <Button htmlType="submit">
+            //     Varify Otp
+            //   </Button>
+            // </Form>
           )}
           {current === 2 && (
             <Form
@@ -247,7 +299,6 @@ function ForgotPassword() {
                 <Button
                   type="primary"
                   htmlType="submit"
-                  className={showOtpField ? "" : "display-none"}
                   onClick={() => {
                     resetPassword();
                   }}

@@ -2,9 +2,9 @@ import "./login.scss";
 import { useState, useContext } from "react";
 import User from "../user/user";
 import { Link, useNavigate } from "react-router-dom";
-import {Button, Form, Input, Image} from "antd";
+import { Button, Form, Input, Image } from "antd";
 import rest from "../../services/http/api/index";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 import UserLoginContext from "../../context/userLoginContext";
 
 type emailInputValueType = {
@@ -15,10 +15,12 @@ type emailInputValueType = {
 export default function Login() {
   const [profile, setProfile] = useState("");
   const [user, setUser] = useState<any>({});
-  const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
+  const [userInputValues, setUserInputValues] = useState<emailInputValueType>(
+    {}
+  );
   const navigate = useNavigate();
-  const [decodeToken, setDecodeToken] = useState({ });
-  const { newUser, setNewUser,} = useContext<any>(UserLoginContext);
+  const [decodeToken, setDecodeToken] = useState({});
+  const { newUser, setNewUser } = useContext<any>(UserLoginContext);
 
   const onLogout = () => {
     setProfile("");
@@ -31,14 +33,15 @@ export default function Login() {
 
     if (response.jsonToken) {
       try {
-        decoded = (jwtDecode(token));
+        decoded = jwtDecode(token);
         setDecodeToken(decoded);
-      } catch (error:any) {
-        console.error('Error decoding JWT:', error.message);
+      } catch (error: any) {
+        console.error("Error decoding JWT:", error.message);
       }
 
       const userLoginData = await rest.userLoginDetail(values.email);
-      const userCardData = {...userLoginData,loginStatus:true};
+      const userCardData = { ...userLoginData, loginStatus: true };
+      
       setNewUser(userCardData);
       navigate("/");
     } else {
@@ -66,10 +69,10 @@ export default function Login() {
                 <div className="login-here-detail">
                   <Link to={"/"}>
                     <Image
-                        preview={false}
-                        src="icons/hrms-favicon.png"
-                        alt="Hrms Logo"
-                        className="hrms-logo"
+                      preview={false}
+                      src="icons/hrms-favicon.png"
+                      alt="Hrms Logo"
+                      className="hrms-logo"
                     />
                   </Link>
                   <p className="login-title-text">welcome back !!!</p>
@@ -133,10 +136,14 @@ export default function Login() {
                         placeholder="enter your password"
                       />
                     </Form.Item>
-                    <Form.Item style={{ textAlign: "right", marginBottom: 'none' }}>
-                      <Link to={"/forgot-password"}
-                            className='forgot-password'
-                            style={{textAlign: "right" }}>
+                    <Form.Item
+                      style={{ textAlign: "right", marginBottom: "none" }}
+                    >
+                      <Link
+                        to={"/forgot-password"}
+                        className="forgot-password"
+                        style={{ textAlign: "right" }}
+                      >
                         Forgot Password?
                       </Link>
                     </Form.Item>

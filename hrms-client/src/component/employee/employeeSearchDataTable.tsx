@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { employeeInterface } from './employeeSearch';
 import { useNavigate } from 'react-router-dom';
+import rest from '../../services/http/api'
 
 interface Item {
   id: string;
@@ -144,7 +145,7 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
       editable: true,
     },
     {
-      title: 'operation',
+      title: 'Edit',
       dataIndex: 'operation',
       key: 'operation',
       render: (_: any, record: Item) => {
@@ -161,6 +162,34 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
         ) : (
           <Typography.Link disabled={editingKey !== ''} onClick={() => navigate(`/employee/create/${record.id}`)}>
             Edit current
+          </Typography.Link>
+        );
+      },
+    },
+    {
+      title: 'Delete',
+      dataIndex: 'delete',
+      key: 'delete',
+      render: (_: any, record: Item) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link onClick={() => (save(record.key))} style={{ marginRight: 8 }}>
+              Save
+            </Typography.Link>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <Typography.Link disabled={editingKey !== ''} onClick={async()=>{
+            rest.userDelete(record.id);
+            const newData = data.filter((item:any)=>item.id===record.id)
+            console.log(newData);
+            setData(newData);
+            
+          }}>
+            Delete
           </Typography.Link>
         );
       },
@@ -192,7 +221,7 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
           },
         }}
         bordered
-        dataSource={employeeResponse}
+        dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={{
