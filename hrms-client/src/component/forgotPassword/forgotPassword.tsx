@@ -17,15 +17,12 @@ function ForgotPassword() {
   const items = [
     {
       title: "OTP Generation",
-      // content: <h1>Content for Step 1</h1>,
     },
     {
       title: "OTP Verification",
-      // content: <h1>Content for Step 2</h1>,
     },
     {
       title: "Reset Password",
-      // content: <h1>Content for Step 3</h1>,
     },
   ];
 
@@ -75,7 +72,7 @@ function ForgotPassword() {
           const error = await rest.sendOtp({ "to-email": email });
           if (!error) {
             setCurrent(current + 1);
-            onFinishSuccessToast("OTP Send Successfully!");
+            onFinishSuccessToast("OTP sent successfully");
           }
         } catch (error) {
           console.log(error);
@@ -97,9 +94,9 @@ function ForgotPassword() {
           resp = await rest.verifyOtp({ email: email, otp: otpData.otp });
           if (resp === true) {
             setCurrent(current + 1);
-            onFinishSuccessToast("OTP Verify Successful!")
+            onFinishSuccessToast("OTP verified successfully")
           } else {
-            onFinishFailedToast("OTP is Incorrect");
+            onFinishFailedToast("OTP is incorrect");
           }
         } catch (error) {
           console.log(error);
@@ -118,7 +115,7 @@ function ForgotPassword() {
             password: newPassword,
             confirmPassword: newPassword,
           });
-          onFinishSuccessToast("Password Update Successful!");
+          onFinishSuccessToast("Password updated successfully");
           navigate("/login");
         } catch (error) {
           navigate("/forgot-password");
@@ -149,13 +146,12 @@ function ForgotPassword() {
             items={items}
             // onChange={stepsOnChange}
           />
-
           {current === 0 && (
             <Form
               form={form}
               onFinish={() => generateOtp(current)}
               onFinishFailed={() => {
-                onFinishFailedToast("Please Input Valid E-Mail");
+                onFinishFailedToast("Please input valid e-mail id");
               }}
               className="forget-password-form"
             >
@@ -163,7 +159,7 @@ function ForgotPassword() {
                 label="Email"
                 name={"email"}
                 rules={[
-                  { required: true, message: "Please input your Email id!" },
+                  { required: true, message: "Please input your Email-id!" },
                   {
                     pattern: new RegExp(
                       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -177,10 +173,13 @@ function ForgotPassword() {
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
-                  placeholder="Enter email-id"
+                  placeholder="enter your email-id"
                 />
               </Form.Item>
-              <Button htmlType="submit">Generate Otp</Button>
+              <div className='forget-password-button'>
+                <Button htmlType="submit">Generate Otp</Button>
+              </div>
+
             </Form>
           )}
           {current === 1 && (
@@ -191,39 +190,35 @@ function ForgotPassword() {
               autoComplete="off"
             >
               <Form.Item
-                label="Otp"
+                label="OTP"
                 name="otp"
                 rules={[
                   { required: true, message: "Please input your username!" },
                   {
                     pattern: new RegExp(/^\d{4}$/),
-                    message: "Not a valid Otp",
+                    message: "Not a valid OTP",
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder="Please enter OTP" />
               </Form.Item>
-
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item>
+              <div className='forget-password-button'>
+                <Button type="primary" htmlType="submit">Submit</Button>
+              </div>
             </Form>
           )}
           {current === 2 && (
             <Form
               form={form}
-              // onFinish={() => stepsOnChange(current + 1)}
               className="forget-password-form"
             >
               <Form.Item
                 name="password"
-                label="Password"
+                label="New Password"
                 dependencies={["password"]}
                 hasFeedback
                 rules={[
-                  { required: true, message: "Password is required." },
+                  { required: true, message: "Please enter new password!" },
                   {
                     pattern: new RegExp(
                       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
@@ -235,7 +230,8 @@ function ForgotPassword() {
               >
                 <Input.Password
                   onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="enter password"
+                  placeholder="enter new password"
+                  className='forget-password-input'
                 />
               </Form.Item>
               <Form.Item
@@ -262,30 +258,19 @@ function ForgotPassword() {
                   }),
                 ]}
               >
-                <Input.Password placeholder="confirm password" />
+                <Input.Password placeholder="enter confirm password"
+                                className='forget-password-input'
+                />
               </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  onClick={() => {
-                    resetPassword();
-                  }}
-                >
-                  {"Reset Password"}
+
+              <div className='forget-password-button'>
+                <Button type="primary" htmlType="submit" onClick={() => resetPassword()}>
+                  Reset Password
                 </Button>
-              </Form.Item>
+              </div>
             </Form>
           )}
         </div>
-      </div>
-      <div>
-        {/*<Image*/}
-        {/*    width={90}*/}
-        {/*    height={300}*/}
-        {/*    preview = {false}*/}
-        {/*    src="Images/forgot-password-bg.png"*/}
-        {/*/>*/}
       </div>
     </div>
   );

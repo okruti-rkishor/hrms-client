@@ -7,20 +7,15 @@
 
 .ant-page-header {
   padding: 0;
-  /*margin-bottom: 20px;*/
-}
 
-.ant-page-header .ant-page-header-heading-left {
-  margin-block: unset;
-}
+  .ant-page-header-heading-left {
+    margin-block: unset;
+  }
 
-.ant-page-header .ant-page-header-heading-title {
-  margin-inline-end: unset;
+  .ant-page-header-heading-title {
+    margin-inline-end: unset;
+  }
 }
-
-/*.site-page-header {*/
-/*  border-bottom: 1px solid #d8d8d8;*/
-/*}*/
 
 .ant-divider {
   &.ant-divider-horizontal.ant-divider-with-text {
@@ -42,5 +37,52 @@
 
   .ant-input {
     border-left: 0!important;
+  }
+}
+
+// ANTD Steps after successfull finish fields
+.ant-steps {
+  .ant-steps-item-finish {
+    .ant-steps-item-icon {
+      background-color: #52c41a;
+      border-color: #52c41a;
+    }
+
+    .anticon svg {
+      fill: white;
+    }
+
+    >.ant-steps-item-container {
+      >.ant-steps-item-tail::after {
+        background-color: #52c41a;
+      }
+
+      &[role='button']:hover {
+        .ant-steps-item-icon {
+          border-color: #52c41a !important;
+        }
+      }
+    }
+
+    .ant-steps-item-title {
+      color: #52c41a !important;
+    }
+  }
+}
+
+// Employee create Form Gender select radio button
+.ant-radio-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ant-radio-button {
+    &.ant-radio-button-checked {
+      background-color: #1677ff1a;
+
+      + span {
+        color: #1677ff;
+      }
+    }
   }
 }

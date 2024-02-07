@@ -5,6 +5,7 @@
   align-items: center;
   gap: 70px;
 }
+
 .employee-create-section {
   //width: 80%;
   //margin: 20px auto;
@@ -19,6 +20,16 @@
 
   .employee-create-inputs {
     margin-right: 20px;
+  }
+
+  // Employee create Form Add Items card
+  .ant-card-bordered {
+    border: 1px solid #1677ff ;
+
+    .ant-card-head {
+      border-bottom: 1px solid #1677ff;
+      background-color: #1677ff1a;
+    }
   }
 }
 

@@ -146,7 +146,7 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
     {
       title: "Employee Code",
       dataIndex: "employeeCode",
-      // width: '10%',
+      width: '15%',
       key: "employeeCode",
       editable: true,
     },
@@ -181,6 +181,7 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
     {
       title: "Actions",
       dataIndex: "operation",
+      width: '15%',
       key: "operation",
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
@@ -198,45 +199,16 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
           </span>
         ) : (
           <>
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => navigate(`/employee/create/${record.id}`)}
-          >
+          <Typography.Link disabled={editingKey !== ""} onClick={() => navigate(`/employee/create/${record.id}`)}>
             <EditOutlined />
           </Typography.Link>
-          <Typography.Link
-            disabled={editingKey !== ""}
-            onClick={() => {deleteHandel(record)}}
-          > 
+          <Typography.Link disabled={editingKey !== ""} onClick={() => {deleteHandel(record)}}>
             <DeleteOutlined />
           </Typography.Link>
           </>
         );
       },
     },
-    // {
-    //   title: "Delete",
-    //   dataIndex: "delete",
-    //   key: "delete",
-    //   render: (_: any, record: Item) => {
-    //     const editable = isEditing(record);
-    //     return editable ? (
-    //       <span>
-    //         <Typography.Link
-    //           onClick={() => save(record.key)}
-    //           style={{ marginRight: 8 }}
-    //         >
-    //           Save
-    //         </Typography.Link>
-    //         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-    //           <a>Cancel</a>
-    //         </Popconfirm>
-    //       </span>
-    //     ) : (
-          
-    //     );
-    //   },
-    // },
   ];
 
   const mergedColumns = columns.map((col) => {

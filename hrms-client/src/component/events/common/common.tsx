@@ -35,12 +35,12 @@ const Common: React.FC<CommonComponentProps> = ({ data, event }) => {
   return (
     <Layout className="data-table birthday-event-section">
       <section className="today-birthday-section">
-        <PageHeader title={`Today ${event}`}>
-          {dataToday.map((user: any, index: any) => (
-            <h5 className="today-birthday-name" key={index}>
-              {user.employeeName}
-            </h5>
-          ))}
+        <PageHeader title={ `Today ${event}`}>
+          {dataToday.length!==0 ? dataToday.map((user: any, index: any) => (
+              <h5 className="today-birthday-name" key={index}>
+                {user.employeeName}
+              </h5>
+          )) : <p className='no-today-birthday'>🎉  There is no {event} event today  🎉</p>}
         </PageHeader>
       </section>
       <section className="other-birthday-list">

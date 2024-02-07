@@ -68,8 +68,8 @@ function Home() {
       className: "hr-user",
     },
     {
-      title: "Work Anniversary",
-      count: birthdayCount,
+      title: "Internal Events",
+      count: {},
       className: "employee",
     },
   ];

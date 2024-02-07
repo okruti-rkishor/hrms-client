@@ -39,4 +39,16 @@
         color: rgba(0, 0, 0, .1);
     }
 
+    .ant-table-cell {
+        .ant-typography {
+            > span {
+                font-size: 18px;
+            }
+
+            svg[data-icon="delete"] {
+                fill: #ff4d4f;
+                margin-left: 24px;
+            }
+        }
+    }
 }

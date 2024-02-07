@@ -13,25 +13,18 @@ const contentStyle: React.CSSProperties = {
     color: '#fff',
 };
 
-const footerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    // backgroundColor: '#dbdbdb',
-};
-
 function LayoutComponent() {
     return (
-        <>
-            <Layout>
-                <HeaderComponent />
-                <Layout style={{background: '#f0f0f0'}}>
-                    <Navbar />
-                    <Content style={contentStyle}><Outlet /></Content>
-                </Layout>
-                <Footer style={footerStyle}>
-                    OKRUTI IT CONSULTING ©{new Date().getFullYear()}
-                </Footer>
+        <Layout>
+            <HeaderComponent />
+            <Layout style={{background: '#f0f0f0'}}>
+                <Navbar />
+                <Content style={contentStyle}><Outlet /></Content>
             </Layout>
-        </>
+            <Footer style={{textAlign: 'center'}}>
+                © OKRUTI IT CONSULTING {new Date().getFullYear()}
+            </Footer>
+        </Layout>
     );
 }
 

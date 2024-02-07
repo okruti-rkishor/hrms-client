@@ -4,6 +4,7 @@ import {
     SolutionOutlined,
     TeamOutlined,
     UserOutlined,
+    SearchOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
@@ -32,15 +33,10 @@ const items: MenuItem[] = [
     getItem('User', 'sub1', <UserOutlined />, [
         getItem('Create', '1', <Link to={'/user/create'} className='side-navbar__button'><FormOutlined/></Link>),
         getItem('List', '2', <Link to={'/user/detail'} className='side-navbar__button'><SolutionOutlined/></Link>),
-        // getItem( <Link to={'/user/create'} className='side-navbar__button'>Create</Link>, '3', ),
-        // getItem(<Link className='side-navbar__button' to='/user/detail'>List</Link>, '4', ),
     ]),
     getItem('Employee', 'sub2', <TeamOutlined />, [
         getItem('Create', '3', <Link to={'/employee/create'} className='side-navbar__button'><FormOutlined/></Link>),
-        getItem('List', '4', <Link to='/employee/search' className='side-navbar__button'><SolutionOutlined/></Link>),
-
-        // getItem(<Link className='side-navbar__button' to='/employee/create'>Create</Link>, '5'),
-        // getItem(<Link className='side-navbar__button' to='/employee/search'>Search</Link>, '6'),
+        getItem('Search', '4', <Link to='/employee/search' className='side-navbar__button'><SearchOutlined /></Link>),
     ]),
 ];
 

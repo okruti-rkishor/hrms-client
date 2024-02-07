@@ -6,6 +6,8 @@ import './userDataTable.scss';
 import restApi from "../../services/http/api";
 import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
 import {User_type} from "../../constant/constant";
+import {toast} from 'react-toastify';
+import success = toast.success;
 
 
 interface Item {
@@ -124,7 +126,6 @@ const TempFile: React.FC = () => {
                 const editedData :any = { ...row};
                 // delete editedData.id;
                 const editResponse = await restApi.userEdit(editedData,key);
-                console.log(editResponse)
                 const item :any = newData[index];
                 // const item = newData[index];
                 newData.splice(index, 1, {
@@ -133,6 +134,7 @@ const TempFile: React.FC = () => {
                 });
                 setUserData(newData);
                 setEditingKey('');
+                success("User edited successfully");
             } else {
                 newData.push(row);
                 setUserData(newData);
@@ -209,7 +211,7 @@ const TempFile: React.FC = () => {
             },
         },
         {
-            title: 'operation',
+            title: 'Actions',
             dataIndex: 'operation',
             width: '20%',
             render: (_: any, record: Item) => {
@@ -217,17 +219,14 @@ const TempFile: React.FC = () => {
                 return editable ? (
                     <span>
                         <Typography.Link onClick={() => save(record.id)} style={{ marginRight: 8 }}>
-                          {/*Save*/}
                           <SaveTwoTone twoToneColor="#52c41a" style={{ fontSize: '18px', marginLeft: '10px' }}/>
                         </Typography.Link>
                         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                          {/*<a>Cancel</a>*/}
                           <a><CloseOutlined style={{ color: '#950a11', fontSize: '18px', marginLeft: '10px' }}/></a>
                         </Popconfirm>
                     </span>
                 ) : (
                     <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                        {/*Edit*/}
                         <EditTwoTone style={{ fontSize: '18px', marginLeft: '10px' }}/>
                     </Typography.Link>
                 );
