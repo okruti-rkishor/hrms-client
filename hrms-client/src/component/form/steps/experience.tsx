@@ -9,6 +9,45 @@ const Experience = () =>{
         <>
             <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"Experience employee-create-inputs"}>
                 <label className={"Experience_detail"}>Fill the Experience Detail here</label>
+
+                <Form.Item label="Type"
+                           name={"type"}
+                           rules={[{
+                               required:true,
+                               message:"select your type"
+                           }]}
+                >
+                    <Select style={{width:"100%"}}>
+                        {(Object.keys(Type_Time) as Array<keyof typeof Type_Time>).map((key) =>
+                            <Select.Option value={key} key={key}
+                                           style={{height:"40px",textAlign:"center"}}
+                            >
+                                {Type_Time[key]}
+                            </Select.Option>
+                        )}
+                    </Select>
+                </Form.Item>
+
+                <Form.Item label={"Designation"}
+                           name={'designation'}
+                           required={true}
+                           rules={[{
+                               required:true,
+                               message:"select your designation"
+                           }]}
+                >
+                    <Select>
+                        {(Object.keys(Designation) as Array<keyof typeof Designation>).map((key) =>
+                            <Select.Option value={key} key={key}
+                                           style={{height:"40px",textAlign:"center"}}
+                            >
+                                {Designation[key]}
+                            </Select.Option>
+                        )}
+                    </Select>
+                </Form.Item>
+
+
                 <Form.List name="previousExperiences">
                     {(fields, { add, remove }) => (
                         <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
@@ -49,23 +88,6 @@ const Experience = () =>{
                                                                style={{height:"40px",textAlign:"center"}}
                                                 >
                                                     {Designation[key]}
-                                                </Select.Option>
-                                            )}
-                                        </Select>
-                                    </Form.Item>
-                                    <Form.Item label="Type"
-                                               name={[field.name, 'type']}
-                                               rules={[{
-                                                   required:true,
-                                                   message:"select your type"
-                                               }]}
-                                    >
-                                        <Select style={{width:"100%"}}>
-                                            {(Object.keys(Type_Time) as Array<keyof typeof Type_Time>).map((key) =>
-                                                <Select.Option value={key} key={key}
-                                                               style={{height:"40px",textAlign:"center"}}
-                                                >
-                                                    {Type_Time[key]}
                                                 </Select.Option>
                                             )}
                                         </Select>
@@ -121,7 +143,9 @@ const Experience = () =>{
                                         <Input />
                                     </Form.Item>
                                     <Form.Item name={[field.name, 'duration']} label="start to end" required={true}>
-                                        <RangePicker style={{width:"100%"}}/>
+                                        <RangePicker style={{width:"100%"}} disabledDate={(current) => {
+                                            return current.isAfter(new Date());
+                                        }}/>
                                     </Form.Item>
 
 

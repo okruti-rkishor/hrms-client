@@ -30,7 +30,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
     const uploadFile = async ({file, onSuccess, onError}: any, customKey: any) => {
         let documentPayload: any = {"document-type": customKey, "file": file};
         if (customKey === "AADHAAR_CARD") {
-            if (state.AADHAAR_CARD_Number === null) {
+            if (state.AADHAAR_CARD_Number === null || state.AADHAAR_CARD_NUMBER.length<12) {
                 message.error(`please fill ${customKey} number`);
                 return;
             } else {
@@ -39,7 +39,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             }
         }
         if (customKey === "PAN_CARD") {
-            if (state.PAN_CARD_NUMBER === null) {
+            if (state.PAN_CARD_NUMBER === null || state.AADHAAR_CARD_NUMBER.length<12) {
                 message.error(`please fill ${customKey} number`);
                 return;
             } else {
@@ -70,6 +70,18 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
 
     const onRemoveFile = async (customKey: any) => {
         let id = "";
+        if (customKey === "AADHAAR_CARD") {
+            if (state.AADHAAR_CARD_NUMBER.length < 12) {
+                message.error(`please fill ${customKey} number`);
+                return;
+            }
+        }
+        if (customKey === "PAN_CARD") {
+            if (state.PAN_CARD_NUMBER.length < 12) {
+                message.error(`please fill ${customKey} number`);
+                return;
+            }
+        }
         Object.keys(employeeData.documents).forEach(key => {
             if (employeeData.documents[key].customKey === customKey) {
                 id = employeeData.documents[key].id;

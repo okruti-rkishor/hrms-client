@@ -16,9 +16,9 @@ export enum Status{
 }
 export enum Designation{
     TRAINEE="Trainee",
-    JUNIOR_SOFTWARE_ENGINEER="Jr Software Engineer",
-    SOFTWARE_ENGINEER="Software Engineer",
-    SENIOR_SOFTWARE_ENGINEER="Sr Software Engineer",
+    JUNIOR_SOFTWARE_DEVELOPER="Jr Software Developer",
+    SOFTWARE_DEVELOPER="Software Developer",
+    SENIOR_SOFTWARE_DEVELOPER="Sr Software Developer",
     TECHNICAL_LEAD="Technical Lead"
 }
 export enum Blood_Group{

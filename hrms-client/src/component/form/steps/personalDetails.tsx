@@ -1,8 +1,10 @@
 import {DatePicker, Form, Input, Radio, Select} from "antd";
 import {Blood_Group, Gender} from "../../../constant/constant";
-import React from "react";
+import React, {useState} from "react";
+import dayjs from "dayjs";
 
 const PersonalDetails =()=>{
+    const [ageduration,setAgeDuration]=useState<any>(0);
     return (
         <>
             <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}}
@@ -85,7 +87,11 @@ const PersonalDetails =()=>{
                                message: 'Please fill your DOB!',
                            },]}
                 >
-                    <DatePicker style={{width:"100%"}} format="YYYY-MM-DD"/>
+                    <DatePicker style={{width:"100%"}} format="YYYY-MM-DD" disabledDate={(current) => {
+                    return current.isAfter(new Date());
+                    }}
+                    />
+
                 </Form.Item>
                 <Form.Item label="Blood Group"
                            name={"bloodGroup"}

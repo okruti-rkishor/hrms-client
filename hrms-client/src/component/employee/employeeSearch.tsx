@@ -190,7 +190,7 @@ function EmployeeSearch() {
                 },
               ]}
             >
-              <Select defaultValue={Designation.JUNIOR_SOFTWARE_ENGINEER}>
+              <Select defaultValue={Designation.JUNIOR_SOFTWARE_DEVELOPER}>
                 {enumKeysArray.map((key) => (
                   <Select.Option key={key} value={key}>
                     {Designation[key]}

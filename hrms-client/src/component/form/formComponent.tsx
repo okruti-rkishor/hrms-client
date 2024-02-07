@@ -24,7 +24,7 @@ import {Gender} from "../../constant/constant";
 const FormComponent = () =>{
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
-    const [employeeData,setEmployeeData]=useState<any>({gender:Object.keys(Gender)[0],title:"Mr",bloodGroup:"NONE",status:"ACTIVE",documents:{}});
+    const [employeeData,setEmployeeData]=useState<any>({gender:Object.keys(Gender)[0],title:"Mr",bloodGroup:"NONE",status:"ACTIVE",documents:{} });
     const steps = [
         {
             title: 'Personal Details',
@@ -65,27 +65,32 @@ const FormComponent = () =>{
 
 
     const onChange = (value: any) => {
-        setCurrent(value);
         form.validateFields().then((result)=>{
             setCurrent(value);
-            console.log("result",result);
-            console.log("employee",employeeData);
             if(current===4)setEmployeeData({...employeeData,familyDetails:result.familyDetails})
             if(current===3){
-                const duration = result.previousExperiences.map((item:any)=>{
+                console.log("result", {...result});
+                var newResult = JSON.parse(JSON.stringify(result));
+                const duration = newResult.previousExperiences.map((item:any)=>{
                     const duration = {
                         "startDate":item.duration[0],
                         "endDate":item.duration[1]
                     }
+                    item.duration=duration;
+                    item.skills=Object.values(item.skills);
                     return duration;
                 });
-                setEmployeeData({...result,duration:duration})
-                // console.log("updatedExperience",updatedExperience);
+                // setEmployeeData({...result,duration:duration})
+                for(let e=0;e<newResult.previousExperiences.length;e++){
+                    newResult.previousExperiences[e].duration=duration[e];
+                }
 
 
 
-                setEmployeeData({...employeeData,previousExperiences:result.previousExperiences})
+
+                setEmployeeData({...employeeData,previousExperiences:newResult.previousExperiences,type:result.type,designation:result.designation})
             }
+            if(current===5)setEmployeeData({...employeeData,bankDetails:result.bankDetails})
 
 
 
@@ -134,15 +139,7 @@ const FormComponent = () =>{
             },
             "previousExperiences": employeeData.previousExperiences,
             "familyDetails": employeeData.familyDetails,
-            "bankDetails": [
-                {
-                    "accountHolderName": employeeData.accountHolderName,
-                    "accountNumber": employeeData.accountNumber,
-                    "branchName": employeeData.branchName,
-                    "branchCode": employeeData.ifscCode,
-                    "ifscCode": employeeData.ifscCode
-                }
-            ],
+            "bankDetails":employeeData.bankDetails,
             "documents": Object.keys(employeeData.documents).map((item:any)=>{return {id:employeeData.documents[item].id}})
         };
         if(isEditing===false){
@@ -161,8 +158,7 @@ const FormComponent = () =>{
 
     useEffect(()=>{
         if(id!=null){
-            restApi.employeeDetailsByID(`${id}`).then((response)=> {
-                console.log(response);
+            restApi.employeeDetailsByID(id).then((response)=> {
                 let docObj:any = {};
                 response.documents.map((item:any)=>{
                     let customKey=item.documentType;
@@ -177,19 +173,31 @@ const FormComponent = () =>{
                     docObj[customKey]=newDocument;
 
                 });
-                console.log(docObj);
-                    setEmployeeData({
+                setEmployeeData({
                         ...employeeData,
                         documents: docObj
 
                     })
-                    console.log(employeeData);
-                    setIsEditing(true);
+                console.log(employeeData);
+                setIsEditing(true);
+                const { name,presentAddress,permanentAddress,...withoutKeyToBeRemoved  } = response;
+                const after = { ...name,...presentAddress,...permanentAddress,...response.bankDetails,...withoutKeyToBeRemoved };
+                let durationResponse=response.previousExperiences.map((item:any)=>{
+                        let duration=[];
+                        duration.push(dayjs(item.duration.startDate));
+                        duration.push(dayjs(item.duration.endDate));
+                        return duration;
+                    })
+                for(let e=0;e<response.previousExperiences.length;e++){
+                    console.log(response.previousExperiences[e].duration);
+                    console.log(durationResponse[e]);
 
-                    const { name,presentAddress,permanentAddress,...withoutKeyToBeRemoved  } = response;
-                    const after = { ...name,...presentAddress,...permanentAddress,...response.bankDetails[0],...withoutKeyToBeRemoved };
+                    response.previousExperiences[e].duration=durationResponse[e];
+                }
+        form.setFieldsValue({...after,dateOfBirth:dayjs(response.dateOfBirth),joiningDate:dayjs(response.joiningDate)});
+                setEmployeeData({...after,dateOfBirth:dayjs(response.dateOfBirth),documents:docObj,joiningDate:dayjs(response.joiningDate)});
 
-                    form.setFieldsValue({...after,dateOfBirth:dayjs(response.dateOfBirth),joiningDate:dayjs(response.joiningDate),duration:[dayjs(response.previousExperiences[0].duration.startDate),dayjs(response.previousExperiences[0].duration.endDate)]});
+                //setEmployeeData({...after,dateOfBirth:dayjs(response.dateOfBirth),joiningDate:dayjs(response.joiningDate)});
 
                     // const beforeUpload=response.documents.map((item:any)=>{
                     //    return {
@@ -199,9 +207,9 @@ const FormComponent = () =>{
                     //    }
                     // });
                     // setDefaultFileList(beforeUpload);
-            }
+            }).catch((error)=>console.log(error));
 
-            ).catch((error)=>console.log(error));
+
         }
         },[]);
 

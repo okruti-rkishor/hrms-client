@@ -210,37 +210,6 @@ function ForgotPassword() {
                 </Button>
               </Form.Item>
             </Form>
-            // <Form
-            //   form={form}
-            //   onFinish={() => varifyOtp()}
-            //   onFinishFailed={()=>{onFinishFailed("Otp is not valid")}}
-            //   className="forget-password-form"
-            // >
-            //   <Form.Item
-            //     label="OTP"
-            //     name={"otp"}
-            //     style={{ display: "flex" }}
-            //     rules={[
-            //       { required: true, message: "Please enter the OTP" },
-            //       {
-            //         pattern: new RegExp(/^\d{1,2}\/\d{1,2}\/\d{4}$/),
-            //         message: "OTP should be a number and only 4 digits",
-            //       },
-            //     ]}
-            //   >
-            //     <Input
-            //       placeholder="Enter OTP"
-            //       onChange={(e) => {
-            //         setOtp(e.target.value);
-            //       }}
-            //       value={otp}
-            //     />
-            //     <br />
-            //   </Form.Item>
-            //   <Button htmlType="submit">
-            //     Varify Otp
-            //   </Button>
-            // </Form>
           )}
           {current === 2 && (
             <Form

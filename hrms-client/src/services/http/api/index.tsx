@@ -37,7 +37,7 @@ export default {
     allAnniversary:() => rest.get(base + "event/work"),
 
 
-    postEmployeeDetailsByID:(data: any,id:any) => rest.put(base + `employee/${id}`,{},data, {})
+    postEmployeeDetailsByID:(data: object,id:any) => rest.put(base + `employee/${id}`,{},data, {})
 
 
 
