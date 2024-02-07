@@ -91,6 +91,10 @@ const Contact =()=>{
                 <Form.Item label={"Joining Date"}
                            name={"joiningDate"}
                            required={true}
+                           rules={[{
+                               required: true,
+                               message: 'Please fill your DOB!',
+                           },]}
                 >
                     <DatePicker style={{width:"100%"}} format="YYYY-MM-DD"/>
 
