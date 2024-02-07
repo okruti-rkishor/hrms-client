@@ -183,11 +183,10 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
           </span>
         ) : (
           <Typography.Link disabled={editingKey !== ''} onClick={async()=>{
-            rest.userDelete(record.id);
+            rest.employeeDelete(record.id);
             const newData = data.filter((item:any)=>item.id===record.id)
             console.log(newData);
             setData(newData);
-            
           }}>
             Delete
           </Typography.Link>
@@ -221,7 +220,7 @@ const EmployeeSearchDataTable= ({employeeResponse}:any) => {
           },
         }}
         bordered
-        dataSource={data}
+        dataSource={employeeResponse}
         columns={mergedColumns}
         rowClassName="editable-row"
         pagination={{

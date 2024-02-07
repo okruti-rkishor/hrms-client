@@ -31,3 +31,12 @@
     }
   }
 }
+
+.employee-create-inputs .ant-input-affix-wrapper {
+  padding: 0 10px;
+  border-left: 5px solid #1677ff !important;
+
+  .ant-input {
+    border-left: 0!important;
+  }
+}

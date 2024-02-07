@@ -16,6 +16,13 @@ header {
     z-index: 5;
     padding: 0 50px 0 80px;
     background: linear-gradient(135deg, #665DCD 0%, #5FA4E6 44.76%) !important;
+
+    .ant-row {
+      .ant-col:last-child {
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 
   .ant-row {
