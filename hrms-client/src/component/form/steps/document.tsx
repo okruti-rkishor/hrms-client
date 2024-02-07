@@ -1,8 +1,9 @@
-import {Button, Form, Input, message, Upload, UploadProps} from "antd";
+import {Button, Collapse, CollapseProps, Form, Input, message, theme, Upload, UploadProps} from "antd";
 import restApi from "../../../services/http/api";
 import {Documents} from "../../../constant/constant";
-import React, {useState} from "react";
+import React, {CSSProperties, useState} from "react";
 import {UploadOutlined} from '@ant-design/icons';
+import {CaretRightOutlined} from "@ant-design/icons/lib";
 
 const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element => {
     const [state, setState] = useState<any>({
@@ -25,6 +26,132 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         },
 
     };
+
+    const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
+        {
+            key: '1',
+            label: 'Fill Your Personal Documents',
+            children: <>{(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
+                    if (key === "AADHAAR_CARD" || key === "PAN_CARD") {
+                        let tempFileProp = {...fileProps};
+                        if (isEditing === true && employeeData.documents[key]) {
+
+                            tempFileProp.defaultFileList = [
+                                {
+                                    uid: employeeData.documents[key].id,
+                                    name: employeeData.documents[key].file,
+                                    status: 'done',
+                                },
+                            ];
+                        }
+
+                        return <div style={{display: "flex"}}>
+                            <Form.Item name={key} label={Documents[key]}>
+                                <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
+                                        onRemove={() => onRemoveFile(key)} maxCount={1}>
+                                    <Button icon={<UploadOutlined/>}
+                                            disabled={!!(employeeData.documents[key])}>Upload</Button>
+                                </Upload>
+                            </Form.Item>
+                            <Form.Item name={key + "_NUMBER"}
+                                       initialValue={employeeData.documents[key]?.documentNumber ?? ""} key={key}
+                                       rules={[() => ({
+                                               validator(_, value) {
+                                                   if (isNaN(value)) {
+                                                       return Promise.reject("number has to be a number.");
+                                                   }
+                                                   if (value < 0) {
+                                                       return Promise.reject("number cannot be negative.");
+                                                   }
+
+                                                   if (value.length > 12) {
+                                                       return Promise.reject("number cannot be greater than 12.");
+                                                   }
+
+                                                   if (value.length === 12) {
+                                                       return Promise.resolve();
+                                                   } else if (value.length < 12) {
+                                                       return Promise.reject("number cannot be less than 12.");
+
+                                                   }
+                                                   return Promise.resolve();
+                                               },
+                                           }
+                                       ),]}>
+                                <Input style={{height: "32px", maxWidth: "150px"}}
+                                       disabled={!!(employeeData.documents[key])}
+                                       value={employeeData.documents[key]?.documentNumber ?? ""} key={index}
+                                       onChange={(e) => setDocumentNumber(e.target.value, key)}/>
+                            </Form.Item>
+
+                        </div>
+
+                    } else {
+                        <></>
+                    }
+                }
+            )}</>,
+            style: panelStyle,
+        },
+        {
+            key: '2',
+            label: 'Fill Your Qualification Documents',
+            children: <>{(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
+                    if (key === "SSC" || key === "HSC") {
+                        let tempFileProp = {...fileProps};
+                        if (isEditing === true && employeeData.documents[key]) {
+                            tempFileProp.defaultFileList = [
+                                {
+                                    uid: employeeData.documents[key].id,
+                                    name: employeeData.documents[key].file,
+                                    status: 'done',
+                                },
+                            ];
+                        }
+                        return <Form.Item name={key} label={Documents[key]}>
+                            <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
+                                    onRemove={(e) => onRemoveFile(key)} maxCount={1}>
+                                <Button icon={<UploadOutlined/>}
+                                        disabled={!!(employeeData.documents[key])}>Upload</Button>
+                            </Upload>
+                        </Form.Item>
+                    } else {
+                        <></>
+                    }
+                }
+            )}</>,
+            style: panelStyle,
+        },
+        {
+            key: '3',
+            label: 'Fill Your Proffessional Documents',
+            children: <>{(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
+                    if (key !== "SSC" && key !== "HSC" && key !== "AADHAAR_CARD" && key !== "PAN_CARD") {
+                        let tempFileProp = {...fileProps};
+                        if (isEditing === true && employeeData.documents[key]) {
+                            tempFileProp.defaultFileList = [
+                                {
+                                    uid: employeeData.documents[key].id,
+                                    name: employeeData.documents[key].file,
+                                    status: 'done',
+                                },
+                            ];
+                        }
+                        return <Form.Item name={key} label={Documents[key]}>
+                            <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
+                                    onRemove={(e) => onRemoveFile(key)} maxCount={1}>
+                                <Button icon={<UploadOutlined/>}
+                                        disabled={!!(employeeData.documents[key])}>Upload</Button>
+                            </Upload>
+                        </Form.Item>
+                    } else {
+                        <></>
+                    }
+                }
+            )}</>,
+            style: panelStyle,
+        },
+    ];
 
 
     const uploadFile = async ({file, onSuccess, onError}: any, customKey: any) => {
@@ -109,127 +236,32 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
 
     }
 
+    const { token } = theme.useToken();
+
+    const panelStyle: React.CSSProperties = {
+        marginBottom: 25,
+        background: token.colorFillAlter,
+        borderRadius: token.borderRadiusLG,
+        border: 'none',
+    }
+
 
     return (
         <>
+
             <div style={{display: "flex", flexDirection: "column", marginTop: "35px", gap: "30px"}}
                  className={"employee-create-inputs"}>
-
-                {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
-                        if (key === "AADHAAR_CARD" || key === "PAN_CARD") {
-                            let tempFileProp = {...fileProps};
-                            if (isEditing === true && employeeData.documents[key]) {
-
-                                tempFileProp.defaultFileList = [
-                                    {
-                                        uid: employeeData.documents[key].id,
-                                        name: employeeData.documents[key].file,
-                                        status: 'done',
-                                    },
-                                ];
-                            }
-
-                            return <div style={{display: "flex"}}>
-                                <Form.Item name={key} label={Documents[key]}>
-                                    <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
-                                            onRemove={() => onRemoveFile(key)} maxCount={1}>
-                                        <Button icon={<UploadOutlined/>}
-                                                disabled={!!(employeeData.documents[key])}>Upload</Button>
-                                    </Upload>
-                                </Form.Item>
-                                <Form.Item name={key + "_NUMBER"}
-                                           initialValue={employeeData.documents[key]?.documentNumber ?? ""} key={key}
-                                           rules={[() => ({
-                                                   validator(_, value) {
-                                                       if (isNaN(value)) {
-                                                           return Promise.reject("number has to be a number.");
-                                                       }
-                                                       if (value < 0) {
-                                                           return Promise.reject("number cannot be negative.");
-                                                       }
-
-                                                       if (value.length > 12) {
-                                                           return Promise.reject("number cannot be greater than 12.");
-                                                       }
-
-                                                       if (value.length === 12) {
-                                                           return Promise.resolve();
-                                                       } else if (value.length < 12) {
-                                                           return Promise.reject("number cannot be less than 12.");
-
-                                                       }
-                                                       return Promise.resolve();
-                                                   },
-                                               }
-                                           ),]}>
-                                    <Input style={{height: "32px", maxWidth: "150px"}}
-                                           disabled={!!(employeeData.documents[key])}
-                                           value={employeeData.documents[key]?.documentNumber ?? ""} key={index}
-                                           onChange={(e) => setDocumentNumber(e.target.value, key)}/>
-                                </Form.Item>
-
-                            </div>
-
-                        } else {
-                            <></>
-                        }
-                    }
-                )}
+                <Collapse
+                    bordered={false}
+                    expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                    style={{ background: token.colorBgContainer }}
+                    items={getItems(panelStyle)}
+                />
 
 
-                <label style={{textWrap: "nowrap", textAlign: "left", display: "block"}}>Please fill your Education
-                    Documents :</label>
-                {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
-                        if (key === "SSC" || key === "HSC") {
-                            let tempFileProp = {...fileProps};
-                            if (isEditing === true && employeeData.documents[key]) {
-                                tempFileProp.defaultFileList = [
-                                    {
-                                        uid: employeeData.documents[key].id,
-                                        name: employeeData.documents[key].file,
-                                        status: 'done',
-                                    },
-                                ];
-                            }
-                            return <Form.Item name={key} label={Documents[key]}>
-                                <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
-                                        onRemove={(e) => onRemoveFile(key)} maxCount={1}>
-                                    <Button icon={<UploadOutlined/>}
-                                            disabled={!!(employeeData.documents[key])}>Upload</Button>
-                                </Upload>
-                            </Form.Item>
-                        } else {
-                            <></>
-                        }
-                    }
-                )}
 
-                <label style={{textWrap: "nowrap", textAlign: "left", display: "block"}}>Please fill your Proffesional
-                    Documents :</label>
-                {(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
-                        if (key !== "SSC" && key !== "HSC" && key !== "AADHAAR_CARD" && key !== "PAN_CARD") {
-                            let tempFileProp = {...fileProps};
-                            if (isEditing === true && employeeData.documents[key]) {
-                                tempFileProp.defaultFileList = [
-                                    {
-                                        uid: employeeData.documents[key].id,
-                                        name: employeeData.documents[key].file,
-                                        status: 'done',
-                                    },
-                                ];
-                            }
-                            return <Form.Item name={key} label={Documents[key]}>
-                                <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
-                                        onRemove={(e) => onRemoveFile(key)} maxCount={1}>
-                                    <Button icon={<UploadOutlined/>}
-                                            disabled={!!(employeeData.documents[key])}>Upload</Button>
-                                </Upload>
-                            </Form.Item>
-                        } else {
-                            <></>
-                        }
-                    }
-                )}
+
+
             </div>
         </>
     )

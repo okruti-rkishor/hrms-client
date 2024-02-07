@@ -1,10 +1,47 @@
-import {Button, Card, DatePicker, Form, Input, Radio, Select} from "antd";
+import {Button, Card, DatePicker, Form, Input, Radio, Select, SelectProps, Space} from "antd";
 import {Designation, Gender, Type_Time} from "../../../constant/constant";
 import React from "react";
 import {CloseOutlined} from "@ant-design/icons/lib";
 
 const Experience = () =>{
     const { RangePicker } = DatePicker;
+    const options: SelectProps['options'] = [
+        {
+            label: 'Javascript',
+            value: 'javascript',
+            desc: 'Javascript',
+        },
+        {
+            label: 'React JS',
+            value: 'react js',
+            desc: 'React JS',
+        },
+        {
+            label: 'Java',
+            value: 'java',
+            desc: 'Java',
+        },
+        {
+            label: 'HTML',
+            value: 'html',
+            desc: 'HTML',
+        },
+        {
+            label: 'CSS',
+            value: 'css',
+            desc: 'CSS',
+        },
+        {
+            label: 'Spring Boot',
+            value: 'spring boot',
+            desc: 'Spring Boot',
+        },
+    ];
+    const handleChange = (value: string[]) => {
+        console.log(`selected ${value}`);
+    };
+
+
     return(
         <>
             <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"Experience employee-create-inputs"}>
@@ -54,7 +91,7 @@ const Experience = () =>{
                             {fields.map((field) => (
                                 <Card
                                     size="small"
-                                    title={`${field.name}`}
+                                    title={`Please fill your previous company experience`}
                                     key={field.key}
                                     extra={
                                         <CloseOutlined
@@ -119,8 +156,24 @@ const Experience = () =>{
                                     >
                                         <Input />
                                     </Form.Item>
+
                                     <Form.Item label={"Skills"} name={[field.name, 'skills']} required={true}>
-                                        <Input />
+                                        <Select
+                                            mode="multiple"
+                                            style={{ width: '100%' }}
+                                            placeholder="select your skills"
+                                            onChange={handleChange}
+                                            optionLabelProp="label"
+                                            options={options}
+                                            optionRender={(option) => (
+                                                <Space>
+        <span role="img" aria-label={option.data.label}>
+          {option.data.emoji}
+        </span>
+                                                    {option.data.desc}
+                                                </Space>
+                                            )}
+                                        />
                                     </Form.Item>
                                     <Form.Item label={"Total CTC"} name={[field.name, 'annualCTC']} required={true} rules={[
                                         () => ({

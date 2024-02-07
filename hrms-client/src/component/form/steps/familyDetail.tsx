@@ -15,7 +15,7 @@ const FamilyDetail = () => {
                             {fields.map((field) => (
                                 <Card
                                     size="small"
-                                    title={`${field.name}`}
+                                    title={`Family member`}
                                     key={field.key}
                                     extra={
                                         <CloseOutlined
@@ -79,9 +79,9 @@ const FamilyDetail = () => {
                                                        },
                                                    }),
                                                ]}>
-                                        <Input prefix={+91} required={true} style={{width:"100%"}}/>
+                                        <Input prefix={"+91"} required={true} style={{width:"100%"}}/>
                                     </Form.Item>
-                                    <Form.Item label={"Gender"} name={[field.name, 'gender']}>
+                                    <Form.Item label={"Gender"} name={[field.name, 'gender']} required={true}>
                                         <Radio.Group style={{display:"flex"}}>
                                             {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
                                                 <Radio.Button value={key} key={key}

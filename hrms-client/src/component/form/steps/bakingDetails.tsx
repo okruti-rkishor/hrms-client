@@ -24,7 +24,10 @@ const BankingDeatils=()=>{
                                     }
                                 >
                                     <Form.Item name={[field.name, 'accountHolderName']} label={"Account Holder Name"} rules={[
-
+                                        {
+                                                required:true,
+                                                message:"please enter your account name"
+                                        },
                                         () => ({
                                             validator(_, value) {
                                                 if (!value) {
@@ -41,6 +44,10 @@ const BankingDeatils=()=>{
                                     </Form.Item>
 
                                     <Form.Item name={[field.name, 'accountNumber']} label={"Account Number"} rules={[
+                                        {
+                                            required:true,
+                                            message:"please enter your account number"
+                                        },
 
                                         () => ({
                                             validator(_, value) {
@@ -58,6 +65,10 @@ const BankingDeatils=()=>{
                                     </Form.Item>
 
                                     <Form.Item name={[field.name, 'branchName']} label={"Branch Name"} rules={[
+                                        {
+                                            required:true,
+                                            message:"please enter your branch name"
+                                        },
 
                                         () => ({
                                             validator(_, value) {
@@ -75,6 +86,10 @@ const BankingDeatils=()=>{
                                     </Form.Item>
 
                                     <Form.Item name={[field.name, 'branchCode']} label={"Branch Code"} rules={[
+                                        {
+                                            required:true,
+                                            message:"please enter your branch code"
+                                        },
 
                                         () => ({
                                             validator(_, value) {
@@ -92,6 +107,10 @@ const BankingDeatils=()=>{
                                     </Form.Item>
 
                                     <Form.Item name={[field.name, 'ifscCode']} label={"IFSC Code"} rules={[
+                                        {
+                                            required:true,
+                                            message:"please enter your IFSC code"
+                                        },
                                         () => ({
                                             validator(_, value) {
                                                 if (!value) {

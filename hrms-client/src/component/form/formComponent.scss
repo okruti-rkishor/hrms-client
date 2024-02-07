@@ -144,4 +144,8 @@ label{
 //    display: none;
 //
 //}
-
+.dateOfBirth_help{
+  >.ant-form-item-explain-error{
+    margin-left:65px !important;
+  }
+}

@@ -5,7 +5,6 @@ export enum Gender {
 export enum Type_Time{
     PART_TIME="Partime",
     FULL_TIME="FullTime",
-    HYBRID="Hybrid",
     FREELANCER="FreeLancer",
     CONTRACT="Contract"
 }

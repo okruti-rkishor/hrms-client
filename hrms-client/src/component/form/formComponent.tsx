@@ -65,9 +65,17 @@ const FormComponent = () =>{
 
 
     const onChange = (value: any) => {
+        // setCurrent(value);
+
         form.validateFields().then((result)=>{
             setCurrent(value);
-            if(current===4)setEmployeeData({...employeeData,familyDetails:result.familyDetails})
+
+            if(current===4){
+                console.log(employeeData.familyDetails);
+                console.log(result);
+
+                setEmployeeData({...employeeData,familyDetails:result.familyDetails});
+            }
             if(current===3){
                 console.log("result", {...result});
                 var newResult = JSON.parse(JSON.stringify(result));
@@ -95,6 +103,12 @@ const FormComponent = () =>{
 
 
         }).catch((error)=>{
+            if(current>value){
+                setCurrent(value);
+            }
+
+
+
             console.log("error",error,value);
         });
 
@@ -236,7 +250,7 @@ const FormComponent = () =>{
                       initialValues={{ gender:Object.keys(Gender)[0],title:"Mr"}}
                 >
                     {current === 0 && (<>
-                        <PersonalDetails/>
+                        <PersonalDetails employeeData={employeeData} setEmployeeData={setEmployeeData}/>
                     </>)}
                     {current === 1 && (<>
                         <Address/>

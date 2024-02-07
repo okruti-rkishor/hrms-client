@@ -102,11 +102,11 @@ const Address =()=>{
                                        if (isNaN(value)) {
                                            return Promise.reject("Post code has to be a number.");
                                        }
-                                       if (value.length < 5) {
-                                           return Promise.reject("Post code can't be less than 5 digits");
+                                       if (value.length < 6) {
+                                           return Promise.reject("Post code can't be less than 6 digits");
                                        }
-                                       if (value.length > 5) {
-                                           return Promise.reject("Post code can't be more than 5 digits");
+                                       if (value.length > 6) {
+                                           return Promise.reject("Post code can't be more than 6 digits");
                                        }
                                        return Promise.resolve();
                                    },
