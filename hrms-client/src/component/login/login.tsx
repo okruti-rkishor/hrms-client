@@ -26,26 +26,30 @@ export default function Login() {
     setProfile("");
   };
 
-  const onFinish = async (values: any) => {
-    const response = await rest.userLogin(userInputValues);
-    const token = response.jsonToken;
+  const onFinishLogin = async (values: any) => {
     let decoded = null;
 
-    if (response.jsonToken) {
-      try {
-        decoded = jwtDecode(token);
-        setDecodeToken(decoded);
-      } catch (error: any) {
-        console.error("Error decoding JWT:", error.message);
+    try {
+      const response = await rest.userLogin(userInputValues);
+      const token = response.jsonToken;
+      if (token) {
+        try {
+          const userLoginData = await rest.userLoginDetail(values.email);
+          const userCardData = { ...userLoginData, loginStatus: true };
+          setNewUser(userCardData);
+          navigate("/");
+          decoded = jwtDecode(token);
+          setDecodeToken(decoded);
+          localStorage.setItem("loginToken",token);
+        } catch (error: any) {
+          console.error("Error decoding JWT:", error.message);
+        }
+       
+      } else {
+        navigate("/login");
       }
-
-      const userLoginData = await rest.userLoginDetail(values.email);
-      const userCardData = { ...userLoginData, loginStatus: true };
-      
-      setNewUser(userCardData);
-      navigate("/");
-    } else {
-      navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -85,7 +89,7 @@ export default function Login() {
                     wrapperCol={{ span: 18 }}
                     style={{ maxWidth: 600 }}
                     initialValues={{ remember: true }}
-                    onFinish={onFinish}
+                    onFinish={onFinishLogin}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                     layout="vertical"
@@ -125,7 +129,7 @@ export default function Login() {
                             /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
                           ),
                           message:
-                            "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required",
+                            "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
                         },
                       ]}
                     >
@@ -158,13 +162,13 @@ export default function Login() {
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 8, span: 18 }}>
                       <div className="social-icons">
-                        <p>or continue with</p>
+                        {/* <p>or continue with</p> */}
                         {profile ? (
                           <User data={profile} onLogout={onLogout} />
                         ) : (
                           ""
                         )}
-                        <div className="social-icons__buttons">
+                        {/* <div className="social-icons__buttons">
                           <button>
                             <img src="icons/google.svg" alt="google" />
                           </button>
@@ -180,7 +184,7 @@ export default function Login() {
                           <button>
                             <img src="icons/linkedin.svg" alt="linkedin" />
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </Form.Item>
                   </Form>

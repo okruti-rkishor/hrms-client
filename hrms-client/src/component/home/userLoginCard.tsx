@@ -3,12 +3,14 @@ import {Avatar, Button, Card, Popover, Tag,} from 'antd';
 import UserLoginContext from "../../context/userLoginContext";
 import rest from "../../services/http/api";
 import './userLoginCard.scss';
+import { useNavigate } from 'react-router-dom';
 
 const { Meta } = Card;
 
 const UserDataContent = () => {
     const {newUser, setNewUser} = useContext<any>(UserLoginContext);
     const role = newUser.role;
+    const navigate = useNavigate();
 
     let color;
     if (role === 'ADMIN') {
@@ -21,7 +23,9 @@ const UserDataContent = () => {
 
     const handleLogout = async () => {
         try {
-            await rest.userLogout();
+            await rest.userLogout(localStorage.getItem('loginToken'));
+            localStorage.removeItem('loginToken');
+            navigate('/login')
             setNewUser({
                 loginStatus: false,
                 id: "",

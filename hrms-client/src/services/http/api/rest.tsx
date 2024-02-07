@@ -16,7 +16,7 @@ function RestApi(base:any){
         timeout: 300000
     });
 
-    async function post(uriTemplate:string, pathArgs:any, body:any, queryArgs?:any, timeout?:number,headers?:any) {
+    async function post(uriTemplate:string, pathArgs:any, body:any, queryArgs?:any,headers?:any,timeout?:number) {
         const uri = pathArgs ? Mustache.render(uriTemplate, pathArgs) : uriTemplate;
         console.log("POST " + uri, queryArgs ? queryArgs : "");
         console.log(JSON.stringify(body));
