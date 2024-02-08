@@ -49,6 +49,8 @@ const EmployeeCreate = () =>{
             content: 'Last-content',
         },
     ];
+    const [isExperienceEditing,setIsExperienceEditing]=useState<any>(false);
+
 
     const [isEditing,setIsEditing]=useState<any>(false);
     let {id}=useParams();
@@ -61,6 +63,7 @@ const EmployeeCreate = () =>{
         form.validateFields().then((result)=>{
             setCurrent(value);
 
+
             if(current===4){
                 console.log(employeeData.familyDetails);
                 console.log(result);
@@ -69,6 +72,7 @@ const EmployeeCreate = () =>{
             }
 
             if(current===3){
+                setIsExperienceEditing(true);
                 console.log("result", {...result});
                 var newResult = JSON.parse(JSON.stringify(result));
                 const duration = newResult.previousExperiences.map((item:any)=>{
@@ -146,6 +150,22 @@ const EmployeeCreate = () =>{
         if(isEditing===false){
             restApi.employeeCreate(payload).then((e)=>{message.success("data successfully inserted")}).catch(((e)=>{message.error("data not inserted")}));
         } else{
+            if(isExperienceEditing===false){
+                var newResult = JSON.parse(JSON.stringify(employeeData.previousExperiences));
+                const duration = employeeData.previousExperiences.map((item:any)=>{
+                    const duration = {
+                        "startDate":item.duration[0],
+                        "endDate":item.duration[1]
+                    }
+                    item.duration=duration;
+                    return duration;
+                });
+                for(let e=0;e<employeeData.previousExperiences.length;e++){
+                    employeeData.previousExperiences[e].duration=duration[e];
+                }
+                setEmployeeData({...employeeData,previousExperiences:newResult.previousExperiences})
+
+            }
             restApi.postEmployeeDetailsByID(payload,id).then((e)=>message.success("data successfully inserted")).catch((e)=>message.error("data is not inserted"));
         }
     }

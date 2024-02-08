@@ -45,12 +45,6 @@
     margin-right: 80px;
     margin-top: unset !important;
   }
-
-  &-steps {
-
-  }
-
-
 }
 
 input{
@@ -104,6 +98,10 @@ label{
 .ant-upload-wrapper{
   display:flex;
   gap: 25px;
+
+  .ant-upload-list {
+    max-width: 200px;
+  }
 }
 
 .ant-form-item-control-input-content{
