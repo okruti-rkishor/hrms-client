@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
 import { employeeInterface } from "./employeeSearch";
 import { useNavigate } from "react-router-dom";
@@ -89,7 +89,8 @@ const onFinishFailedToast = (errorInfo: any) => {
 };
 
 const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
-  const initialData = JSON.parse(JSON.stringify(employeeResponse));
+  // const initialData = JSON.parse(JSON.stringify(employeeResponse));
+  let newEmployeeResponse = employeeResponse;
   const [form] = Form.useForm();
   const [data, setData] = useState(employeeResponse);
   const [editingKey, setEditingKey] = useState("");
@@ -109,9 +110,10 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
   const deleteHandel = async (record: any) => {
     try {
       rest.employeeDelete(record.id);
-      const newData = data.filter((item: any) => item.id !== record.id);
+      const newData = newEmployeeResponse.filter((item: any) => item.id !== record.id);
       console.log(newData);
       setData(newData);
+      newEmployeeResponse = newData;
       onFinishSuccessToast("Employee Deleted Successfully!")
     } catch (error) {
       console.log(error)
@@ -226,6 +228,10 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
       }),
     };
   });
+
+  useEffect(()=>{
+    setData(employeeResponse);
+  },[employeeResponse])
 
   return (
     <Form form={form} component={false}>
