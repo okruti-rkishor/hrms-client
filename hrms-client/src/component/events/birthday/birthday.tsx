@@ -6,12 +6,12 @@ import { useContext } from "react";
 function Birthday() {
   EventData('birthday');
   const { birthdayData } = useContext<any>(EventContext);
-  const data11 = birthdayData;
+  const newBirthdayData = birthdayData;
 
   const newData = {
     today:
-      (data11.today &&
-        data11.today.map((item: any) => {
+      (newBirthdayData.today &&
+        newBirthdayData.today.map((item: any) => {
           item.date = item.dateOfBirth;
           delete item["dateOfBirth"];
           return item;
@@ -19,8 +19,8 @@ function Birthday() {
       [],
 
     passed:
-      (data11.passed &&
-        data11.passed.map((item: any) => {
+      (newBirthdayData.passed &&
+        newBirthdayData.passed.map((item: any) => {
           item.date = item.dateOfBirth;
           delete item["dateOfBirth"];
           return item;
@@ -28,8 +28,8 @@ function Birthday() {
       [],
 
     upcoming:
-      (data11.upcoming &&
-        data11.upcoming.map((item: any) => {
+      (newBirthdayData.upcoming &&
+        newBirthdayData.upcoming.map((item: any) => {
           item.date = item.dateOfBirth;
           delete item["dateOfBirth"];
           return item;

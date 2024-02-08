@@ -40,7 +40,7 @@ const Common: React.FC<CommonComponentProps> = ({ data, event }) => {
               <h5 className="today-birthday-name" key={index}>
                 {user.employeeName}
               </h5>
-          )) : <p className='no-today-birthday'>🎉  There is no {event} event today  🎉</p>}
+          )) : <p className='no-event-today'>🎉  There is no {event} event today  🎉</p>}
         </PageHeader>
       </section>
       <section className="other-birthday-list">
