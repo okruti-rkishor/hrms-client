@@ -95,11 +95,11 @@ const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
                                        if (isNaN(value)) {
                                            return Promise.reject("Age has to be a number.");
                                        }
-                                       if (value < 18) {
+                                       if (ageDuration < 18) {
                                            return Promise.reject("Age can't be less than 18");
                                        }
-                                       if (value > 45) {
-                                           return Promise.reject("Age can't be less than 45");
+                                       if (ageDuration > 45) {
+                                           return Promise.reject("Age can't be greater than 45");
                                        }
                                        return Promise.resolve();
                                    },
@@ -122,7 +122,7 @@ const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
 
                 </Form.Item>
                 {ageDuration ? <span style={{
-                    marginTop: "-55px",
+                    marginTop: "-46px",
                     width: "fit-content",
                     marginLeft: "202px"
                 }}>age:{ageDuration}</span> : <></>}

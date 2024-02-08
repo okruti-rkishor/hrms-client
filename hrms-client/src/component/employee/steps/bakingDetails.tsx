@@ -13,7 +13,7 @@ const BankingDeatils=()=>{
                             {fields.map((field) => (
                                 <Card
                                     size="small"
-                                    title={`${field.name}`}
+                                    title={"Account Detail"}
                                     key={field.key}
                                     extra={
                                         <CloseOutlined

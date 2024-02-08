@@ -89,7 +89,8 @@ const EmployeeCreate = () =>{
                 setEmployeeData({...employeeData,previousExperiences:newResult.previousExperiences,type:result.type,designation:result.designation})
             }
 
-            if(current===5)setEmployeeData({...employeeData,bankDetails:result.bankDetails})
+            if(current===5)setEmployeeData({...employeeData,bankDetails:result.bankDetails});
+            setCurrent(value);
         }).catch((error)=>{
             if(current>value){
                 setCurrent(value);

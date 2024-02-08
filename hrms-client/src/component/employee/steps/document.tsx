@@ -45,7 +45,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                             ];
                         }
 
-                        return <div style={{display: "flex"}}>
+                        return <div style={{display: "flex", gap: '40px'}}>
                             <Form.Item name={key} label={Documents[key]}>
                                 <Upload {...tempFileProp} customRequest={(e) => uploadFile(e, key,)}
                                         onRemove={() => onRemoveFile(key)} maxCount={1}>

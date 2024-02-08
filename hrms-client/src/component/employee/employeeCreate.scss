@@ -24,9 +24,9 @@
       }
     }
 
-    .dateOfBirth_help {
-      >.ant-form-item-explain-error {
-        margin-left: 65px !important;
+    #dateOfBirth_help{
+      >.ant-form-item-explain-error:only-child{
+        margin-left:65px !important;
       }
     }
   }
@@ -49,6 +49,8 @@
   &-steps {
 
   }
+
+
 }
 
 input{
@@ -101,7 +103,7 @@ label{
 
 .ant-upload-wrapper{
   display:flex;
-  gap: 45px;
+  gap: 25px;
 }
 
 .ant-form-item-control-input-content{
