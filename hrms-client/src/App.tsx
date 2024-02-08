@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {createBrowserRouter, createRoutesFromElements, Link, Route, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import Login from "./component/login/login";
 import LayoutComponent from './component/layout component/layoutComponent';
 import Home from "./component/home/home";
@@ -8,7 +8,7 @@ import Error from "./component/error page/error";
 import FormComponent from "./component/form/formComponent";
 import ApiInterceptor from "./apiInterceptor";
 import UserCreate from "./component/user/userCreate";
-import UserDataTable from "./component/user data table/userDataTable";
+import UserDataTable from "./component/user/userDataTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmployeeSearch from './component/employee/employeeSearch';

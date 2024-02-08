@@ -1,18 +1,7 @@
-import ReactDOM from "react-dom";
 import React, { useState } from "react";
-// import 'antd/dist/antd.css';
 import {Form, Row, Col, Input, Button, DatePicker, Select, Divider} from "antd";
-// import { PageHeader } from "@ant-design/pro-layout";
 import "./employeeSearch.scss";
-// import type { DatePickerProps, Space } from "antd";
-import {} from "antd";
-import {
-  Designation,
-  // Gender,
-  // Type_Time,
-  // Status,
-  // Blood_Group,
-} from "../../../src/constant/constant";
+import { Designation } from "../../../src/constant/constant";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import {PageHeader} from "@ant-design/pro-layout";
@@ -42,15 +31,9 @@ export interface employeeInterface {
   totalExperience: string;
   type: string;
   bankDetails: {
-    // Define the structure of bankDetails if available
-    // For example: accountNumber: string; bankName: string; etc.
-    // ...
   }[];
-  documents: any[]; // You can replace 'any' with a more specific type if needed
+  documents: any[];
   familyDetails: {
-    // Define the structure of familyDetails if available
-    // For example: familyMemberName: string; relation: string; etc.
-    // ...
   }[];
   permanentAddress: {
     line1: string;
@@ -67,9 +50,6 @@ export interface employeeInterface {
     zipCode: string;
   };
   previousExperiences: {
-    // Define the structure of previousExperiences if available
-    // For example: companyName: string; jobTitle: string; etc.
-    // ...
   }[];
 }
 
@@ -128,8 +108,8 @@ function EmployeeSearch() {
           (nameString: string): string =>
             nameString.charAt(0).toUpperCase() +
             nameString.slice(1).toLowerCase()
-        ); // capitalize first character of array of string
-        const formattedDesignation = designation.join(" "); // convert array of string to string saprated with space
+        );
+        const formattedDesignation = designation.join(" ");
         return {
           ...employee,
           employeeName: `${employee.name.firstName}${employee.name.middleName!==null?" "+employee.name.middleName:""} ${employee.name.lastName}`,
@@ -152,7 +132,6 @@ function EmployeeSearch() {
             title="Employee Search"
         />
       </Divider>
-      {/*<h1 className="title-heading">Employee Search</h1>*/}
       <Form
         form={form}
         name="advanced_search"

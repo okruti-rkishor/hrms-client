@@ -5,7 +5,7 @@ import restApi from "../../services/http/api/index";
 import {  useNavigate } from "react-router-dom";
 import React from "react";
 import { User_type } from "../../constant/constant";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import success = toast.success;
 import error = toast.error;

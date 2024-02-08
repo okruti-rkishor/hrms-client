@@ -1,74 +1,67 @@
-.forms-steps{
-  display: flex;
-  max-width: 1100px;
-  margin: 20px auto;
-  align-items: center;
-  gap: 70px;
-}
+.employee-create {
+  &-section {
+    .forms-steps{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1150px;
+      width: 100%;
+      margin: 16px auto 0;
+      gap: 90px;
 
-.employee-create-section {
-  //width: 80%;
-  //margin: 20px auto;
-  //max-width: 1025px;
+      .ant-steps.employee-create-steps  {
+          max-width: 20%;
+      }
+    }
 
+    // Employee create Form Add Items card
+    .ant-card-bordered {
+      border: 1px solid #1677ff ;
 
-  .employee-create-form {
-    height: 580px;
+      .ant-card-head {
+        border-bottom: 1px solid #1677ff;
+        background-color: #1677ff1a;
+      }
+    }
+
+    .dateOfBirth_help {
+      >.ant-form-item-explain-error {
+        margin-left: 65px !important;
+      }
+    }
+  }
+
+  &-form {
+    width: 70%;
+    height: 550px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
 
-  .employee-create-inputs {
-    margin-right: 20px;
+  &-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 20px !important;
+    margin-right: 80px;
+    margin-top: unset !important;
   }
 
-  // Employee create Form Add Items card
-  .ant-card-bordered {
-    border: 1px solid #1677ff ;
+  &-steps {
 
-    .ant-card-head {
-      border-bottom: 1px solid #1677ff;
-      background-color: #1677ff1a;
-    }
   }
 }
 
 input{
-  //outline: none !important;
-  //border-width: 0 0 2px !important;
-  //border-color: blue !important;
-  //background: transparent !important;
-  //border-radius: unset !important;
-  //
-  //&:focus,&:focus-visible{
-  //  box-shadow: none !important;
-  //}
   height: 40px;
 }
 
 .ant-select-selector{
-  //outline: none !important;
-  //border-width: 0 0 2px !important;
-  //border-color: blue !important;
-  //background: transparent !important;
-  //border-radius: unset !important;
-  //&:focus,&:focus-visible{
-  //  box-shadow: none !important;
-  //}
   height: 40px !important;
   text-align: left;
 }
 
 .ant-picker{
-  //outline: none !important;
-  //border-width: 0 0 2px !important;
-  //border-color: blue !important;
-  //background: transparent !important;
-  //border-radius: unset !important;
   height: 40px;
-  //&:focus,&:focus-visible{
-  //  box-shadow: none !important;
-  //}
 }
 
 label{
@@ -78,6 +71,7 @@ label{
   width: 200px;
   text-align: left;
 }
+
 .ant-space-item:first-child{
   width: 200px;
 }
@@ -90,62 +84,36 @@ label{
 }
 
 .ant-steps-vertical .ant-steps-item{
-  height: 85px;
-  max-height: 85px;
-  min-height: 85px;
+  height: 80px;
+  max-height: 80px;
+  min-height: 80px;
 
-  &:last-child{
-    height: 0;
-    max-height: 0;
-    min-height: 0;
-  }
+  //&:last-child{
+  //  height: 0;
+  //  max-height: 0;
+  //  min-height: 0;
+  //}
 }
 
 .ant-form-item-explain-error{
   text-align: left;
 }
+
 .ant-upload-wrapper{
   display:flex;
   gap: 45px;
 }
+
 .ant-form-item-control-input-content{
   display: flex;
 }
+
 .uploadDocument{
   display:flex;
   gap:62px;
 
-  //&_withNumber{
-  //  display:flex;
-  //  gap:45px;
-  //  flex-direction: row-reverse;
-  //
-  //
-  //}
-  //&:last-child{
-  //  gap:104px;
-  //
-  //}
-  //.ant-form-item-explain-error{
-  //  max-width: 150px;
-  //}
   label{
     width: 174px;
     display: block;
-
-
-  }
-
-
-
-}
-//.rc-virtual-list-holder::-webkit-scrollbar{
-//
-//    display: none;
-//
-//}
-.dateOfBirth_help{
-  >.ant-form-item-explain-error{
-    margin-left:65px !important;
   }
 }

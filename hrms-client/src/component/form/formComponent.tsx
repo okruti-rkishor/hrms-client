@@ -1,11 +1,6 @@
 import React, {useEffect, useState,} from "react";
-import {
-    Form,
-    Button, message,
-
-} from "antd";
+import {Form, Button, message, Steps, Divider, Layout} from "antd";
 import '../form/formComponent.scss';
-import { Steps } from 'antd';
 import restApi from "../../services/http/api/index";
 import {useParams} from "react-router-dom";
 import dayjs from 'dayjs'
@@ -17,8 +12,7 @@ import BankingDeatils from "./steps/bakingDetails";
 import Document from "./steps/document";
 import Experience from "./steps/experience";
 import {Gender} from "../../constant/constant";
-
-
+import {PageHeader} from "@ant-design/pro-layout";
 
 
 const FormComponent = () =>{
@@ -55,6 +49,7 @@ const FormComponent = () =>{
             content: 'Last-content',
         },
     ];
+
     const [isEditing,setIsEditing]=useState<any>(false);
     let {id}=useParams();
 
@@ -62,13 +57,10 @@ const FormComponent = () =>{
         return "ok"+Math.random().toString(36).slice(2);
     }
 
-
-
     const onChange = (value: any) => {
-        // setCurrent(value);
-
+        setCurrent(value);
         form.validateFields().then((result)=>{
-            setCurrent(value);
+
 
             if(current===4){
                 console.log(employeeData.familyDetails);
@@ -76,6 +68,7 @@ const FormComponent = () =>{
 
                 setEmployeeData({...employeeData,familyDetails:result.familyDetails});
             }
+
             if(current===3){
                 console.log("result", {...result});
                 var newResult = JSON.parse(JSON.stringify(result));
@@ -88,31 +81,24 @@ const FormComponent = () =>{
                     item.skills=Object.values(item.skills);
                     return duration;
                 });
+
                 // setEmployeeData({...result,duration:duration})
                 for(let e=0;e<newResult.previousExperiences.length;e++){
                     newResult.previousExperiences[e].duration=duration[e];
                 }
 
-
-
-
                 setEmployeeData({...employeeData,previousExperiences:newResult.previousExperiences,type:result.type,designation:result.designation})
             }
+
             if(current===5)setEmployeeData({...employeeData,bankDetails:result.bankDetails})
-
-
-
         }).catch((error)=>{
             if(current>value){
                 setCurrent(value);
             }
-
-
-
             console.log("error",error,value);
         });
-
     };
+
     const onFinish = async (value:object) =>{
         console.log("eeeeee");
         const payload={
@@ -156,17 +142,13 @@ const FormComponent = () =>{
             "bankDetails":employeeData.bankDetails,
             "documents": Object.keys(employeeData.documents).map((item:any)=>{return {id:employeeData.documents[item].id}})
         };
+
         if(isEditing===false){
             restApi.employeeCreate(payload).then((e)=>{message.success("data successfully inserted")}).catch(((e)=>{message.error("data not inserted")}));
-
-        }else{
+        } else{
             restApi.postEmployeeDetailsByID(payload,id).then((e)=>message.success("data successfully inserted")).catch((e)=>message.error("data is not inserted"));
         }
-
-        
     }
-
-
 
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
@@ -227,19 +209,19 @@ const FormComponent = () =>{
         }
         },[]);
 
-
-
     return (
-        <div className='parent employee-create-section data-table'>
+        <Layout className='employee-create-section data-table'>
+            <Divider orientation="left">
+                <PageHeader title="Employee Create"/>
+            </Divider>
             <div className="forms-steps">
                 <Steps current={current}
                        items={items}
                        direction="vertical"
                        onChange={onChange}
-                       style={{width:"19%"}}
+                       className='employee-create-steps'
                 />
                 <Form onFinish={onFinish}
-                      style={{width:"74%"}}
                       onValuesChange={(e)=>{
                           if(current<=2){
                               setEmployeeData({...employeeData,...e})
@@ -278,13 +260,9 @@ const FormComponent = () =>{
                         </Form.Item>
                     </>)}
                 </Form>
-
-
             </div>
-        </div>
+        </Layout>
     )
-
-
 }
 
 export default FormComponent;

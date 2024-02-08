@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
-import { employeeInterface } from "./employeeSearch";
 import { useNavigate } from "react-router-dom";
 import rest from "../../services/http/api";
 import {  toast } from "react-toastify";
@@ -123,7 +122,6 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as Item;
-
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
@@ -201,12 +199,12 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
           </span>
         ) : (
           <>
-          <Typography.Link disabled={editingKey !== ""} onClick={() => navigate(`/employee/create/${record.id}`)}>
-            <EditOutlined />
-          </Typography.Link>
-          <Typography.Link disabled={editingKey !== ""} onClick={() => {deleteHandel(record)}}>
-            <DeleteOutlined />
-          </Typography.Link>
+            <Typography.Link disabled={editingKey !== ""} onClick={() => navigate(`/employee/create/${record.id}`)}>
+              <EditOutlined />
+            </Typography.Link>
+            <Typography.Link disabled={editingKey !== ""} onClick={() => {deleteHandel(record)}}>
+              <DeleteOutlined />
+            </Typography.Link>
           </>
         );
       },
