@@ -1,6 +1,6 @@
 import React, {useEffect, useState,} from "react";
 import {Form, Button, message, Steps, Divider, Layout} from "antd";
-import '../form/formComponent.scss';
+import './employeeCreate.scss';
 import restApi from "../../services/http/api/index";
 import {useParams} from "react-router-dom";
 import dayjs from 'dayjs'
@@ -15,7 +15,7 @@ import {Gender} from "../../constant/constant";
 import {PageHeader} from "@ant-design/pro-layout";
 
 
-const FormComponent = () =>{
+const EmployeeCreate = () =>{
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
     const [employeeData,setEmployeeData]=useState<any>({gender:Object.keys(Gender)[0],title:"Mr",bloodGroup:"NONE",status:"ACTIVE",documents:{} });
@@ -58,9 +58,8 @@ const FormComponent = () =>{
     }
 
     const onChange = (value: any) => {
-        setCurrent(value);
         form.validateFields().then((result)=>{
-
+            setCurrent(value);
 
             if(current===4){
                 console.log(employeeData.familyDetails);
@@ -265,4 +264,4 @@ const FormComponent = () =>{
     )
 }
 
-export default FormComponent;
+export default EmployeeCreate;

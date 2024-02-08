@@ -1,6 +1,5 @@
 import "./login.scss";
 import { useState, useContext } from "react";
-import User from "../user/user";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Image } from "antd";
 import rest from "../../services/http/api/index";
@@ -44,7 +43,7 @@ export default function Login() {
         } catch (error: any) {
           console.error("Error decoding JWT:", error.message);
         }
-       
+
       } else {
         navigate("/login");
       }
@@ -163,11 +162,11 @@ export default function Login() {
                     <Form.Item wrapperCol={{ offset: 8, span: 18 }}>
                       <div className="social-icons">
                         {/* <p>or continue with</p> */}
-                        {profile ? (
-                          <User data={profile} onLogout={onLogout} />
-                        ) : (
-                          ""
-                        )}
+                        {/*{profile ? (*/}
+                        {/*  <User data={profile} onLogout={onLogout} />*/}
+                        {/*) : (*/}
+                        {/*  ""*/}
+                        {/*)}*/}
                         {/* <div className="social-icons__buttons">
                           <button>
                             <img src="icons/google.svg" alt="google" />

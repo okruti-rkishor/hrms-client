@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import React from "react";
 import { Layout } from 'antd';
 import {Footer, Content} from "antd/es/layout/layout";
-import Navbar from "../side navbar/navbar";
+import Navbar from "../sideNavbar/navbar";
 import HeaderComponent from "../header/header";
 
 

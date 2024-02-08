@@ -2,10 +2,10 @@ import React from 'react';
 import './App.scss';
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import Login from "./component/login/login";
-import LayoutComponent from './component/layout component/layoutComponent';
+import LayoutComponent from './component/layoutComponent/layoutComponent';
 import Home from "./component/home/home";
 import Error from "./component/error page/error";
-import FormComponent from "./component/form/formComponent";
+import EmployeeCreate from "./component/employee/employeeCreate"
 import ApiInterceptor from "./apiInterceptor";
 import UserCreate from "./component/user/userCreate";
 import UserDataTable from "./component/user/userDataTable";
@@ -22,14 +22,14 @@ const router = createBrowserRouter(
             <Route path='/' element={<LayoutComponent />}>
                 <Route path='/' element={<Home/>}/>
                 <Route path='/home' element={<Home/>}/>
-                <Route path='/employee/create' element={<FormComponent/>}/>
+                <Route path='/employee/create' element={<EmployeeCreate/>}/>
                 <Route path='/user/detail' element={<UserDataTable/>}/>
                 <Route path='/user/create' element={<UserCreate/>}/>
                 <Route path='/employee/search' element={<EmployeeSearch />}/>
                 <Route path='/event/birthday' element={<Birthday />}/>
                 <Route path='/event/anniversary' element={<Anniversary />}/>
                 <Route path='/event/birthday/:id' element={<Birthday />}/>
-                <Route path={'/employee/create/:id'} element={<FormComponent/>}/>
+                <Route path={'/employee/create/:id'} element={<EmployeeCreate/>}/>
             </Route>
 
             <Route path='/login' element={<Login/>}/>
