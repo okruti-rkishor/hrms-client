@@ -30,21 +30,3 @@
     }
   }
 }
-
-
-::-webkit-scrollbar-track {
-  //-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
-  //background-color: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar {
-  width: 4px;
-  border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  //background-color: #FFF;
-  background-image: linear-gradient(180deg, #665DCD 10%, #5FA4E6 100%);
-}

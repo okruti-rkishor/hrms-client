@@ -1,8 +1,31 @@
+@import 'styles/common/00-settings/index.scss';
+@import 'styles/common/01-generic/index.scss';
+
+
 .App {
   display: flex;
   text-align: center;
   min-height: 100vh;
   position: relative;
+
+  .Toastify__toast-container {
+    width: unset;
+    min-width: 300px;
+  }
+
+  .ant-layout {
+    background: unset;
+  }
+}
+
+main.main-section {
+  .main-content {
+    max-width: 90vw;
+    margin: 32px auto;
+    padding: 24px 40px;
+    background-color: white;
+    border-radius: 8px;
+  }
 }
 
 .ant-page-header {

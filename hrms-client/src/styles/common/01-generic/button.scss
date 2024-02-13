@@ -1,0 +1,38 @@
+@mixin login-button() {
+  @include nunito-sans-regular();
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  outline: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: capitalize;
+
+  @media screen and (max-width: $hrms-breakpoint-l) {
+    @include nunito-sans-regular();
+    padding: 8px 16px;
+  }
+}
+
+
+@mixin submit-button() {
+  @include nunito-sans-regular();
+  align-items: center;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  outline: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: capitalize;
+
+  @media screen and (max-width: $hrms-breakpoint-l) {
+    @include nunito-sans-regular();
+    padding: 8px 16px;
+  }
+}

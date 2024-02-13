@@ -1,0 +1,61 @@
+// FONT FAMILY
+$hrms-font-family-poppins: "Poppins", sans-serif;
+$hrms-font-family-roboto: "Roboto", sans-serif;
+$hrms-font-family-merriweather: "Merriweather", serif;
+
+
+// FONT SIZE
+$hrms-font-size-xs: 12px;
+$hrms-font-size-s: 14px;
+$hrms-font-size-m: 16px;
+$hrms-font-size-sm: 18px;
+$hrms-font-size-ml: 20px;
+$hrms-font-size-l: 24px;
+$hrms-font-size-lm: 28px;
+$hrms-font-size-lx: 36px;
+$hrms-font-size-xl: 40px;
+$hrms-font-size-sx: 48px;
+$hrms-font-size-xxl: 60px;
+$hrms-font-size-header: 75px;
+$hrms-title-font-size-xl: 100px;
+
+
+// LINE HEIGHTS
+$hrms-line-height-xs: 16px;
+$hrms-line-height-s: 18px;
+$hrms-line-height-m: 24px;
+$hrms-line-height-sm: 28px;
+$hrms-line-height-l: 32px;
+$hrms-line-height-lm: 36px;
+$hrms-line-height-lx: 40px;
+$hrms-line-height-xl: 48px;
+$hrms-line-height-sx: 60px;
+$hrms-line-height-xxl: 65px;
+$hrms-line-height-header: 75px;
+$hrms-title-line-height-xl: 100px;
+
+
+// FONT WEIGHTS
+$hrms-font-weight-light: 200;
+$hrms-font-weight-300: 300;
+$hrms-font-weight-400: 400;
+$hrms-font-weight-500: 500;
+$hrms-font-weight-600: 600;
+$hrms-font-weight-700: 700;
+$hrms-font-weight-800: 800;
+
+
+// FONT STYLE
+$hrms-font-style: normal;
+
+
+
+//font-size: 16px -- font-weight: 600 -- line-height: 16px
+@mixin nunito-sans-regular() {
+  font-family: $hrms-font-family-roboto;
+  font-weight: $hrms-font-weight-600;
+  font-style: $hrms-font-style;
+  font-size: $hrms-font-size-m;
+  line-height: $hrms-line-height-xs;
+  color: $hrms-pink-50;
+}
