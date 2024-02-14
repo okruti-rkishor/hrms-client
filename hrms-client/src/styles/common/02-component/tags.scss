@@ -1,0 +1,59 @@
+@mixin common-tag-design {
+  padding: 2px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid;
+}
+
+
+// ADMIN TAG
+@mixin admin-tag {
+  color: $hrms-blue-90;
+  background: $hrms-blue-10;
+  border-color: $hrms-blue-40;
+
+  svg {
+    fill: $hrms-blue-90;
+  }
+}
+
+
+// HR TAG
+@mixin hr-tag {
+  color: $hrms-pink-60;
+  background: $hrms-pink-10;
+  border-color: $hrms-pink-20;
+
+  svg {
+    fill: $hrms-pink-60;
+  }
+}
+
+
+// EMPLOYEE TAG
+@mixin employee-tag {
+  color: $hrms-green-60;
+  background: $hrms-green-10;
+  border-color: $hrms-green-40;
+
+  svg {
+    fill: $hrms-green-60;
+  }
+}
+
+
+.user-tag {
+  @include common-tag-design;
+
+  &.admin{
+    @include admin-tag;
+  }
+
+  &.hr{
+    @include hr-tag;
+  }
+
+  &.employee{
+    @include employee-tag;
+  }
+}

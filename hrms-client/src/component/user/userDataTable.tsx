@@ -40,13 +40,17 @@ const EditableCell: React.FC<EditableCellProps> = ({   editing,
                                                        ...restProps
                                                    }) => {
 
-    const inputNode = inputType === 'number' ? <Select placeholder="Select the role" style={{ flex: 1 }}>
-        {userTypesEnum.map(userType=>
-            <Select.Option key={userType} value={userType.toString().toUpperCase()}>
-                {userType.toString().toUpperCase()}
-            </Select.Option>)
-        }
-    </Select> : <Input />;
+    const inputNode = dataIndex === 'roles' ?
+        <Select mode="multiple"
+                placeholder="Select the role"
+                style={{ flex: 1 }}
+        >
+            {userTypesEnum.map((userType) =>
+                <Select.Option key={userType} value={userType.toString().toUpperCase()}>
+                    {userType.toString().toUpperCase()}
+                </Select.Option>)
+            }
+        </Select> : <Input />;
 
         return (
             <td {...restProps}>
@@ -87,9 +91,11 @@ const TempFile: React.FC = () => {
             const newResponse = response.map((item: any) => {
                 return {
                     ...item, email: ((item.email).toLowerCase())
+
                 };
             })
-            setUserData(newResponse)
+
+            setUserData(newResponse);
         }
         catch(err){
             console.log(err);
@@ -168,7 +174,7 @@ const TempFile: React.FC = () => {
         },
         {
             title: 'Role',
-            dataIndex: 'role',
+            dataIndex: 'roles',
             filters: [
                 {
                     text: 'Admin',
@@ -186,29 +192,20 @@ const TempFile: React.FC = () => {
             editable: true,
             defaultFilteredValue: getDefaultFilter(),
             onFilter: (value: any, record: any) => {
-               return record.role.includes(value);
+               return record.roles.includes(value);
             },
             width: '25%',
-            render: (_:any, { role}:any) => {
-                let color;
-                if (role === 'ADMIN') {
-                    color = 'geekblue';
-                } else if(role === 'HR') {
-                    color = 'pink';
-                } else if(role === 'EMPLOYEE') {
-                    color = 'green';
-                }
-
-                return (
-                    <>
-                        {role &&
-                            <Tag color={color} key={role}>
-                                {role.toUpperCase()}
+            render: (_:any, record:any) => (
+                <>
+                    {record.roles?.map((tag:string) => {
+                        return (
+                            <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
+                                {tag.toUpperCase()}
                             </Tag>
-                        }
-                    </>
-                );
-            },
+                        );
+                    })}
+                </>
+            ),
         },
         {
             title: 'Actions',

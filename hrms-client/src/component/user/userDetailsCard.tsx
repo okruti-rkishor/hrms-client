@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Divider, Layout, Row } from "antd";
 import restApi from "../../services/http/api";
-import { EventsCountCard, UserCountCard } from "./userCountCard";
+import { EventsCountCard, UserCountCard } from "../home/userCountCard";
 import "./userDetailsCard.scss";
 import { PageHeader } from "@ant-design/pro-layout";
 import EventContext from "../../context/eventContext";

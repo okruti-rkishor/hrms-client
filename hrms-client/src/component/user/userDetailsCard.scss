@@ -1,16 +1,9 @@
 .user-detail-card {
-  //max-width: 90vw;
-  //margin: 40px 40px 40px auto;
-
   .gutter-row {
     .user-card {
       border: unset;
       cursor: pointer;
       transition: all 250ms ease-in-out;
-
-      &:hover {
-        //transform: scale(1.1);
-      }
     }
 
     .admin {

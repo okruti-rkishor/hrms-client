@@ -15,7 +15,7 @@ import EmployeeSearch from './component/employee/employeeSearch';
 import ForgotPassword from './component/forgotPassword/forgotPassword';
 import Birthday from './component/events/birthday/birthday';
 import Anniversary from './component/events/anniversary/anniversary';
-import UserDetailsCard from "./component/home/userDetailsCard";
+import UserDetailsCard from "./component/user/userDetailsCard";
 import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
 
 const router = createBrowserRouter(

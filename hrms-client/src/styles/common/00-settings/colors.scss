@@ -4,6 +4,9 @@ $hrms-linear-gradient-02: linear-gradient(45deg, rgba(#6D80FE,0.5) 0%, rgba(#23D
 $hrms-linear-gradient-03: linear-gradient(45deg, rgba(#707CFF,0.5) 0%, rgba(#FA81E8,0.8) 100%);
 $hrms-linear-gradient-04: linear-gradient(135deg, #5FA4E6 25%, #665DCD 40%);
 $hrms-linear-gradient-05: linear-gradient(to right, skyblue,#ECA5D8);
+$hrms-linear-gradient-06: linear-gradient(180deg, #0dbb76f1 0%, #a1bb5010 100%);
+$hrms-linear-gradient-07: linear-gradient(180deg, #dbb76f 0%, #a7d94c 100%);
+$hrms-linear-gradient-08: linear-gradient(180deg, #dbb76f 0%, #f00a5b 100%);
 
 
 // BOX SHADOWS --->
@@ -16,6 +19,7 @@ $hrms-box-shadow-03: 0 5px 20px rgba(#FA81E8, 0.5);
 $hrms-white: #FFFFFF;
 $hrms-white-10: #FBFBFD;
 $hrms-white-20: #F5F5F5;
+$hrms-white-30: #F6F7F9;
 
 
 // GRAY SHADES
@@ -27,14 +31,15 @@ $hrms-gray-50: #6B727A;
 
 
 // BLUE SHADES
-$hrms-blue-10: #E7EFFF;
+$hrms-blue-10: #F0F5FF;
 $hrms-blue-20: #CCDEFF;
 $hrms-blue-30: #1677FF33;
-$hrms-blue-40: #9CBEFF;
+$hrms-blue-40: #ADC6FF;
 $hrms-blue-50: #5FA4E6;
 $hrms-blue-60: #1F6CF9;
 $hrms-blue-70: #1F6CF9;
 $hrms-blue-80: #1077DA;
+$hrms-blue-90: #1D39C4;
 
 
 // PURPLE SHADES
@@ -43,10 +48,12 @@ $hrms-purple-10: #665DCD;
 
 
 // GREEN SHADES
-$hrms-green-10: #DFF6DD;
+$hrms-green-10: #f6ffed;
 $hrms-green-20: #D0EBE1;
 $hrms-green-30: #C8F1D4;
-$hrms-green-40: #29F499;
+$hrms-green-40: #B7EB8F;
+$hrms-green-50: #29F499;
+$hrms-green-60: #389E0D;
 
 
 // RED SHADES
@@ -56,8 +63,32 @@ $hrms-red-30: #ED3F3F;
 
 
 // PINK SHADES
-$hrms-pink-10: #FFCEF4;
-$hrms-pink-20: #FA81E8;
-$hrms-pink-30: #FF88BE;
+$hrms-pink-10: #FFF0F6;
+$hrms-pink-20: #FFADD2;
+$hrms-pink-30: #FA81E8;
 $hrms-pink-40: #FF6CAE;
 $hrms-pink-50: #E44C7D;
+$hrms-pink-60: #C41D7F;
+
+
+
+
+
+
+$hrms-color-10: #DEF2EB;
+$hrms-color-20: #FCEFEC;
+$hrms-color-30: #FFF5D7;
+$hrms-color-40: #F7E6FF;
+$hrms-color-50: #F0F5F2;
+$hrms-color-60: #FADFDA;
+$hrms-color-70: #5FBEA0;
+$hrms-color-80: #FF9902;
+$hrms-color-90: #E196FF;
+
+
+
+
+//background-color: transparent;
+//background-image: linear-gradient(180deg,var(--e-global-color-0dbb76f) 0%,var(--e-global-color-f00a50b) 100%);
+//opacity: .04;
+//transition: background .3s,border-radius .3s,opacity .3s;
