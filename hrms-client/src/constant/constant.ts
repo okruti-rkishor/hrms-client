@@ -1,6 +1,7 @@
 export enum Gender {
     MALE="Male",
     FEMALE="Female"
+
 }
 export enum Type_Time{
     PART_TIME="Partime",

@@ -1,6 +1,6 @@
-import {Button, Card, Form, Input, Radio, Select, Space} from "antd";
+import {Button, Card, Form, Input, Radio, Select} from "antd";
 import React from "react";
-import {Designation, Gender, Type_Time} from "../../../constant/constant";
+import {Gender} from "../../../constant/constant";
 import {CloseOutlined} from "@ant-design/icons/lib";
 
 const FamilyDetail = () => {
@@ -29,6 +29,7 @@ const FamilyDetail = () => {
                                         <Select style={{ height: "40px" }}>
                                             <Select.Option value="Father">Father</Select.Option>
                                             <Select.Option value="Mother">Mother</Select.Option>
+                                            <Select.Option value="Spouse">Spouse</Select.Option>
                                         </Select>
                                     </Form.Item>
                                     <Form.Item name={[field.name, 'name']}
@@ -81,7 +82,7 @@ const FamilyDetail = () => {
                                                ]}>
                                         <Input prefix={"+91"} required={true} style={{width:"100%"}}/>
                                     </Form.Item>
-                                    <Form.Item label={"Gender"} name={[field.name, 'gender']} required={true}>
+                                    <Form.Item label={"Gender"} name={[field.name, 'gender']} required={true} initialValue={Object.keys(Gender)[0]}>
                                         <Radio.Group style={{display:"flex"}}>
                                             {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
                                                 <Radio.Button value={key} key={key}

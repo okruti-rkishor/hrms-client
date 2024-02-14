@@ -2,23 +2,29 @@ import React, {useEffect, useState,} from "react";
 import {Form, Button, message, Steps, Divider, Layout} from "antd";
 import './employeeCreate.scss';
 import restApi from "../../services/http/api/index";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import dayjs from 'dayjs'
 import PersonalDetails from "./steps/personalDetails";
 import Address from "./steps/address";
 import Contact from "./steps/contact";
 import FamilyDetail from "./steps/familyDetail";
-import BankingDeatils from "./steps/bakingDetails";
+import BankingDeatils from "./steps/bankingDetails";
 import Document from "./steps/document";
 import Experience from "./steps/experience";
 import {Gender} from "../../constant/constant";
 import {PageHeader} from "@ant-design/pro-layout";
+import {LeftCircleTwoTone, LeftOutlined, RightCircleTwoTone} from "@ant-design/icons/lib";
 
 
-const EmployeeCreate = () =>{
+const EmployeeCreate = () => {
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
-    const [employeeData,setEmployeeData]=useState<any>({gender:Object.keys(Gender)[0],title:"Mr",bloodGroup:"NONE",status:"ACTIVE",documents:{} });
+    const [employeeData, setEmployeeData] = useState<any>({
+        gender: Object.keys(Gender)[0],
+        status: "ACTIVE",
+        title:"Mr",
+        documents: {}
+    });
     const steps = [
         {
             title: 'Personal Details',
@@ -49,63 +55,72 @@ const EmployeeCreate = () =>{
             content: 'Last-content',
         },
     ];
-    const [isExperienceEditing,setIsExperienceEditing]=useState<any>(false);
-
-
-    const [isEditing,setIsEditing]=useState<any>(false);
-    let {id}=useParams();
+    const [isEditing, setIsEditing] = useState<any>(false);
+    const [age, setAge] = useState<any>(null);
+    let {id} = useParams();
+    const navigate = useNavigate();
 
     const randomIdGenerator = () => {
-        return "ok"+Math.random().toString(36).slice(2);
+        return "ok" + Math.random().toString(36).slice(2);
+    }
+
+    const convertExperienceToObject = (result: any) => {
+        const duration = result.previousExperiences.map((item: any) => {
+            const duration = {
+                "startDate": item.duration[0],
+                "endDate": item.duration[1]
+            }
+            item.duration = duration;
+
+            return duration;
+        });
+        for (let e = 0; e < result.previousExperiences.length; e++) {
+            result.previousExperiences[e].duration = duration[e];
+        }
+    }
+
+    const convertExperienceToArray = (response: any) => {
+        let durationResponse = response.previousExperiences.map((item: any) => {
+            let duration = [];
+            duration.push(dayjs(item.duration.startDate));
+            duration.push(dayjs(item.duration.endDate));
+            return duration;
+        })
+        for (let e = 0; e < response.previousExperiences.length; e++) {
+            response.previousExperiences[e].duration = durationResponse[e];
+        }
     }
 
     const onChange = (value: any) => {
-        form.validateFields().then((result)=>{
+        // setCurrent(value);
+        form.validateFields().then((result) => {
             setCurrent(value);
-
-
-            if(current===4){
-                console.log(employeeData.familyDetails);
-                console.log(result);
-
-                setEmployeeData({...employeeData,familyDetails:result.familyDetails});
+            console.log(result);
+            if (current === 0 && isEditing===false) localStorage.setItem('personalDetail', JSON.stringify(result));
+            if (current === 1 && isEditing===false) localStorage.setItem('address', JSON.stringify(result));
+            if (current === 2 && isEditing===false) localStorage.setItem('contact', JSON.stringify(result));
+            if (current === 4) {
+                if(isEditing===false)localStorage.setItem('familyDetails', JSON.stringify(result));
+                setEmployeeData({...employeeData, familyDetails: result.familyDetails});
             }
-
-            if(current===3){
-                setIsExperienceEditing(true);
-                console.log("result", {...result});
-                var newResult = JSON.parse(JSON.stringify(result));
-                const duration = newResult.previousExperiences.map((item:any)=>{
-                    const duration = {
-                        "startDate":item.duration[0],
-                        "endDate":item.duration[1]
-                    }
-                    item.duration=duration;
-                    item.skills=Object.values(item.skills);
-                    return duration;
-                });
-
-                // setEmployeeData({...result,duration:duration})
-                for(let e=0;e<newResult.previousExperiences.length;e++){
-                    newResult.previousExperiences[e].duration=duration[e];
-                }
-
-                setEmployeeData({...employeeData,previousExperiences:newResult.previousExperiences,type:result.type,designation:result.designation})
+            if (current === 3) {
+                if(isEditing===false)localStorage.setItem('previousExperiences', JSON.stringify(result));
+                setEmployeeData({...employeeData, ...result})
             }
+            if (current === 5) {
+                if(isEditing===false)localStorage.setItem('bankDetails', JSON.stringify(result));
+                setEmployeeData({...employeeData, bankDetails: result.bankDetails});
 
-            if(current===5)setEmployeeData({...employeeData,bankDetails:result.bankDetails});
-            setCurrent(value);
-        }).catch((error)=>{
-            if(current>value){
+            }
+        }).catch((error) => {
+            if (current > value) {
                 setCurrent(value);
             }
-            console.log("error",error,value);
         });
     };
 
-    const onFinish = async (value:object) =>{
-        console.log("eeeeee");
-        const payload={
+    const onFinish = async (value: object) => {
+        const payload = {
             "status": employeeData.status,
             "employeeCode": isEditing ? employeeData.employeeCode : randomIdGenerator(),
             "designation": employeeData.designation,
@@ -123,10 +138,10 @@ const EmployeeCreate = () =>{
             "gender": employeeData.gender,
             "dateOfBirth": employeeData.dateOfBirth,
             "age": employeeData.age,
-            "qualification":employeeData.qualification,
+            "qualification": employeeData.qualification,
             "email": employeeData.email,
             "contact": employeeData.contact,
-            "bloodGroup":employeeData.bloodGroup,
+            "bloodGroup": employeeData.bloodGroup,
             "presentAddress": {
                 "line1": employeeData.line1,
                 "line2": employeeData.line2,
@@ -143,96 +158,110 @@ const EmployeeCreate = () =>{
             },
             "previousExperiences": employeeData.previousExperiences,
             "familyDetails": employeeData.familyDetails,
-            "bankDetails":employeeData.bankDetails,
-            "documents": Object.keys(employeeData.documents).map((item:any)=>{return {id:employeeData.documents[item].id}})
+            "bankDetails": employeeData.bankDetails,
+            "documents": Object.keys(employeeData.documents).map((item: any) => {
+                return {id: employeeData.documents[item].id}
+            })
         };
+        convertExperienceToObject(employeeData);
+        if (isEditing === false) {
+            restApi.employeeCreate(payload).then((e) => {
+                message.success("data successfully inserted");
+                if(localStorage.length)localStorage.clear();
+                navigate(`/employee/search`)
 
-        if(isEditing===false){
-            restApi.employeeCreate(payload).then((e)=>{message.success("data successfully inserted")}).catch(((e)=>{message.error("data not inserted")}));
-        } else{
-            if(isExperienceEditing===false){
-                var newResult = JSON.parse(JSON.stringify(employeeData.previousExperiences));
-                const duration = employeeData.previousExperiences.map((item:any)=>{
-                    const duration = {
-                        "startDate":item.duration[0],
-                        "endDate":item.duration[1]
-                    }
-                    item.duration=duration;
-                    return duration;
-                });
-                for(let e=0;e<employeeData.previousExperiences.length;e++){
-                    employeeData.previousExperiences[e].duration=duration[e];
-                }
-                setEmployeeData({...employeeData,previousExperiences:newResult.previousExperiences})
-
-            }
-            restApi.postEmployeeDetailsByID(payload,id).then((e)=>message.success("data successfully inserted")).catch((e)=>message.error("data is not inserted"));
+            }).catch(((e) => {
+                message.error("data not inserted")
+            }));
+        } else {
+            restApi.postEmployeeDetailsByID(payload, id).then((e) => message.success("data successfully inserted")).catch((e) => message.error("data is not inserted"));
+            navigate(`/employee/search`)
         }
+
     }
 
-    const items = steps.map((item) => ({ key: item.title, title: item.title }));
+    const items = steps.map((item) => ({key: item.title, title: item.title}));
 
-    useEffect(()=>{
-        if(id!=null){
-            restApi.employeeDetailsByID(id).then((response)=> {
-                let docObj:any = {};
-                response.documents.map((item:any)=>{
-                    let customKey=item.documentType;
-                    const newDocument:any = {
-                        customKey:item.documentType,
+    useEffect(() => {
+        if (id != null) {
+            restApi.employeeDetailsByID(id).then((response) => {
+                let docObj: any = {};
+
+                response.documents.map((item: any) => {
+                    let customKey = item.documentType;
+                    const newDocument: any = {
+                        customKey: item.documentType,
                         file: item.originalFileName,
-                        id:item.id
+                        id: item.id
                     }
-                    if(item.documentType==="AADHAAR_CARD" || item.documentType==="PAN_CARD"){
-                        newDocument.documentNumber=item.documentNumber;
+                    if (item.documentType === "AADHAAR_CARD" || item.documentType === "PAN_CARD") {
+                        newDocument.documentNumber = item.documentNumber;
                     }
-                    docObj[customKey]=newDocument;
+                    docObj[customKey] = newDocument;
 
                 });
                 setEmployeeData({
-                        ...employeeData,
-                        documents: docObj
+                    ...employeeData,
+                    documents: docObj
 
-                    })
-                console.log(employeeData);
+                })
                 setIsEditing(true);
-                const { name,presentAddress,permanentAddress,...withoutKeyToBeRemoved  } = response;
-                const after = { ...name,...presentAddress,...permanentAddress,...response.bankDetails,...withoutKeyToBeRemoved };
-                let durationResponse=response.previousExperiences.map((item:any)=>{
-                        let duration=[];
-                        duration.push(dayjs(item.duration.startDate));
-                        duration.push(dayjs(item.duration.endDate));
-                        return duration;
+                setAge(response.age);
+                const {name, presentAddress, permanentAddress, ...withoutKeyToBeRemoved} = response;
+                const after = {...name, ...presentAddress, ...permanentAddress, ...response.bankDetails, ...withoutKeyToBeRemoved};
+                convertExperienceToArray(response);
+
+                form.setFieldsValue({
+                    ...after,
+                    dateOfBirth: dayjs(response.dateOfBirth),
+                    joiningDate: dayjs(response.joiningDate)
+                });
+
+                setEmployeeData({
+                    ...after,
+                    dateOfBirth: dayjs(response.dateOfBirth),
+                    documents: docObj,
+                    joiningDate: dayjs(response.joiningDate)
+                });
+            }).catch((error) => console.log(error));
+        }
+        if(localStorage.length){
+            const localStorageData=Object.keys(localStorage).map((items) => {
+                let storage: any = localStorage.getItem(items);
+                let storageDetails: any = JSON.parse(storage);
+                if (items === "personalDetail") {
+                    let currentYear = new Date().getFullYear();
+                    let selectedYear = dayjs(storageDetails.dateOfBirth).year();
+                    let final = currentYear - selectedYear;
+                    setAge(final);
+                    form.setFieldsValue({...storageDetails, dateOfBirth: dayjs(storageDetails.dateOfBirth)});
+                    storageDetails.dateOfBirth = dayjs(storageDetails.dateOfBirth);
+                } else if (items === "contact") {
+                    form.setFieldsValue({...storageDetails, joiningDate: dayjs(storageDetails.joiningDate)});
+                    storageDetails.joiningDate = dayjs(storageDetails.joiningDate);
+                } else if (items === "previousExperiences") {
+                    storageDetails.previousExperiences?.forEach((item:any)=>{
+                        item.duration[0]=dayjs(item.duration[0]);
+                        item.duration[1]=dayjs(item.duration[1]);
                     })
-                for(let e=0;e<response.previousExperiences.length;e++){
-                    console.log(response.previousExperiences[e].duration);
-                    console.log(durationResponse[e]);
-
-                    response.previousExperiences[e].duration=durationResponse[e];
+                    form.setFieldsValue({...storageDetails});
+                } else {
+                    form.setFieldsValue({...storageDetails});
                 }
-        form.setFieldsValue({...after,dateOfBirth:dayjs(response.dateOfBirth),joiningDate:dayjs(response.joiningDate)});
-                setEmployeeData({...after,dateOfBirth:dayjs(response.dateOfBirth),documents:docObj,joiningDate:dayjs(response.joiningDate)});
+                return storageDetails;
 
-                //setEmployeeData({...after,dateOfBirth:dayjs(response.dateOfBirth),joiningDate:dayjs(response.joiningDate)});
-
-                    // const beforeUpload=response.documents.map((item:any)=>{
-                    //    return {
-                    //        uuid:item.id,
-                    //        name:item.fileName,
-                    //        status:"done"
-                    //    }
-                    // });
-                    // setDefaultFileList(beforeUpload);
-            }).catch((error)=>console.log(error));
+            });
+            let localStorageMerge=Object.assign({}, ...localStorageData);
+            setEmployeeData({...employeeData,...localStorageMerge})
 
 
         }
-        },[]);
+        }, []);
 
     return (
         <Layout className='employee-create-section data-table'>
             <Divider orientation="left">
-                <PageHeader title="Employee Create"/>
+                <PageHeader title={isEditing?"Employee Update":"Employee Create"}/>
             </Divider>
             <div className="forms-steps">
                 <Steps current={current}
@@ -242,37 +271,106 @@ const EmployeeCreate = () =>{
                        className='employee-create-steps'
                 />
                 <Form onFinish={onFinish}
-                      onValuesChange={(e)=>{
-                          if(current<=2){
-                              setEmployeeData({...employeeData,...e})
+                      onValuesChange={(e) => {
+                          if (current <= 2) {
+                              if (Object.hasOwn(e, "dateOfBirth")) {
+                                  let currentYear = new Date().getFullYear();
+                                  let selectedYear = dayjs(e.dateOfBirth).year();
+                                  let final = currentYear - selectedYear;
+                                  setAge(final);
+                                  console.log(e.dateOfBirth);
+                                  setEmployeeData({...employeeData, dateOfBirth: e.dateOfBirth, age: final});
+                              } else {
+                                  setEmployeeData({...employeeData, ...e})
+                              }
                           }
                       }}
                       form={form}
-                      className= 'employee-create-form'
-                      initialValues={{ gender:Object.keys(Gender)[0],title:"Mr"}}
+                      className='employee-create-form'
                 >
                     {current === 0 && (<>
-                        <PersonalDetails employeeData={employeeData} setEmployeeData={setEmployeeData}/>
+                        <PersonalDetails age={age}/>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)} disabled={current===0}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+
+                        </div>
                     </>)}
                     {current === 1 && (<>
                         <Address/>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+
+                        </div>
                     </>)}
                     {current === 2 && (<>
                         <Contact/>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+
+                        </div>
                     </>)}
                     {current === 3 && (<>
                         <Experience/>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+
+                        </div>
                     </>)}
                     {current === 4 && (<>
-                       <FamilyDetail/>
+                        <FamilyDetail/>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+
+                        </div>
                     </>)}
                     {current === 5 && (<>
                         <BankingDeatils/>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+                        </div>
                     </>)}
-                    {current===6 && (<>
+                    {current === 6 && (<>
                         <Document employeeData={employeeData} setEmployeeData={setEmployeeData} isEditing={isEditing}/>
-                    </>)}
-                    {current===6 && (<>
+                        <div className={"prev_next"}>
+                            <Button onClick={()=>onChange(current-1)}>
+                                <LeftCircleTwoTone className={"icon"}/>
+                            </Button>
+                            <Button onClick={()=>onChange(current+1)} disabled={current===6}>
+                                <RightCircleTwoTone className={"icon"}/>
+                            </Button>
+                        </div>
+                        </>)}
+                    {current === 6 && (<>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
                                 Submit

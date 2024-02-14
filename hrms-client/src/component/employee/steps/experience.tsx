@@ -1,5 +1,5 @@
-import {Button, Card, DatePicker, Form, Input, Radio, Select, SelectProps, Space} from "antd";
-import {Designation, Gender, Type_Time} from "../../../constant/constant";
+import {Button, Card, DatePicker, Form, Input, Select, SelectProps, Space} from "antd";
+import {Designation, Type_Time} from "../../../constant/constant";
 import React from "react";
 import {CloseOutlined} from "@ant-design/icons/lib";
 
@@ -37,15 +37,13 @@ const Experience = () =>{
             desc: 'Spring Boot',
         },
     ];
-    const handleChange = (value: string[]) => {
-        console.log(`selected ${value}`);
-    };
+
 
 
     return(
         <>
             <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"Experience employee-create-inputs"}>
-                <label className={"Experience_detail"}>Fill the Experience Detail here</label>
+                <label className={"Experience_detail"}>Fill the Current Detail here</label>
 
                 <Form.Item label="Type"
                            name={"type"}
@@ -162,7 +160,6 @@ const Experience = () =>{
                                             mode="multiple"
                                             style={{ width: '100%' }}
                                             placeholder="select your skills"
-                                            onChange={handleChange}
                                             optionLabelProp="label"
                                             options={options}
                                             optionRender={(option) => (
@@ -206,7 +203,7 @@ const Experience = () =>{
                             ))}
 
                             <Button type="dashed" onClick={() => add()} block>
-                                + Add Item
+                                + Previous Experience
                             </Button>
                         </div>
                     )}

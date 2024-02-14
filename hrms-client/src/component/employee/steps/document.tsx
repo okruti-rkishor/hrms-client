@@ -13,9 +13,9 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
 
     const fileProps: UploadProps = {
         onChange(info) {
-            //console.log(info);
+
             if (info.file.status !== 'uploading') {
-                //console.log(info.file, info.fileList);
+                console.log(info.file, info.fileList);
             }
             if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
@@ -63,17 +63,36 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                                                    if (value < 0) {
                                                        return Promise.reject("number cannot be negative.");
                                                    }
+                                                   if(key==="AADHAAR_CARD"){
+                                                       if (value.length > 12) {
+                                                           return Promise.reject("number cannot be greater than 12.");
+                                                       }
 
-                                                   if (value.length > 12) {
-                                                       return Promise.reject("number cannot be greater than 12.");
+                                                       if (value.length === 12) {
+                                                           return Promise.resolve();
+                                                       }
+                                                       if (value.length < 12) {
+                                                           return Promise.reject("number cannot be less than 12.");
+
+                                                       }
+
+                                                   }
+                                                   else{
+                                                       if (value.length > 10) {
+                                                           return Promise.reject("number cannot be greater than 10.");
+                                                       }
+
+                                                       if (value.length === 10) {
+                                                           return Promise.resolve();
+                                                       }
+                                                       if (value.length < 10) {
+                                                           return Promise.reject("number cannot be less than 10.");
+
+                                                       }
+
                                                    }
 
-                                                   if (value.length === 12) {
-                                                       return Promise.resolve();
-                                                   } else if (value.length < 12) {
-                                                       return Promise.reject("number cannot be less than 12.");
 
-                                                   }
                                                    return Promise.resolve();
                                                },
                                            }
@@ -161,7 +180,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                 message.error(`please fill ${customKey} number`);
                 return;
             } else {
-                console.log("1", state);
                 documentPayload["document-number"] = state.AADHAAR_CARD_NUMBER;
             }
         }
@@ -170,14 +188,12 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                 message.error(`please fill ${customKey} number`);
                 return;
             } else {
-                console.log("1", state);
                 documentPayload["document-number"] = state.PAN_CARD_NUMBER;
             }
         }
 
         const response = await restApi.documentUpload(documentPayload).then((info) => {
             onSuccess("done");
-            console.log(info);
             const newDocument = {
                 customKey,
                 file: file,
@@ -214,7 +230,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                 id = employeeData.documents[key].id;
             }
         });
-        console.log(id);
 
         await restApi.documentDelete(`${id}`).then((info) => {
             const newValue = {...employeeData};
@@ -257,11 +272,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                     style={{ background: token.colorBgContainer }}
                     items={getItems(panelStyle)}
                 />
-
-
-
-
-
             </div>
         </>
     )

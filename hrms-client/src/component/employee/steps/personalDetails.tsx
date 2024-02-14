@@ -1,10 +1,9 @@
 import {DatePicker, Form, Input, Radio, Select} from "antd";
 import {Blood_Group, Gender} from "../../../constant/constant";
-import React, {useState} from "react";
-import dayjs from "dayjs";
+import React from "react";
 
-const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
-    const [ageDuration, setAgeDuration] = useState<any>();
+
+const PersonalDetails = ({age}: any) => {
     return (
         <>
             <div style={{display: "flex", flexDirection: "column", marginTop: "35px", gap: "30px"}}
@@ -12,6 +11,7 @@ const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
                 <Form.Item label={"Title"}
                            name={"title"}
                            required={true}
+                           initialValue={"Mr"}
                 >
                     <Select style={{height: "40px"}}>
                         <Select.Option value="Mr">Mr</Select.Option>
@@ -68,13 +68,11 @@ const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
                 </Form.Item>
                 <Form.Item label={"Gender"}
                            name={"gender"}
+                           initialValue={Object.keys(Gender)[0]}
                 >
                     <Radio.Group style={{display: "flex"}}>
                         {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>
-                            <Radio.Button value={key} key={key}
-                                          style={{height: "40px", textAlign: "center"}}
-                                          defaultChecked={true}
-                            >
+                            <Radio.Button value={key} style={{height: "40px", textAlign: "center"}}>
                                 {Gender[key]}
                             </Radio.Button>
                         )}
@@ -95,10 +93,10 @@ const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
                                        if (isNaN(value)) {
                                            return Promise.reject("Age has to be a number.");
                                        }
-                                       if (ageDuration < 18) {
+                                       if (age < 18) {
                                            return Promise.reject("Age can't be less than 18");
                                        }
-                                       if (ageDuration > 45) {
+                                       if (age > 45) {
                                            return Promise.reject("Age can't be greater than 45");
                                        }
                                        return Promise.resolve();
@@ -108,24 +106,16 @@ const PersonalDetails = ({employeeData, setEmployeeData}: any) => {
 
 
                 >
-                    <DatePicker style={{width: "100%"}} format="YYYY-MM-DD" disabledDate={(current) => {                        return current.isAfter(new Date())
-                    }
-                    }
-                                onSelect={(e) => {
-                                    let currentYear = new Date().getFullYear();
-                                    let selectedYear = dayjs(e).year();
-                                    let final = currentYear - selectedYear;
-                                    setAgeDuration(final);
-                                }}
-
+                    <DatePicker style={{width: "100%"}} format="YYYY-MM-DD"
+                                disabledDate={(current) => current.isAfter(new Date())}
                     />
 
                 </Form.Item>
-                {ageDuration ? <span style={{
+                {age!==null ? <span style={{
                     marginTop: "-46px",
                     width: "fit-content",
                     marginLeft: "202px"
-                }}>age:{ageDuration}</span> : <></>}
+                }}>age:{age}</span> : <></>}
 
                 <Form.Item label="Blood Group"
                            name={"bloodGroup"}
