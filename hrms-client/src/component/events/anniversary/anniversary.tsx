@@ -39,7 +39,7 @@ function Anniversary() {
 
   return (
     <>
-      <Common data={newData} event={"Anniversary"} />
+      <Common data={newData} event={"Work Anniversary"} />
     </>
   );
 }

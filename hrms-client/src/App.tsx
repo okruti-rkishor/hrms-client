@@ -15,6 +15,7 @@ import EmployeeSearch from './component/employee/employeeSearch';
 import ForgotPassword from './component/forgotPassword/forgotPassword';
 import Birthday from './component/events/birthday/birthday';
 import Anniversary from './component/events/anniversary/anniversary';
+import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -30,6 +31,7 @@ const router = createBrowserRouter(
                 <Route path='/event/anniversary' element={<Anniversary />}/>
                 <Route path='/event/birthday/:id' element={<Birthday />}/>
                 <Route path={'/employee/create/:id'} element={<EmployeeCreate/>}/>
+                <Route path={'/employee/detail/:id'} element={<EmployeeDetail/>}/>
             </Route>
 
             <Route path='/login' element={<Login/>}/>
