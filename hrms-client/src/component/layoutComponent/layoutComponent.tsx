@@ -1,27 +1,19 @@
-import { Outlet } from "react-router-dom";
-import React from "react";
+import React from 'react';
 import { Layout } from 'antd';
+import HeaderComponent from '../header/header';
 import {Footer, Content} from "antd/es/layout/layout";
-import Navbar from "../sideNavbar/navbar";
-import HeaderComponent from "../header/header";
+import {Outlet} from "react-router-dom";
+import './layoutComponent.scss';
 
-
-const contentStyle: React.CSSProperties = {
-    textAlign: 'center',
-    minHeight: 120,
-    lineHeight: '120px',
-    color: '#fff',
-};
 
 function LayoutComponent() {
     return (
-        <Layout>
+        <Layout className='hrms-layout'>
             <HeaderComponent />
-            <Layout style={{background: '#f0f0f0'}}>
-                <Navbar />
-                <Content style={contentStyle}><Outlet /></Content>
+            <Layout>
+                <Content className='main-section'><Outlet /></Content>
             </Layout>
-            <Footer style={{textAlign: 'center'}}>
+            <Footer className='footer-section'>
                 © OKRUTI IT CONSULTING {new Date().getFullYear()}
             </Footer>
         </Layout>

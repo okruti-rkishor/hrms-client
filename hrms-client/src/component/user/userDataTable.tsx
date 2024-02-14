@@ -256,33 +256,35 @@ const TempFile: React.FC = () => {
     }
 
     return (
-        <Layout className='data-table user-data-table'>
-            <Divider orientation="left">
-                <PageHeader
-                    className="site-page-header"
-                    title= {navigatedUser.get('userTitle') ?
-                        `${capitalizeTitle(`${navigatedUser.get('userTitle')}`)} List` : 'Users List'
-                    }
-                />
-            </Divider>
-            <Form form={form} component={false} >
-                <Table
-                    components={{
-                        body: {
-                            cell: EditableCell,
-                        },
-                    }}
-                    rowKey="id"
-                    bordered
-                    dataSource={userData}
-                    // @ts-ignore
-                    columns={mergedColumns}
-                    rowClassName="editable-row"
-                    pagination={{
-                        onChange: cancel,
-                    }}
-                />
-            </Form>
+        <Layout className="with-background">
+            <div className='data-table user-data-table'>
+                <Divider orientation="left">
+                    <PageHeader
+                        className="site-page-header"
+                        title= {navigatedUser.get('userTitle') ?
+                            `${capitalizeTitle(`${navigatedUser.get('userTitle')}`)} List` : 'Users List'
+                        }
+                    />
+                </Divider>
+                <Form form={form} component={false} >
+                    <Table
+                        components={{
+                            body: {
+                                cell: EditableCell,
+                            },
+                        }}
+                        rowKey="id"
+                        bordered
+                        dataSource={userData}
+                        // @ts-ignore
+                        columns={mergedColumns}
+                        rowClassName="editable-row"
+                        pagination={{
+                            onChange: cancel,
+                        }}
+                    />
+                </Form>
+            </div>
         </Layout>
     );
 };

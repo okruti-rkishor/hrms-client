@@ -15,17 +15,22 @@
 
   .ant-layout {
     background: unset;
+
+    &.with-background {
+      background: $hrms-white-10;
+    }
   }
 }
 
-main.main-section {
-  .main-content {
-    max-width: 90vw;
-    margin: 32px auto;
-    padding: 24px 40px;
-    background-color: white;
-    border-radius: 8px;
-  }
+.data-table {
+  max-width: 90vw;
+  width: 100%;
+  margin: 40px auto;
+  padding: 24px 40px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 0 10px $hrms-gray-10;
+  border: 1px solid $hrms-gray-20;
 }
 
 .ant-page-header {

@@ -1,0 +1,35 @@
+.navigation-menu {
+
+  &.ant-menu {
+    font-size: 16px;
+    display: flex;
+    flex: 0 0 70%;
+    //gap: 10px;
+
+    &.ant-menu-light {
+      background: unset;
+      color: #ffffff;
+
+      &.ant-menu-horizontal {
+        >.ant-menu-submenu {
+          &:hover::after,
+          &.ant-menu-submenu-open::after,
+          &.ant-menu-submenu-active::after,
+          &-selected::after {
+            border-bottom-width: 3px;
+            border-bottom-color: white;
+            border-radius: 2px;
+          }
+
+          &-selected >.ant-menu-submenu-title {
+            color: #ffffff;
+          }
+        }
+
+        .ant-menu-submenu {
+          margin-inline: 10px;
+        }
+      }
+    }
+  }
+}

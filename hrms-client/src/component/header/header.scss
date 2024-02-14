@@ -1,26 +1,28 @@
 $button: linear-gradient(135deg, #5FA4E6 25%, #665DCD 40%);
 
 header {
-  //display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 
-  //img {
-  //  width: 64px;
-  //  height: 64px;
-  //}
+  .header-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
 
   &.ant-layout-header {
     position: sticky;
     top: 0;
     z-index: 5;
-    padding: 0 50px 0 80px;
-    background: linear-gradient(135deg, #665DCD 0%, #5FA4E6 44.76%) !important;
+    padding: 0 60px;
+    background: #1077DA !important;
 
     .ant-row {
       .ant-col:last-child {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
       }
     }
   }
@@ -43,11 +45,15 @@ header {
     border-width: 2px;
     height: unset;
     padding: 4px 24px;
+    transition: transform ease-out 0.3s;
+
+    &:hover {
+      transform: translate(0, -2px);
+    }
 
     &:hover {
       color: white !important;
-      border: 2px solid #665DCD !important;
-      box-shadow: 0 0 10px 3px #665dcd40;
+      border: 2px solid #d9d9d9 !important;
     }
   }
 }

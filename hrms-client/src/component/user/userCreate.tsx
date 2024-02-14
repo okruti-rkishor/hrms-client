@@ -1,4 +1,4 @@
-import {Button, Divider, Form, Input, Select} from "antd";
+import {Button, Divider, Form, Input, Layout, Select} from "antd";
 import {PageHeader} from "@ant-design/pro-layout";
 import './userCreate.scss'
 import restApi from "../../services/http/api/index";
@@ -29,7 +29,7 @@ const UserCreate = (props: any) => {
     };
 
     return (
-        <div className='user-create-section'>
+        <Layout className='with-background user-create-section'>
             <div className='data-table' style={{width:"50%"}}>
                 <Divider orientation="left">
                     <PageHeader
@@ -37,7 +37,6 @@ const UserCreate = (props: any) => {
                         title="User Create"
                     />
                 </Divider>
-
                 <Form
                     name="basic"
                     labelCol={{ span: 8 }}
@@ -140,7 +139,7 @@ const UserCreate = (props: any) => {
                     </Form.Item>
                 </Form>
             </div>
-        </div>
+        </Layout>
     )
 }
 

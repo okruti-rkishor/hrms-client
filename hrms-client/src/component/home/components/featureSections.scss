@@ -1,0 +1,83 @@
+@import "../../../styles/common/00-settings/index";
+
+
+.feature-section {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+  max-width: 1140px;
+  margin: 40px auto;
+}
+
+.feature-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  //border: 1px solid black;
+
+  .content-container {
+    max-width: 480px;
+    text-align: left;
+  }
+
+  .image-container {
+    .max-h-400 {
+      max-height: 400px;
+    }
+  }
+
+  &:nth-child(odd) {
+    flex-direction: row;
+
+    .image-container {
+      margin-left: auto;
+    }
+  }
+
+  &:nth-child(even) {
+    flex-direction: row-reverse;
+
+    .image-container {
+      margin-right: auto;
+    }
+  }
+
+  &__subheading {
+    @include nunito-sans-regular();
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__heading {
+    font-size: 28px;
+    line-height: 36px;
+    margin-bottom: 24px;
+    font-weight: 600;
+  }
+
+  &__summary {
+    font-size: 14px;
+    line-height: 24px;
+    margin-bottom: 16px;
+  }
+
+  &__link.ant-btn {
+    padding: 10px 20px;
+    border: 1px solid $hrms-blue-80;
+    border-radius: 4px;
+    color: $hrms-blue-80;
+    transition: transform ease-out 0.3s;
+    background: unset;
+    height: unset;
+    box-shadow: unset;
+
+    &:not(.ant-btn-disabled):hover {
+      color: $hrms-blue-80;
+      border: 1px solid $hrms-blue-80;
+      transform: translate(0, -3px);
+      box-shadow: unset;
+    }
+  }
+}

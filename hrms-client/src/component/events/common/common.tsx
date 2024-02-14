@@ -33,24 +33,26 @@ const Common: React.FC<CommonComponentProps> = ({ data, event }) => {
   ];
 
   return (
-    <Layout className="data-table birthday-event-section">
-      <section className="today-birthday-section">
-        <PageHeader title={ `Today ${event}`}>
-          {dataToday.length!==0 ? dataToday.map((user: any, index: any) => (
-              <h5 className="today-birthday-name" key={index}>
-                {user.employeeName}
-              </h5>
-          )) : <p className='no-event-today'>🎉  There is no {event} event today  🎉</p>}
-        </PageHeader>
-      </section>
-      <section className="other-birthday-list">
-        <PageHeader title={`Upcoming ${event}`}>
-          <Table columns={columns} dataSource={dataUpcoming} bordered />
-        </PageHeader>
-        <PageHeader title={`Past ${event}`}>
-          <Table columns={columns} dataSource={dataPassed} bordered />
-        </PageHeader>
-      </section>
+    <Layout className="with-background">
+      <div className="data-table birthday-event-section">
+        <section className="today-birthday-section">
+          <PageHeader title={ `Today ${event}`}>
+            {dataToday.length!==0 ? dataToday.map((user: any, index: any) => (
+                <h5 className="today-birthday-name" key={index}>
+                  {user.employeeName}
+                </h5>
+            )) : <p className='no-event-today'>🎉  There is no {event} event today  🎉</p>}
+          </PageHeader>
+        </section>
+        <section className="other-birthday-list">
+          <PageHeader title={`Upcoming ${event}`}>
+            <Table columns={columns} dataSource={dataUpcoming} bordered />
+          </PageHeader>
+          <PageHeader title={`Past ${event}`}>
+            <Table columns={columns} dataSource={dataPassed} bordered />
+          </PageHeader>
+        </section>
+      </div>
     </Layout>
   );
 };

@@ -15,6 +15,7 @@ import EmployeeSearch from './component/employee/employeeSearch';
 import ForgotPassword from './component/forgotPassword/forgotPassword';
 import Birthday from './component/events/birthday/birthday';
 import Anniversary from './component/events/anniversary/anniversary';
+import UserDetailsCard from "./component/home/userDetailsCard";
 // import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
 
 const router = createBrowserRouter(
@@ -24,7 +25,8 @@ const router = createBrowserRouter(
                 <Route path='/' element={<Home/>}/>
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/employee/create' element={<EmployeeCreate/>}/>
-                <Route path='/user/detail' element={<UserDataTable/>}/>
+                <Route path='/user/list' element={<UserDataTable/>}/>
+                <Route path='/user/detail' element={<UserDetailsCard/>}/>
                 <Route path='/user/create' element={<UserCreate/>}/>
                 <Route path='/employee/search' element={<EmployeeSearch />}/>
                 <Route path='/event/birthday' element={<Birthday />}/>

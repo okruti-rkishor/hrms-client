@@ -8,7 +8,7 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
     const navigate = useNavigate();
 
     const handleUserDetailClick = () => {
-        navigate(`/user/detail?userTitle=${title.toUpperCase()}`);
+        navigate(`/user/list?userTitle=${title.toUpperCase()}`);
     };
 
     return (
