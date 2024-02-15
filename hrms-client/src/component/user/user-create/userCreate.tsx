@@ -1,10 +1,10 @@
 import { Button, Divider, Form, Input, Layout, Select } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import "./userCreate.scss";
-import restApi from "../../services/http/api/index";
+import restApi from "../../../services/http/api/index";
 import { useNavigate } from "react-router-dom";
 import React from "react";
-import { User_type } from "../../constant/constant";
+import { User_type } from "../../../constant/constant";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import success = toast.success;

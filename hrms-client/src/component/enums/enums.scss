@@ -1,0 +1,39 @@
+@import "src/styles/common/00-settings/index";
+
+.enum-create-section {
+
+  .enum-card {
+    &.user-type {
+      background: $hrms-blue-10;
+      border: 1px solid $hrms-blue-20;
+
+      .ant-card-head {
+        border-bottom: 1px solid $hrms-blue-20;
+      }
+    }
+
+    &.designation {
+      background: $hrms-color-30;
+      border: 1px solid $hrms-color-100;
+
+      .ant-card-head {
+        border-bottom: 1px solid $hrms-color-100;
+      }
+    }
+
+    &.qualification {
+      background: $hrms-color-10;
+      border: 1px solid $hrms-green-40;
+
+      .ant-card-head {
+        border-bottom: 1px solid $hrms-green-40;
+      }
+    }
+  }
+
+  .ant-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

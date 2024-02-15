@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Avatar, Button, Card, Popover, Tag,} from 'antd';
-import UserLoginContext from "../../context/userLoginContext";
-import rest from "../../services/http/api";
+import UserLoginContext from "../../../context/userLoginContext";
+import rest from "../../../services/http/api";
 import './userLoginCard.scss';
 import { useNavigate } from 'react-router-dom';
 

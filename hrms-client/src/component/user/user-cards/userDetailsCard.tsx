@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Divider, Layout, Row } from "antd";
-import restApi from "../../services/http/api";
-import { EventsCountCard, UserCountCard } from "../home/userCountCard";
+import restApi from "../../../services/http/api";
+import { EventsCountCard, UserCountCard } from "./userCountCard";
 import "./userDetailsCard.scss";
 import { PageHeader } from "@ant-design/pro-layout";
-import EventContext from "../../context/eventContext";
-import EventData from "../../custom_hooks/eventData";
+import EventContext from "../../../context/eventContext";
+import EventData from "../../../custom_hooks/eventData";
 
 
 function UserDetailsCard() {

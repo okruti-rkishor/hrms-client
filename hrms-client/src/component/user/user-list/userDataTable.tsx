@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout, Divider} from 'antd';
 import { PageHeader } from '@ant-design/pro-layout';
-import './userDataTable.scss';
-import restApi from "../../services/http/api";
+import restApi from "../../../services/http/api";
 import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
-import {User_type} from "../../constant/constant";
+import {User_type} from "../../../constant/constant";
+import './userDataTable.scss';
 import {toast} from 'react-toastify';
 import success = toast.success;
 

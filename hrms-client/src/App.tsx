@@ -7,16 +7,17 @@ import Home from "./component/home/home";
 import Error from "./component/error page/error";
 import EmployeeCreate from "./component/employee/employeeCreate"
 import ApiInterceptor from "./apiInterceptor";
-import UserCreate from "./component/user/userCreate";
-import UserDataTable from "./component/user/userDataTable";
+import UserCreate from "./component/user/user-create/userCreate";
+import UserDataTable from "./component/user/user-list/userDataTable";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmployeeSearch from './component/employee/employeeSearch';
 import ForgotPassword from './component/forgotPassword/forgotPassword';
 import Birthday from './component/events/birthday/birthday';
 import Anniversary from './component/events/anniversary/anniversary';
-import UserDetailsCard from "./component/user/userDetailsCard";
+import UserDetailsCard from "./component/user/user-cards/userDetailsCard";
 import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
+import EnumCards from "./component/enums/enum-cards";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -34,6 +35,7 @@ const router = createBrowserRouter(
                 <Route path='/event/birthday/:id' element={<Birthday />}/>
                 <Route path={'/employee/create/:id'} element={<EmployeeCreate/>}/>
                 <Route path={'/employee/detail/:id'} element={<EmployeeDetail/>}/>
+                <Route path={'/enum'} element={<EnumCards/>}/>
             </Route>
 
             <Route path='/login' element={<Login/>}/>

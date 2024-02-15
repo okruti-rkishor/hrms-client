@@ -1,7 +1,6 @@
 import { Card, Col } from "antd";
 import CountUp from "react-countup";
 import {useNavigate} from "react-router-dom";
-import {useState} from "react";
 
 
 function UserCountCard ({ title = "", count = 0, className = ""}) {

@@ -1,7 +1,7 @@
 import { Header } from "antd/es/layout/layout";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import UserLoginCard from "../home/userLoginCard";
+import UserLoginCard from "../user/login-card/userLoginCard";
 import UserLoginContext from "../../context/userLoginContext";
 import {useContext} from "react";
 import Navbar from '../navbar/navbar';
