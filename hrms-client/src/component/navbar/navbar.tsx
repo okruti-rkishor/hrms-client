@@ -9,7 +9,7 @@ import {
     SearchOutlined
 } from '@ant-design/icons';
 import {Link} from "react-router-dom";
-import {AppstoreOutlined, PhoneOutlined} from "@ant-design/icons/lib";
+import {AppstoreOutlined, EditOutlined, PhoneOutlined} from "@ant-design/icons/lib";
 import './navbar.scss';
 
 
@@ -87,6 +87,27 @@ const items: MenuProps['items'] = [
                 key: 'employee search',
                 icon: <SearchOutlined/>,
             }
+        ],
+    },
+    {
+        label: 'Enum',
+        key: 'enum',
+        icon: <EditOutlined />,
+        children: [
+            {
+                label: (
+                    <Link to='/enum'>Detail</Link>
+                ),
+                key: 'enum detail',
+                icon: <FormOutlined/>,
+            },
+            {
+                label: (
+                    <Link to='/enum/create'>Create</Link>
+                ),
+                key: 'enum create',
+                icon: <FormOutlined/>,
+            },
         ],
     },
     {
