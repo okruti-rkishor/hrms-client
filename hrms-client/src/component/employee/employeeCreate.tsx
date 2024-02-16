@@ -253,131 +253,131 @@ const EmployeeCreate = () => {
             });
             let localStorageMerge=Object.assign({}, ...localStorageData);
             setEmployeeData({...employeeData,...localStorageMerge})
-
-
         }
         }, []);
 
     return (
-        <Layout className='employee-create-section data-table'>
-            <Divider orientation="left">
-                <PageHeader title={isEditing?"Employee Update":"Employee Create"}/>
-            </Divider>
-            <div className="forms-steps">
-                <Steps current={current}
-                       items={items}
-                       direction="vertical"
-                       onChange={onChange}
-                       className='employee-create-steps'
-                />
-                <Form onFinish={onFinish}
-                      onValuesChange={(e) => {
-                          if (current <= 2) {
-                              if (Object.hasOwn(e, "dateOfBirth")) {
-                                  let currentYear = new Date().getFullYear();
-                                  let selectedYear = dayjs(e.dateOfBirth).year();
-                                  let final = currentYear - selectedYear;
-                                  setAge(final);
-                                  console.log(e.dateOfBirth);
-                                  setEmployeeData({...employeeData, dateOfBirth: e.dateOfBirth, age: final});
-                              } else {
-                                  setEmployeeData({...employeeData, ...e})
+        <Layout className='with-background'>
+            <div className='employee-create-section data-table'>
+                <Divider orientation="left">
+                    <PageHeader title={isEditing?"Employee Update":"Employee Create"}/>
+                </Divider>
+                <div className="forms-steps">
+                    <Steps current={current}
+                           items={items}
+                           direction="vertical"
+                           onChange={onChange}
+                           className='employee-create-steps'
+                    />
+                    <Form onFinish={onFinish}
+                          onValuesChange={(e) => {
+                              if (current <= 2) {
+                                  if (Object.hasOwn(e, "dateOfBirth")) {
+                                      let currentYear = new Date().getFullYear();
+                                      let selectedYear = dayjs(e.dateOfBirth).year();
+                                      let final = currentYear - selectedYear;
+                                      setAge(final);
+                                      console.log(e.dateOfBirth);
+                                      setEmployeeData({...employeeData, dateOfBirth: e.dateOfBirth, age: final});
+                                  } else {
+                                      setEmployeeData({...employeeData, ...e})
+                                  }
                               }
-                          }
-                      }}
-                      form={form}
-                      className='employee-create-form'
-                >
-                    {current === 0 && (<>
-                        <PersonalDetails age={age}/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)} disabled={current===0}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
+                          }}
+                          form={form}
+                          className='employee-create-form'
+                    >
+                        {current === 0 && (<>
+                            <PersonalDetails age={age}/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)} disabled={current===0}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
 
-                        </div>
-                    </>)}
-                    {current === 1 && (<>
-                        <Address/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
-
-                        </div>
-                    </>)}
-                    {current === 2 && (<>
-                        <Contact/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
-
-                        </div>
-                    </>)}
-                    {current === 3 && (<>
-                        <Experience/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
-
-                        </div>
-                    </>)}
-                    {current === 4 && (<>
-                        <FamilyDetail/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
-
-                        </div>
-                    </>)}
-                    {current === 5 && (<>
-                        <BankingDeatils/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
-                        </div>
-                    </>)}
-                    {current === 6 && (<>
-                        <Document employeeData={employeeData} setEmployeeData={setEmployeeData} isEditing={isEditing}/>
-                        <div className={"prev_next"}>
-                            <Button onClick={()=>onChange(current-1)}>
-                                <LeftCircleTwoTone className={"icon"}/>
-                            </Button>
-                            <Button onClick={()=>onChange(current+1)} disabled={current===6}>
-                                <RightCircleTwoTone className={"icon"}/>
-                            </Button>
-                        </div>
+                            </div>
                         </>)}
-                    {current === 6 && (<>
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                Submit
-                            </Button>
-                        </Form.Item>
-                    </>)}
-                </Form>
+                        {current === 1 && (<>
+                            <Address/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
+
+                            </div>
+                        </>)}
+                        {current === 2 && (<>
+                            <Contact/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
+
+                            </div>
+                        </>)}
+                        {current === 3 && (<>
+                            <Experience/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
+
+                            </div>
+                        </>)}
+                        {current === 4 && (<>
+                            <FamilyDetail/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
+
+                            </div>
+                        </>)}
+                        {current === 5 && (<>
+                            <BankingDeatils/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
+                            </div>
+                        </>)}
+                        {current === 6 && (<>
+                            <Document employeeData={employeeData} setEmployeeData={setEmployeeData} isEditing={isEditing}/>
+                            <div className={"prev_next"}>
+                                <Button onClick={()=>onChange(current-1)}>
+                                    <LeftCircleTwoTone className={"icon"}/>
+                                </Button>
+                                <Button onClick={()=>onChange(current+1)} disabled={current===6}>
+                                    <RightCircleTwoTone className={"icon"}/>
+                                </Button>
+                            </div>
+                        </>)}
+                        {current === 6 && (<>
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit">
+                                    Submit
+                                </Button>
+                            </Form.Item>
+                        </>)}
+                    </Form>
+                </div>
             </div>
         </Layout>
     )

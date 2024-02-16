@@ -22,5 +22,9 @@ export default {
     userLoginDetail:(mail: any) => rest.get(base + `user?email=${mail}`),
     allBirthday:() => rest.get(base + "event/birthday"),
     allAnniversary:() => rest.get(base + "event/work"),
-    postEmployeeDetailsByID:(data: object,id:any) => rest.put(base + `employee/${id}`,{},data, {})
+    postEmployeeDetailsByID:(data: object,id:any) => rest.put(base + `employee/${id}`,{},data, {}),
+    postEnum:(data:any,id:string)=>rest.post(base+`${id}`,{},data),
+    getEnum:(id:string)=>rest.get(base+`${id}`),
+    deleteEnum:(id:string)=>rest.del(base+`${id}`,{}),
+    putEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data)
 }

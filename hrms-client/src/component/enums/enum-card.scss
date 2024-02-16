@@ -37,3 +37,18 @@
     gap: 16px;
   }
 }
+.data-table.data-table-with-enums{
+  margin:0 auto 40px;
+  display:flex;
+  flex-direction: column;
+  gap: 30px;
+
+  button{
+    width:5%;
+    margin-left: auto;
+  }
+
+}
+.data-table.enum-create-section {
+  margin: 40px auto 20px;
+}

@@ -101,13 +101,6 @@ const items: MenuProps['items'] = [
                 key: 'enum detail',
                 icon: <FormOutlined/>,
             },
-            {
-                label: (
-                    <Link to='/enum/create'>Create</Link>
-                ),
-                key: 'enum create',
-                icon: <FormOutlined/>,
-            },
         ],
     },
     {

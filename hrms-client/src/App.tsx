@@ -17,12 +17,13 @@ import Birthday from './component/events/birthday/birthday';
 import Anniversary from './component/events/anniversary/anniversary';
 import UserDetailsCard from "./component/user/user-cards/userDetailsCard";
 import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
-import EnumCards from "./component/enums/enum-cards";
+import EnumCards from "./component/enums/enum-detail/enum-cards";
 import PrivateRoutes from './privateRoutes/privateRoutes';
 import AboutUs from "./component/company/aboutUs";
 import FAQComponent from "./component/company/faq";
 import PrivacyPolicy from "./component/company/privacyPolicy";
 import ContactUs from "./component/company/contactUs";
+
 
 
 const router = createBrowserRouter(
