@@ -6,7 +6,7 @@ import './featureSections.scss';
 const HomeMainSection = () => {
 
     return (
-        <section className="main-section hrms-container">
+        <section className="main-section__homepage hrms-container">
             <div className='main-section__content'>
                 <h1 >
                     Okruti HRMS to make your workdays simpler and offer time to focus on your people

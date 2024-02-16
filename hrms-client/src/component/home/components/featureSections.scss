@@ -87,13 +87,17 @@
 
 
 .main-section {
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
-  width: 100%;
-  min-height: 460px;
-  position: relative;
-  margin: 20px auto 80px !important;
+
+  &__homepage {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+    min-height: 460px;
+    position: relative;
+    margin: 20px auto 80px !important;
+  }
+
 
   &__content {
     max-width: 500px;
