@@ -1,0 +1,48 @@
+@import '../../styles/common/00-settings/index.scss';
+@import '../../styles/common/01-generic/index.scss';
+@import '../../styles/common/02-component/index.scss';
+
+
+footer {
+  &.hrms-footer {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    background: $hrms-blue-80;
+    padding: 60px 60px 20px;
+  }
+
+  .footer-container {
+    @include flex-col;
+
+    &__upper {
+      @include flex-row-space-between;
+      margin-bottom: 20px;
+    }
+
+    &__bottom {
+      @include flex-row;
+      justify-content: space-between;
+      width: 100%;
+      border-top: 1px solid white;
+      padding-top: 20px;
+    }
+
+    &__logo {
+      max-width: 292px;
+      text-align: left;
+    }
+
+    &__links {
+      @include flex-row-space-between;
+      gap: 20px;
+
+      .company, .support, .contact {
+        border: 1px solid white;
+        height: 200px;
+        width: 100px;
+      }
+    }
+  }
+}

@@ -19,6 +19,10 @@ import UserDetailsCard from "./component/user/user-cards/userDetailsCard";
 import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
 import EnumCards from "./component/enums/enum-cards";
 import PrivateRoutes from './privateRoutes/privateRoutes';
+import AboutUs from "./component/company/aboutUs";
+import FAQComponent from "./component/company/faq";
+import PrivacyPolicy from "./component/company/privacyPolicy";
+import ContactUs from "./component/company/contactUs";
 
 
 const router = createBrowserRouter(
@@ -31,7 +35,7 @@ const router = createBrowserRouter(
                 {/* <Route path='/user/list' element={<UserDataTable/>}/> */}
                 {/* <Route path='/user/detail' element={<UserDetailsCard/>}/> */}
                 {/* <Route path='/user/create' element={<UserCreate/>}/> */}
-                
+
                 <Route path="/user/list" element={<PrivateRoutes Componant={<UserDataTable/>} />} />
                 <Route path="/user/detail" element={<PrivateRoutes Componant={<UserDetailsCard />} />} />
                 <Route path='/user/create' element={<PrivateRoutes Componant={<UserCreate/>}/>}/>
@@ -41,9 +45,14 @@ const router = createBrowserRouter(
                 <Route path='/event/birthday' element={<Birthday />}/>
                 <Route path='/event/anniversary' element={<Anniversary />}/>
                 <Route path='/event/birthday/:id' element={<Birthday />}/>
-                <Route path={'/employee/create/:id'} element={<EmployeeCreate/>}/>
-                <Route path={'/employee/detail/:id'} element={<EmployeeDetail/>}/>
-                <Route path={'/enum'} element={<EnumCards/>}/>
+                <Route path='/employee/create/:id' element={<EmployeeCreate/>}/>
+                <Route path='/employee/detail/:id' element={<EmployeeDetail/>}/>
+                <Route path='/enum' element={<EnumCards/>}/>
+
+                <Route path='/about-us' element={<AboutUs/>}/>
+                <Route path='/faqs' element={<FAQComponent/>}/>
+                <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
+                <Route path='/contact-us' element={<ContactUs/>}/>
             </Route>
 
             <Route path='/login' element={<Login/>}/>

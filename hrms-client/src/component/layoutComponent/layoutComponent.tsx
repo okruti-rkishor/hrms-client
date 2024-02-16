@@ -1,7 +1,8 @@
 import React from 'react';
 import { Layout } from 'antd';
 import HeaderComponent from '../header/header';
-import {Footer, Content} from "antd/es/layout/layout";
+import FooterComponent from '../footer/footer';
+import { Content } from "antd/es/layout/layout";
 import {Outlet} from "react-router-dom";
 import './layoutComponent.scss';
 
@@ -13,9 +14,7 @@ function LayoutComponent() {
             <Layout>
                 <Content className='main-section'><Outlet /></Content>
             </Layout>
-            <Footer className='footer-section'>
-                © OKRUTI IT CONSULTING {new Date().getFullYear()}
-            </Footer>
+            <FooterComponent />
         </Layout>
     );
 }

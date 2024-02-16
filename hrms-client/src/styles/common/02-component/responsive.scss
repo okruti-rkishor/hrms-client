@@ -4,3 +4,39 @@ main .hrms-container {
   width: 100%;
   padding: 0 60px;
 }
+
+
+//  FLEX DIRECTION --> ROW
+@mixin flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin flex-row-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+@mixin flex-row-align-center {
+  display: flex;
+  flex-direction: row;
+  //justify-content: space-between;
+  align-items: center;
+}
+
+
+
+//  FLEX DIRECTION --> COLUMN
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-col-align-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
