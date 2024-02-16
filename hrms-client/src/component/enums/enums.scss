@@ -5,10 +5,10 @@
   .enum-card {
     &.user-type {
       background: $hrms-blue-10;
-      border: 1px solid $hrms-blue-20;
+      border: 1px solid $hrms-blue-30;
 
       .ant-card-head {
-        border-bottom: 1px solid $hrms-blue-20;
+        border-bottom: 1px solid $hrms-blue-30;
       }
     }
 

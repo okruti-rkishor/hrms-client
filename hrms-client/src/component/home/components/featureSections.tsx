@@ -36,7 +36,7 @@ function FeatureSection() {
     ];
 
     return (
-        <div className="feature-section">
+        <div className="feature-section hrms-container">
             {hrmsFeatureProps.map((feature: any) => (
                 <section className="feature-container">
                     <div className="content-container">

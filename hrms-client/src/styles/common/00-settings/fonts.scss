@@ -2,6 +2,7 @@
 $hrms-font-family-poppins: "Poppins", sans-serif;
 $hrms-font-family-roboto: "Roboto", sans-serif;
 $hrms-font-family-merriweather: "Merriweather", serif;
+$hrms-font-family-playfair: "Playfair Display", serif;
 
 
 // FONT SIZE
@@ -44,6 +45,7 @@ $hrms-font-weight-500: 500;
 $hrms-font-weight-600: 600;
 $hrms-font-weight-700: 700;
 $hrms-font-weight-800: 800;
+$hrms-font-weight-900: 900;
 
 
 // FONT STYLE
@@ -59,4 +61,43 @@ $hrms-font-style: normal;
   font-size: $hrms-font-size-m;
   line-height: $hrms-line-height-xs;
   color: $hrms-pink-50;
+}
+
+//  "Playfair Display" FONT
+
+//font-size: 16px -- font-weight: 600 -- line-height: 16px
+@mixin playfair-display-m() {
+  font-family: $hrms-font-family-playfair;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  font-size: $hrms-font-size-m;
+  line-height: $hrms-line-height-xs;
+  color: $hrms-black-20;
+}
+
+@mixin playfair-display-l() {
+  font-family: $hrms-font-family-playfair;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  font-size: $hrms-font-size-l;
+  line-height: $hrms-line-height-ml;
+  color: $hrms-black-20;
+}
+
+@mixin playfair-display-xl() {
+  font-family: $hrms-font-family-playfair;
+  font-weight: $hrms-font-weight-700;
+  font-style: $hrms-font-style;
+  font-size: $hrms-font-size-xl;
+  line-height: $hrms-line-height-xl;
+  color: $hrms-black-20;
+}
+
+@mixin playfair-display-xxl() {
+  font-family: $hrms-font-family-playfair;
+  font-weight: $hrms-font-weight-600;
+  font-style: $hrms-font-style;
+  font-size: $hrms-font-size-xxl;
+  line-height: $hrms-line-height-xxl;
+  color: $hrms-black-20;
 }

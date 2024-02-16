@@ -1,13 +1,12 @@
-@import "../../../styles/common/00-settings/index";
+@import '../../../styles/common/00-settings/index.scss';
+@import '../../../styles/common/01-generic/index.scss';
+@import '../../../styles/common/02-component/index.scss';
 
 
 .feature-section {
   display: flex;
   flex-direction: column;
   gap: 80px;
-  max-width: 1140px;
-  margin: 40px auto;
-  width: 100%;
 }
 
 .feature-container {
@@ -15,6 +14,9 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  max-width: 1140px;
+  margin: 0 auto;
+  width: 100%;
   //border: 1px solid black;
 
   .content-container {
@@ -80,5 +82,43 @@
       transform: translate(0, -3px);
       box-shadow: unset;
     }
+  }
+}
+
+
+.main-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  width: 100%;
+  min-height: 460px;
+  position: relative;
+  margin: 20px auto 80px !important;
+
+  &__content {
+    max-width: 500px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    text-align: left;
+
+    h1{
+      @include playfair-display-xl;
+    }
+  }
+
+  &__image {
+    background: url("#{$hrms-image-path}/hrms-main-page-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 0;
+    max-width: 800px;
   }
 }

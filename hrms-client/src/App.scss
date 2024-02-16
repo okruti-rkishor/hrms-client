@@ -18,7 +18,8 @@
     background: unset;
 
     &.with-background {
-      background: $hrms-white-10;
+      //background: $hrms-white-10;
+      background: #e8f0fe80;
       height: 100%;
     }
 
@@ -46,9 +47,12 @@
   margin: 40px auto;
   padding: 24px 40px;
   background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px $hrms-gray-10;
-  border: 1px solid $hrms-gray-20;
+  border-radius: 16px;
+  //box-shadow: 0 0 10px $hrms-gray-10;
+  //box-shadow: 0 0 20px 0 #0000001A;
+  box-shadow: 0 0 20px 0 $hrms-blue-30;
+  //border: 1px solid $hrms-gray-20;
+  border: 1px solid $hrms-blue-30;
 }
 
 .ant-page-header {

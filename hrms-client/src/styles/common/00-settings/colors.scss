@@ -30,10 +30,16 @@ $hrms-gray-40: #BFBFBF;
 $hrms-gray-50: #6B727A;
 
 
+// BLACK SHADES
+$hrms-black-10: #3F3321;
+$hrms-black-20: #121C42;
+$hrms-black-30: #000000;
+
+
 // BLUE SHADES
 $hrms-blue-10: #F0F5FF;
-$hrms-blue-20: #CCDEFF;
-$hrms-blue-30: #1677FF33;
+$hrms-blue-20: #D9F2F7; //card
+$hrms-blue-30: #CCDEFF;
 $hrms-blue-40: #ADC6FF;
 $hrms-blue-50: #5FA4E6;
 $hrms-blue-60: #1F6CF9;
@@ -43,16 +49,17 @@ $hrms-blue-90: #1D39C4;
 
 
 // PURPLE SHADES
-$hrms-purple-10: #665DCD;
-$hrms-purple-10: #665DCD;
+$hrms-purple-10: #EEECFF; //card
+$hrms-purple-20: #8C77EC;
+$hrms-purple-30: #665DCD;
 
 
 // GREEN SHADES
 $hrms-green-10: #f6ffed;
-$hrms-green-20: #D0EBE1;
+$hrms-green-20: #E0F8F2; //card
 $hrms-green-30: #C8F1D4;
 $hrms-green-40: #B9DBCF;
-$hrms-green-50: #29F499;
+$hrms-green-50: #02C27F;
 $hrms-green-60: #389E0D;
 
 
@@ -71,8 +78,20 @@ $hrms-pink-50: #E44C7D;
 $hrms-pink-60: #C41D7F;
 
 
+// YELLOW SHADES
+$hrms-yellow-10: #FFF5D7;
+$hrms-yellow-20: #FFF3CC;
+$hrms-yellow-30: #FEE685;
+$hrms-yellow-40: #FFE082;
+$hrms-yellow-50: #FFC501;
 
 
+// CARDS BG
+$hrms-cards-bg-10: #FAEDED;
+$hrms-cards-bg-20: #EEECFF;
+$hrms-cards-bg-30: #FDF3EA;
+$hrms-cards-bg-40: #E0F8F2;
+$hrms-cards-bg-50: #D9F2F7;
 
 
 $hrms-color-10: #DEF2EB;
@@ -88,6 +107,8 @@ $hrms-color-100: #FFE082;
 
 
 
+//background: #e8f0fe;
+//background: #e8f0fe80;
 
 //background-color: transparent;
 //background-image: linear-gradient(180deg,var(--e-global-color-0dbb76f) 0%,var(--e-global-color-f00a50b) 100%);
