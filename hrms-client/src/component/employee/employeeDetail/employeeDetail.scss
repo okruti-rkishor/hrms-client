@@ -1,3 +1,5 @@
+@import '../../../styles/common/00-settings/index.scss';
+
 .ant-layout-content {
     line-height: unset !important;
     min-height: unset !important;
@@ -40,8 +42,9 @@
         display: flex;
         justify-content: left;
         gap: 20px;
+
         // flex-direction: column;
-        .fixed-box{
+        .fixed-box {
             width: 360px;
             border: 2px ridge;
             border-radius: 10px;
@@ -49,6 +52,7 @@
             background-color: #f8ffff;
             margin: 10px 0px;
         }
+
         // margin-top: 65px;
     }
 
@@ -58,10 +62,10 @@
     }
 }
 
-.name{
+.name {
     font-size: 35px;
     font-weight: 800;
-    margin: 20px 
+    // margin: 20px
 }
 
 
@@ -69,79 +73,108 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    .detail-column{
+
+    .detail-column {
         display: flex;
         flex-direction: column;
     }
+
     span {
         padding: 10px;
     }
 }
 
-.root-page-header{
+.root-page-header {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin: 40px;
 }
-.employee-image{
-     width: 200px; 
-     height: 220px;
+
+.employee-image {
+    width: 200px;
+    height: 220px;
 }
 
-.family-detail{
+.family-detail {
     display: flex;
     flex-direction: row;
     gap: 20px;
-   
-    .family-detail-box{
+
+    .family-detail-box {
         border: "1px";
         display: "flex";
         flex-direction: "column";
-       
+
     }
 }
 
-.family-detail-card{
+.family-detail-card {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 10px;
     border: 2px;
     border-style: ridge;
-    span{
+
+    span {
         padding: 5px;
     }
-    
+
 
 }
 
-.previous-experience-detail-container{
+// .previous-experience-detail-container {}
 
-}
 
-.previous-experience-detail{
+.previous-experience-detail {
     display: flex;
     flex-direction: column;
     justify-content: "space-around",
 }
 
+.permanent-address {
+    display: "flex";
+    flex-direction: "column";
+    justify-content: "space-around !import",
 
-.detail-card{
+}
+
+.detail-card {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     padding: 10px;
     border: 2px;
     border-style: ridge;
-    span{
+
+    span {
         padding: 5px;
     }
-    
+
 
 }
 
-.logo{
+.logo {
     width: 24px;
     height: 24px
 }
+
+.previous-experience-detail-container{
+    display: flex;
+    flex-direction: column;
+}
+
+
+:where(.css-dev-only-do-not-override-dkbvqv).ant-divider-horizontal {
+    display: flex;
+    clear: both;
+    width: 100%;
+    min-width: 100%;
+    margin: 10px 0;
+}
+
+.permanent-address-container{
+    background: $hrms-blue-50;
+}
+

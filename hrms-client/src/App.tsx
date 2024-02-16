@@ -5,7 +5,7 @@ import Login from "./component/login/login";
 import LayoutComponent from './component/layoutComponent/layoutComponent';
 import Home from "./component/home/home";
 import Error from "./component/error page/error";
-import EmployeeCreate from "./component/employee/employeeCreate"
+import EmployeeCreate from "./component/employee/employeeCreate";
 import ApiInterceptor from "./apiInterceptor";
 import UserCreate from "./component/user/user-create/userCreate";
 import UserDataTable from "./component/user/user-list/userDataTable";
@@ -18,6 +18,8 @@ import Anniversary from './component/events/anniversary/anniversary';
 import UserDetailsCard from "./component/user/user-cards/userDetailsCard";
 import EmployeeDetail from './component/employee/employeeDetail/employeeDetail';
 import EnumCards from "./component/enums/enum-cards";
+import PrivateRoutes from './privateRoutes/privateRoutes';
+
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,10 +28,16 @@ const router = createBrowserRouter(
                 <Route path='/' element={<Home/>}/>
                 <Route path='/home' element={<Home/>}/>
                 <Route path='/employee/create' element={<EmployeeCreate/>}/>
-                <Route path='/user/list' element={<UserDataTable/>}/>
-                <Route path='/user/detail' element={<UserDetailsCard/>}/>
-                <Route path='/user/create' element={<UserCreate/>}/>
-                <Route path='/employee/search' element={<EmployeeSearch />}/>
+                {/* <Route path='/user/list' element={<UserDataTable/>}/> */}
+                {/* <Route path='/user/detail' element={<UserDetailsCard/>}/> */}
+                {/* <Route path='/user/create' element={<UserCreate/>}/> */}
+                
+                <Route path="/user/list" element={<PrivateRoutes Componant={<UserDataTable/>} />} />
+                <Route path="/user/detail" element={<PrivateRoutes Componant={<UserDetailsCard />} />} />
+                <Route path='/user/create' element={<PrivateRoutes Componant={<UserCreate/>}/>}/>
+
+                <Route path='/employee/search' element={<PrivateRoutes Componant={<EmployeeSearch/>}/>}/>
+                {/* <Route path='/employee/search' element={<EmployeeSearch />}/> */}
                 <Route path='/event/birthday' element={<Birthday />}/>
                 <Route path='/event/anniversary' element={<Anniversary />}/>
                 <Route path='/event/birthday/:id' element={<Birthday />}/>

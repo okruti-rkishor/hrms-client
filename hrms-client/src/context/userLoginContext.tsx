@@ -36,7 +36,7 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
     email: "",
     firstName: "",
     lastName: "",
-    role: "",
+    roles: [],
   });
   const contextValue: UserContextType = {
     newUser,
@@ -62,7 +62,7 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
         email: "",
         firstName: "",
         lastName: "",
-        role: "",
+        roles: [],
       })
       // navigate('/login')
     }
