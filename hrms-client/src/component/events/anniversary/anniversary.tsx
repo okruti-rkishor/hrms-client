@@ -3,6 +3,7 @@ import Common from "../common/common";
 import EventContext from "../../../context/eventContext";
 import { useContext } from "react";
 
+
 function Anniversary() {
   EventData('anniversary');
   const { anniversaryData } = useContext<any>(EventContext);
@@ -39,7 +40,7 @@ function Anniversary() {
 
   return (
     <>
-      <Common data={newData} event={"Work Anniversary"} />
+        <Common data={newData} event={"Work Anniversary"} animation={<p></p>}/>
     </>
   );
 }

@@ -1,7 +1,9 @@
 import EventData from "../../../custom_hooks/eventData";
 import Common from "../common/common";
 import EventContext from "../../../context/eventContext";
-import { useContext } from "react";
+import React, {useContext, useEffect} from "react";
+import BirthdayAnimation from './birthdayAnimation';
+
 
 function Birthday() {
   EventData('birthday');
@@ -39,7 +41,7 @@ function Birthday() {
 
   return (
     <>
-      <Common data={newData} event="Birthday" />
+      <Common data={newData} event="Birthday" animation={<BirthdayAnimation/>} />
     </>
   );
 }

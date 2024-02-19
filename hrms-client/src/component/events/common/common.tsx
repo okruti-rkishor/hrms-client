@@ -1,10 +1,13 @@
+import React, { FC, useEffect } from 'react';
 import { Layout, Table } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import "./common.scss";
 
+
 export interface CommonComponentProps {
   data: data;
   event: string;
+  animation: React.ReactNode;
 }
 
 export type data = {
@@ -13,11 +16,10 @@ export type data = {
   upcoming: { employeeName: string; date: string }[];
 };
 
-const Common: React.FC<CommonComponentProps> = ({ data, event }) => {
+const Common: React.FC<CommonComponentProps> = ({ data, event, animation }) => {
   const dataToday = data.today;
   const dataPassed = data.passed;
   const dataUpcoming = data.upcoming;
-
 
   const columns = [
     {
@@ -34,6 +36,7 @@ const Common: React.FC<CommonComponentProps> = ({ data, event }) => {
 
   return (
     <Layout className="with-background">
+      {animation}
       <div className="data-table birthday-event-section">
         <section className="today-birthday-section">
           <PageHeader title={ `Today ${event}`}>

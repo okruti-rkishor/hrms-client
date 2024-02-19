@@ -64,18 +64,18 @@ function FooterComponent() {
                                 <p>Careers</p>
                                 <LinkIconSVG/>
                             </Link>
-                            <Link to='/news'>
-                                <p>News & Media</p>
-                                <LinkIconSVG/>
-                            </Link>
+                            {/*<Link to='/news'>*/}
+                            {/*    <p>News & Media</p>*/}
+                            {/*    <LinkIconSVG/>*/}
+                            {/*</Link>*/}
                             <Link to='/privacy-policy'>
                                 <p>Privacy Policy</p>
                                 <LinkIconSVG/>
                             </Link>
-                            <Link to='/terms-condition'>
-                                <p>Terms & Condition</p>
-                                <LinkIconSVG/>
-                            </Link>
+                            {/*<Link to='/terms-condition'>*/}
+                            {/*    <p>Terms & Condition</p>*/}
+                            {/*    <LinkIconSVG/>*/}
+                            {/*</Link>*/}
                         </div>
                         <div className='links-section support'>
                             <h3 className='links-section__title'>Support</h3>
@@ -83,10 +83,10 @@ function FooterComponent() {
                                 <p>Contact Us</p>
                                 <LinkIconSVG/>
                             </Link>
-                            <Link to='/faqs'>
-                                <p>FAQ's</p>
-                                <LinkIconSVG/>
-                            </Link>
+                            {/*<Link to='/faqs'>*/}
+                            {/*    <p>FAQ's</p>*/}
+                            {/*    <LinkIconSVG/>*/}
+                            {/*</Link>*/}
                         </div>
                         <div className='links-section contact'>
                             <h3 className='links-section__title'>Contact</h3>
@@ -101,7 +101,6 @@ function FooterComponent() {
                             <p className='address'>
                                 A-29 Silver Heights, Sunder Singh Bhandari Nagar, New Sanganer Road, Sodala, Jaipur, Rajasthan 302019, INDIA
                             </p>
-                            <p className='credits'>Crafted with ❤️ by Frontend team.</p>
                         </div>
                     </div>
 

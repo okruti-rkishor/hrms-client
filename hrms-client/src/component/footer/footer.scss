@@ -11,6 +11,7 @@ footer {
     text-align: center;
     background: $hrms-blue-80;
     padding: 60px 60px 40px;
+    z-index: 1;
   }
 
   .footer-container {
@@ -65,12 +66,6 @@ footer {
 
           .address {
             margin-top: 20px;
-            font-size: 16px;
-            font-weight: 400;
-            color: #fff;
-          }
-          
-          .credits {
             font-size: 16px;
             font-weight: 400;
             color: #fff;

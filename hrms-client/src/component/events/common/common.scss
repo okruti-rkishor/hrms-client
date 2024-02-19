@@ -1,4 +1,8 @@
 .birthday-event-section {
+  &.data-table {
+    //width: unset;
+    z-index: 1;
+  }
 
   .today-birthday {
     &-section {
@@ -81,5 +85,6 @@
   .other-birthday-list {
     display: flex;
     justify-content: space-around;
+    gap: 80px;
   }
 }

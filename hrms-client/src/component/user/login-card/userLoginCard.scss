@@ -33,7 +33,7 @@
       line-height: $hrms-line-height-xs;
       font-weight: $hrms-font-weight-400;
       color: #000000cc;
-      margin-bottom: 24px;
+      //margin-bottom: 24px;
     }
 
     .user-card-role {
@@ -44,84 +44,29 @@
       //margin-top: 10px;
     }
 
-    .ant-card-actions {
-      .user-profile {
-        height: unset;
-        width: unset !important;
-        padding: 7px 12px;
-        border: unset;
-        border-radius: 50%;
-        color: #00000073;
-        cursor: pointer;
-        background-color: #F0F5FF;
+    .logout-button {
+      height: unset;
+      width: fit-content;
+      padding: 7px 12px;
+      border: unset;
+      border-radius: 50%;
+      color: white;
+      cursor: pointer;
+      background-color: #ff4141;
 
-        &:hover {
-          color: #00000073 !important;
-          background-color: #D9F2F7 !important;
-        }
-      }
-
-      .logout-button {
-        height: unset;
-        width: unset;
-        padding: 7px 12px;
-        border: unset;
-        border-radius: 50%;
-        color: white;
-        cursor: pointer;
-        background-color: #ff4141;
-
-        &:hover {
-          background-color: rgba(255, 65, 65, 0.9) !important;
-          transition: all 250ms ease-in-out;
-        }
+      &:hover {
+        background-color: rgba(255, 65, 65, 0.9) !important;
+        transition: all 250ms ease-in-out;
       }
     }
 
-    &-button {
-      position: relative;
-      //display: flex;
-      //align-items: center;
-      //justify-content: center;
+    &-links {
+      @include flex-col;
+    }
 
-      .tooltip {
-        position: absolute;
-        top: 0;
-        //left: -70%;
-        background: #1F6CF9;
-        color: #fff;
-        padding: 5px 8px;
-        border-radius: 5px;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-
-        &:before {
-          position: absolute;
-          content: "";
-          height: 8px;
-          width: 8px;
-          background: #1F6CF9;
-          bottom: -3px;
-          left: 50%;
-          transform: translate(-50%) rotate(45deg);
-          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        & + .anticon {
-          margin: unset;
-        }
-      }
-
-      &:hover {
-        .tooltip {
-          top: -45px;
-          //right: 0;
-          //width: fit-content;
-          opacity: 1;
-          visibility: visible;
-        }
-      }
+    &-link {
+      padding: 8px 0;
+      border-top: 1px solid $hrms-gray-20;
     }
   }
 }

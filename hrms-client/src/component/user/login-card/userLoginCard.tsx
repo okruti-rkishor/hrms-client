@@ -2,12 +2,31 @@ import React, {useContext} from 'react';
 import {Avatar, Button, Card, Popover, Tag} from 'antd';
 import UserLoginContext from "../../../context/userLoginContext";
 import rest from "../../../services/http/api";
-import { useNavigate } from 'react-router-dom';
-import {LogoutOutlined, UserOutlined} from "@ant-design/icons/lib";
+import {Link, useNavigate} from 'react-router-dom';
+import {CalendarOutlined, LogoutOutlined, ToTopOutlined, UserOutlined} from "@ant-design/icons/lib";
 import './userLoginCard.scss';
 
 
 const { Meta } = Card;
+
+
+const userCardLinks = [
+    {
+        linkText: "Your Profile",
+        icon: <UserOutlined/>,
+        linkTextTarget: "www.google.com",
+    },
+    {
+        linkText: "Your Events",
+        icon: <CalendarOutlined />,
+        linkTextTarget: "www.google.com",
+    },
+    {
+        linkText: "Request Leave",
+        icon: <ToTopOutlined />,
+        linkTextTarget: "www.google.com",
+    },
+];
 
 const UserDataContent = () => {
     const {newUser, setNewUser} = useContext<any>(UserLoginContext);
@@ -35,23 +54,6 @@ const UserDataContent = () => {
         <Card
             style={{ width: 300 }}
             className='user-login__card'
-            actions={[
-                <Button href={`/employee/detail/${newUser.id}`}
-                        key="profile"
-                        className="user-profile user-login__card-button"
-                >
-                    <span className="tooltip">Your Profile</span>
-                    <UserOutlined/>
-                </Button>,
-                <Button type="primary"
-                        key="logout"
-                        onClick={handleLogout}
-                        className="logout-button user-login__card-button"
-                >
-                    <span className="tooltip">Logout</span>
-                    <LogoutOutlined/>
-                </Button>
-            ]}
         >
             <Meta
                 avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
@@ -69,6 +71,23 @@ const UserDataContent = () => {
                     </>
                 ]}
             />
+
+            <div className='user-login__card-links'>
+                {userCardLinks.map((list: any) => (
+                    <Link to={list.linkTarget} className='user-login__card-link'>
+                        {list.icon}
+                        {list.linkText}
+                    </Link>
+                ))}
+                <Button type="primary"
+                        key="logout"
+                        onClick={handleLogout}
+                        className="logout-button"
+                >
+                    <LogoutOutlined/>
+                </Button>
+            </div>
+
         </Card>
     )
 };
