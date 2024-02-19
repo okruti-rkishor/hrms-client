@@ -10,27 +10,29 @@ import './userLoginCard.scss';
 const { Meta } = Card;
 
 
-const userCardLinks = [
-    {
-        linkText: "Your Profile",
-        icon: <UserOutlined/>,
-        linkTextTarget: "www.google.com",
-    },
-    {
-        linkText: "Your Events",
-        icon: <CalendarOutlined />,
-        linkTextTarget: "www.google.com",
-    },
-    {
-        linkText: "Request Leave",
-        icon: <ToTopOutlined />,
-        linkTextTarget: "www.google.com",
-    },
-];
+
 
 const UserDataContent = () => {
     const {newUser, setNewUser} = useContext<any>(UserLoginContext);
     const navigate = useNavigate();
+
+    const userCardLinks = [
+        {
+            linkText: "Your Profile",
+            icon: <UserOutlined/>,
+            linkTarget: `/employee/detail/${newUser.id}`,
+        },
+        {
+            linkText: "Your Events",
+            icon: <CalendarOutlined />,
+            linkTarget: "www.google.com",
+        },
+        {
+            linkText: "Request Leave",
+            icon: <ToTopOutlined />,
+            linkTarget: "www.google.com",
+        },
+    ];
 
     const handleLogout = async () => {
         try {
@@ -71,23 +73,21 @@ const UserDataContent = () => {
                     </>
                 ]}
             />
-
             <div className='user-login__card-links'>
                 {userCardLinks.map((list: any) => (
                     <Link to={list.linkTarget} className='user-login__card-link'>
                         {list.icon}
-                        {list.linkText}
+                        <p>{list.linkText}</p>
                     </Link>
                 ))}
-                <Button type="primary"
-                        key="logout"
-                        onClick={handleLogout}
-                        className="logout-button"
-                >
-                    <LogoutOutlined/>
-                </Button>
             </div>
-
+            <Button type="primary"
+                    key="logout"
+                    onClick={handleLogout}
+                    className="logout-button"
+            >
+                <LogoutOutlined/> Logout
+            </Button>
         </Card>
     )
 };

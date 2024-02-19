@@ -22,6 +22,10 @@
         font-size: $hrms-font-size-m;
         line-height: $hrms-line-height-m;
       }
+
+      .ant-card-meta-description {
+        margin-bottom: 20px;
+      }
     }
 
     .ant-card-body {
@@ -33,7 +37,7 @@
       line-height: $hrms-line-height-xs;
       font-weight: $hrms-font-weight-400;
       color: #000000cc;
-      //margin-bottom: 24px;
+      margin-bottom: 12px;
     }
 
     .user-card-role {
@@ -49,10 +53,12 @@
       width: fit-content;
       padding: 7px 12px;
       border: unset;
-      border-radius: 50%;
+      //border-radius: 50%;
+      border-radius: 8px;
       color: white;
       cursor: pointer;
       background-color: #ff4141;
+      margin-top: 20px;
 
       &:hover {
         background-color: rgba(255, 65, 65, 0.9) !important;
@@ -60,13 +66,33 @@
       }
     }
 
-    &-links {
-      @include flex-col;
-    }
-
     &-link {
+      display: block;
       padding: 8px 0;
       border-top: 1px solid $hrms-gray-20;
+      color: #000000cc;
+
+      > p {
+        display: inline-block;
+        margin-left: 12px;
+      }
+
+      &:hover {
+        //background-color: $hrms-blue-20;
+        color: $hrms-blue-70 !important;
+
+        svg {
+          fill: $hrms-blue-70 !important;
+        }
+      }
+    }
+  }
+}
+
+.ant-popover {
+  .ant-popover-inner {
+    .ant-card-meta {
+      margin: unset;
     }
   }
 }
