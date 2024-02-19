@@ -7,6 +7,18 @@ $hrms-linear-gradient-05: linear-gradient(to right, skyblue,#ECA5D8);
 $hrms-linear-gradient-06: linear-gradient(180deg, #0dbb76f1 0%, #a1bb5010 100%);
 $hrms-linear-gradient-07: linear-gradient(180deg, #dbb76f 0%, #a7d94c 100%);
 $hrms-linear-gradient-08: linear-gradient(180deg, #dbb76f 0%, #f00a5b 100%);
+$hrms-linear-gradient-09: linear-gradient(90deg,#0565ff 20%,#d341a5 40%,#d341a5 60%,#0565ff 80%);
+
+
+@mixin text-linear-gradient {
+  background: linear-gradient(90deg,#0565ff 20%,#d341a5 40%,#d341a5 60%,#0565ff 80%);
+  //background-clip: text;
+  background-size: 200% auto;
+  color: #0565ff;
+  //text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 
 // BOX SHADOWS --->
@@ -46,6 +58,7 @@ $hrms-blue-60: #1F6CF9;
 $hrms-blue-70: #1F6CF9;
 $hrms-blue-80: #1077DA;
 $hrms-blue-90: #1D39C4;
+$hrms-blue-button-primary: #0077ff;
 
 
 // PURPLE SHADES
@@ -59,8 +72,9 @@ $hrms-green-10: #f6ffed;
 $hrms-green-20: #E0F8F2; //card
 $hrms-green-30: #C8F1D4;
 $hrms-green-40: #B9DBCF;
-$hrms-green-50: #02C27F;
-$hrms-green-60: #389E0D;
+$hrms-green-50: #03CC65;
+$hrms-green-60: #02C27F;
+$hrms-green-70: #389E0D;
 
 
 // RED SHADES

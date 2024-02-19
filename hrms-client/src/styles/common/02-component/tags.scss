@@ -33,12 +33,12 @@
 
 // EMPLOYEE TAG
 @mixin employee-tag {
-  color: $hrms-green-60;
+  color: $hrms-green-70;
   background: $hrms-green-10;
   border-color: $hrms-green-40;
 
   svg {
-    fill: $hrms-green-60;
+    fill: $hrms-green-70;
   }
 }
 

@@ -34,6 +34,12 @@ main .hrms-container {
   flex-direction: column;
 }
 
+@mixin flex-col-align-start {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 @mixin flex-col-align-center {
   display: flex;
   flex-direction: column;

@@ -7,6 +7,7 @@
   display: flex;
   flex-direction: column;
   gap: 80px;
+  @include hrms-link-blue__primary;
 }
 
 .feature-container {
@@ -67,21 +68,7 @@
   }
 
   &__link.ant-btn {
-    padding: 10px 20px;
-    border: 1px solid $hrms-blue-80;
-    border-radius: 4px;
-    color: $hrms-blue-80;
-    transition: transform ease-out 0.3s;
-    background: unset;
-    height: unset;
-    box-shadow: unset;
-
-    &:not(.ant-btn-disabled):hover {
-      color: $hrms-blue-80;
-      border: 1px solid $hrms-blue-80;
-      transform: translate(0, -3px);
-      box-shadow: unset;
-    }
+    @include hrms-button-blue__primary;
   }
 }
 
@@ -98,9 +85,8 @@
     margin: 20px auto 80px !important;
   }
 
-
   &__content {
-    max-width: 500px;
+    max-width: 35%;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -116,13 +102,15 @@
   &__image {
     background: url("#{$hrms-image-path}/hrms-main-page-bg.jpg");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: 100% auto;
     height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     right: 0;
     z-index: 0;
-    max-width: 800px;
+    //max-width: 800px;
+    max-width: 60%;
+    min-width: 40%;
   }
 }
