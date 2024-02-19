@@ -101,7 +101,7 @@ function FooterComponent() {
                             <p className='address'>
                                 A-29 Silver Heights, Sunder Singh Bhandari Nagar, New Sanganer Road, Sodala, Jaipur, Rajasthan 302019, INDIA
                             </p>
-                            <p className='credits'>Creafted with ❤️ by Frontend team.</p>
+                            <p className='credits'>Crafted with ❤️ by Frontend team.</p>
                         </div>
                     </div>
 

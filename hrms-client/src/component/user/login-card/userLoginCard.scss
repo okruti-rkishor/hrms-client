@@ -1,63 +1,127 @@
-.user-login-avatar {
-  background: white;
-  padding: 5px 5px 8px;
-  border-radius: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 38px;
-  width: 38px;
-  cursor: pointer;
-}
+@import '../../../styles/common/00-settings/index.scss';
+@import '../../../styles/common/01-generic/index.scss';
+@import '../../../styles/common/02-component/index.scss';
 
-.user-login-card {
 
-  &.ant-card {
-    .ant-card-meta-title {
-      font-size: 24px;
-      line-height: 28px;
+.user-login {
+  &__avatar {
+    background: white;
+    padding: 5px 5px 8px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    width: 38px;
+    cursor: pointer;
+  }
+
+  &__card {
+    &.ant-card {
+      .ant-card-meta-title {
+        font-size: $hrms-font-size-m;
+        line-height: $hrms-line-height-m;
+      }
     }
-  }
 
-  .ant-card-body {
-    padding: 16px;
-  }
+    .ant-card-body {
+      padding: 16px;
+    }
 
-  .user-card-mail {
-    font-size: 16px;
-    font-weight: 500;
-    color: #000000cc;
-    margin-bottom: 8px;
-  }
+    .user-card-mail {
+      font-size: $hrms-font-size-s;
+      line-height: $hrms-line-height-xs;
+      font-weight: $hrms-font-weight-400;
+      color: #000000cc;
+      margin-bottom: 24px;
+    }
 
-  .user-card-role {
-    padding: 1px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid;
-  }
-
-  .logout-button {
-    width: 100%;
-    text-align: center;
-    margin-top: 36px;
-
-    > button {
-      height: unset;
-      padding: 4px 16px;
-      border: unset;
-      border-radius: 24px;
-      color: white;
-      font-size: 16px;
+    .user-card-role {
+      padding: 1px 12px;
+      font-size: 14px;
       font-weight: 500;
-      cursor: pointer;
-      background-color: #ff88be;
+      border: 1px solid;
+      //margin-top: 10px;
+    }
+
+    .ant-card-actions {
+      .user-profile {
+        height: unset;
+        width: unset !important;
+        padding: 7px 12px;
+        border: unset;
+        border-radius: 50%;
+        color: #00000073;
+        cursor: pointer;
+        background-color: #F0F5FF;
+
+        &:hover {
+          color: #00000073 !important;
+          background-color: #D9F2F7 !important;
+        }
+      }
+
+      .logout-button {
+        height: unset;
+        width: unset;
+        padding: 7px 12px;
+        border: unset;
+        border-radius: 50%;
+        color: white;
+        cursor: pointer;
+        background-color: #ff4141;
+
+        &:hover {
+          background-color: rgba(255, 65, 65, 0.9) !important;
+          transition: all 250ms ease-in-out;
+        }
+      }
+    }
+
+    &-button {
+      position: relative;
+      //display: flex;
+      //align-items: center;
+      //justify-content: center;
+
+      .tooltip {
+        position: absolute;
+        top: 0;
+        //left: -70%;
+        background: #1F6CF9;
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 5px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+        &:before {
+          position: absolute;
+          content: "";
+          height: 8px;
+          width: 8px;
+          background: #1F6CF9;
+          bottom: -3px;
+          left: 50%;
+          transform: translate(-50%) rotate(45deg);
+          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        & + .anticon {
+          margin: unset;
+        }
+      }
 
       &:hover {
-        background-color: #ff6cae !important;
-        transition: all 250ms ease-in-out;
+        .tooltip {
+          top: -45px;
+          //right: 0;
+          //width: fit-content;
+          opacity: 1;
+          visibility: visible;
+        }
       }
     }
   }
 }
-
