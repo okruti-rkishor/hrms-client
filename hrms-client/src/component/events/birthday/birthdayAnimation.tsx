@@ -15,7 +15,7 @@ const BirthdayAnimation = () => {
         const ml = random(50);
         const dur = random(10) + 7;
         return `
-      background-color: rgba(${r},${g},${b},0.7);
+      background-color: rgba(${r},${g},${b});
       color: rgba(${r},${g},${b},0.7); 
       box-shadow: inset -7px -3px 10px rgba(${r - 10},${g - 10},${b - 10},0.7);
       margin: ${mt}px 0 0 ${ml}px;

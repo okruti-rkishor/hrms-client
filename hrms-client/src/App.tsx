@@ -23,6 +23,8 @@ import AboutUs from "./component/company/aboutUs";
 import FAQComponent from "./component/company/faq";
 import PrivacyPolicy from "./component/company/privacyPolicy";
 import ContactUs from "./component/company/contactUs";
+import HolidayCreate from './component/holiday/holidayCreate';
+import HolidayList from './component/holiday/holidayList';
 
 
 
@@ -54,6 +56,8 @@ const router = createBrowserRouter(
                 <Route path='/faqs' element={<FAQComponent/>}/>
                 <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
                 <Route path='/contact-us' element={<ContactUs/>}/>
+                <Route path='/holiday' element={<HolidayList/>}/>
+                <Route path='/holiday/create' element={<HolidayCreate/>}/>
             </Route>
 
             <Route path='/login' element={<Login/>}/>

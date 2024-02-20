@@ -9,37 +9,11 @@ import {
     SearchOutlined
 } from '@ant-design/icons';
 import {Link} from "react-router-dom";
-import {AppstoreOutlined, EditOutlined, PhoneOutlined} from "@ant-design/icons/lib";
+import {AppstoreOutlined, CalendarOutlined, EditOutlined, PhoneOutlined} from "@ant-design/icons/lib";
 import './navbar.scss';
 
 
 const items: MenuProps['items'] = [
-    {
-        label: 'About',
-        key: 'about',
-        // icon: <UserOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='#'>Our Story</Link>
-                ),
-                key: 'our story',
-            },
-            {
-                label: (
-                    <Link to='#'>Our Team</Link>
-                ),
-                key: 'our team',
-            },
-            {
-                label: (
-                    <Link to='/contact-us'>Contact Us</Link>
-                ),
-                key: 'contact us',
-                icon: <PhoneOutlined/>,
-            },
-        ],
-    },
     {
         label: 'User',
         key: 'user',
@@ -138,13 +112,25 @@ const items: MenuProps['items'] = [
             },
         ],
     },
-    // {
-    //     label: (
-    //         <Link to='/contact-us'>Contact Us</Link>
-    //     ),
-    //     key: 'contact',
-    //     icon: <PhoneOutlined/>,
-    // },
+    {
+        label: 'Holiday',
+        key: 'holiday',
+        icon: <CalendarOutlined />,
+        children: [
+            {
+                label: (
+                    <Link to='/holiday/create'>Create</Link>
+                ),
+                key: 'holiday-create',
+            },
+            {
+                label: (
+                    <Link to='/holiday'>Holiday List</Link>
+                ),
+                key: 'holiday-list',
+            }
+        ],
+    },
 ];
 
 const NavigationMenu: React.FC = () => {
