@@ -1,13 +1,14 @@
 import EventData from "../../../custom_hooks/eventData";
 import Common from "../common/common";
 import EventContext from "../../../context/eventContext";
-import { useContext } from "react";
-
+import { useContext, useEffect } from "react";
+import { anniversaryAnimation } from "./anniversaryAnimation";
 
 function Anniversary() {
   EventData('anniversary');
   const { anniversaryData } = useContext<any>(EventContext);
   const newAnniversaryData = anniversaryData;
+  let cleanConfetti: () => void | undefined; //clear animation
 
   const newData = {
     today:
@@ -38,9 +39,16 @@ function Anniversary() {
       [],
   };
 
+  useEffect(() => {
+    cleanConfetti = anniversaryAnimation();
+  return () => {
+    cleanConfetti?.();
+  };
+}, []);
+
   return (
     <>
-        <Common data={newData} event={"Work Anniversary"} animation={<p></p>}/>
+        <Common data={newData} event={"Work Anniversary"} animation={<> </>}/>
     </>
   );
 }

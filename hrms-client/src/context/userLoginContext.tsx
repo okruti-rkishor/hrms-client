@@ -45,8 +45,9 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
   // const navigate = useNavigate();
 
   useEffect(()=>{
+    const tempToken:any = localStorage.getItem("loginToken");
     if(localStorage.getItem("loginToken")){
-      const token:any = localStorage.getItem("loginToken");
+      const token:any = (tempToken);
       const decoded = jwtDecode(token);
         rest.userLoginDetail(decoded.sub).then((data:any)=>{
           data.loginStatus = true 

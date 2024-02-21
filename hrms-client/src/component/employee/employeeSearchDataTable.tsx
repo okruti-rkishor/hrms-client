@@ -125,15 +125,15 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
       editable: true,
     },
     {
-      title: "Official Email",
-      dataIndex: "officialEmail",
-      key: "officialEmail",
-      editable: true,
-    },
-    {
       title: "Contact",
       dataIndex: "contact",
       key: "contact",
+      editable: true,
+    },
+    {
+      title: "Joining Date",
+      dataIndex: "joiningDate",
+      key: "joiningDate",
       editable: true,
     },
     {

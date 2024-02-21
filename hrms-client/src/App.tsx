@@ -34,24 +34,17 @@ const router = createBrowserRouter(
             <Route path='/' element={<LayoutComponent />}>
                 <Route path='/' element={<Home/>}/>
                 <Route path='/home' element={<Home/>}/>
-                <Route path='/employee/create' element={<EmployeeCreate/>}/>
-                {/* <Route path='/user/list' element={<UserDataTable/>}/> */}
-                {/* <Route path='/user/detail' element={<UserDetailsCard/>}/> */}
-                {/* <Route path='/user/create' element={<UserCreate/>}/> */}
-
                 <Route path="/user/list" element={<PrivateRoutes Componant={<UserDataTable/>} />} />
                 <Route path="/user/detail" element={<PrivateRoutes Componant={<UserDetailsCard />} />} />
                 <Route path='/user/create' element={<PrivateRoutes Componant={<UserCreate/>}/>}/>
-
                 <Route path='/employee/search' element={<PrivateRoutes Componant={<EmployeeSearch/>}/>}/>
-                {/* <Route path='/employee/search' element={<EmployeeSearch />}/> */}
+                <Route path='/employee/create' element={<EmployeeCreate/>}/>
                 <Route path='/event/birthday' element={<Birthday />}/>
                 <Route path='/event/anniversary' element={<Anniversary />}/>
                 <Route path='/event/birthday/:id' element={<Birthday />}/>
-                <Route path='/employee/create/:id' element={<EmployeeCreate/>}/>
-                <Route path='/employee/detail/:id' element={<EmployeeDetail/>}/>
-                <Route path='/enum' element={<EnumCards/>}/>
-
+                <Route path='/employee/create/:id' element={ <PrivateRoutes Componant={<EmployeeCreate/>}/>}/>
+                <Route path='/employee/detail/:id' element={ <PrivateRoutes Componant={<EmployeeDetail/>}/>}/>
+                <Route path='/enum' element={  <PrivateRoutes Componant={<EnumCards/>}/> }/>
                 <Route path='/about-us' element={<AboutUs/>}/>
                 <Route path='/faqs' element={<FAQComponent/>}/>
                 <Route path='/privacy-policy' element={<PrivacyPolicy/>}/>
@@ -59,7 +52,6 @@ const router = createBrowserRouter(
                 <Route path='/holiday' element={<HolidayList/>}/>
                 <Route path='/holiday/create' element={<HolidayCreate/>}/>
             </Route>
-
             <Route path='/login' element={<Login/>}/>
             <Route path='/forgot-password' element={<ForgotPassword />} />
             <Route path='*' element={<Error/>}/>

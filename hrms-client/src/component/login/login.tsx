@@ -12,18 +12,12 @@ type emailInputValueType = {
 };
 
 export default function Login() {
-  const [profile, setProfile] = useState("");
-  const [user, setUser] = useState<any>({});
   const [userInputValues, setUserInputValues] = useState<emailInputValueType>(
     {}
   );
   const navigate = useNavigate();
-  const [decodeToken, setDecodeToken] = useState({});
-  const { newUser, setNewUser } = useContext<any>(UserLoginContext);
-
-  const onLogout = () => {
-    setProfile("");
-  };
+  // const [decodeToken, setDecodeToken] = useState({});
+  const { setNewUser } = useContext<any>(UserLoginContext);
 
   const onFinishLogin = async (values: any) => {
     let decoded = null;
@@ -38,12 +32,11 @@ export default function Login() {
           setNewUser(userCardData);
           navigate("/");
           decoded = jwtDecode(token);
-          setDecodeToken(decoded);
-          localStorage.setItem("loginToken",token);
+          // setDecodeToken(decoded);
+          localStorage.setItem("loginToken", JSON.stringify(token));
         } catch (error: any) {
           console.error("Error decoding JWT:", error.message);
         }
-
       } else {
         navigate("/login");
       }
@@ -160,31 +153,7 @@ export default function Login() {
                       </div>
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 8, span: 18 }}>
-                      <div className="social-icons">
-                        {/* <p>or continue with</p> */}
-                        {/*{profile ? (*/}
-                        {/*  <User data={profile} onLogout={onLogout} />*/}
-                        {/*) : (*/}
-                        {/*  ""*/}
-                        {/*)}*/}
-                        {/* <div className="social-icons__buttons">
-                          <button>
-                            <img src="icons/google.svg" alt="google" />
-                          </button>
-                          <button>
-                            <img src="icons/facebook.svg" alt="facebook" />
-                          </button>
-                          <button>
-                            <img src="icons/instagram.svg" alt="instagram" />
-                          </button>
-                          <button>
-                            <img src="icons/github.svg" alt="github" />
-                          </button>
-                          <button>
-                            <img src="icons/linkedin.svg" alt="linkedin" />
-                          </button>
-                        </div> */}
-                      </div>
+                      <div className="social-icons"></div>
                     </Form.Item>
                   </Form>
                 </div>
@@ -204,7 +173,6 @@ export default function Login() {
               </div>
             </div>
           </div>
-          <div></div>
         </div>
       </div>
     </>

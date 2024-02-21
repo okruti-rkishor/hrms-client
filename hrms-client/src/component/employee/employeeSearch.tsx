@@ -5,7 +5,6 @@ import {Designation} from "../../../src/constant/constant";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import {PageHeader} from "@ant-design/pro-layout";
-
 const FormItem = Form.Item;
 
 export interface employeeInterface {
@@ -60,13 +59,9 @@ function convert(str: Date) {
 
 function EmployeeSearch() {
     const [form] = Form.useForm();
-    const [emploreeResponse, setEmployeeResponse] = useState<employeeInterface[]>(
-        []
-    );
+    const [emploreeResponse, setEmployeeResponse] = useState<employeeInterface[]>([]);
     const [showTableStatus, setShowTableStatus] = useState(false);
-    const enumKeysArray: (keyof typeof Designation)[] = Object.keys(
-        Designation
-    ) as (keyof typeof Designation)[];
+    const enumKeysArray: (keyof typeof Designation)[] = Object.keys(Designation) as (keyof typeof Designation)[];
 
     const onFinish = async (values: any) => {
         let tempFormData = {};
@@ -99,9 +94,10 @@ function EmployeeSearch() {
         }
         try {
             const response = await rest.employeeSearch(tempFormData);
-
             tempResponse = response.map((employee: any) => {
+                //array of designation's all word
                 let designation = (employee.designation as string).split("_");
+                //Uppercase every word's first character
                 designation = designation.map(
                     (nameString: string): string =>
                         nameString.charAt(0).toUpperCase() +

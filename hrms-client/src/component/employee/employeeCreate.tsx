@@ -227,8 +227,8 @@ const EmployeeCreate = () => {
         }
         if(localStorage.length){
             const localStorageData=Object.keys(localStorage).map((items) => {
-                let storage: any = localStorage.getItem(items);
-                let storageDetails: any = JSON.parse(storage);
+                let storage: any = items==="loginToken"?"":localStorage.getItem(items);
+                let storageDetails: any = items==="loginToken"?"":JSON.parse(storage);
                 if (items === "personalDetail") {
                     let currentYear = new Date().getFullYear();
                     let selectedYear = dayjs(storageDetails.dateOfBirth).year();
@@ -249,7 +249,6 @@ const EmployeeCreate = () => {
                     form.setFieldsValue({...storageDetails});
                 }
                 return storageDetails;
-
             });
             let localStorageMerge=Object.assign({}, ...localStorageData);
             setEmployeeData({...employeeData,...localStorageMerge})
