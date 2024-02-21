@@ -26,5 +26,6 @@ export default {
     postEnum:(data:any,id:string)=>rest.post(base+`${id}`,{},data),
     getEnum:(id:string)=>rest.get(base+`${id}`),
     deleteEnum:(id:string)=>rest.del(base+`${id}`,{}),
-    putEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data)
+    putEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
+    activeEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data)
 }

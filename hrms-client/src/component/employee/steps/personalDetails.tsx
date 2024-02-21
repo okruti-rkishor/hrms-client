@@ -69,6 +69,7 @@ const PersonalDetails = ({age}: any) => {
                 <Form.Item label={"Gender"}
                            name={"gender"}
                            initialValue={Object.keys(Gender)[0]}
+                           key={"gender"}
                 >
                     <Radio.Group style={{display: "flex"}}>
                         {(Object.keys(Gender) as Array<keyof typeof Gender>).map((key) =>

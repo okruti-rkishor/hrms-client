@@ -41,14 +41,42 @@
   margin:0 auto 40px;
   display:flex;
   flex-direction: column;
-  gap: 30px;
+  gap:30px;
+
 
   button{
-    width:5%;
+    width:4%;
     margin-left: auto;
+    border-color:#1677FF;
+    background-color:#E6F4FF;
+    .anticon{
+      font-size: 14px;
+      margin-right: unset;
+
+    }
+  }
+  .anticon{
+    font-size:18px;
+    margin-right:10px;
+    color:#1677FF;
+
+  }
+  .ant-select-arrow{
+    .anticon{
+      font-size: unset;
+      margin-right: unset;
+    }
+
   }
 
 }
 .data-table.enum-create-section {
   margin: 40px auto 20px;
+}
+.editableInput{
+  width: 50%;
+  height: 50%;
+  >.ant-select-selector{
+    height:50% !important;
+  }
 }
