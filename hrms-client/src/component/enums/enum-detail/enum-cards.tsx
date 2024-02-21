@@ -92,8 +92,8 @@ const EnumCards = () => {
     }
 
     const cancel = () => {
-        setEnumCreate({...enumCreate, description: "", status: ""});
         setEditingKey("");
+        setEnumCreate({...enumCreate, description: "", status: ""});
     }
 
     const enumCardProps = [
