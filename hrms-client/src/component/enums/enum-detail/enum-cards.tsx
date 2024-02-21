@@ -5,125 +5,96 @@ import {
     Divider,
     Form,
     Input,
-    InputNumber,
     Layout,
     message,
-    Popconfirm,
-    Row, Space,
+    Row, Select,
     Table,
     TableProps,
-    Tag
+    Tag,
 } from "antd";
 import CountUp from "react-countup";
 import {PageHeader} from "@ant-design/pro-layout";
 import '../enum-card.scss'
 import React, {useEffect, useState} from "react";
-import {DeleteOutlined, EditOutlined, PlusCircleOutlined} from "@ant-design/icons/lib";
-import {Typography} from "antd/lib";
+import {
+    CheckOutlined,
+    CloseOutlined,
+    DeleteTwoTone,
+    EditTwoTone,
+    PlusCircleOutlined, SaveTwoTone, SwapOutlined
+} from "@ant-design/icons/lib";
 import restApi from "../../../services/http/api";
 
 
 const EnumCards = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [data, setData] = useState<DataType[]>([]);
-    //const [editingKey, setEditingKey] = useState(false);
-    const [form]=Form.useForm();
-    const [type,setType]=useState();
-
-
-    const handleEnumCreate = (item:any) => {
-        console.log(item);
-        setType(item.toLowerCase());
-    };
+    const [form] = Form.useForm();
+    const [type, setType] = useState<string>();
+    const [enumCreate, setEnumCreate] = useState<DataType>();
+    const [editingKey, setEditingKey] = useState<string>();
 
     interface DataType {
-        key: React.Key;
+        key?: React.Key;
         description: string;
         status: string;
+        id?: string;
     }
 
-    interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
-        editing: boolean;
-        dataIndex: string;
-        title: any;
-        inputType: 'number' | 'text';
-        record: DataType;
-        index: number;
-        children: React.ReactNode;
+    const createEnum = () => {
+        if (enumCreate?.description === "" || enumCreate?.status === "") {
+            message.error("please fill the required field");
+            return;
+        }
+        let id = `${type}`;
+        let values: any = {...enumCreate};
+        values["code"] = values?.description?.toUpperCase();
+        delete values.status;
+        setEnumCreate({...enumCreate, description: "", status: ""});
+        restApi.postEnum(values, id).then((e) => {
+            values["status"] = enumCreate?.status === "Active" ? "Active" : "InActive";
+            values["id"]=Math.random().toString(36).slice(2);
+            const finalData = data.map((items: any) => {
+                if (items.description === "") return values;
+                else return items;
+            })
+            setData(finalData);
+            message.success("data successfully inserted")
+        }).catch((e) => message.error("data is not inserted"));
     }
 
-    const EditableCell: React.FC<EditableCellProps> = ({
-                                                           editing,
-                                                           dataIndex,
-                                                           title,
-                                                           inputType,
-                                                           record,
-                                                           index,
-                                                           children,
-                                                           ...restProps
-                                                       }) => {
-        const inputNode = inputType === 'number' ? <InputNumber/> : <Input/>;
+    const cancelEnum = () => {
+        setData(data.filter((items: any) => items.description !== ""));
+        setEnumCreate({...enumCreate, description: "", status: ""});
+    }
 
-        return (
-            <td {...restProps}>
-                {editing ? (
-                    <Form.Item
-                        name={dataIndex}
-                        style={{margin: 0}}
-                        rules={[
-                            {
-                                required: true,
-                                message: `Please Input ${title}!`,
-                            },
-                        ]}
-                    >
-                        {inputNode}
-                    </Form.Item>
-                ) : (
-                    children
-                )}
-            </td>
-        );
-    };
+    const save = (record: DataType) => {
+        if (enumCreate?.description === "") {
+            message.error("please fill the required field");
+            return;
+        }
+        let id = `${type}/${record.id}`;
+        let values: any = {...enumCreate};
+        values["code"] = values?.description?.toUpperCase();
+        delete values.status;
+        restApi.putEnum(values, id).then((e) => {
+            values["status"] = record.status;
+            values["id"] = record.id;
+            const finalData = data.map((items) => {
+                if (items.id === editingKey) {
+                    return values;
+                } else {
+                    return items;
+                }
+            })
+            setData(finalData)
+            setEditingKey("");
+        }).catch((e) => console.log(e));
+    }
 
-
-    const columns: TableProps<DataType>['columns'] = [
-        {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description',
-            width: "33%"
-        },
-        {
-            title: 'Status',
-            key: 'status',
-            dataIndex: 'status',
-            width: "33%",
-            render: (_, {status}) => {
-                let color = status.length > 7 ? 'geekblue' : 'green';
-                return (
-                    <Tag color={color}>
-                        {status}
-                    </Tag>
-                );
-            }
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            width: "33%",
-            render: (_, record) => {
-                return <div className={"record"}>
-                <EditOutlined onClick={() => onEdit(record)}/>
-
-                    <DeleteOutlined onClick={() => onDelete(record)}/>
-
-                </div>
-
-
-            }
-        },
-    ];
+    const cancel = () => {
+        setEnumCreate({...enumCreate, description: "", status: ""});
+        setEditingKey("");
+    }
 
     const enumCardProps = [
         {
@@ -146,23 +117,7 @@ const EnumCards = () => {
         },
     ];
 
-    const onFinish = (values: any) => {
-        let id = `${type}`;
-        values["code"] = values.description.toUpperCase();
-        delete values.status;
-        console.log(values);
-        restApi.postEnum(values, id).then((e) => {
-            console.log(e);
-            values["status"] = "Active";
-            setData(result => [...result, values]);
-            setIsModalOpen(false);
-
-            message.success("data successfully inserted")
-        }).catch((e) => message.error("data is not inserted"));
-    }
-
     const onDelete = (record: any) => {
-        console.log(record);
         let id = `designation/${record.id}`;
         restApi.deleteEnum(id).then((e) => {
             setData(data.filter((item: any) => item.id !== record.id));
@@ -170,47 +125,119 @@ const EnumCards = () => {
         }).catch((e) => message.error("data is not deleted"));
     }
 
-    const handleActive = (value: any) => {
-        value.status = value.status.toLowerCase();
-        let id = `${type}/${value.id}/${value.status}`
-        restApi.putEnum("", id).then((e) => {
-            const status = data.map((item: any) => {
-                if (item.id === value.id) {
-                    if (item.status.toLowerCase() === "inactive") {
-                        item.status = "Active"
-                        return item;
-                    } else {
-                        item.status = "InActive"
-                        return item;
-                    }
+    const onAdd = () => {
+        let obj: DataType = {
+            description: "",
+            status: "",
+        };
+        const tempArray = [...data]
+        tempArray.unshift(obj)
+        setData(tempArray);
+    }
+
+    const handleStatus = (record:DataType) =>{
+        let status=record.status==="Active"?"inactive":"active";
+        let id = `${type}/${record.id}/${status}`;
+        restApi.activeEnum({},id).then((e)=> {
+            const finalData=data.map((items)=>{
+                if(items.id===record.id){
+                    return {...items,status:record.status==="Active"?"InActive":"Active"}
                 }
-                return item;
-
-            });
-            setData(status);
-            message.success("data successfully changed")
-        }).catch((e) => message.error("data not changed"));
+                return items;
+            })
+            setData(finalData)
+        }).catch((e)=>console.log(e));
     }
 
-    const onEdit = (value: DataType) => {
-        // setEditingKey(true);
-        form.setFieldsValue({...value});
-    }
-
-    const onAdd = () =>{
-        let obj:DataType={
-            key:0,
-            description:"",
-            status:"",
+    const renderDescription =(text:string,record:DataType)=>{
+        if (record?.description === "") {
+            return <Input onChange={(e) => setEnumCreate((prevState: any) => ({
+                ...prevState,
+                description: e.target.value
+            }))} className={"editableInput"}/>
         }
-        console.log(obj);
-        setData([...data,obj]);
+        if (editingKey === record.id) {
+            return <Input onChange={(e) => setEnumCreate((prevState: any) => ({
+                ...prevState,
+                description: e.target.value
+            }))} className={"editableInput"} defaultValue={record.description}/>
 
+        } else return text;
     }
+
+    const renderStatus =(text:string,record:DataType)=>{
+        if(record?.status === ""){
+         return <Select className={"editableInput"}
+                    options={[{value: "Active", label: "Active"}, {value: "InActive", label: "InActive"}]}
+                    onChange={(e) => setEnumCreate((prevState: any) => ({
+                        ...prevState,
+                        status: e
+                    }))}/>
+
+        }else{
+            return <Tag color={record.status.length > 6 ? 'green' : 'geekblue'} key={record.key}>
+                {record.status}
+            </Tag>
+        }
+    }
+
+    const renderAction=(record:DataType)=>{
+        if (record?.description === "") {
+            return <>
+                <CheckOutlined onClick={createEnum} style={{fontSize: 18, marginRight: 15, color: "#1677FF"}}/>
+                <CloseOutlined onClick={cancelEnum} style={{fontSize: 18, color: "#1677FF"}}/>
+            </>
+        }
+        if (editingKey === record.id) {
+            return <>
+                <SaveTwoTone onClick={() => save(record)} style={{marginRight: 8}}/>
+                <CloseOutlined onClick={cancel}/>
+            </>
+        } else {
+            return <>
+                <EditTwoTone onClick={() => setEditingKey(record.id)} style={{fontSize: 18, marginRight: 15}}/>
+                <DeleteTwoTone onClick={() => onDelete(record)} style={{fontSize: 18,marginRight:15}}/>
+                <SwapOutlined onClick={()=>handleStatus(record)}/>
+            </>
+        }
+    }
+
+    const columns: TableProps<DataType>['columns'] = [
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+            width: "33%",
+            render: (text,record)=>renderDescription(text,record)
+        },
+        {
+            title: 'Status',
+            key: 'status',
+            dataIndex: 'status',
+            width: "33%",
+            render: (text, record) =>renderStatus(text,record),
+            filters: [
+                {
+                    text: 'Active',
+                    value: 'Active',
+                },
+                {
+                    text: 'InActive',
+                    value: 'InActive',
+                },
+            ],
+            onFilter: (value, record) => record.status.indexOf(value as string) === 0,
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            width: "33%",
+            render: (_, record) => renderAction(record),
+        },
+    ]
 
     useEffect(() => {
-        console.log("1111");
-        if (type){
+        if (type) {
             let id = `${type}/all`;
             restApi.getEnum(id).then((e) => {
                 e.forEach((item: any) => {
@@ -221,26 +248,26 @@ const EnumCards = () => {
             }).catch((e) => message.error("data is not inserted"));
 
         }
-        }, [type])
+    }, [type])
 
     return (
         <Layout className="with-background">
             <section className="data-table enum-create-section">
                 <div className="enum-create-card">
-                    <Divider orientation="left">
-                        <PageHeader className="" title="Enum Create" />
+                    <Divider orientation="left" >
+                        <PageHeader className="" title="Enum Create"/>
                     </Divider>
-                    <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }} justify="space-between">
+                    <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} justify="space-between">
                         {enumCardProps.map((item) => (
-                            <Col className="gutter-row" span={7}>
+                            <Col className="gutter-row" span={7} key={Math.random().toString(36).slice(2)}>
                                 <Card title={item.title}
-                                    className={`${item.className} enum-card`}
-                                    onClick={()=>handleEnumCreate(item.title)}
+                                      className={`${item.className} enum-card`}
+                                      onClick={() => setType(item.title.toLowerCase())}
                                 >
                                     <CountUp start={0}
-                                        end={item.count}
-                                        duration={2}
-                                        className="user-count"
+                                             end={item.count}
+                                             duration={2}
+                                             className="user-count"
                                     />
                                     {item.content}
                                 </Card>
@@ -249,19 +276,11 @@ const EnumCards = () => {
                     </Row>
                 </div>
             </section>
-            {type?<section className={"data-table data-table-with-enums"}>
-
-
-                <Button onClick={onAdd}><PlusCircleOutlined /></Button>
-
-                <Table columns={columns} dataSource={data} pagination={{defaultPageSize: 4}} components={{
-                    body: {
-                        cell: EditableCell,
-                    },
-                }} size={"small"}/>
-
-
-            </section>:<></>}
+            {type ? <section className={"data-table data-table-with-enums"}>
+                <Button onClick={onAdd}><PlusCircleOutlined/></Button>
+                <Table columns={columns} dataSource={data} pagination={{defaultPageSize: 4}} size={"small"}
+                       rowKey={(record) => record.description}/>
+            </section> : <></>}
         </Layout>
     );
 }

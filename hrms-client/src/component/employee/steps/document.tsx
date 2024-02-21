@@ -31,7 +31,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         {
             key: '1',
             label: 'Fill Your Personal Documents',
-            children: <>{(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
+            children: <div key={"document"}>{(Object.keys(Documents) as Array<keyof typeof Documents>).map((key, index) => {
                     if (key === "AADHAAR_CARD" || key === "PAN_CARD") {
                         let tempFileProp = {...fileProps};
                         if (isEditing === true && employeeData.documents[key]) {
@@ -109,7 +109,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                         <></>
                     }
                 }
-            )}</>,
+            )}</div>,
             style: panelStyle,
         },
         {
