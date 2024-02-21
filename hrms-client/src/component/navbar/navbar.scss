@@ -31,5 +31,19 @@
         }
       }
     }
+
+    &.navigation-menu {
+      .ant-menu-submenu {
+        .ant-menu-submenu-title {
+          color: #ffffff;
+        }
+
+        //&-open, &-active, &-selected, {
+        //  .ant-menu-submenu-title {
+        //    color: #ffffff;
+        //  }
+        //}
+      }
+    }
   }
 }

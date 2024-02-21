@@ -1,29 +1,38 @@
-import React, { useContext } from "react";
-import { Avatar, Button, Card, Popover, Tag } from "antd";
+import React, {useContext} from 'react';
+import {Avatar, Button, Card, Popover, Tag} from 'antd';
 import UserLoginContext from "../../../context/userLoginContext";
 import rest from "../../../services/http/api";
-import "./userLoginCard.scss";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from 'react-router-dom';
 import { toast } from "react-toastify";
+import {CalendarOutlined, LogoutOutlined, ToTopOutlined, UserOutlined} from "@ant-design/icons/lib";
+import './userLoginCard.scss';
+
 
 const { Meta } = Card;
 
 
-
-
 const UserDataContent = () => {
-  const { newUser, setNewUser } = useContext<any>(UserLoginContext);
+  const {newUser, setNewUser} = useContext<any>(UserLoginContext);
   const role = newUser.role;
   const navigate = useNavigate();
 
-  let color;
-  if (role === "ADMIN") {
-    color = "geekblue";
-  } else if (role === "HR") {
-    color = "pink";
-  } else if (role === "EMPLOYEE") {
-    color = "green";
-  }
+  const userCardLinks = [
+    {
+      linkText: "Your Profile",
+      icon: <UserOutlined/>,
+      linkTarget: `/employee/detail/${newUser.id}`,
+    },
+    {
+      linkText: "Your Events",
+      icon: <CalendarOutlined />,
+      linkTarget: "www.google.com",
+    },
+    {
+      linkText: "Request Leave",
+      icon: <ToTopOutlined />,
+      linkTarget: "www.google.com",
+    },
+  ];
 
   const handleLogout = async () => {
     try {
@@ -46,46 +55,54 @@ const UserDataContent = () => {
   };
 
   return (
-    <Card
-      style={{ width: 300 }}
-      className="user-login-card"
-      cover={
-        <img
-          alt="example cover"
-          src="https://picsum.photos/id/1/300/180?blur=3"
+      <Card
+          style={{ width: 300 }}
+          className='user-login__card'
+      >
+        <Meta
+            avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />}
+            title = {`${newUser.firstName} ${newUser.lastName}`}
+            description={[
+              <>
+                <h5 className='user-card-mail'>{newUser.email}</h5>
+                {newUser.roles?.map((tag:string) => {
+                  return (
+                      <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
+                        {tag.toUpperCase()}
+                      </Tag>
+                  );
+                })}
+              </>
+            ]}
         />
-      }
-    >
-      <Meta
-        title={`${newUser.firstName} ${newUser.lastName}`}
-        description={[
-          <>
-            <h5 className="user-card-mail">{newUser.email}</h5>
-            {role && (
-              <Tag color={color} key={role} className="user-card-role">
-                {role.toUpperCase()}
-              </Tag>
-            )}
-          </>,
-        ]}
-      />
-      <div className="logout-button">
-        <Button type="primary" onClick={handleLogout}>
-          Logout &#8640;
+        <div className='user-login__card-links'>
+          {userCardLinks.map((list: any) => (
+              <Link to={list.linkTarget} className='user-login__card-link'>
+                {list.icon}
+                <p>{list.linkText}</p>
+              </Link>
+          ))}
+        </div>
+        <Button type="primary"
+                key="logout"
+                onClick={handleLogout}
+                className="logout-button"
+        >
+          <LogoutOutlined/> Logout
         </Button>
-      </div>
-    </Card>
-  );
+      </Card>
+  )
 };
+
 
 const UserLoginCard = () => {
   return (
-    <Popover content={<UserDataContent />} trigger="click">
-      <div className="user-login-avatar">
-        <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=0" />
-      </div>
-    </Popover>
+      <Popover content={<UserDataContent />}  trigger="hover">
+        <div className='user-login__avatar'>
+          <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=0" />
+        </div>
+      </Popover>
   );
-};
+}
 
 export default UserLoginCard;
