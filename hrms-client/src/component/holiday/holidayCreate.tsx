@@ -1,6 +1,6 @@
-import {Divider, Layout, Popconfirm, Table, Tag, Typography, message} from "antd";
+import {Divider, Layout, Popconfirm, Table, Tag, Typography, message, Row, Col} from "antd";
 import {PageHeader} from "@ant-design/pro-layout";
-import React, {useEffect, useState, createContext, useContext} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, Form, Input, Select, Tabs} from 'antd';
 import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
 import { DatePicker } from 'antd';
@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import './holiday.scss';
 dayjs.extend(customParseFormat);
+
 
 
 interface Item {
@@ -21,27 +22,17 @@ interface Item {
     remarks: string;
 }
 
+
 const validateMessages = {
     required: '${label} is required!',
-    types: {
-        email: '${label} is not a valid email!',
-        number: '${label} is not a valid number!',
-    },
-    number: {
-        range: '${label} must be between ${min} and ${max}',
-    },
-    //Microsoft: Power pages
-    // Air table
 };
 
-
-function convertDateFormat(str: Date) {
+function convertDateFormat(str:any) {
     var date = new Date(str),
         mnth = ("0" + (date.getMonth() + 1)).slice(-2),
         day = ("0" + date.getDate()).slice(-2);
     return [date.getFullYear(), mnth, day].join("-");
 }
-
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -75,91 +66,113 @@ const tempData:any = [
     }
 ]
 
-export const HolidayDataContext = createContext(tempData);
-
-const HolidayCreateForm = ({year, isFormDisabled}:any) => {
-    const [holidayData, setHolidayData] = useState<Item[]>(tempData);
+const HolidayCreateForm = ({year, isFormDisabled, newData}:any) => {
+    const [form] = Form.useForm();
+    const weekdays:string[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     const onFinish = (values: any) => {
         if (values.date) {
             values = {
                 ...values,
                 date: convertDateFormat(values.date),
+                year: year,
             };
         }
-        console.log('Entered field values: ', values);
-        const tempArray = [...holidayData, values];
-        setHolidayData(tempArray);
-        console.log('All data with pev also: ', tempArray);
+        newData(values);
         message.success('New Holiday created successfully');
     };
 
     const onFinishFailed = () => {
-        message.error('Error ');
+        message.error('Error in holiday data creation');
     };
 
-    // useEffect(() => {
-    //
-    // }, [holidayData])
+    const getDayOfWeek = (date:any) => {
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayIndex = new Date(date).getDay();
+        return daysOfWeek[dayIndex];
+    };
 
+    const onSecondCityChange = (value: any) => {
+        console.log("value",value)
+    };
     return (
-        <HolidayDataContext.Provider value={{holidayData, setHolidayData}}>
-            <Form layout="inline"
-                  name="holiday-create-form"
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  disabled={isFormDisabled}
-                  validateMessages={validateMessages}
-                  className='holiday-create__form'
-            >
-                <Form.Item label="DatePicker" name="date">
+        <Form layout="inline"
+              name="holiday-create-form"
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              disabled={isFormDisabled}
+              validateMessages={validateMessages}
+              className='holiday-create__form'
+              form={form}
+        >
+            <Col>
+                <Form.Item label="Date"
+                           name="date"
+                           rules={[{ required: true, type: 'date' }]}
+                >
                     <DatePicker
-                        // defaultValue={dayjs('2019-09-03', dateFormat)}
                         minDate={dayjs(`${year}-01-01`, dateFormat)}
                         maxDate={dayjs(`${year}-12-31`, dateFormat)}
+                        onChange={(e) => {
+                            const convertedDate = convertDateFormat(e);
+                            const tempDay = getDayOfWeek(convertedDate);
+                            form.setFieldValue('day', tempDay);
+                        }}
                     />
                 </Form.Item>
-                <Form.Item label="Type" name="holiday_type">
-                    <Select placeholder="Please select holiday type">
+                <Form.Item label="Day"
+                           name="day"
+                           rules={[{ required: true}]}
+                >
+                    <Select placeholder="Select Holiday day"
+                            options={weekdays.map((weekday:string) => (
+                                { label: weekday, value: weekday })
+                            )}
+                    />
+                </Form.Item>
+            </Col>
+            <Col>
+                <Form.Item label="Holiday Name"
+                           name="holiday_name"
+                           rules={[{ required: true, type: 'string' }]}
+                >
+                    <Input placeholder="Enter Holiday name"/>
+                </Form.Item>
+                <Form.Item label="Type"
+                           name="holiday_type"
+                           rules={[{ required: true }]}
+                >
+                    <Select placeholder="Select Holiday type">
                         <Select.Option value="national">National Holiday</Select.Option>
                         <Select.Option value="festival">Festival</Select.Option>
                         <Select.Option value="custom">Custom</Select.Option>
                     </Select>
                 </Form.Item>
-                <Form.Item label="Day" name="day">
-                    <Select placeholder="Please select holiday day">
-                        <Select.Option value="sunday">Sunday</Select.Option>
-                        <Select.Option value="monday">Monday</Select.Option>
-                        <Select.Option value="tuesday">Tuesday</Select.Option>
-                        <Select.Option value="wednesday">Wednesday</Select.Option>
-                        <Select.Option value="thursday">Thursday</Select.Option>
-                        <Select.Option value="friday">Friday</Select.Option>
-                        <Select.Option value="saturday">Saturday</Select.Option>
-                    </Select>
+            </Col>
+            <Col>
+                <Form.Item label="Reason"
+                           name="reason"
+                           rules={[{ required: true, type: 'string' }]}
+                >
+                    <Input.TextArea placeholder="Enter reason for Holiday"/>
                 </Form.Item>
-                <Form.Item label="Holiday Name" name="holiday_name">
-                    <Input placeholder="Please type the holiday name"/>
+                <Form.Item label="Remarks"
+                           name="remarks"
+                           rules={[{ type: 'string' }]}
+                >
+                    <Input.TextArea placeholder="Enter remarks for Holiday"/>
                 </Form.Item>
-                <Form.Item label="Reason" name="reason">
-                    <Input.TextArea placeholder="Please input reason of holiday"/>
-                </Form.Item>
-                <Form.Item label="Remarks" name="remarks">
-                    <Input.TextArea placeholder="Please input remarks about holiday"/>
-                </Form.Item>
-                {/*<Form.Item wrapperCol={{ offset: 8 }}>*/}
-                {/*    <Button type="primary" htmlType="submit">*/}
-                {/*        Submit*/}
-                {/*    </Button>*/}
-                {/*</Form.Item>*/}
+            </Col>
+            <div className='holiday-create__form-submit'>
                 <Button type="primary" htmlType="submit">
                     Submit
                 </Button>
-            </Form>
-        </HolidayDataContext.Provider>
+            </div>
+        </Form>
     )
 }
 
-const HolidayYearTab = () => {
+const HolidayYearTab = ({newData}:any) => {
     const currentYear = new Date().getFullYear();
     const previousYear = new Date().getFullYear() - 1;
     const nextYear = new Date().getFullYear() + 1;
@@ -169,21 +182,21 @@ const HolidayYearTab = () => {
             label: previousYear,
             key: `${previousYear}`,
             children: (
-                <HolidayCreateForm year={previousYear} isFormDisabled={true}/>
+                <HolidayCreateForm year={previousYear} isFormDisabled={true} newData={newData}/>
             )
         },
         {
             label: currentYear,
             key: `${currentYear}`,
             children: (
-                <HolidayCreateForm year={currentYear} isFormDisabled={false}/>
+                <HolidayCreateForm year={currentYear} isFormDisabled={false} newData={newData}/>
             )
         },
         {
             label: nextYear,
             key: `${nextYear}`,
             children: (
-                <HolidayCreateForm year={nextYear} isFormDisabled={false}/>
+                <HolidayCreateForm year={nextYear} isFormDisabled={false} newData={newData}/>
             )
         },
     ];
@@ -200,11 +213,7 @@ const HolidayYearTab = () => {
 }
 
 
-
-const HolidayListTable = () => {
-    const {holidayData, setHolidayData} = useContext(HolidayDataContext);
-
-
+const HolidayListTable = ({data}:any) => {
     const columns = [
         {
             title: 'Year',
@@ -302,8 +311,9 @@ const HolidayListTable = () => {
             <Table
                 rowKey="key"
                 bordered
-                dataSource={holidayData}
+                dataSource={data}
                 columns={columns}
+
                 rowClassName="editable-row"
             />
         </div>
@@ -311,9 +321,13 @@ const HolidayListTable = () => {
 }
 
 
-
-
 function HolidayCreate() {
+    const [holidayData, setHolidayData] = useState<Item[]>(tempData);
+
+    const newData = useCallback((values:any) => {
+        const tempArray = [...holidayData, values];
+        setHolidayData(tempArray);
+    },[]);
 
     return (
         <Layout className="with-background">
@@ -324,9 +338,9 @@ function HolidayCreate() {
                         title="Holiday Create"
                     />
                 </Divider>
-                <HolidayYearTab/>
+                <HolidayYearTab newData={newData}/>
             </div>
-            <HolidayListTable/>
+            <HolidayListTable data={holidayData}/>
         </Layout>
     );
 }
