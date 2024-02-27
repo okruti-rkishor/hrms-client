@@ -5,16 +5,20 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserLoginContextProvider } from "./context/userLoginContext";
 import { EventContextProvider } from "./context/eventContext";
+import ErrorHandler from "./component/errorBoundry/errorBoundry";
+import { ErrorBoundary } from "react-error-boundary";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
+  <ErrorBoundary fallback={<p>⚠️Something went wrong</p>}>
     <UserLoginContextProvider>
       <EventContextProvider>
         <App />
       </EventContextProvider>
     </UserLoginContextProvider>
+  </ErrorBoundary>
 );
 
 // If you want to start measuring performance in your app, pass a function

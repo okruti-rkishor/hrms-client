@@ -25,7 +25,7 @@ import PrivacyPolicy from "./component/company/privacyPolicy";
 import ContactUs from "./component/company/contactUs";
 import HolidayCreate from './component/holiday/holidayCreate';
 import HolidayList from './component/holiday/holidayList';
-
+import HolidayCalendar from './component/holiday/calendar';
 
 
 const router = createBrowserRouter(
@@ -51,6 +51,7 @@ const router = createBrowserRouter(
                 <Route path='/contact-us' element={<ContactUs/>}/>
                 <Route path='/holiday' element={<HolidayList/>}/>
                 <Route path='/holiday/create' element={<HolidayCreate/>}/>
+                <Route path='/holiday/calendar' element={<HolidayCalendar />}/>
             </Route>
             <Route path='/login' element={<Login/>}/>
             <Route path='/forgot-password' element={<ForgotPassword />} />
