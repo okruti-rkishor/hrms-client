@@ -1,0 +1,24 @@
+.events {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .events .ant-badge-status {
+    width: 100%;
+    overflow: hidden;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .notes-month {
+    font-size: 28px;
+    text-align: center;
+  }
+  .notes-month section {
+    font-size: 28px;
+  }
+
+  :where(.css-dev-only-do-not-override-1xg9z9n).ant-picker-calendar .ant-picker-calendar-header .ant-picker-calendar-mode-switch {
+    margin-inline-start: 8px;
+    display: flex;
+}
