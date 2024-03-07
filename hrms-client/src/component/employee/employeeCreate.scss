@@ -29,6 +29,10 @@
         margin-left:65px !important;
       }
     }
+    .ant-select-selector{
+      height: 40px !important;
+      text-align: left;
+    }
   }
 
   &-form {
@@ -45,16 +49,14 @@
     margin-right: 80px;
     margin-top: unset !important;
   }
+
 }
 
 input{
   height: 40px;
 }
 
-.ant-select-selector{
-  height: 40px !important;
-  text-align: left;
-}
+
 
 .ant-picker{
   height: 40px;

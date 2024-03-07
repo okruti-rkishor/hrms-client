@@ -1,0 +1,31 @@
+// .ant-radio-group {
+//     width: 130px;
+// }
+.holiday-list {
+
+    .ant-picker-calendar {
+        max-width: 1200px;
+        width: 100%;
+    }
+
+
+    .ant-radio-group {
+        width: 130px;
+    }
+
+    .ant-select-selector {
+        scroll-behavior: unset;
+    }
+
+    // .ant-picker-cell.ant-picker-cell-in-view{
+    //     width: 70px !important;
+    //     height: 70px !important;
+    //     min-width: unset !important;
+    //     min-height: unset !important;
+    // }
+    .data-table {
+        max-width: 85vw;
+
+    }
+
+}

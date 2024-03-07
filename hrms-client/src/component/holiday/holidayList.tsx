@@ -1,9 +1,19 @@
-import { ConfigProvider, Divider, Flex, Layout, Row, Switch, Table, theme } from "antd";
+import {
+  ConfigProvider,
+  Divider,
+  Flex,
+  Layout,
+  Row,
+  Switch,
+  Table,
+  theme,
+} from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import React, { useState } from "react";
 import type { Dayjs } from "dayjs";
 import CalendarView from "./calendar";
 import { CalendarTwoTone, ProfileTwoTone } from "@ant-design/icons";
+import "./holiday-list.scss";
 
 const data: any = [
   {
@@ -13,8 +23,9 @@ const data: any = [
       {
         key: 1,
         date: "01-02-2024",
-        day1: 1,
-        month: 2,
+        dd: 1,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "DIWALI",
@@ -23,8 +34,9 @@ const data: any = [
       {
         key: 2,
         date: "03-02-2024",
-        day1: 3,
-        month: 2,
+        dd: 3,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "HOLI",
@@ -33,8 +45,9 @@ const data: any = [
       {
         key: 3,
         date: "05-02-2024",
-        day1: 5,
-        month: 2,
+        dd: 5,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "GANDHI JAYANTI",
@@ -43,8 +56,9 @@ const data: any = [
       {
         key: 4,
         date: "07-02-2024",
-        day1: 7,
-        month: 2,
+        dd: 7,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "EID",
@@ -53,8 +67,9 @@ const data: any = [
       {
         key: 5,
         date: "08-02-2024",
-        day1: 8,
-        month: 1,
+        dd: 8,
+        mm: 1,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "DIWALI",
@@ -63,8 +78,9 @@ const data: any = [
       {
         key: 6,
         date: "09-02-2024",
-        day1: 9,
-        month: 1,
+        dd: 9,
+        mm: 1,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "HOLI",
@@ -73,8 +89,9 @@ const data: any = [
       {
         key: 11,
         date: "11-02-2024",
-        day1: 11,
-        month: 2,
+        dd: 11,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "DIWALI",
@@ -83,8 +100,9 @@ const data: any = [
       {
         key: 12,
         date: "12-02-2024",
-        day1: 12,
-        month: 2,
+        dd: 12,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "HOLI",
@@ -93,8 +111,9 @@ const data: any = [
       {
         key: 13,
         date: "13-02-2024",
-        day1: 13,
-        month: 2,
+        dd: 13,
+        mm: 2,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "GANDHI JAYANTI",
@@ -103,8 +122,9 @@ const data: any = [
       {
         key: 14,
         date: "14-02-2024",
-        day1: 14,
-        month: 1,
+        dd: 14,
+        mm: 1,
+        yyyy: 2024,
         type: "HOLIDAY",
         day: "MONDAY",
         reason: "MAKAR SANKRANTI",
@@ -114,8 +134,39 @@ const data: any = [
   },
 ];
 
+export const capitalToSmaill = (str: string) => {
+  let tempStr = str.toLowerCase();
+  let newString = tempStr.substring(0, 1).toLocaleUpperCase();
+  newString += tempStr.substring(1);
+  console.log(newString);
+  return newString;
+}; 
+export const removeUnderScore = (str: string='', character:string='-') => {
+  let splitedStr:string[] = str.split(character);
+  console.log(splitedStr)
+  const firstLetterCapitalizeArray:string[] = splitedStr.map((str:string)=>{
+    return capitalToSmaill(str)
+
+  });
+  let newString = "";
+  firstLetterCapitalizeArray.forEach((str, index) => {
+    newString += str;
+    if(index<=firstLetterCapitalizeArray.length-1){
+      newString += " ";
+    }
+  });
+  return newString;
+};
+
 const HolidayList = () => {
-  const [dataArray, setDataArray] = useState(data[0].calender);
+  const [dataArray, setDataArray] = useState(
+    data[0].calender.map((item: any) => ({
+      ...item,
+      day: capitalToSmaill(item.day),
+      type: capitalToSmaill(item.type),
+      reason: capitalToSmaill(item.reason),
+    }))
+  );
   const [showCalendar, setShowCalendar] = useState(false);
   const column = [
     {
@@ -139,48 +190,52 @@ const HolidayList = () => {
       key: "type",
     },
   ];
+
   return (
     <Layout className="with-background">
-      <div className="data-table">
-        {/* <Divider orientation="left"> */}
-        <Flex style={{ width: "inherit", alignItems: "center" }}>
-          <PageHeader title="Holiday List" style={{ height: "fit-content" }} />
-          <Divider style={{ width: "80%", minWidth: "unset" }} />
-          <div style={{ marginLeft: "auto" }}>
-            {showCalendar ? (
-              <div style={{ fontSize: "25px" }}>
-                   <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: '#ffffff',
-          },
-        }}
-      >
-        <ProfileTwoTone  
-                  onClick={() => {
-                    setShowCalendar(false);
-                  }}
-                />
-      </ConfigProvider>
-                
-              </div>
-            ) : (
-              <div style={{ fontSize: "25px" }}>
-                <CalendarTwoTone
-                  onClick={() => {
-                    setShowCalendar(true);
-                  }}
-                />
-              </div>
-            )}
-          </div>
-        </Flex>
+      <div className="holiday-list">
+        <div className="data-table">
+          <Flex style={{ width: "inherit", alignItems: "center" }}>
+            <PageHeader
+              title="Holiday View"
+              style={{ height: "fit-content" }}
+            />
+            <Divider style={{ width: "80%", minWidth: "unset" }} />
+            <div style={{ marginLeft: "auto" }}>
+              {showCalendar ? (
+                <div style={{ fontSize: "25px" }}>
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorPrimary: "#ffffff",
+                      },
+                    }}
+                  >
+                    <ProfileTwoTone
+                      onClick={() => {
+                        setShowCalendar(false);
+                      }}
+                    />
+                  </ConfigProvider>
+                </div>
+              ) : (
+                <div style={{ fontSize: "25px" }}>
+                  <CalendarTwoTone
+                    onClick={() => {
+                      setShowCalendar(true);
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </Flex>
 
-        {showCalendar ? (
-          <CalendarView data={data} />
-        ) : (
-          <Table columns={column} dataSource={dataArray} />
-        )}
+          {showCalendar ? (
+            <CalendarView data={dataArray} mode={"month"} />
+          ) : (
+            <Table columns={column} dataSource={dataArray} />
+          )}
+        </div>
       </div>
     </Layout>
   );

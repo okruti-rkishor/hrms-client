@@ -11,8 +11,12 @@ const CalendarView = (props:any) => {
   const getListData = (value: Dayjs) => {
     const tempDate = value.date();
     const tempMonth = value.month();
+    const tempYear = value.year();
+    console.log("Date",tempDate)
+    console.log("Month",tempMonth)
+    console.log("Year",tempYear)
     let listData;
-    const showData = props.data[0].calender.find((item:any)=>tempDate===item.day1 &&tempMonth===item.month)
+    const showData = props.data.find((item:any)=>tempDate===item.dd &&tempMonth===item.mm && tempYear ===item.yyyy)
     if(showData){
       listData = [{ type: 'success', content:showData.reason}
       ]
@@ -28,11 +32,11 @@ const CalendarView = (props:any) => {
 
   const monthCellRender = (value: Dayjs) => {
     const num = getMonthData(value);
-    return num ? (
-      <div className="notes-month">
-        <section>{num}</section>
-        <span>Backlog number</span>
-      </div>
+    return num ? (""
+      // <div className="notes-month">
+      //   <section>{num}</section>
+      //   <span>Backlog number</span>
+      // </div>
     ) : null;
   };
 

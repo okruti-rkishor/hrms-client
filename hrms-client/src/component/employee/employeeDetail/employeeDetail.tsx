@@ -1,7 +1,18 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import rest from "../../../services/http/api";
-import { Divider, Tabs, Space, Card, Flex, Typography, Button } from "antd";
+import { capitalToSmaill } from "../../holiday/holidayList";
+import { removeUnderScore } from "../../holiday/holidayList";
+import {
+  Divider,
+  Tabs,
+  Space,
+  Card,
+  Flex,
+  Typography,
+  Button,
+  Avatar,
+} from "antd";
 import Icon, {
   MailOutlined,
   PhoneOutlined,
@@ -51,7 +62,7 @@ const data = {
     {
       id: "fdc43e3d-e10a-4ee0-8b3b-c5b8f31e82ab",
       employerName: "Okruti it Consulting Pvt Ltd",
-      designation: "SENIOR_SOFTWARE_DEVELOPER",
+      designation: "SOFTWARE_DEVELOPER",
       duration: {
         startDate: "2023-01-27",
         endDate: "2023-02-24",
@@ -98,32 +109,14 @@ const data = {
       mobileNumber: "7878787878",
     },
   ],
-  bankDetails: [
-    {
-      id: "9609e31e-59b4-4d59-aa56-857a9c39859b",
-      accountHolderName: "Dharmendra",
-      accountNumber: "899797889899",
-      branchName: "Dharmendra number",
-      branchCode: "BHJIKU1",
-      ifscCode: "67756",
-    },
-    {
-      id: "7efc995d-4143-4526-ac70-8f244c1281c4",
-      accountHolderName: "dj sir",
-      accountNumber: "43242",
-      branchName: "dj sir",
-      branchCode: "dj sir",
-      ifscCode: "33232",
-    },
-    {
-      id: "0ea7d4b4-53f9-4396-ae42-1e2904d9bc48",
-      accountHolderName: "ram",
-      accountNumber: "90909090",
-      branchName: "dj sir",
-      branchCode: "dj sir",
-      ifscCode: "33232",
-    },
-  ],
+  bankDetails: {
+    id: "9609e31e-59b4-4d59-aa56-857a9c39859b",
+    accountHolderName: "Dharmendra",
+    accountNumber: "899797889899",
+    branchName: "Dharmendra number",
+    branchCode: "BHJIKU1",
+    ifscCode: "67756",
+  },
   documents: [
     {
       id: "8ce9b591-5ce9-4760-be85-e45e2785edc1",
@@ -167,7 +160,7 @@ const data = {
   },
 };
 
-const EmployeeDetail = () => {
+const EmployeeDetailComponent: FC = () => {
   const { id } = useParams();
   const [employeeData, setEmployeeData] = useState<any>({});
   // const { token } = theme.useToken();
@@ -182,18 +175,32 @@ const EmployeeDetail = () => {
       name: "About",
       element: (
         // <div className="family-detail card" style={{ gap: "20px" }}>
-        <Flex vertical={false}>
-          {(employeeData?.familyDetails ?? 0) &&
-            employeeData?.familyDetails.map((familydetail: any) => (
-              <Flex vertical={true}>
-                <Card title={familydetail.relationType}>
-                  <p>Name: {familydetail.name}</p>
-                  <p>Mobile Number : {familydetail.mobileNumber}</p>
-                  <p>Relation with Employee: {familydetail.relationType}</p>
-                </Card>
+        <div>
+          <Card style={{ textAlign: "left" }}>
+            <Flex vertical={true} gap={20}>
+              <Flex vertical>
+                <h3>About</h3>
+                <span>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </span>
               </Flex>
-            ))}
-        </Flex>
+              <Flex vertical>
+                <h3>About</h3>
+                <span>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
+                  excepturi similique veniam laboriosam nulla quas
+                </span>
+              </Flex>
+              <Flex vertical>
+                <h3>About</h3>
+                <span>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
+                  excepturi
+                </span>
+              </Flex>
+            </Flex>
+          </Card>
+        </div>
       ),
     },
     {
@@ -202,9 +209,10 @@ const EmployeeDetail = () => {
         <div className="family-detail">
           {(employeeData?.familyDetails ?? 0) &&
             employeeData?.familyDetails.map((familydetail: any) => (
-              <div
+              <Card
                 key={familydetail.relationType}
                 className="family-detail-card"
+                style={{ width: "fit-content" }}
               >
                 {familydetail.relationType === "Mother" && (
                   <Divider>
@@ -236,10 +244,21 @@ const EmployeeDetail = () => {
                     Spouse
                   </Divider>
                 )}
-                <span>Relation with Employee: {familydetail.relationType}</span>
-                <span>Name: {familydetail.name}</span>
-                <span>Mobile Number : {familydetail.mobileNumber}</span>
-              </div>
+                <Flex vertical>
+                  <Flex justify="space-between">
+                    <span>Relation with Employee:</span>
+                    <span>{familydetail.relationType}</span>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <span>Name: </span>
+                    <span>{familydetail.name}</span>
+                  </Flex>
+                  <Flex justify="space-between">
+                    <span>Mobile Number : </span>
+                    <span>{familydetail.mobileNumber}</span>
+                  </Flex>
+                </Flex>
+              </Card>
             ))}
         </div>
       ),
@@ -260,15 +279,28 @@ const EmployeeDetail = () => {
                         style={{ width: 300 }}
                       >
                         <Flex vertical justify="flex-start">
-                          <p>
-                            {" "}
-                            Total Experience: {item?.totalExperience + " Years"}
-                          </p>
-                          {/* <p> Employer Name: {item?.employerName}</p> */}
-                          <p>Designation: {item?.designation}</p>
-                          <p>Start Date: {item?.duration?.startDate}</p>
-                          <p> End Date: {item?.duration?.endDate}</p>
-                          <p> Annual CTC: {item?.annualCTC}</p>
+                          <Flex justify="space-between">
+                            <span>Total Experience:</span>
+                            <span>{item?.totalExperience + " Years"}</span>
+                          </Flex>
+                          <Flex justify="space-between">
+                            <span>Start Date: </span>
+                            <span>{item?.duration?.startDate}</span>
+                          </Flex>
+                          <Flex justify="space-between">
+                            <span>End Date: </span>
+                            <span>{item?.duration?.endDate}</span>
+                          </Flex>
+                          <Flex justify="space-between">
+                            <span>Annual CTC: </span>
+                            <span>{item?.annualCTC}</span>
+                          </Flex>
+                          <Flex justify="space-between">
+                            <span>Designation: </span>
+                            <span>
+                              {removeUnderScore(item?.designation, "_")}
+                            </span>
+                          </Flex>
                         </Flex>
                       </Card>
                     </Space>
@@ -290,7 +322,8 @@ const EmployeeDetail = () => {
       element: (
         <Flex gap={"large"}>
           {/* <div className="detail-card"> */}
-          <Card className="permanent-address-container"
+          <Card
+            className="permanent-address-container"
             extra={
               <Divider>
                 <Flex>
@@ -389,23 +422,15 @@ const EmployeeDetail = () => {
         // </div>
       ),
     },
-    {
-      name: "Present Address",
-      element: <div className="permanent-address-container"></div>,
-    },
+
     {
       name: "Bank Details",
       element: (
-        <div className="bank-detail card">
-          <div className="personal-detail">
-            <div
-              className="detail-card"
-              // style={{
-              //   display: "flex",
-              //   flexDirection: "column",
-              //   justifyContent: "space-around !import",
-              // }}
-            >
+        // <div className="bank-detail card">
+        <div className="personal-detail">
+          <Card
+            style={{ padding: "20px", width: "fit-content" }}
+            extra={
               <Divider>
                 <img
                   className="logo"
@@ -414,86 +439,86 @@ const EmployeeDetail = () => {
                 />{" "}
                 Account Information
               </Divider>
-              <span>
-                Account Number:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0]?.accountNumber
-                  : ""}
-              </span>
-              <span>
-                Account Holder Name:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0]?.accountHolderName
-                  : ""}
-              </span>
-              <span>
-                Branch Name:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0]?.branchName
-                  : ""}
-              </span>
-              <span>
-                Branch Code:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0].branchCode
-                  : ""}
-              </span>
-              <span>
-                Ifsc Code:{" "}
-                {employeeData.bankDetails
-                  ? employeeData?.bankDetails[0]?.ifscCode
-                  : ""}
-              </span>
-            </div>
-          </div>
+            }
+          >
+            <Flex justify="left" vertical gap={10}>
+              <Flex justify="space-between">
+                <span>Account Number: </span>
+                <span>
+                  {employeeData.bankDetails
+                    ? employeeData.bankDetails?.accountNumber
+                    : ""}
+                </span>
+              </Flex>
+              <Flex justify="space-between">
+                <span>Account Holder Name: </span>
+                <span>
+                  {employeeData.bankDetails
+                    ? employeeData.bankDetails?.accountHolderName
+                    : ""}
+                </span>
+              </Flex>
+              <Flex justify="space-between">
+                <span>Branch Name: </span>
+                <span>
+                  {employeeData.bankDetails
+                    ? employeeData.bankDetails?.branchName
+                    : ""}
+                </span>
+              </Flex>
+              <Flex justify="space-between">
+                <span>Branch Code: </span>
+                <span>
+                  {employeeData.bankDetails
+                    ? employeeData.bankDetails.branchCode
+                    : ""}
+                </span>
+              </Flex>
+              <Flex justify="space-between">
+                <span>Ifsc Code: </span>
+                <span>
+                  {employeeData.bankDetails
+                    ? employeeData?.bankDetails[0]?.ifscCode
+                    : ""}
+                </span>
+              </Flex>
+            </Flex>
+          </Card>
         </div>
+        // </div>
       ),
     },
     {
       name: "Documents",
       element: (
-        <div className="bank-detail card">
-          <div className="personal-detail card">
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-around !import",
-              }}
-            >
-              <span>
-                Account Number:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0]?.accountNumber
-                  : ""}
-              </span>
-              <span>
-                Account Holder Name:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0]?.accountHolderName
-                  : ""}
-              </span>
-              <span>
-                Branch Name:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0]?.branchName
-                  : ""}
-              </span>
-              <span>
-                Branch Code:{" "}
-                {employeeData.bankDetails
-                  ? employeeData.bankDetails[0].branchCode
-                  : ""}
-              </span>
-              <span>
-                Ifsc Code:{" "}
-                {employeeData.bankDetails
-                  ? employeeData?.bankDetails[0]?.ifscCode
-                  : ""}
-              </span>
-            </div>
-          </div>
-        </div>
+        <Flex className="documents-detail card" gap={20}>
+          {employeeData.documents?.map((item: any) => (
+            <>
+              <Card
+                key={item.documentNumber}
+                title={removeUnderScore(item.documentType, "_")}
+                extra={<a href="#">Show</a>}
+                style={{ width: 300 }}
+              >
+                <Flex vertical gap={10}>
+                  <span>
+                    Document Number:{" "}
+                    {item?.documenttNumber ? item?.documenttNumber : ""}
+                  </span>
+                  <span>
+                    Document Name: {item?.documentType ? item.documentType : ""}
+                  </span>
+                  <span>
+                    Document Name:{" "}
+                    {employeeData.documents
+                      ? employeeData.documents[0]?.documentType
+                      : ""}
+                  </span>
+                </Flex>
+              </Card>
+            </>
+          ))}
+        </Flex>
       ),
     },
   ];
@@ -508,7 +533,7 @@ const EmployeeDetail = () => {
     //     console.log(error);
     //   });
     setEmployeeData(data);
-  }, []); //[id]
+  }, [id]); //[id]
 
   const cardStyle: React.CSSProperties = {
     // width: auto,
@@ -523,10 +548,15 @@ const EmployeeDetail = () => {
       {/* <div className="sections"> */}
       <Card style={cardStyle}>
         <Flex justify="flex-start" gap={"middle"}>
-          <img
+          {/* <img
             alt="avatar"
             src="https://www.shutterstock.com/image-photo/smiling-bearded-man-holding-laptop-260nw-2127373250.jpg"
             style={imgStyle}
+          /> */}
+          <Avatar
+            style={{ backgroundColor: "#fde3cf", color: "#000000" }}
+            size={250}
+            icon={<UserOutlined />}
           />
           <Flex
             vertical
@@ -579,13 +609,13 @@ const EmployeeDetail = () => {
               <span>
                 DESIGNATION:
                 <br />
-                {employeeData.designation}
+                {removeUnderScore(employeeData.designation, "_")}
               </span>
 
               <span>
                 JOB TYPE:
                 <br />
-                {employeeData.type}
+                {removeUnderScore(employeeData.type, "_")}
               </span>
 
               <span>
@@ -623,7 +653,8 @@ const EmployeeDetail = () => {
                 </span>
                 <span>
                   {/* <img src="" className="logo" alt="..." /> */}
-                  Blood Group: <br /> {employeeData.bloodGroup}
+                  Blood Group: <br />{" "}
+                  {removeUnderScore(employeeData.bloodGroup, "_")}
                 </span>
               </div>
               <div className="detail-column">
@@ -671,4 +702,4 @@ const EmployeeDetail = () => {
   );
 };
 
-export default EmployeeDetail;
+export default EmployeeDetailComponent;
