@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import "./holiday.scss";
 import HolidayList from "./holidayList";
 import UserLoginContext from "../../context/userLoginContext";
+import restApi from "../../services/http/api/index";
 
 
 interface Item {
@@ -71,190 +72,79 @@ const tempData: any = [
     },
 ];
 
+
 const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
+    console.log("111");
     const [form] = Form.useForm();
-    const weekdays: string[] = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-    ];
 
     const onFinish = (values: any) => {
-        if (values.date) {
-            values = {
-                ...values,
-                date: convertDateFormat(values.date),
-                year: year,
-            };
+        console.log("78687");
+        let payload: any = {
+            "year": year,
+            "calender": {
+                "name": values.name,
+                "type": values.type,
+                "startDate": "",
+                "endDate": "",
+                "day": "MONDAY",
+                "status": values.status
+            }
         }
-        newData(values);
-        message.success("New Holiday created successfully");
+        console.log(values);
+        // if (values.date) {
+        //     values = {
+        //         ...values,
+        //         date: convertDateFormat(values.date),
+        //         year: year,
+        //     };
+        // }
+        // newData(values);
+        // console.log(values);
+        if (values.date.length > 1) {
+            payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
+            payload.calender.endDate = dayjs(values.date[values.date.length - 1]).format("YYYY-MM-DD");
+        } else {
+            payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
+            payload.calender.endDate = dayjs(values.date[0]).format("YYYY-MM-DD");
+        }
+        restApi.holidayCreate(payload).then((e) => {
+            const {calender} = payload;
+            calender["year"] = payload.year;
+            console.log(calender);
+            tempData.push(calender);
+
+
+            message.success('New Holiday created successfully');
+        }).catch((e) => console.log(e));
     };
 
-    const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
-        console.log("111");
-        const [form] = Form.useForm();
 
-        const onFinish = (values: any) => {
-            console.log("78687");
-            let payload: any = {
-                "year": year,
-                "calender": {
-                    "name": values.name,
-                    "type": values.type,
-                    "startDate": "",
-                    "endDate": "",
-                    "day": "MONDAY",
-                    "status": values.status
-                }
-            }
-            console.log(values);
-            // if (values.date) {
-            //     values = {
-            //         ...values,
-            //         date: convertDateFormat(values.date),
-            //         year: year,
-            //     };
-            // }
-            // newData(values);
-            // console.log(values);
-            if (values.date.length > 1) {
-                payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
-                payload.calender.endDate = dayjs(values.date[values.date.length - 1]).format("YYYY-MM-DD");
-            } else {
-                payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
-                payload.calender.endDate = dayjs(values.date[0]).format("YYYY-MM-DD");
-            }
-            // restApi.holidayCreate(payload).then((e)=> {
-            //     const {calender}=payload;
-            //     calender["year"]=payload.year;
-            //     console.log(calender);
-            //     tempData.push(calender);
-            //
-            //
-            //     message.success('New Holiday created successfully');
-            // }).catch((e)=>console.log(e));
-        };
-
-
-        const onFinishFailed = () => {
-            message.error("Error in holiday data creation");
-        };
-
-
-        const getDayOfWeek = (date: any) => {
-            const daysOfWeek = [
-                "Sunday",
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-            ];
-            const dayIndex = new Date(date).getDay();
-            return daysOfWeek[dayIndex];
-        };
-
-        const onSecondCityChange = (value: any) => {
-            console.log("value", value);
-        };
-        return (
-            <Form
-                layout="inline"
-                name="holiday-create-form"
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                disabled={isFormDisabled}
-                validateMessages={validateMessages}
-                className="holiday-create__form"
-                form={form}
-            >
-                <Col>
-                    <Form.Item
-                        label="Date"
-                        name="date"
-                        rules={[{required: true, type: "date"}]}
-                    >
-                        <DatePicker
-                            minDate={dayjs(`${year}-01-01`, dateFormat)}
-                            maxDate={dayjs(`${year}-12-31`, dateFormat)}
-                            onChange={(e) => {
-                                const convertedDate = convertDateFormat(e);
-                                const tempDay = getDayOfWeek(convertedDate);
-                                form.setFieldValue("day", tempDay);
-                            }}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Day" name="day" rules={[{required: true}]}>
-                        <Select
-                            placeholder="Select Holiday day"
-                            options={weekdays.map((weekday: string) => ({
-                                label: weekday,
-                                value: weekday,
-                            }))}
-                        />
-                    </Form.Item>
-                </Col>
-                <Col>
-                    <Form.Item
-                        label="Holiday Name"
-                        name="holiday_name"
-                        rules={[{required: true, type: "string"}]}
-                    >
-                        <Input placeholder="Enter Holiday name"/>
-                    </Form.Item>
-                    <Form.Item
-                        label="Type"
-                        name="holiday_type"
-                        rules={[{required: true}]}
-                    >
-                        <Select placeholder="Select Holiday type">
-                            <Select.Option value="national">National Holiday</Select.Option>
-                            <Select.Option value="festival">Festival</Select.Option>
-                            <Select.Option value="custom">Custom</Select.Option>
-                        </Select>
-                    </Form.Item>
-                </Col>
-                <Col>
-                    <Form.Item
-                        label="Reason"
-                        name="reason"
-                        rules={[{required: true, type: "string"}]}
-                    >
-                        <Input.TextArea placeholder="Enter reason for Holiday"/>
-                    </Form.Item>
-                    <Form.Item label="Remarks" name="remarks" rules={[{type: "string"}]}>
-                        <Input.TextArea placeholder="Enter remarks for Holiday"/>
-                    </Form.Item>
-                </Col>
-                <div className="holiday-create__form-submit">
-                    <Button type="primary" htmlType="submit">
-                        Submit
-                    </Button>
-                </div>
-            </Form>
-        );
+    const onFinishFailed = () => {
+        message.error("Error in holiday data creation");
     };
 
     const getDayOfWeek = (date: any) => {
-        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const daysOfWeek = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ];
         const dayIndex = new Date(date).getDay();
         return daysOfWeek[dayIndex];
     };
 
     const onSecondCityChange = (value: any) => {
-        console.log("value", value)
+        console.log("value", value);
     };
-
     return (
         <Form layout="inline"
               name="holiday-create-form"
               onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
               disabled={isFormDisabled}
               validateMessages={validateMessages}
               className='holiday-create__form'
@@ -303,8 +193,20 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
             </div>
 
         </Form>
-    )
-}
+
+    );
+};
+
+const getDayOfWeek = (date: any) => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayIndex = new Date(date).getDay();
+    return daysOfWeek[dayIndex];
+};
+
+const onSecondCityChange = (value: any) => {
+    console.log("value", value)
+};
+
 
 const HolidayYearTab = ({newData}: any) => {
     console.log("2222");
@@ -359,8 +261,6 @@ const HolidayYearTab = ({newData}: any) => {
         />
     );
 };
-
-
 
 const HolidayListTable = ({data}: any) => {
     console.log("3333");
