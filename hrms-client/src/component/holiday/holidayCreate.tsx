@@ -162,7 +162,7 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
                     </Form.Item>
 
                     <Form.Item label={"Name"} name={"name"}>
-                        <Input placeholder={"Enter Holiday Name here"}/>
+                        <Input placeholder={"Enter Holiday Name heree"}/>
                     </Form.Item>
 
                     <Form.Item label={"Status"} name={"status"} initialValue={"FULL_DAY"}>
