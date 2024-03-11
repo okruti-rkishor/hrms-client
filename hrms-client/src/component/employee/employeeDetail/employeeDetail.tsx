@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import rest from "../../../services/http/api";
-import { capitalToSmaill } from "../../holiday/holidayList";
+import { capitalToSmall } from "../../holiday/holidayList";
 import { removeUnderScore } from "../../holiday/holidayList";
 import {
   Divider,
@@ -426,7 +426,6 @@ const EmployeeDetailComponent: FC = () => {
     {
       name: "Bank Details",
       element: (
-        // <div className="bank-detail card">
         <div className="personal-detail">
           <Card
             style={{ padding: "20px", width: "fit-content" }}

@@ -9,12 +9,12 @@ import {
   theme,
 } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { Dayjs } from "dayjs";
 import CalendarView from "./calendar";
 import { CalendarTwoTone, ProfileTwoTone } from "@ant-design/icons";
 import "./holiday-list.scss";
-
+import rest from "../../services/http/api";
 const data: any = [
   {
     year: "2024",
@@ -53,105 +53,25 @@ const data: any = [
         reason: "GANDHI JAYANTI",
         remarks: "",
       },
-      {
-        key: 4,
-        date: "07-02-2024",
-        dd: 7,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "EID",
-        remarks: "",
-      },
-      {
-        key: 5,
-        date: "08-02-2024",
-        dd: 8,
-        mm: 1,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "DIWALI",
-        remarks: "",
-      },
-      {
-        key: 6,
-        date: "09-02-2024",
-        dd: 9,
-        mm: 1,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "HOLI",
-        remarks: "",
-      },
-      {
-        key: 11,
-        date: "11-02-2024",
-        dd: 11,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "DIWALI",
-        remarks: "",
-      },
-      {
-        key: 12,
-        date: "12-02-2024",
-        dd: 12,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "HOLI",
-        remarks: "",
-      },
-      {
-        key: 13,
-        date: "13-02-2024",
-        dd: 13,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "GANDHI JAYANTI",
-        remarks: "",
-      },
-      {
-        key: 14,
-        date: "14-02-2024",
-        dd: 14,
-        mm: 1,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "MAKAR SANKRANTI",
-        remarks: "",
-      },
     ],
   },
 ];
 
-export const capitalToSmaill = (str: string) => {
+export const capitalToSmall = (str: string) => {
   let tempStr = str.toLowerCase();
   let newString = tempStr.substring(0, 1).toLocaleUpperCase();
   newString += tempStr.substring(1);
-  console.log(newString);
   return newString;
-}; 
-export const removeUnderScore = (str: string='', character:string='-') => {
-  let splitedStr:string[] = str.split(character);
-  console.log(splitedStr)
-  const firstLetterCapitalizeArray:string[] = splitedStr.map((str:string)=>{
-    return capitalToSmaill(str)
-
+};
+export const removeUnderScore = (str: string = "", character: string = "-") => {
+  let splitedStr: string[] = str.split(character);
+  const firstLetterCapitalizeArray: string[] = splitedStr.map((str: string) => {
+    return capitalToSmall(str);
   });
   let newString = "";
   firstLetterCapitalizeArray.forEach((str, index) => {
     newString += str;
-    if(index<=firstLetterCapitalizeArray.length-1){
+    if (index <= firstLetterCapitalizeArray.length - 1) {
       newString += " ";
     }
   });
@@ -160,24 +80,41 @@ export const removeUnderScore = (str: string='', character:string='-') => {
 
 const HolidayList = () => {
   const [dataArray, setDataArray] = useState(
-    data[0].calender.map((item: any) => ({
-      ...item,
-      day: capitalToSmaill(item.day),
-      type: capitalToSmaill(item.type),
-      reason: capitalToSmaill(item.reason),
-    }))
+    []
+    // data[0].calender.map((item: any) => ({
+    //   ...item,
+    //   day: capitalToSmall(item.day),
+    //   type: capitalToSmall(item.type),
+    //   reason: capitalToSmall(item.reason),
+    // }))
   );
   const [showCalendar, setShowCalendar] = useState(false);
+  const [holidayData, setHolidayData] = useState([]);
   const column = [
     {
-      title: "Holiday Name",
-      dataIndex: "reason",
-      key: "reason",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
     },
+    // {
+    //   title: "Start Date",
+    //   dataIndex: "startDate",
+    //   key: "startDate",
+    // },
+    // {
+    //   title: "End Date",
+    //   dataIndex: "endDate",
+    //   key: "endDate",
+    // },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+    },
+    {
+      title: "Count",
+      dataIndex: "count",
+      key: "count",
     },
     {
       title: "Day",
@@ -189,7 +126,45 @@ const HolidayList = () => {
       dataIndex: "type",
       key: "type",
     },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+    {
+      title: "Active",
+      dataIndex: "active",
+      key: "active",
+    },
   ];
+
+  const fetchHolidayData = async () => {
+    try {
+      const response = await rest.getAllHoliday();
+      // console.warn(response);
+      setHolidayData(response);
+      // setDataArray(response);
+      const newResponse = response.map((item: any) => {
+        if (item.year == new Date().getFullYear()) {
+          return {
+            ...item.calender,
+            id: item.id,
+            date: `${item.calender.startDate} to ${item.calender.endDate}`,
+            // count:
+            //   parseInt(item.calender.startDate.split()[2]) -
+            //   parseInt(item.calender.endtDate.split()[2]),
+          };
+        }
+      });
+      setDataArray(newResponse);
+      return response;
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+  useEffect(() => {
+    fetchHolidayData();
+  }, []);
 
   return (
     <Layout className="with-background">
@@ -241,36 +216,36 @@ const HolidayList = () => {
   );
 };
 
-const getListData = (value: Dayjs) => {
-  let listData;
-  switch (value.date()) {
-    case 8:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-      ];
-      break;
-    case 10:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-        { type: "error", content: "This is error event." },
-      ];
-      break;
-    case 15:
-      listData = [
-        { type: "warning", content: "This is warning event" },
-        { type: "success", content: "This is very long usual event......" },
-        { type: "error", content: "This is error event 1." },
-        { type: "error", content: "This is error event 2." },
-        { type: "error", content: "This is error event 3." },
-        { type: "error", content: "This is error event 4." },
-      ];
-      break;
-    default:
-  }
-  return listData || [];
-};
+// const getListData = (value: Dayjs) => {
+//   let listData;
+//   switch (value.date()) {
+//     case 8:
+//       listData = [
+//         { type: "warning", content: "This is warning event." },
+//         { type: "success", content: "This is usual event." },
+//       ];
+//       break;
+//     case 10:
+//       listData = [
+//         { type: "warning", content: "This is warning event." },
+//         { type: "success", content: "This is usual event." },
+//         { type: "error", content: "This is error event." },
+//       ];
+//       break;
+//     case 15:
+//       listData = [
+//         { type: "warning", content: "This is warning event" },
+//         { type: "success", content: "This is very long usual event......" },
+//         { type: "error", content: "This is error event 1." },
+//         { type: "error", content: "This is error event 2." },
+//         { type: "error", content: "This is error event 3." },
+//         { type: "error", content: "This is error event 4." },
+//       ];
+//       break;
+//     default:
+//   }
+//   return listData || [];
+// };
 
 const getMonthData = (value: Dayjs) => {
   if (value.month() === 8) {

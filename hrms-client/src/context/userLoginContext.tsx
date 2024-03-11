@@ -17,7 +17,7 @@ export interface UserLoginInterface {
   email: string;
   firstName: string;
   lastName: string;
-  role: string;
+  roles: string[];
 }
 
 export interface UserContextType {
