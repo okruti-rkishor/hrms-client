@@ -20,9 +20,13 @@ export interface UserLoginInterface {
   roles: string[];
 }
 
+
 export interface UserContextType {
   newUser?: UserLoginInterface | null;
   setNewUser?: Dispatch<SetStateAction<UserLoginInterface | null>>;
+}
+export interface ProviderDataType extends UserContextType {
+  tokenToUserData: () => void;
 }
 
 const UserLoginContext = createContext<UserContextType>({});
@@ -38,13 +42,14 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
     lastName: "",
     roles: [],
   });
-  const contextValue: UserContextType = {
+  const contextValue: ProviderDataType = {
     newUser,
     setNewUser,
+    tokenToUserData,
   };
   // const navigate = useNavigate();
 
-  useEffect(()=>{
+  function tokenToUserData(){
     const tempToken:any = localStorage.getItem("loginToken");
     if(localStorage.getItem("loginToken")){
       const token:any = (tempToken);
@@ -67,6 +72,11 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
       })
       // navigate('/login')
     }
+    
+  }
+
+  useEffect(()=>{
+    tokenToUserData();
   },[])
 
   return (

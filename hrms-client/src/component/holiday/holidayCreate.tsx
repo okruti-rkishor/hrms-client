@@ -254,7 +254,7 @@ function HolidayCreate() {
   const [holidayData, setHolidayData] = useState<Item[]>(tempData);
   const [showAddHolidayStatus, setShowAddHolidayStatus] =
     useState<boolean>(false);
-  const { newUser } = useContext(UserLoginContext);
+  const { newUser } = useContext<any>(UserLoginContext);
 
   const newData = useCallback((values: any) => {
     const tempArray = [...holidayData, values];
@@ -271,7 +271,7 @@ function HolidayCreate() {
     } else if (newUser && newUser.roles.length >= 1) {
       setShowAddHolidayStatus(true);
     }
-  }, []);
+  }, [newUser]);
 
   return (
     <Layout className="with-background">

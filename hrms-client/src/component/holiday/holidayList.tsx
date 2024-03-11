@@ -15,47 +15,6 @@ import CalendarView from "./calendar";
 import { CalendarTwoTone, ProfileTwoTone } from "@ant-design/icons";
 import "./holiday-list.scss";
 import rest from "../../services/http/api";
-const data: any = [
-  {
-    year: "2024",
-    active: true,
-    calender: [
-      {
-        key: 1,
-        date: "01-02-2024",
-        dd: 1,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "DIWALI",
-        remarks: "",
-      },
-      {
-        key: 2,
-        date: "03-02-2024",
-        dd: 3,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "HOLI",
-        remarks: "",
-      },
-      {
-        key: 3,
-        date: "05-02-2024",
-        dd: 5,
-        mm: 2,
-        yyyy: 2024,
-        type: "HOLIDAY",
-        day: "MONDAY",
-        reason: "GANDHI JAYANTI",
-        remarks: "",
-      },
-    ],
-  },
-];
 
 export const capitalToSmall = (str: string) => {
   let tempStr = str.toLowerCase();
@@ -79,15 +38,7 @@ export const removeUnderScore = (str: string = "", character: string = "-") => {
 };
 
 const HolidayList = () => {
-  const [dataArray, setDataArray] = useState(
-    []
-    // data[0].calender.map((item: any) => ({
-    //   ...item,
-    //   day: capitalToSmall(item.day),
-    //   type: capitalToSmall(item.type),
-    //   reason: capitalToSmall(item.reason),
-    // }))
-  );
+  const [dataArray, setDataArray] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
   const [holidayData, setHolidayData] = useState([]);
   const column = [
@@ -141,18 +92,22 @@ const HolidayList = () => {
   const fetchHolidayData = async () => {
     try {
       const response = await rest.getAllHoliday();
-      // console.warn(response);
       setHolidayData(response);
-      // setDataArray(response);
-      const newResponse = response.map((item: any) => {
+      const newResponse = await response.map((item: any) => {
         if (item.year == new Date().getFullYear()) {
+          const count1 =
+            item.calender.endDate.split("-")[2] -
+            item.calender.startDate.split("-")[2] +
+            1;
+          console.log(count1);
           return {
             ...item.calender,
             id: item.id,
             date: `${item.calender.startDate} to ${item.calender.endDate}`,
-            // count:
-            //   parseInt(item.calender.startDate.split()[2]) -
-            //   parseInt(item.calender.endtDate.split()[2]),
+            day: capitalToSmall(item.calender.day),
+            type: removeUnderScore(item.calender.type, "_"),
+            status: removeUnderScore(item.calender.status, "_"),
+            count: count1,
           };
         }
       });
@@ -162,6 +117,7 @@ const HolidayList = () => {
       console.warn(error);
     }
   };
+
   useEffect(() => {
     fetchHolidayData();
   }, []);
@@ -216,36 +172,6 @@ const HolidayList = () => {
   );
 };
 
-// const getListData = (value: Dayjs) => {
-//   let listData;
-//   switch (value.date()) {
-//     case 8:
-//       listData = [
-//         { type: "warning", content: "This is warning event." },
-//         { type: "success", content: "This is usual event." },
-//       ];
-//       break;
-//     case 10:
-//       listData = [
-//         { type: "warning", content: "This is warning event." },
-//         { type: "success", content: "This is usual event." },
-//         { type: "error", content: "This is error event." },
-//       ];
-//       break;
-//     case 15:
-//       listData = [
-//         { type: "warning", content: "This is warning event" },
-//         { type: "success", content: "This is very long usual event......" },
-//         { type: "error", content: "This is error event 1." },
-//         { type: "error", content: "This is error event 2." },
-//         { type: "error", content: "This is error event 3." },
-//         { type: "error", content: "This is error event 4." },
-//       ];
-//       break;
-//     default:
-//   }
-//   return listData || [];
-// };
 
 const getMonthData = (value: Dayjs) => {
   if (value.month() === 8) {
