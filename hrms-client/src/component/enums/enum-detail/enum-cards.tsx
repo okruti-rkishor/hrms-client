@@ -3,35 +3,44 @@ import {
     Card,
     Col,
     Divider,
-    Form,
     Input,
     Layout,
     message,
     Row, Select,
     Table,
     TableProps,
-    Tag,
+    Tag, Tooltip,
 } from "antd";
 import CountUp from "react-countup";
 import {PageHeader} from "@ant-design/pro-layout";
 import '../enum-card.scss'
-import React, {useEffect, useState} from "react";
+import React, {useEffect , useState} from "react";
 import {
-    CheckOutlined,
+    CheckCircleOutlined,
+    CheckOutlined, CloseCircleOutlined,
     CloseOutlined,
     DeleteTwoTone,
     EditTwoTone,
-    PlusCircleOutlined, SaveTwoTone, SwapOutlined
+    PlusCircleOutlined, SaveTwoTone
 } from "@ant-design/icons/lib";
 import restApi from "../../../services/http/api";
 
 
 const EnumCards = () => {
-    const [data, setData] = useState<DataType[]>([]);
-    const [form] = Form.useForm();
+    const [designationData, setDesignationData] = useState<DataType[]>([]);
+    const [qualificationData, setQualificationData] = useState<DataType[]>([]);
     const [type, setType] = useState<string>();
     const [enumCreate, setEnumCreate] = useState<DataType>();
     const [editingKey, setEditingKey] = useState<string>();
+    const [filteredInfo, setFilteredInfo] = useState<any>({});
+    const [size, setSize] = useState<any>({
+        designation: "",
+        qualification: ""
+    });
+    const [disabled,setDisabled]=useState<any>({
+        designation:false,
+        qualification:false
+    });
 
     interface DataType {
         key?: React.Key;
@@ -39,6 +48,8 @@ const EnumCards = () => {
         status: string;
         id?: string;
     }
+
+    type OnChange = NonNullable<TableProps<DataType>['onChange']>;
 
     const createEnum = () => {
         if (enumCreate?.description === "" || enumCreate?.status === "") {
@@ -52,18 +63,60 @@ const EnumCards = () => {
         setEnumCreate({...enumCreate, description: "", status: ""});
         restApi.postEnum(values, id).then((e) => {
             values["status"] = enumCreate?.status === "Active" ? "Active" : "InActive";
-            values["id"]=Math.random().toString(36).slice(2);
-            const finalData = data.map((items: any) => {
+            values["id"] = e;
+            const finalData = type === "designation" ? designationData.map((items: any) => {
+                if (items.description === "") return values;
+                else return items;
+            }) : qualificationData.map((items: any) => {
                 if (items.description === "") return values;
                 else return items;
             })
-            setData(finalData);
-            message.success("data successfully inserted")
+            if (type === "designation") {
+                setDesignationData(finalData)
+                setSize((prevState: any) => {
+                    return {
+                        ...prevState, designation: e.length + 1
+                    }
+                })
+            } else {
+                setQualificationData(finalData)
+                setSize((prevState: any) => {
+                    return {
+                        ...prevState, qualification: e.length + 1
+                    }
+                })
+            }
+            message.success(`${type} suucessfully inserted`);
         }).catch((e) => message.error("data is not inserted"));
     }
 
     const cancelEnum = () => {
-        setData(data.filter((items: any) => items.description !== ""));
+        if (type === "designation") {
+            setDesignationData(designationData.filter((items: any) => items.description !== ""))
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, designation: prevState.designation - 1
+                }
+            })
+            setDisabled((prevState:any)=>{
+                return {
+                    ...prevState,designation:false
+                }
+            })
+        } else {
+            setQualificationData(qualificationData.filter((items: any) => items.description !== ""))
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, qualification: prevState.qualification - 1
+                }
+            })
+            setDisabled((prevState:any)=>{
+                return {
+                    ...prevState,qualification:false
+                }
+            })
+        }
+
         setEnumCreate({...enumCreate, description: "", status: ""});
     }
 
@@ -79,14 +132,22 @@ const EnumCards = () => {
         restApi.putEnum(values, id).then((e) => {
             values["status"] = record.status;
             values["id"] = record.id;
-            const finalData = data.map((items) => {
+            const finalData = type === "designation" ? designationData.map((items) => {
+                if (items.id === editingKey) {
+                    return values;
+                } else {
+                    return items;
+                }
+            }) : qualificationData.map((items) => {
                 if (items.id === editingKey) {
                     return values;
                 } else {
                     return items;
                 }
             })
-            setData(finalData)
+            {
+                type === "designation" ? setDesignationData(finalData) : setQualificationData(finalData)
+            }
             setEditingKey("");
         }).catch((e) => console.log(e));
     }
@@ -98,58 +159,84 @@ const EnumCards = () => {
 
     const enumCardProps = [
         {
-            title: "User Type",
-            count: 12,
-            content: "User types goes here",
-            className: "user-type",
-        },
-        {
             title: "Designation",
-            count: 10,
+            count: size.designation,
             content: "Types of Designation goes here",
             className: "designation",
         },
         {
             title: "Qualification",
-            count: 0,
+            count: size.qualification,
             content: "Types of Qualifications goes here",
             className: "qualification",
         },
     ];
 
     const onDelete = (record: any) => {
-        let id = `designation/${record.id}`;
+        let id = `${type}/${record.id}`;
         restApi.deleteEnum(id).then((e) => {
-            setData(data.filter((item: any) => item.id !== record.id));
-            message.success("data successfully deleted")
+            //setDesignationData(designationData.filter((item: any) => item.id !== record.id));
+            {
+                type === "designation" ? setDesignationData(designationData.filter((item: any) => item.id !== record.id)) : setQualificationData(qualificationData.filter((item: any) => item.id !== record.id))
+            }
+            message.success(`${type} successfully deleted`)
         }).catch((e) => message.error("data is not deleted"));
     }
 
     const onAdd = () => {
+        setFilteredInfo({});
         let obj: DataType = {
             description: "",
             status: "",
         };
-        const tempArray = [...data]
+        const tempArray = type === "designation" ? [...designationData] : [...qualificationData];
         tempArray.unshift(obj)
-        setData(tempArray);
+        if (type === "designation") {
+            setDesignationData(tempArray)
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, designation: prevState.designation + 1
+                }
+            })
+            setDisabled((prevState:any)=>{
+                return {
+                    ...prevState,designation:true
+                }
+            })
+        } else {
+            setQualificationData(tempArray)
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, qualification: prevState.qualification + 1
+                }
+            })
+            setDisabled((prevState:any)=>{
+                return {
+                    ...prevState,qualification:true
+                }
+            })
+
+        }
+        setEditingKey("");
     }
 
-    const handleStatus = (record:DataType) =>{
-        let status=record.status==="Active"?"inactive":"active";
+    const handleStatus = (record: DataType) => {
+        let status = record.status === "Active" ? "inactive" : "active";
         let id = `${type}/${record.id}/${status}`;
-        restApi.activeEnum({},id).then((e)=> {
-            const finalData=data.map((items)=>{
-                if(items.id===record.id){
-                    return {...items,status:record.status==="Active"?"InActive":"Active"}
+        restApi.activeEnum({}, id).then((e) => {
+            const finalData = designationData.map((items) => {
+                if (items.id === record.id) {
+                    return {...items, status: record.status === "Active" ? "InActive" : "Active"}
                 }
                 return items;
             })
-            setData(finalData)
-        }).catch((e)=>console.log(e));
+            {
+                type === "designation" ? setDesignationData(finalData) : setQualificationData(finalData)
+            }
+        }).catch((e) => console.log(e));
     }
 
-    const renderDescription =(text:string,record:DataType)=>{
+    const renderDescription = (text: string, record: DataType) => {
         if (record?.description === "") {
             return <Input onChange={(e) => setEnumCreate((prevState: any) => ({
                 ...prevState,
@@ -165,23 +252,23 @@ const EnumCards = () => {
         } else return text;
     }
 
-    const renderStatus =(text:string,record:DataType)=>{
-        if(record?.status === ""){
-         return <Select className={"editableInput"}
-                    options={[{value: "Active", label: "Active"}, {value: "InActive", label: "InActive"}]}
-                    onChange={(e) => setEnumCreate((prevState: any) => ({
-                        ...prevState,
-                        status: e
-                    }))}/>
+    const renderStatus = (text: string, record: DataType) => {
+        if (record?.status === "") {
+            return <Select className={"editableInput"}
+                           options={[{value: "Active", label: "Active"}, {value: "InActive", label: "InActive"}]}
+                           onChange={(e) => setEnumCreate((prevState: any) => ({
+                               ...prevState,
+                               status: e
+                           }))}/>
 
-        }else{
+        } else {
             return <Tag color={record.status.length > 6 ? 'green' : 'geekblue'} key={record.key}>
                 {record.status}
             </Tag>
         }
     }
 
-    const renderAction=(record:DataType)=>{
+    const renderAction = (record: DataType) => {
         if (record?.description === "") {
             return <>
                 <CheckOutlined onClick={createEnum} style={{fontSize: 18, marginRight: 15, color: "#1677FF"}}/>
@@ -196,11 +283,19 @@ const EnumCards = () => {
         } else {
             return <>
                 <EditTwoTone onClick={() => setEditingKey(record.id)} style={{fontSize: 18, marginRight: 15}}/>
-                <DeleteTwoTone onClick={() => onDelete(record)} style={{fontSize: 18,marginRight:15}}/>
-                <SwapOutlined onClick={()=>handleStatus(record)}/>
+                <DeleteTwoTone onClick={() => onDelete(record)} style={{fontSize: 18, marginRight: 15}}/>
+                {record.status === "Active" ? <Tooltip title="Deactivate" color={"red"} key={"red"}>
+                    <CloseCircleOutlined onClick={() => handleStatus(record)}/>
+                </Tooltip> : <Tooltip title="Activate" color={"green"} key={"green"}>
+                    <CheckCircleOutlined onClick={() => handleStatus(record)}/>
+                </Tooltip>}
             </>
         }
     }
+
+    const handleChange: OnChange = (pagination, filters, sorter) => {
+        setFilteredInfo(filters);
+    };
 
     const columns: TableProps<DataType>['columns'] = [
         {
@@ -208,14 +303,15 @@ const EnumCards = () => {
             dataIndex: 'description',
             key: 'description',
             width: "33%",
-            render: (text,record)=>renderDescription(text,record)
+            render: (text, record) => renderDescription(text, record),
+            filteredValue: filteredInfo.description || null,
         },
         {
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
             width: "33%",
-            render: (text, record) =>renderStatus(text,record),
+            render: (text, record) => renderStatus(text, record),
             filters: [
                 {
                     text: 'Active',
@@ -227,34 +323,52 @@ const EnumCards = () => {
                 },
             ],
             onFilter: (value, record) => record.status.indexOf(value as string) === 0,
+            filteredValue: filteredInfo.status || null,
         },
         {
             title: 'Action',
             key: 'action',
             width: "33%",
-            render: (_, record) => renderAction(record),
+            render: (_, record) => renderAction(record)
         },
     ]
 
     useEffect(() => {
-        if (type) {
-            let id = `${type}/all`;
-            restApi.getEnum(id).then((e) => {
-                e.forEach((item: any) => {
-                    item["status"] = item.active === true ? "Active" : "InActive";
-                    delete item.active;
-                })
-                setData(e);
-            }).catch((e) => message.error("data is not inserted"));
+        restApi.getEnum(`designation/all`).then((e) => {
+            e.forEach((item: any) => {
+                item["status"] = item.active === true ? "Active" : "InActive";
+                delete item.active;
+            })
+            setDesignationData(e);
+            setSize((prevState: any) => {
+                return {
+                    ...
+                        prevState, designation: e.length
+                }
+            })
+        }).catch((e) => message.error("data is not inserted"));
 
-        }
-    }, [type])
+        restApi.getEnum(`qualification/all`).then((e) => {
+            e.forEach((item: any) => {
+                item["status"] = item.active === true ? "Active" : "InActive";
+                delete item.active;
+            })
+            setQualificationData(e);
+            setSize((prevState: any) => {
+                return {
+                    ...
+                        prevState, qualification: e.length
+                }
+            })
+        }).catch((e) => message.error("data is not inserted"));
+
+    }, [])
 
     return (
         <Layout className="with-background">
             <section className="data-table enum-create-section">
                 <div className="enum-create-card">
-                    <Divider orientation="left" >
+                    <Divider orientation="left">
                         <PageHeader className="" title="Enum Create"/>
                     </Divider>
                     <Row gutter={{xs: 8, sm: 16, md: 24, lg: 32}} justify="space-between">
@@ -262,8 +376,7 @@ const EnumCards = () => {
                             <Col className="gutter-row" span={7} key={Math.random().toString(36).slice(2)}>
                                 <Card title={item.title}
                                       className={`${item.className} enum-card`}
-                                      onClick={() => setType(item.title.toLowerCase())}
-                                >
+                                      onClick={() => setType(item.title.toLowerCase())}>
                                     <CountUp start={0}
                                              end={item.count}
                                              duration={2}
@@ -277,9 +390,12 @@ const EnumCards = () => {
                 </div>
             </section>
             {type ? <section className={"data-table data-table-with-enums"}>
-                <Button onClick={onAdd}><PlusCircleOutlined/></Button>
-                <Table columns={columns} dataSource={data} pagination={{defaultPageSize: 4}} size={"small"}
-                       rowKey={(record) => record.description}/>
+                <Tooltip title="Add" color={"blue"} key={"blue"}>
+                    <Button onClick={onAdd} disabled={type==="designation"?disabled.designation:disabled.qualification}><PlusCircleOutlined/></Button>
+                </Tooltip>
+                <Table columns={columns} dataSource={type === "designation" ? designationData : qualificationData}
+                       pagination={{defaultPageSize: 4}} size={"small"}
+                       rowKey={(record) => record.description} onChange={handleChange}/>
             </section> : <></>}
         </Layout>
     );

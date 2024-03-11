@@ -33,15 +33,17 @@ function RestApi(base:any){
             .then((response:any) => {
                 console.log(response.headers.toString());
                 if (response.status === 201) {
-                    const location = response.headers.Location;
+                    const location = response.headers.location;
                     if (location) {
-                        const lastIndex = location.lastIndexOf("/");
-                        if (lastIndex !== -1) {
-                            const id = location.substring(lastIndex + 1);
-                            return id;
-                        }
-                    }else{
-                        return response;
+                        return location;
+                        // const lastIndex = location.lastIndexOf("/");
+                        // if (lastIndex !== -1) {
+                        //     const id = location.substring(lastIndex + 1);
+                        //     return id;
+                        // }
+                        // }else{
+                        //     return response;
+                        // }
                     }
                 }  else if(response.status === 200){
                     return response.data;

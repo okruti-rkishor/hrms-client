@@ -163,13 +163,13 @@ const EmployeeCreate = () => {
                 return {id: employeeData.documents[item].id}
             })
         };
-        convertExperienceToObject(employeeData);
+        if(employeeData.previousExperiences)convertExperienceToObject(employeeData);
+
         if (isEditing === false) {
             restApi.employeeCreate(payload).then((e) => {
                 message.success("data successfully inserted");
                 if(localStorage.length)localStorage.clear();
                 navigate(`/employee/search`)
-
             }).catch(((e) => {
                 message.error("data not inserted")
             }));

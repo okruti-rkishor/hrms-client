@@ -36,6 +36,12 @@
     flex-direction: column;
     gap: 16px;
   }
+
+  .enum-create-card{
+    .ant-row{
+      justify-content: unset;
+    }
+  }
 }
 .data-table.data-table-with-enums{
   margin:0 auto 40px;
@@ -45,10 +51,10 @@
 
 
   button{
-    width:4%;
+    width:5%;
     margin-left: auto;
     border-color:#1677FF;
-    background-color:#E6F4FF;
+    background:#E6F4FF;
     .anticon{
       font-size: 14px;
       margin-right: unset;
