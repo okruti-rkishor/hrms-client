@@ -40,41 +40,7 @@ function convertDateFormat(str: any) {
     return [date.getFullYear(), mnth, day].join("-");
 }
 
-const dateFormat = "YYYY-MM-DD";
-
-const tempData: any = [
-    {
-        year: 2023,
-        date: "2000-01-04",
-        day: "Monday",
-        reason: "No reason",
-        remarks: "Nothing",
-        holiday_name: "Holi",
-        holiday_type: "Festival Holiday",
-    },
-    {
-        year: 2024,
-        date: "2000-03-08",
-        day: "Sunday",
-        reason: "No reason",
-        remarks: "Nothing",
-        holiday_name: "Shivratri",
-        holiday_type: "Festival Holiday",
-    },
-    {
-        year: 2024,
-        date: "2000-03-08",
-        day: "Wednesday",
-        reason: "National Holiday",
-        remarks: "National Holiday",
-        holiday_name: "Independance Day",
-        holiday_type: "National Holiday",
-    },
-];
-
-
 const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
-    console.log("111");
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
@@ -111,13 +77,12 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
             const {calender} = payload;
             calender["year"] = payload.year;
             console.log(calender);
-            tempData.push(calender);
+            // tempData.push(calender);
 
 
             message.success('New Holiday created successfully');
         }).catch((e) => console.log(e));
     };
-
 
     const onFinishFailed = () => {
         message.error("Error in holiday data creation");
@@ -137,9 +102,7 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
         return daysOfWeek[dayIndex];
     };
 
-    const onSecondCityChange = (value: any) => {
-        console.log("value", value);
-    };
+
     return (
         <Form layout="inline"
               name="holiday-create-form"
@@ -151,7 +114,6 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
               form={form}
         >
             <div style={{display: "flex", gap: "30px", flexDirection: "column"}}>
-
                 <div style={{display: "flex", gap: "30px"}}>
                     <Form.Item label={"Date"} name={"date"}>
                         <DatePicker
@@ -162,7 +124,7 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
                     </Form.Item>
 
                     <Form.Item label={"Name"} name={"name"}>
-                        <Input placeholder={"Enter Holiday Name heree"}/>
+                        <Input placeholder={"Enter Holiday Name here"}/>
                     </Form.Item>
 
                     <Form.Item label={"Status"} name={"status"} initialValue={"FULL_DAY"}>
@@ -196,17 +158,6 @@ const HolidayCreateForm = ({year, isFormDisabled, newData}: any) => {
 
     );
 };
-
-const getDayOfWeek = (date: any) => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const dayIndex = new Date(date).getDay();
-    return daysOfWeek[dayIndex];
-};
-
-const onSecondCityChange = (value: any) => {
-    console.log("value", value)
-};
-
 
 const HolidayYearTab = ({newData}: any) => {
     console.log("2222");
@@ -262,124 +213,10 @@ const HolidayYearTab = ({newData}: any) => {
     );
 };
 
-const HolidayListTable = ({data}: any) => {
-    console.log("3333");
-    const columns = [
-        {
-            title: 'Year',
-            dataIndex: 'year',
-            width: '15%',
-            editable: true,
-            filters: [
-                {
-                    text: 2023,
-                    value: 2023,
-                },
-                {
-                    text: 2024,
-                    value: 2024,
-                },
-                {
-                    text: 2025,
-                    value: 2025,
-                },
-            ],
-            // onFilter: (value: any, record: any) => {
-            //     return record.roles.includes(value);
-            // },
-        },
-        {
-            title: 'Date',
-            dataIndex: 'date',
-            width: '15%',
-            editable: true,
-        },
-        {
-            title: 'Name',
-            dataIndex: 'holiday_name',
-            width: '15%',
-            editable: true,
-        },
-        {
-            title: 'Type',
-            dataIndex: 'holiday_type',
-            width: '15%',
-            editable: true,
-            filters: [
-                {
-                    text: 'National Holiday',
-                    value: 'National Holiday',
-                },
-                {
-                    text: 'Festival Holiday',
-                    value: 'Festival Holiday',
-                },
-                {
-                    text: 'Custom',
-                    value: 'Custom Holiday',
-                },
-            ],
-            // onFilter: (value: any, record: any) => {
-            //     return record.roles.includes(value);
-            // },
-        },
-        {
-            title: 'Day',
-            dataIndex: 'day',
-            width: '15%',
-            editable: true,
-            filters: [
-                {
-                    text: 'Weekdays',
-                    value: 'weekdays',
-                },
-                {
-                    text: 'Weekend',
-                    value: 'weekend',
-                }
-            ],
-            // onFilter: (value: any, record: any) => {
-            //     return record.roles.includes(value);
-            // },
-        },
-        {
-            title: 'Actions',
-            dataIndex: 'operation',
-            width: '15%',
-            render: (_: any, record: Item) => {
-                return (
-                    <Typography.Link>
-                        <EditTwoTone style={{fontSize: '18px', marginLeft: '10px'}}/>
-                    </Typography.Link>
-                )
-            },
-        },
-    ];
-
-    return (
-        <div className="data-table holiday-list">
-            <Table
-                rowKey="key"
-                bordered
-                dataSource={data}
-                columns={columns}
-
-                rowClassName="editable-row"
-            />
-
-        </div>
-    );
-}
-
 function HolidayCreate() {
-    const [holidayData, setHolidayData] = useState<Item[]>(tempData);
+    const [holidayData, setHolidayData] = useState<Item[]>();
     const [showAddHolidayStatus, setShowAddHolidayStatus] = useState<boolean>(false);
     const {newUser} = useContext(UserLoginContext);
-
-    const newData = useCallback((values: any) => {
-        const tempArray = [...holidayData, values];
-        setHolidayData(tempArray);
-    }, []);
 
     useEffect(() => {
         if (
@@ -391,10 +228,7 @@ function HolidayCreate() {
         } else if (newUser && newUser.roles.length >= 1) {
             setShowAddHolidayStatus(true);
         }
-    }, []);
-
-    console.log("444");
-
+    }, [newUser]);
 
     return (
         <Layout className="with-background">
@@ -403,7 +237,7 @@ function HolidayCreate() {
                     <Divider orientation="left">
                         <PageHeader className="" title="Holiday Create"/>
                     </Divider>
-                    <HolidayYearTab newData={newData}/>
+                    <HolidayYearTab/>
                 </div>
             )}
             <div>
