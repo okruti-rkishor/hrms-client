@@ -12,9 +12,9 @@ const CalendarView = (props:any) => {
     const tempDate = value.date();
     const tempMonth = value.month();
     const tempYear = value.year();
-    console.log("Date",tempDate)
-    console.log("Month",tempMonth)
-    console.log("Year",tempYear)
+    // console.log("Date",tempDate)
+    // console.log("Month",tempMonth)
+    // console.log("Year",tempYear)
     let listData;
     const showData = props.data.find((item:any)=>tempDate===item.dd &&tempMonth===item.mm && tempYear ===item.yyyy)
     if(showData){

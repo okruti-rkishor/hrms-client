@@ -15,7 +15,7 @@ interface Item {
     firstName: string;
     lastName: string;
     email: string;
-    role: string;
+    roles: string;
 }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
