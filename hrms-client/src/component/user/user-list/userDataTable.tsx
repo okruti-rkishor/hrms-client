@@ -192,7 +192,7 @@ const TempFile: React.FC = () => {
             editable: true,
             defaultFilteredValue: getDefaultFilter(),
             onFilter: (value: any, record: any) => {
-               return record.roles.includes(value);
+               return record.roles?.includes(value) ?? false;
             },
             width: '25%',
             render: (_:any, record:any) => (

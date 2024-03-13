@@ -1,23 +1,17 @@
-import {
-  ConfigProvider,
-  Divider,
-  Flex,
-  Layout,
-  Row,
-  Switch,
-  Table,
-  theme,
-} from "antd";
+import { ConfigProvider, Divider, Flex, Layout, Space, Table, Tag } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-
-import React, { useEffect, useState } from "react";
-
-
-import type { Dayjs } from "dayjs";
+import {
+  CalendarTwoTone,
+  DeleteOutlined,
+  ProfileTwoTone,
+  SwapOutlined,
+} from "@ant-design/icons";
+import { FC, useEffect, useState } from "react";
 import CalendarView from "./calendar";
-import { CalendarTwoTone, ProfileTwoTone } from "@ant-design/icons";
 import "./holiday-list.scss";
 import rest from "../../services/http/api";
+import { toast } from "react-toastify";
+import { JsxElement } from "typescript";
 
 export const capitalToSmall = (str: string) => {
   let tempStr = str.toLowerCase();
@@ -25,6 +19,9 @@ export const capitalToSmall = (str: string) => {
   newString += tempStr.substring(1);
   return newString;
 };
+
+
+
 export const removeUnderScore = (str: string = "", character: string = "-") => {
   let splitedStr: string[] = str.split(character);
   const firstLetterCapitalizeArray: string[] = splitedStr.map((str: string) => {
@@ -40,33 +37,45 @@ export const removeUnderScore = (str: string = "", character: string = "-") => {
   return newString;
 };
 
-const HolidayList = () => {
+const HolidayList = (props:any) => {
   const [dataArray, setDataArray] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [holidayData, setHolidayData] = useState([]);
+
   const column = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
     },
-    // {
-    //   title: "Start Date",
-    //   dataIndex: "startDate",
-    //   key: "startDate",
-    // },
-    // {
-    //   title: "End Date",
-    //   dataIndex: "endDate",
-    //   key: "endDate",
-    // },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      render: (tags: string[]) => (
+        <span>
+          {tags.map((tag, index) => {
+            let color = tag.length > 5 ? "geekblue" : "green";
+            if (tag === "loser") {
+              color = "volcano";
+            }
+            return index !== 1 ? (
+              <>
+                <Tag color={color} key={tag}>
+                  {tag.toUpperCase()}
+                </Tag>
+                <SwapOutlined />{" "}
+              </>
+            ) : (
+              <Tag color={color} key={tag}>
+                {tag.toUpperCase()}
+              </Tag>
+            );
+          })}
+        </span>
+      ),
     },
     {
-      title: "Count",
+      title: "Leaves",
       dataIndex: "count",
       key: "count",
     },
@@ -86,30 +95,51 @@ const HolidayList = () => {
       key: "status",
     },
     {
-      title: "Active",
-      dataIndex: "active",
-      key: "active",
+      title: "Notify",
+      dataIndex: "notify",
+      key: "notify",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: any) => (
+        <Space style={{ width: "50px" }}>
+          <DeleteOutlined onClick={() => deleteHandel(record)} />
+        </Space>
+      ),
+      width: "10%",
     },
   ];
+
+  const deleteHandel = async (record: any) => {
+    console.log(record.id);
+    try {
+      await rest.deleteHoliday(record.id);
+      toast("Holiday Delete Successful");
+      setDataArray(dataArray.filter((item: any) => item.id !== record.id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchHolidayData = async () => {
     try {
       const response = await rest.getAllHoliday();
-      setHolidayData(response);
       const newResponse = await response.map((item: any) => {
         if (item.year == new Date().getFullYear()) {
           const count1 =
-            item.calender.endDate.split("-")[2] -
+            (item.calender.endDate.split("-")[2] -
             item.calender.startDate.split("-")[2] +
-            1;
+            1)+" days";
           console.log(count1);
           return {
             ...item.calender,
             id: item.id,
-            date: `${item.calender.startDate} to ${item.calender.endDate}`,
+            date: [item.calender.startDate, item.calender.endDate],
             day: capitalToSmall(item.calender.day),
             type: removeUnderScore(item.calender.type, "_"),
             status: removeUnderScore(item.calender.status, "_"),
+            notify: item.calender.notify,
             count: count1,
           };
         }
@@ -124,6 +154,11 @@ const HolidayList = () => {
   useEffect(() => {
     fetchHolidayData();
   }, []);
+
+  useEffect(() => {
+    
+  }, [props.dataProps]);
+
 
   return (
     <Layout className="with-background">
@@ -167,19 +202,12 @@ const HolidayList = () => {
           {showCalendar ? (
             <CalendarView data={dataArray} mode={"month"} />
           ) : (
-            <Table columns={column} dataSource={dataArray} />
+            <Table style={{textAlign:"center"}} bordered columns={column} dataSource={dataArray} />
           )}
         </div>
       </div>
     </Layout>
   );
-};
-
-
-const getMonthData = (value: Dayjs) => {
-  if (value.month() === 8) {
-    return 1394;
-  }
 };
 
 export default HolidayList;

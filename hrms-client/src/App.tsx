@@ -33,6 +33,7 @@ import {
 import ApiInterceptor from "./apiInterceptor";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Temp from "./component/temp/temp";
 
 
 const router = createBrowserRouter(
@@ -83,6 +84,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/temp" element={<Temp />} />
       <Route path="*" element={<Error />} />
     </>
   )
