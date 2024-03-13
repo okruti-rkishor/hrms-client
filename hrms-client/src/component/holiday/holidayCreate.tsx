@@ -35,7 +35,8 @@ function convertDateFormat(str: any) {
     return [date.getFullYear(), mnth, day].join("-");
 }
 
-const HolidayCreateForm = ({year,isFormDisabled,holidayData,setHolidayData}: any) => {
+const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: any) => {
+    const [totalHoliday, setTotalHoliday] = useState<any>([]);
     const [form] = Form.useForm();
 
     const onFinish = (values: any) => {
@@ -50,6 +51,10 @@ const HolidayCreateForm = ({year,isFormDisabled,holidayData,setHolidayData}: any
                 "status": values.status
             }
         }
+
+        values.date.forEach((item: any) => {
+            setHolidayData([...totalHoliday, dayjs(item).format("YYYY-MM-DD")]);
+        });
 
         if (values.date.length > 1) {
             payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
@@ -101,20 +106,12 @@ const HolidayCreateForm = ({year,isFormDisabled,holidayData,setHolidayData}: any
                             placeholder={"Enter Holiday Date here"}
                             minDate={dayjs(new Date(new Date().getFullYear(), 0, 1).toString(), "YYYY-MM-DD")}
                             maxDate={dayjs(new Date(new Date().getFullYear(), 12, 1).toString(), "YYYY-MM-DD")}
-                            // disabledDate={(current:any)=> {
-                            //     let array=[];
-                            //     holidayData.map((item:any)=>{
-                            //         let startDate=dayjs(item.startDate).date();
-                            //         let endDate=dayjs(item.endDate).date();
-                            //         if(endDate-startDate===0){
-                            //             console.log(new Date(startDate).toDateString());
-                            //
-                            //         }
-                            //     })
-                            //
-                            //     return new Date(current).getDay() === 0 || new Date(current).getDay() === 6
-                            //
-                            // }}
+                            disabledDate={(current: any) => {
+                                return totalHoliday.map((item: any) => {
+                                    if(item === dayjs(current).format("YYYY-MM-DD"))return true;
+                                    else return false;
+                                });
+                            }}
                         />
                     </Form.Item>
 
@@ -152,7 +149,7 @@ const HolidayCreateForm = ({year,isFormDisabled,holidayData,setHolidayData}: any
     );
 };
 
-const HolidayYearTab = ({holidayData,setHolidayData}: any) => {
+const HolidayYearTab = ({holidayData, setHolidayData}: any) => {
     const currentYear = new Date().getFullYear();
     const previousYear = new Date().getFullYear() - 1;
     const nextYear = new Date().getFullYear() + 1;

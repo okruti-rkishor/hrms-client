@@ -1,12 +1,13 @@
 import React from "react";
 import './featureSections.scss'
 import {Button} from "antd";
-import {Link} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import HrmsLink from "../../../utilities/links/hrmslink";
 
 
 
 function FeatureSection() {
+    const navigate=useNavigate();
 
     const hrmsFeatureProps = [
         {
@@ -46,7 +47,7 @@ function FeatureSection() {
                         <h3 className="feature-container__subheading">{feature.subheading}</h3>
                         <h2 className="feature-container__heading">{feature.heading}</h2>
                         <summary className="feature-container__summary">{feature.content}</summary>
-                        <Button className='feature-container__link hrms-button' href={feature.linkTextTarget}>
+                        <Button className='feature-container__link hrms-button' onClick={()=>navigate("/home")}>
                             {feature.linkText}
                         </Button>
                         <br/>

@@ -7,11 +7,13 @@ import { UserLoginContextProvider } from "./context/userLoginContext";
 import { EventContextProvider } from "./context/eventContext";
 import ErrorHandler from "./component/errorBoundry/errorBoundry";
 import { ErrorBoundary } from "react-error-boundary";
+import {BrowserRouter} from "react-router-dom";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
+    <BrowserRouter>
   <ErrorBoundary fallback={<p>⚠️Something went wrong</p>}>
     <UserLoginContextProvider>
       <EventContextProvider>
@@ -19,6 +21,7 @@ root.render(
       </EventContextProvider>
     </UserLoginContextProvider>
   </ErrorBoundary>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

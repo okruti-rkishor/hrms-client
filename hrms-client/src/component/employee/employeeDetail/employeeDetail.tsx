@@ -496,7 +496,7 @@ const EmployeeDetailComponent: FC = () => {
               <Card
                 key={item.documentNumber}
                 title={removeUnderScore(item.documentType, "_")}
-                extra={<a href="#">Show</a>}
+                // extra={<a href="#">Show</a>}
                 style={{ width: 300 }}
               >
                 <Flex vertical gap={10}>
