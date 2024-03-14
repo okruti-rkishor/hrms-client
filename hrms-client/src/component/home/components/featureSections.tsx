@@ -47,10 +47,10 @@ function FeatureSection() {
                         <h3 className="feature-container__subheading">{feature.subheading}</h3>
                         <h2 className="feature-container__heading">{feature.heading}</h2>
                         <summary className="feature-container__summary">{feature.content}</summary>
-                        <Button className='feature-container__link hrms-button' onClick={()=>navigate("/home")}>
-                            {feature.linkText}
-                        </Button>
-                        <br/>
+                        {/*<Button className='feature-container__link hrms-button' onClick={()=>navigate("/home")}>*/}
+                        {/*    {feature.linkText}*/}
+                        {/*</Button>*/}
+                        {/*<br/>*/}
                         <HrmsLink linkTarget={feature.linkTextTarget} linkText={feature.linkText}/>
                     </div>
                     <div className="image-container">

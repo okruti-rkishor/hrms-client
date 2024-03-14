@@ -154,39 +154,3 @@
     }
   }
 }
-.hrms-layout {
-  .main-section {
-    min-height: 90vh;
-  }
-
-  .scroll-to-top {
-    background-color: $hrms-green-50;
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px 0 $hrms-gray-50;
-    transition: all 0.3s ease-out;
-    z-index: 5;
-
-    .progress-value {
-      height: calc(100% - 12px);
-      width: calc(100% - 12px);
-      background-color: $hrms-white;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 35px;
-      color: $hrms-black-10;
-    }
-
-    &:hover {
-      transform: translateY(-7px);
-    }
-  }
-}

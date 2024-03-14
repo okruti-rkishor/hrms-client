@@ -7,10 +7,10 @@ import HomeMainSection from './components/mainPage';
 function Home() {
 
   return (
-      <Layout className="home-page main-content">
+      <div className="home-page main-content">
           <HomeMainSection/>
           <FeatureSection/>
-      </Layout>
+      </div>
   );
 }
 export default Home;

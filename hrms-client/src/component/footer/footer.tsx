@@ -60,22 +60,10 @@ function FooterComponent() {
                                 <p>About Us</p>
                                 <LinkIconSVG/>
                             </Link>
-                            <Link to='/careers'>
-                                <p>Careers</p>
-                                <LinkIconSVG/>
-                            </Link>
-                            {/*<Link to='/news'>*/}
-                            {/*    <p>News & Media</p>*/}
-                            {/*    <LinkIconSVG/>*/}
-                            {/*</Link>*/}
                             <Link to='/privacy-policy'>
                                 <p>Privacy Policy</p>
                                 <LinkIconSVG/>
                             </Link>
-                            {/*<Link to='/terms-condition'>*/}
-                            {/*    <p>Terms & Condition</p>*/}
-                            {/*    <LinkIconSVG/>*/}
-                            {/*</Link>*/}
                         </div>
                         <div className='links-section support'>
                             <h3 className='links-section__title'>Support</h3>
@@ -83,10 +71,6 @@ function FooterComponent() {
                                 <p>Contact Us</p>
                                 <LinkIconSVG/>
                             </Link>
-                            {/*<Link to='/faqs'>*/}
-                            {/*    <p>FAQ's</p>*/}
-                            {/*    <LinkIconSVG/>*/}
-                            {/*</Link>*/}
                         </div>
                         <div className='links-section contact'>
                             <h3 className='links-section__title'>Contact</h3>

@@ -20,7 +20,7 @@ const HomeMainSection = () => {
                     {/*<img src='../../../../public/hrms-assets/images/hrms-main-page-bg.jpg' />*/}
                 </div>
             </section>
-            <section >
+            <section className="hrms-container">
                 <h1 >
                     Everything you need to create a high performance culture
                 </h1>

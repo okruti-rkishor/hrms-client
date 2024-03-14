@@ -51,21 +51,21 @@ footer {
           text-align: left;
           max-width: 292px;
 
-          .mail-support, .contact-support {
-            display: flex;
-            align-items: center;
-
-            & >a {
-              display: unset;
-              margin-left: 12px;
-              font-size: 16px;
-              font-weight: 400;
-              color: #fff;
-            }
-          }
-
           .address {
             margin-top: 20px;
+            font-size: 16px;
+            font-weight: 400;
+            color: #fff;
+          }
+        }
+
+        .mail-support, .contact-support {
+          display: flex;
+          align-items: center;
+
+          & >a {
+            display: unset;
+            margin-left: 12px;
             font-size: 16px;
             font-weight: 400;
             color: #fff;
