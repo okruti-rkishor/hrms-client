@@ -50,7 +50,7 @@ function RestApi(base:any){
                 }
             }).catch((error:any) => {
                 console.error(JSON.stringify(error.response.data));
-              return    error;
+              throw    new Error(error);
             });
     }
 

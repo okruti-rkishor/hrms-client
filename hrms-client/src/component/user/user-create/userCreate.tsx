@@ -105,7 +105,7 @@ const UserCreate = (props: any) => {
               </Select>
             </Form.Item>
 
-            <Form.Item
+            {/* <Form.Item
               name="password"
               label="Password"
               dependencies={["password"]}
@@ -149,7 +149,7 @@ const UserCreate = (props: any) => {
               ]}
             >
               <Input.Password placeholder="confirm password" />
-            </Form.Item>
+            </Form.Item> */}
           </div>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

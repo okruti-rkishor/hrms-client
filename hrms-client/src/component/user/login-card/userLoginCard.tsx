@@ -35,23 +35,31 @@ const UserDataContent = () => {
   ];
 
   const handleLogout = async () => {
-    try {
-      const token = JSON.parse(localStorage.getItem("loginToken") as any);
-      await rest.userLogout(token);
-      localStorage.removeItem("loginToken");
-      navigate("/login");
-      setNewUser({
-        loginStatus: false,
-        id: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        role: "",
-      });
-      toast.success("Logout Success!!");
-    } catch (error: any) {
-      console.error("Unable to Logout the User:", error.message);
+    const token = localStorage.getItem("loginToken");
+    if(token){
+      try {
+        const token = JSON.parse(localStorage.getItem("loginToken") as any);
+        const resp = await rest.userLogout(token);
+        console.log(resp);
+        localStorage.removeItem("loginToken");
+        navigate("/login");
+        toast.success("Logout Success!!",{autoClose:900});
+        setNewUser({
+          loginStatus: false,
+          id: "",
+          email: "",
+          firstName: "",
+          lastName: "",
+          role: "",
+        });
+      } catch (error: any) {
+        console.error("Unable to Logout the User:", error.message);
+      }
+    }else{
+      toast.success("Logout Success!!",{autoClose:900});
+      navigate('/login');
     }
+   
   };
 
   return (

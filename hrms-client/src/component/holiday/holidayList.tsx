@@ -1,21 +1,31 @@
-import { ConfigProvider, Divider, Flex, Layout, Space, Table, Tag } from "antd";
+import {
+  AutoComplete,
+  Button,
+  ConfigProvider,
+  Divider,
+  Flex,
+  Layout,
+  Popconfirm,
+  Space,
+  Table,
+  Tag,
+  message,
+} from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-
 import {
   CalendarTwoTone,
   DeleteOutlined,
   ProfileTwoTone,
   SwapOutlined,
 } from "@ant-design/icons";
-import { FC, useEffect, useState } from "react";
-
-import type { Dayjs } from "dayjs";
-
+import { FC, useContext, useEffect, useState } from "react";
 import CalendarView from "./calendar";
 import "./holiday-list.scss";
 import rest from "../../services/http/api";
-import { toast } from "react-toastify";
-import { JsxElement } from "typescript";
+import UserLoginContext from "../../context/userLoginContext";
+import { AudioOutlined } from "@ant-design/icons";
+import { Input } from "antd";
+
 
 export const capitalToSmall = (str: string) => {
   let tempStr = str.toLowerCase();
@@ -23,8 +33,6 @@ export const capitalToSmall = (str: string) => {
   newString += tempStr.substring(1);
   return newString;
 };
-
-
 
 export const removeUnderScore = (str: string = "", character: string = "-") => {
   let splitedStr: string[] = str.split(character);
@@ -41,34 +49,42 @@ export const removeUnderScore = (str: string = "", character: string = "-") => {
   return newString;
 };
 
+const success = () => {
+  message.success("Holiday Delete Successful!");
+};
 
-const HolidayList = (props:any) => {
-  const [dataArray, setDataArray] = useState([]);
+const HolidayList = ({ addData }: any) => {
+  const [dataArray, setDataArray] = useState([{}]);
   const [showCalendar, setShowCalendar] = useState(false);
+  // const [options, setOptions] = useState<DefaultOptionType[]>([]);
+  const { newUser } = useContext(UserLoginContext);
 
   const column = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      align: "center" as const,
     },
     {
       title: "Date",
       dataIndex: "date",
       key: "date",
+      width: "17%",
+      align: "center" as const,
       render: (tags: string[]) => (
-        <span>
-          {tags.map((tag, index) => {
+        <span key={Math.random().toString(36).slice(2)}>
+          {tags?.map((tag, index) => {
             let color = tag.length > 5 ? "geekblue" : "green";
             if (tag === "loser") {
               color = "volcano";
             }
             return index !== 1 ? (
               <>
-                <Tag color={color} key={tag}>
+                <Tag color={color} key={Math.random().toString(36).slice(2)}>
                   {tag.toUpperCase()}
                 </Tag>
-                <SwapOutlined />{" "}
+                <SwapOutlined style={{ color: "blue" }} />{" "}
               </>
             ) : (
               <Tag color={color} key={tag}>
@@ -83,45 +99,57 @@ const HolidayList = (props:any) => {
       title: "Leaves",
       dataIndex: "count",
       key: "count",
+      align: "center" as const,
     },
     {
       title: "Day",
       dataIndex: "day",
       key: "day",
+      align: "center" as const,
     },
     {
       title: "Type",
       dataIndex: "type",
       key: "type",
+      align: "center" as const,
     },
     {
       title: "Status",
       dataIndex: "status",
       key: "status",
-    },
-    {
-      title: "Notify",
-      dataIndex: "notify",
-      key: "notify",
+      align: "center" as const,
     },
     {
       title: "Action",
       key: "action",
+      width: "10%",
+      align: "center" as const,
       render: (_: any, record: any) => (
         <Space style={{ width: "50px" }}>
-          <DeleteOutlined onClick={() => deleteHandel(record)} />
+          <Popconfirm
+            title="Sure to delete?"
+            onConfirm={() => {
+              deleteHandel(record);
+            }}
+          >
+            <DeleteOutlined style={{color:"red"}}/>
+          </Popconfirm>
         </Space>
       ),
-      width: "10%",
     },
   ];
 
+  if (newUser?.roles.length === 1 && newUser?.roles[0] === "EMPLOYEE") {
+    column.pop();
+  }
+
   const deleteHandel = async (record: any) => {
-    console.log(record.id);
     try {
       await rest.deleteHoliday(record.id);
-      toast("Holiday Delete Successful");
+      // toast.success("Holiday Delete Successful",{autoClose: 800});
       setDataArray(dataArray.filter((item: any) => item.id !== record.id));
+      // <ToastContainer />
+      success();
     } catch (error) {
       console.log(error);
     }
@@ -130,40 +158,46 @@ const HolidayList = (props:any) => {
   const fetchHolidayData = async () => {
     try {
       const response = await rest.getAllHoliday();
-      const newResponse = await response.map((item: any) => {
+      const newResponse = await response.map((item: any, index: number) => {
         if (item.year == new Date().getFullYear()) {
           const count1 =
-            (item.calender.endDate.split("-")[2] -
+            item.calender.endDate.split("-")[2] -
             item.calender.startDate.split("-")[2] +
-            1)+" days";
-          console.log(count1);
+            1;
+          console.log();
           return {
             ...item.calender,
             id: item.id,
+            name:capitalToSmall(item.calender.name),
             date: [item.calender.startDate, item.calender.endDate],
             day: capitalToSmall(item.calender.day),
             type: removeUnderScore(item.calender.type, "_"),
             status: removeUnderScore(item.calender.status, "_"),
             notify: item.calender.notify,
-            count: count1,
+            count: count1 > 1 ? count1 + " days" : count1 + " day",
           };
         }
       });
       setDataArray(newResponse);
       return response;
     } catch (error) {
-      console.warn(error);
+      console.log("error console", error);
+      // console.warn(error);
     }
   };
 
   useEffect(() => {
     fetchHolidayData();
-  }, []);
+  }, [addData]);
 
-  useEffect(() => {
-    
-  }, [props.dataProps]);
-
+  // const handleSearch = (value: string) => {
+  //   setOptions(() => {
+  //     if (!value) {
+  //       return [];
+  //     }
+  //     return dataArray.map<any>((item: any) => item.name.includes(value));
+  //   });
+  // };
 
   return (
     <Layout className="with-background">
@@ -175,7 +209,18 @@ const HolidayList = (props:any) => {
               style={{ height: "fit-content" }}
             />
             <Divider style={{ width: "80%", minWidth: "unset" }} />
-            <div style={{ marginLeft: "auto" }}>
+            <Flex style={{ marginLeft: "auto" }}>
+              {/* <Search placeholder="input search text" onSearch={onSearch} style={{padding:"0px 10px", width: 150, height:"20px" }} /> */}
+              {/* <AutoComplete
+                style={{ width: 200 }}
+                options={dataArray.map((item:any)=>item.name)}
+                placeholder="Holiday Name"
+                filterOption={(inputValue, option) =>
+                  option!.value
+                    .toUpperCase()
+                    .indexOf(inputValue.toUpperCase()) !== -1
+                }
+              /> */}
               {showCalendar ? (
                 <div style={{ fontSize: "25px" }}>
                   <ConfigProvider
@@ -201,13 +246,18 @@ const HolidayList = (props:any) => {
                   />
                 </div>
               )}
-            </div>
+            </Flex>
           </Flex>
-
           {showCalendar ? (
             <CalendarView data={dataArray} mode={"month"} />
           ) : (
-            <Table style={{textAlign:"center"}} bordered columns={column} dataSource={dataArray} />
+            <Table
+              style={{ textAlign: "center" }}
+              rowKey={(record: any) => record.id}
+              bordered
+              columns={column}
+              dataSource={dataArray}
+            />
           )}
         </div>
       </div>

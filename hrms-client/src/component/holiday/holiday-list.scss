@@ -14,4 +14,21 @@
         scroll-behavior: unset;
     }
 
+    .ant-input {
+        height: 32px;
+        border-radius:  unset   !important;
+        border-left: unset !important;
+        // border-radius:  5px 0px 0px 5px   !important;
+    }
+
+    .ant-btn{
+        border-radius:  unset   !important;
+    }
+    .ant-input-wrapper{
+        display: flex;
+        flex-direction: row-reverse;
+        gap: 30px;
+    }
+
 }
+
