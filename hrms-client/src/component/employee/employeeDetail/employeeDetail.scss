@@ -5,16 +5,82 @@
     //min-height: unset !important;
 }
 
-.employee-detail-container {
-    margin-top: 20px;
-    padding: 10px 10px;
-    background-color: #fafafa;
-    color: rgb(0, 0, 0);
-    // height: 90%;
-    // width: 90%;
-    margin: 7px 45px;
+.employee-details {
+    @include poppins-regular();
     display: flex;
     flex-direction: column;
+    text-align: left;
+    padding: 40px !important;
+
+    &__section {
+        @include poppins-regular();
+        gap: 40px;
+
+        &-sidebar {
+            min-width: 250px;
+        }
+    }
+
+    &__avatar.ant-avatar-icon {
+        width: 180px;
+        height: 180px;
+        font-size: 75px;
+        background-color: rgb(253, 227, 207);
+        color: $hrms-black-30;
+    }
+
+    &__header {
+        gap: 60px;
+
+        > .ant-flex {
+            flex: 1 1 0;
+        }
+
+        .employee-name {
+            @include playfair-display-xl;
+            margin-bottom: 10px;
+        }
+
+        .employee-contacts {
+            gap: 60px;
+
+            span.anticon {
+                margin-right: 8px;
+            }
+
+            .contact-box {
+
+            }
+        }
+
+        .employee-job-details {
+            gap: 80px;
+
+            &__title {
+                @include poppins-regular;
+                color: $hrms-gray-60;
+                font-weight: $hrms-font-weight-600;
+                margin-bottom: 8px;
+            }
+        }
+    }
+
+    &__tabs.ant-tabs {
+
+
+        .ant-tabs-tab {
+            @include poppins-regular();
+            padding: 0 0 12px 0;
+        }
+
+        .ant-tabs-tab-icon {
+            margin-right: unset !important;
+        }
+
+        .ant-tabs-nav-operations {
+            display: none !important;
+        }
+    }
 
     .ant-space-item:first-child {
         width: unset;
@@ -60,12 +126,6 @@
         height: 14px;
         width: 14px;
     }
-}
-
-.name {
-    font-size: 35px;
-    font-weight: 800;
-    // margin: 20px
 }
 
 

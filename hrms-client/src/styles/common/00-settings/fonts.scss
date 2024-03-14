@@ -101,3 +101,69 @@ $hrms-font-style: normal;
   line-height: $hrms-line-height-xxl;
   color: $hrms-black-20;
 }
+
+
+//  "Poppins" FONT
+
+//font-size: 14px -- font-weight: 400 -- line-height: 18px
+@mixin poppins-s() {
+  font-family: $hrms-font-family-poppins;
+  font-size: $hrms-font-size-s;
+  line-height: $hrms-line-height-s;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
+
+//font-size: 16px -- font-weight: 400 -- line-height: 24px
+@mixin poppins-regular() {
+  font-family: $hrms-font-family-poppins;
+  font-size: $hrms-font-size-m;
+  line-height: $hrms-line-height-m;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
+
+//font-size: 18px -- font-weight: 400 -- line-height: 24px
+@mixin poppins-m () {
+  font-family: $hrms-font-family-poppins;
+  font-size: $hrms-font-size-sm;
+  line-height: $hrms-line-height-sm;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
+
+//font-size: 24px -- font-weight: 400 -- line-height: 30px
+@mixin poppins-l () {
+  font-family: $hrms-font-family-poppins;
+  font-size: $hrms-font-size-l;
+  line-height: $hrms-line-height-ml;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
+
+
+//  "Roboto" FONT
+
+//font-size: 14px -- font-weight: 400 -- line-height: 18px
+@mixin roboto-s() {
+  font-family: $hrms-font-family-roboto;
+  font-size: $hrms-font-size-s;
+  line-height: $hrms-line-height-s;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
+
+//font-size: 16px -- font-weight: 400 -- line-height: 24px
+@mixin roboto-regular() {
+  font-family: $hrms-font-family-roboto;
+  font-size: $hrms-font-size-m;
+  line-height: $hrms-line-height-sm;
+  font-weight: $hrms-font-weight-400;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
