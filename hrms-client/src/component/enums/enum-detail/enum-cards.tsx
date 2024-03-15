@@ -14,7 +14,7 @@ import {
 import CountUp from "react-countup";
 import {PageHeader} from "@ant-design/pro-layout";
 import '../enum-card.scss'
-import React, {useEffect , useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     CheckCircleOutlined,
     CheckOutlined, CloseCircleOutlined,
@@ -37,9 +37,9 @@ const EnumCards = () => {
         designation: "",
         qualification: ""
     });
-    const [disabled,setDisabled]=useState<any>({
-        designation:false,
-        qualification:false
+    const [disabled, setDisabled] = useState<any>({
+        designation: false,
+        qualification: false
     });
 
     interface DataType {
@@ -50,6 +50,71 @@ const EnumCards = () => {
     }
 
     type OnChange = NonNullable<TableProps<DataType>['onChange']>;
+
+    const increaseEnum = () => {
+        if (type === "designation") {
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, designation: prevState.designation + 1
+                }
+            })
+        } else {
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, qualification: prevState.qualification + 1
+                }
+            })
+        }
+    }
+
+    const decreaseEnum = () => {
+        if (type === "designation") {
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, designation: prevState.designation - 1
+                }
+            })
+        } else {
+            setSize((prevState: any) => {
+                return {
+                    ...prevState, qualification: prevState.qualification - 1
+                }
+            })
+        }
+    }
+
+    const enableEnum = () => {
+        if(type==="designation"){
+            setDisabled((prevState: any) => {
+                return {
+                    ...prevState, designation: true
+                }
+            })
+        }else{
+            setDisabled((prevState: any) => {
+                return {
+                    ...prevState, qualification: true
+                }
+            })
+
+        }
+    }
+
+    const disableEnum = () => {
+        if(type==="designation"){
+            setDisabled((prevState: any) => {
+                return {
+                    ...prevState, designation: false
+                }
+            })
+        }else{
+            setDisabled((prevState: any) => {
+                return {
+                    ...prevState, qualification: false
+                }
+            })
+        }
+    }
 
     const createEnum = () => {
         if (enumCreate?.description === "" || enumCreate?.status === "") {
@@ -72,19 +137,11 @@ const EnumCards = () => {
                 else return items;
             })
             if (type === "designation") {
-                setDesignationData(finalData)
-                setSize((prevState: any) => {
-                    return {
-                        ...prevState, designation: e.length + 1
-                    }
-                })
+                setDesignationData(finalData);
+                disableEnum();
             } else {
-                setQualificationData(finalData)
-                setSize((prevState: any) => {
-                    return {
-                        ...prevState, qualification: e.length + 1
-                    }
-                })
+                setQualificationData(finalData);
+                disableEnum();
             }
             message.success(`${type} suucessfully inserted`);
         }).catch((e) => message.error("data is not inserted"));
@@ -93,30 +150,21 @@ const EnumCards = () => {
     const cancelEnum = () => {
         if (type === "designation") {
             setDesignationData(designationData.filter((items: any) => items.description !== ""))
-            setSize((prevState: any) => {
+            decreaseEnum();
+            setDisabled((prevState: any) => {
                 return {
-                    ...prevState, designation: prevState.designation - 1
-                }
-            })
-            setDisabled((prevState:any)=>{
-                return {
-                    ...prevState,designation:false
+                    ...prevState, designation: false
                 }
             })
         } else {
             setQualificationData(qualificationData.filter((items: any) => items.description !== ""))
-            setSize((prevState: any) => {
+            decreaseEnum();
+            setDisabled((prevState: any) => {
                 return {
-                    ...prevState, qualification: prevState.qualification - 1
-                }
-            })
-            setDisabled((prevState:any)=>{
-                return {
-                    ...prevState,qualification:false
+                    ...prevState, qualification: false
                 }
             })
         }
-
         setEnumCreate({...enumCreate, description: "", status: ""});
     }
 
@@ -155,6 +203,7 @@ const EnumCards = () => {
     const cancel = () => {
         setEditingKey("");
         setEnumCreate({...enumCreate, description: "", status: ""});
+        decreaseEnum();
     }
 
     const enumCardProps = [
@@ -176,9 +225,8 @@ const EnumCards = () => {
         let id = `${type}/${record.id}`;
         restApi.deleteEnum(id).then((e) => {
             //setDesignationData(designationData.filter((item: any) => item.id !== record.id));
-            {
-                type === "designation" ? setDesignationData(designationData.filter((item: any) => item.id !== record.id)) : setQualificationData(qualificationData.filter((item: any) => item.id !== record.id))
-            }
+            type === "designation" ? setDesignationData(designationData.filter((item: any) => item.id !== record.id)) : setQualificationData(qualificationData.filter((item: any) => item.id !== record.id))
+            decreaseEnum();
             message.success(`${type} successfully deleted`)
         }).catch((e) => message.error("data is not deleted"));
     }
@@ -193,29 +241,12 @@ const EnumCards = () => {
         tempArray.unshift(obj)
         if (type === "designation") {
             setDesignationData(tempArray)
-            setSize((prevState: any) => {
-                return {
-                    ...prevState, designation: prevState.designation + 1
-                }
-            })
-            setDisabled((prevState:any)=>{
-                return {
-                    ...prevState,designation:true
-                }
-            })
+            increaseEnum();
+            enableEnum();
         } else {
             setQualificationData(tempArray)
-            setSize((prevState: any) => {
-                return {
-                    ...prevState, qualification: prevState.qualification + 1
-                }
-            })
-            setDisabled((prevState:any)=>{
-                return {
-                    ...prevState,qualification:true
-                }
-            })
-
+            increaseEnum();
+            enableEnum()
         }
         setEditingKey("");
     }
@@ -230,9 +261,7 @@ const EnumCards = () => {
                 }
                 return items;
             })
-            {
-                type === "designation" ? setDesignationData(finalData) : setQualificationData(finalData)
-            }
+            type === "designation" ? setDesignationData(finalData) : setQualificationData(finalData)
         }).catch((e) => console.log(e));
     }
 
@@ -375,7 +404,7 @@ const EnumCards = () => {
                         {enumCardProps.map((item) => (
                             <Col className="gutter-row" span={7} key={Math.random().toString(36).slice(2)}>
                                 <Card title={item.title}
-                                      className={`${item.className} enum-card`}
+                                      className={`${item.className} ${item.className===type?"active ":''}enum-card`}
                                       onClick={() => setType(item.title.toLowerCase())}>
                                     <CountUp start={0}
                                              end={item.count}
@@ -391,7 +420,8 @@ const EnumCards = () => {
             </section>
             {type ? <section className={"data-table data-table-with-enums"}>
                 <Tooltip title="Add" color={"blue"} key={"blue"}>
-                    <Button onClick={onAdd} disabled={type==="designation"?disabled.designation:disabled.qualification}><PlusCircleOutlined/></Button>
+                    <Button onClick={onAdd}
+                            disabled={type === "designation" ? disabled.designation : disabled.qualification}><PlusCircleOutlined/></Button>
                 </Tooltip>
                 <Table columns={columns} dataSource={type === "designation" ? designationData : qualificationData}
                        pagination={{defaultPageSize: 4}} size={"small"}

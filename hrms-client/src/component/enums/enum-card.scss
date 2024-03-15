@@ -18,6 +18,10 @@
 
       .ant-card-head {
         border-bottom: 1px solid $hrms-color-100;
+        text-align: center;
+      }
+      &.active{
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
       }
     }
 
@@ -27,6 +31,11 @@
 
       .ant-card-head {
         border-bottom: 1px solid $hrms-green-40;
+        text-align: center;
+      }
+
+      &.active{
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
       }
     }
   }
@@ -35,12 +44,15 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    text-align: center;
   }
 
   .enum-create-card{
     .ant-row{
       justify-content: unset;
     }
+
+
   }
 }
 .data-table.data-table-with-enums{
@@ -55,10 +67,16 @@
     margin-left: auto;
     border-color:#1677FF;
     background:#E6F4FF;
+    &:active{
+      background:#E6F4FF;
+    }
+    &:hover{
+      background: #E6F4FF;
+    }
+
     .anticon{
       font-size: 14px;
       margin-right: unset;
-
     }
   }
   .anticon{

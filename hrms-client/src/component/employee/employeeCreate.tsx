@@ -21,7 +21,7 @@ const EmployeeCreate = () => {
     const [form] = Form.useForm();
     const [employeeData, setEmployeeData] = useState<any>({
         gender: Object.keys(Gender)[0],
-        status: "ACTIVE",
+        status: "Active",
         title:"Mr",
         documents: {}
     });
@@ -65,7 +65,7 @@ const EmployeeCreate = () => {
     }
 
     const convertExperienceToObject = (result: any) => {
-        const duration = result.previousExperiences.map((item: any) => {
+        const duration = result.experiences.map((item: any) => {
             const duration = {
                 "startDate": item.duration[0],
                 "endDate": item.duration[1]
@@ -74,20 +74,20 @@ const EmployeeCreate = () => {
 
             return duration;
         });
-        for (let e = 0; e < result.previousExperiences.length; e++) {
-            result.previousExperiences[e].duration = duration[e];
+        for (let e = 0; e < result.experiences.length; e++) {
+            result.experiences[e].duration = duration[e];
         }
     }
 
     const convertExperienceToArray = (response: any) => {
-        let durationResponse = response.previousExperiences.map((item: any) => {
+        let durationResponse = response.experiences.map((item: any) => {
             let duration = [];
             duration.push(dayjs(item.duration.startDate));
             duration.push(dayjs(item.duration.endDate));
             return duration;
         })
-        for (let e = 0; e < response.previousExperiences.length; e++) {
-            response.previousExperiences[e].duration = durationResponse[e];
+        for (let e = 0; e < response.experiences.length; e++) {
+            response.experiences[e].duration = durationResponse[e];
         }
     }
 
@@ -156,15 +156,14 @@ const EmployeeCreate = () => {
                 "state": employeeData.state,
                 "zipCode": employeeData.zipCode
             },
-            "previousExperiences": employeeData.previousExperiences,
+            "experiences": employeeData.experiences,
             "familyDetails": employeeData.familyDetails,
             "bankDetails": employeeData.bankDetails,
             "documents": Object.keys(employeeData.documents).map((item: any) => {
                 return {id: employeeData.documents[item].id}
             })
         };
-        if(employeeData.previousExperiences)convertExperienceToObject(employeeData);
-
+        if(employeeData.experiences)convertExperienceToObject(employeeData);
         if (isEditing === false) {
             restApi.employeeCreate(payload).then((e) => {
                 message.success("data successfully inserted");
@@ -177,7 +176,6 @@ const EmployeeCreate = () => {
             restApi.postEmployeeDetailsByID(payload, id).then((e) => message.success("data successfully inserted")).catch((e) => message.error("data is not inserted"));
             navigate(`/employee/search`)
         }
-
     }
 
     const items = steps.map((item) => ({key: item.title, title: item.title}));

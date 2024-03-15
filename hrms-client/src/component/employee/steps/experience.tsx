@@ -83,7 +83,7 @@ const Experience = () =>{
                 </Form.Item>
 
 
-                <Form.List name="previousExperiences">
+                <Form.List name="experiences">
                     {(fields, { add, remove }) => (
                         <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
                             {fields.map((field) => (
