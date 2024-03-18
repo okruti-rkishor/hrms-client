@@ -19,6 +19,76 @@
         &-sidebar {
             min-width: 250px;
         }
+
+        .ant-card.ant-card-bordered {
+            width: 100%;
+        }
+
+        .previous-experience-detail {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .permanent-address {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around !important;
+        }
+
+        .detail-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            span {
+                padding: 5px;
+            }
+        }
+
+        .logo {
+            width: 24px;
+            height: 24px
+        }
+
+        .details {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+
+            .detail-column {
+                display: flex;
+                flex-direction: column;
+            }
+
+            span {
+                padding: 10px;
+            }
+        }
+
+        .root-page-header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin: 40px;
+        }
+
+        .employee-image {
+            width: 200px;
+            height: 220px;
+        }
+
+        .family-detail {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+
+            .family-detail-box {
+                border: 1px;
+                display: flex;
+                flex-direction: column;
+            }
+        }
     }
 
     &__avatar.ant-avatar-icon {
@@ -66,11 +136,21 @@
     }
 
     &__tabs.ant-tabs {
-
+        .ant-tabs-nav {
+            min-width: 250px;
+        }
 
         .ant-tabs-tab {
             @include poppins-regular();
-            padding: 0 0 12px 0;
+            padding: 16px 0 16px 24px;
+
+            //&:hover {
+            //    background-color: $hrms-cards-bg-60;
+            //}
+
+            &-active {
+                background-color: $hrms-cards-bg-60;
+            }
         }
 
         .ant-tabs-tab-icon {
@@ -82,16 +162,24 @@
         }
     }
 
+    &__tabs-card {
+        > .ant-card-body {
+            padding: 0;
+        }
+
+        .ant-tabs-content-holder {
+            padding: 24px 0;
+        }
+    }
+
     .ant-space-item:first-child {
         width: unset;
     }
 
     .sections {
-        margin: 0px;
-        padding: 0px;
+        margin: 0;
+        padding: 0;
         text-align: left;
-        // width: 90%;
-        // margin: auto;
 
         .personal-display {
             display: flex !important;
@@ -109,17 +197,14 @@
         justify-content: left;
         gap: 20px;
 
-        // flex-direction: column;
         .fixed-box {
             width: 360px;
             border: 2px ridge;
             border-radius: 10px;
             min-height: 300px;
             background-color: #f8ffff;
-            margin: 10px 0px;
+            margin: 10px 0;
         }
-
-        // margin-top: 65px;
     }
 
     .location-logo {
@@ -127,110 +212,3 @@
         width: 14px;
     }
 }
-
-
-.details {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-
-    .detail-column {
-        display: flex;
-        flex-direction: column;
-    }
-
-    span {
-        padding: 10px;
-    }
-}
-
-.root-page-header {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    margin: 40px;
-}
-
-.employee-image {
-    width: 200px;
-    height: 220px;
-}
-
-.family-detail {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-
-    .family-detail-box {
-        border: "1px";
-        display: "flex";
-        flex-direction: "column";
-
-    }
-}
-
-.family-detail-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 10px;
-    // border: 2px;
-    // border-style: ridge;
-
-    span {
-        padding: 5px;
-    }
-}
-
-// .previous-experience-detail-container {}
-
-
-.previous-experience-detail {
-    display: flex;
-    flex-direction: column;
-    justify-content: "space-around",
-}
-
-.permanent-address {
-    display: "flex";
-    flex-direction: "column";
-    justify-content: "space-around !import",
-
-}
-
-.detail-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    padding: 10px;
-
-    span {
-        padding: 5px;
-    }
-
-
-}
-
-.logo {
-    width: 24px;
-    height: 24px
-}
-
-.previous-experience-detail-container{
-    display: flex;
-    flex-direction: column;
-}
-
-
-:where(.css-dev-only-do-not-override-dkbvqv).ant-divider-horizontal {
-    display: flex;
-    clear: both;
-    width: 100%;
-    min-width: 100%;
-    margin: 10px 0;
-}
-
-.permanent-address-container{
-    background: $hrms-blue-50;
-}
-

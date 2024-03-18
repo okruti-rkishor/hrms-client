@@ -13,6 +13,7 @@ import {
   MailTwoTone,
   PhoneTwoTone
 } from "@ant-design/icons/lib";
+import {PageHeader} from "@ant-design/pro-layout";
 
 
 const data = {
@@ -164,6 +165,7 @@ const EmployeeDetailComponent = () => {
       name: "About",
       element: (
           <Flex vertical={true} gap={20}>
+            <PageHeader className="employee-details__page-header" title='Basic Details'/>
             <Flex vertical>
               <h3>About</h3>
               <span>
@@ -187,73 +189,47 @@ const EmployeeDetailComponent = () => {
     {
       name: "Family Details",
       element: (
-        <div className="family-detail">
-          {(employeeData?.familyDetails ?? 0) &&
-            employeeData?.familyDetails.map((familydetail: any) => (
-              <Card
-                key={familydetail.relationType}
-                className="family-detail-card"
-                style={{ width: "fit-content" }}
-              >
-                {familydetail.relationType === "Mother" && (
-                  <Divider>
-                    <img className="logo"/>
-                    Mother
-                  </Divider>
-                )}
-                {familydetail.relationType === "Father" && (
-                  <Divider>
-                    <img className="logo"
-                         alt="..."
-                         src="https://img.freepik.com/premium-vector/father-family-memeber-avatar-vector-illustration-design_24877-15519.jpg"
-                    />
-                    Father
-                  </Divider>
-                )}
-                {familydetail.relationType === "Spouse" && (
-                  <Divider>
-                    <img
-                      className="logo"
-                      src="https://e7.pngegg.com/pngimages/661/846/png-clipart-happiness-husband-wife-marriage-hug-couple-love-couple-thumbnail.png"
-                      alt="..."
-                    />
-                    Spouse
-                  </Divider>
-                )}
-                <Flex vertical>
-                  <Flex justify="space-between">
-                    <span>Relation with Employee:</span>
-                    <span>{familydetail.relationType}</span>
-                  </Flex>
-                  <Flex justify="space-between">
-                    <span>Name: </span>
-                    <span>{familydetail.name}</span>
-                  </Flex>
-                  <Flex justify="space-between">
-                    <span>Mobile Number : </span>
-                    <span>{familydetail.mobileNumber}</span>
-                  </Flex>
-                </Flex>
-              </Card>
-            ))}
-        </div>
+          <section>
+            <PageHeader className="employee-details__page-header" title='Family Details'/>
+            <div className="family-detail">
+              {(employeeData?.familyDetails ?? 0) &&
+                employeeData?.familyDetails.map((familydetail: any) => (
+                  <Card key={familydetail.relationType}
+                        className="family-detail-card"
+                  >
+                    <Divider>{familydetail.relationType??familydetail.relationType}</Divider>
+                    <Flex vertical>
+                      <Flex justify="space-between">
+                        <span>Relation with Employee:</span>
+                        <span>{familydetail.relationType}</span>
+                      </Flex>
+                      <Flex justify="space-between">
+                        <span>Name: </span>
+                        <span>{familydetail.name}</span>
+                      </Flex>
+                      <Flex justify="space-between">
+                        <span>Mobile Number : </span>
+                        <span>{familydetail.mobileNumber}</span>
+                      </Flex>
+                    </Flex>
+                  </Card>
+                ))}
+            </div>
+          </section>
       ),
     },
     {
       name: "Previous Experiences",
       element: (
         <div className="previous-experience-detail-container">
+          <PageHeader className="employee-details__page-header" title='Previous Experience'/>
           <div style={{ display: "flex" }}>
             {employeeData.previousExperiences &&
               employeeData.previousExperiences.map((item: any) => {
                 return (
                   <div className="detail-card">
                     <Space direction="vertical" size={16}>
-                      <Card
-                        title={item?.employerName}
-                        // extra={<a href="#">More</a>}
-                        style={{ width: 300 }}
-                      >
+                      <Card title={item?.employerName}>
                         <Flex vertical justify="flex-start">
                           <Flex justify="space-between">
                             <span>Total Experience:</span>
@@ -297,7 +273,7 @@ const EmployeeDetailComponent = () => {
       name: "Address",
       element: (
         <Flex gap={"large"}>
-          {/* <div className="detail-card"> */}
+          <PageHeader className="employee-details__page-header" title='Address Details'/>
           <Card
             className="permanent-address-container"
             extra={
@@ -400,6 +376,7 @@ const EmployeeDetailComponent = () => {
       name: "Bank Details",
       element: (
         <div className="personal-detail">
+          <PageHeader className="employee-details__page-header" title='Bank Details'/>
           <Card
             style={{ padding: "20px", width: "fit-content" }}
             extra={
@@ -464,14 +441,10 @@ const EmployeeDetailComponent = () => {
       name: "Documents",
       element: (
         <Flex className="documents-detail card" gap={20}>
+          <PageHeader className="employee-details__page-header" title='Document Details'/>
           {employeeData.documents?.map((item: any) => (
             <>
-              <Card
-                key={item.documentNumber}
-                title={removeUnderScore(item.documentType, "_")}
-                // extra={<a href="#">Show</a>}
-                style={{ width: 300 }}
-              >
+              <Card key={item.documentNumber} title={removeUnderScore(item.documentType, "_")}>
                 <Flex vertical gap={10}>
                   <span>
                     Document Number:{" "}
@@ -583,41 +556,43 @@ const EmployeeDetailComponent = () => {
           </Card>
           <br/>
           <Flex className='employee-details__section'>
-            <Card>
-              <div className='employee-details__section-sidebar'>
-                <div className="detail-column">
-                    <span style={{ display: "flex" }}>
-                      <img className="logo"
-                           alt="..."
-                           src="https://w7.pngwing.com/pngs/503/524/png-transparent-1st-anniversary-logo-wedding-anniversary-wedding-invitation-party-first-anniversary-holidays-text-wedding-thumbnail.png"
-                      />
-                      Working Anniversary: <br /> {employeeData.joiningDate}
-                    </span>
-                  {/* <span>Personal Email: <br /> {employeeData.email}</span> */}
-                  <span style={{ display: "flex" }}>
-                    Highest Qualification: <br /> {employeeData.qualification}
-                    </span>
-                  <span>Total Experience: <br /> {employeeData.totalExperience}</span>
-                  {/* <span>Mobile Number: <br /> {employeeData.contact}</span> */}
-                </div>
-                <div className="detail-column">
-                    <span style={{ display: "flex" }}>
-                      <img className="logo"
-                           alt="..."
-                           src="https://static.vecteezy.com/system/resources/previews/013/366/641/original/birthday-cake-silhouette-for-icon-symbol-pictogram-apps-website-art-illustration-logo-or-graphic-design-element-format-png.png"
-                      />
-                      Birthday: <br /> {employeeData.dateOfBirth}
-                    </span>
-                  <span>Gender: <br /> {employeeData.gender}</span>
-                  <span>Age: <br /> {employeeData.age}</span>
-                  <span>Blood Group: <br />{" "}{removeUnderScore(employeeData.bloodGroup, "_")}</span>
-                </div>
-              </div>
-            </Card>
-            <Card>
+            {/*Work Anniversay & Birthday Section*/}
+            {/*<Card>*/}
+            {/*  <div className='employee-details__section-sidebar'>*/}
+            {/*    <div className="detail-column">*/}
+            {/*        <span style={{ display: "flex" }}>*/}
+            {/*          <img className="logo"*/}
+            {/*               alt="..."*/}
+            {/*               src="https://w7.pngwing.com/pngs/503/524/png-transparent-1st-anniversary-logo-wedding-anniversary-wedding-invitation-party-first-anniversary-holidays-text-wedding-thumbnail.png"*/}
+            {/*          />*/}
+            {/*          Working Anniversary: <br /> {employeeData.joiningDate}*/}
+            {/*        </span>*/}
+            {/*      /!* <span>Personal Email: <br /> {employeeData.email}</span> *!/*/}
+            {/*      <span style={{ display: "flex" }}>*/}
+            {/*        Highest Qualification: <br /> {employeeData.qualification}*/}
+            {/*        </span>*/}
+            {/*      <span>Total Experience: <br /> {employeeData.totalExperience}</span>*/}
+            {/*      /!* <span>Mobile Number: <br /> {employeeData.contact}</span> *!/*/}
+            {/*    </div>*/}
+            {/*    <div className="detail-column">*/}
+            {/*        <span style={{ display: "flex" }}>*/}
+            {/*          <img className="logo"*/}
+            {/*               alt="..."*/}
+            {/*               src="https://static.vecteezy.com/system/resources/previews/013/366/641/original/birthday-cake-silhouette-for-icon-symbol-pictogram-apps-website-art-illustration-logo-or-graphic-design-element-format-png.png"*/}
+            {/*          />*/}
+            {/*          Birthday: <br /> {employeeData.dateOfBirth}*/}
+            {/*        </span>*/}
+            {/*      <span>Gender: <br /> {employeeData.gender}</span>*/}
+            {/*      <span>Age: <br /> {employeeData.age}</span>*/}
+            {/*      <span>Blood Group: <br />{" "}{removeUnderScore(employeeData.bloodGroup, "_")}</span>*/}
+            {/*    </div>*/}
+            {/*  </div>*/}
+            {/*</Card>*/}
+            <Card className='employee-details__tabs-card'>
               <Flex>
                 <Tabs className='employee-details__tabs'
                       defaultActiveKey="2"
+                      tabPosition="left"
                       items={sections.map((item, i) => {
                         const id = String(i + 1);
                         return {
