@@ -72,7 +72,7 @@ const Experience = ({tempEnum}:any) =>{
                 >
                     <Select>
                         {tempEnum.designationEnum.map((item:any) =>
-                            <Select.Option value={item.code} key={item.code}
+                            <Select.Option value={item.code} key={item.description}
                                            style={{height:"40px",textAlign:"center"}}
                             >
                                 {item.description}
