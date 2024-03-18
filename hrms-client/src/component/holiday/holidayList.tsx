@@ -25,7 +25,7 @@ import rest from "../../services/http/api";
 import UserLoginContext from "../../context/userLoginContext";
 import { AudioOutlined } from "@ant-design/icons";
 import { Input } from "antd";
-
+import Search from "antd/es/input/Search";
 
 export const capitalToSmall = (str: string) => {
   let tempStr = str.toLowerCase();
@@ -53,10 +53,13 @@ const success = () => {
   message.success("Holiday Delete Successful!");
 };
 
+const mockVal = (str: string, repeat = 1) => ({
+  value: str.repeat(repeat),
+});
+
 const HolidayList = ({ addData }: any) => {
   const [dataArray, setDataArray] = useState([{}]);
   const [showCalendar, setShowCalendar] = useState(false);
-  // const [options, setOptions] = useState<DefaultOptionType[]>([]);
   const { newUser } = useContext(UserLoginContext);
 
   const column = [
@@ -94,7 +97,27 @@ const HolidayList = ({ addData }: any) => {
           })}
         </span>
       ),
+      // filters: [
+      //   {
+      //     text: 'January',
+      //     value: '0',
+      //   },
+      //   {
+      //     text: 'February',
+      //     value: '1',
+      //   },
+      //   {
+      //     text: 'March',
+      //     value: '2',
+      //   },
+      //   {
+      //     text: 'April',
+      //     value: '3',
+      //   },
+      // ],
+      // onFilter: (value: string, record:any) => record.address.indexOf(value) === 0,
     },
+      
     {
       title: "Leaves",
       dataIndex: "count",
@@ -132,7 +155,7 @@ const HolidayList = ({ addData }: any) => {
               deleteHandel(record);
             }}
           >
-            <DeleteOutlined style={{color:"red"}}/>
+            <DeleteOutlined style={{ color: "red" }} />
           </Popconfirm>
         </Space>
       ),
@@ -146,9 +169,7 @@ const HolidayList = ({ addData }: any) => {
   const deleteHandel = async (record: any) => {
     try {
       await rest.deleteHoliday(record.id);
-      // toast.success("Holiday Delete Successful",{autoClose: 800});
       setDataArray(dataArray.filter((item: any) => item.id !== record.id));
-      // <ToastContainer />
       success();
     } catch (error) {
       console.log(error);
@@ -164,11 +185,10 @@ const HolidayList = ({ addData }: any) => {
             item.calender.endDate.split("-")[2] -
             item.calender.startDate.split("-")[2] +
             1;
-          console.log();
           return {
             ...item.calender,
             id: item.id,
-            name:capitalToSmall(item.calender.name),
+            name: capitalToSmall(item.calender.name),
             date: [item.calender.startDate, item.calender.endDate],
             day: capitalToSmall(item.calender.day),
             type: removeUnderScore(item.calender.type, "_"),
@@ -182,7 +202,6 @@ const HolidayList = ({ addData }: any) => {
       return response;
     } catch (error) {
       console.log("error console", error);
-      // console.warn(error);
     }
   };
 
@@ -198,6 +217,14 @@ const HolidayList = ({ addData }: any) => {
   //     return dataArray.map<any>((item: any) => item.name.includes(value));
   //   });
   // };
+  const onSearch = (e:any) => {
+    const searchedKeyword = e.currentTarget.value as string
+    if(searchedKeyword === ''){
+      fetchHolidayData();
+    }else{
+      setDataArray(dataArray.filter((item:any)=>item.name.toLowerCase().includes(searchedKeyword.toLowerCase())))
+    }
+  };
 
   return (
     <Layout className="with-background">
@@ -210,17 +237,7 @@ const HolidayList = ({ addData }: any) => {
             />
             <Divider style={{ width: "80%", minWidth: "unset" }} />
             <Flex style={{ marginLeft: "auto" }}>
-              {/* <Search placeholder="input search text" onSearch={onSearch} style={{padding:"0px 10px", width: 150, height:"20px" }} /> */}
-              {/* <AutoComplete
-                style={{ width: 200 }}
-                options={dataArray.map((item:any)=>item.name)}
-                placeholder="Holiday Name"
-                filterOption={(inputValue, option) =>
-                  option!.value
-                    .toUpperCase()
-                    .indexOf(inputValue.toUpperCase()) !== -1
-                }
-              /> */}
+              <Search placeholder="input search text" onChange={onSearch} onSearch={onSearch} style={{ width: 200, padding: "5px 10px" }} />
               {showCalendar ? (
                 <div style={{ fontSize: "25px" }}>
                   <ConfigProvider

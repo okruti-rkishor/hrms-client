@@ -121,6 +121,14 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
                                 length=length+1;
                                 return current < dayjs().endOf('day') || totalHoliday.findIndex((item:any)=>dayjs(current).format("YYYY-MM-DD")===item)!==-1;
                             }}
+
+                            // disabledDate={(current: any) => {
+                            //     // return totalHoliday.map((item: any) => {
+                            //     //     if(item === dayjs(current).format("YYYY-MM-DD"))return true;
+                            //     //     else return false;
+                            //     // });
+                            // }}
+
                         />
                     </Form.Item>
 

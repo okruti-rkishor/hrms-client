@@ -6,9 +6,13 @@ import rest from "../../services/http/api/index";
 import { jwtDecode } from "jwt-decode";
 import UserLoginContext from "../../context/userLoginContext";
 
-type emailInputValueType = {
+export type emailInputValueType = {
   email?: string;
   password?: string;
+};
+export type SaveToken = {
+  loginToken: string;
+  expiration: number;
 };
 
 export default function Login() {
@@ -30,12 +34,16 @@ export default function Login() {
           const userLoginData = await rest.userLoginDetail(values.email);
           const userCardData = { ...userLoginData, loginStatus: true };
           setNewUser(userCardData);
-          navigate("/");
+          navigate("/user/detail");
           decoded = jwtDecode(token);
-          // setDecodeToken(decoded);
-          localStorage.setItem("loginToken", JSON.stringify(token));
+          console.log("Error decoding JWT:", decoded);
+          const saveToken:SaveToken = {
+            loginToken:(token),
+            expiration: (new Date().getTime() + 15 * 60 * 1000)
+          }
+          localStorage.setItem("loginToken", JSON.stringify(saveToken));
         } catch (error: any) {
-          console.error("Error decoding JWT:", error.message);
+          console.log("Error decoding JWT:", error.message);
         }
       } else {
         navigate("/login");

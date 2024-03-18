@@ -9,6 +9,7 @@ import React, {
 import { jwtDecode } from "jwt-decode";
 import rest from '../services/http/api'
 // import { useNavigate } from "react-router-dom";
+import { SaveToken } from "../component/login/login";
 
 
 export interface UserLoginInterface {
@@ -52,8 +53,8 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
   function tokenToUserData(){
     const tempToken:any = localStorage.getItem("loginToken");
     if(localStorage.getItem("loginToken")){
-      const token:any = (tempToken);
-      const decoded = jwtDecode(token);
+      const token:any = JSON.parse(tempToken);
+      const decoded = jwtDecode(token.loginToken);
         rest.userLoginDetail(decoded.sub).then((data:any)=>{
           data.loginStatus = true 
           setNewUser(data)

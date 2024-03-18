@@ -15,7 +15,7 @@ const HeaderComponent = () => {
     return (
         <Header>
             <div className='header-section'>
-                <Link to='/'>
+                <Link to='/user/detail'>
                     <h1 style={{color: "white", textAlign: 'left'}}>HRMS</h1>
                 </Link>
                 <Navbar/>
