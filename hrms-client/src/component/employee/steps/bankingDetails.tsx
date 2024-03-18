@@ -6,7 +6,7 @@ const BankingDeatils=()=>{
     return (
         <>
             <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
-                <Form.List name="bankDetails" initialValue={[{}]}>
+                <Form.List name="bankDetail" initialValue={[{}]}>
                     {(fields) => (
                         <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
                             {fields.map((field) => (

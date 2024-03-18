@@ -3,7 +3,7 @@ import {Designation, Type_Time} from "../../../constant/constant";
 import React from "react";
 import {CloseOutlined} from "@ant-design/icons/lib";
 
-const Experience = () =>{
+const Experience = ({tempEnum}:any) =>{
     const { RangePicker } = DatePicker;
     const options: SelectProps['options'] = [
         {
@@ -39,7 +39,6 @@ const Experience = () =>{
     ];
 
 
-
     return(
         <>
             <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"Experience employee-create-inputs"}>
@@ -72,11 +71,11 @@ const Experience = () =>{
                            }]}
                 >
                     <Select>
-                        {(Object.keys(Designation) as Array<keyof typeof Designation>).map((key) =>
-                            <Select.Option value={key} key={key}
+                        {tempEnum.designationEnum.map((item:any) =>
+                            <Select.Option value={item.code} key={item.code}
                                            style={{height:"40px",textAlign:"center"}}
                             >
-                                {Designation[key]}
+                                {item.description}
                             </Select.Option>
                         )}
                     </Select>

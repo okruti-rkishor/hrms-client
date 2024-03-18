@@ -54,10 +54,7 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
             }
         }
 
-        values.date.forEach((item: any) => {
-            setTotalHoliday([...totalHoliday,dayjs(item).format("YYYY-MM-DD")]);
-        });
-
+        values.date.forEach((item:any)=>setTotalHoliday((prev:any)=>[...prev,dayjs(item).format("YYYY-MM-DD")]));
 
         if (values.date.length > 1) {
             payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
