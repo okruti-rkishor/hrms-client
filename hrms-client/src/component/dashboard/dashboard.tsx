@@ -115,10 +115,6 @@ const Dashboard = () => {
                         text: "Attendance Summary Report",
                         target: "/user/create",
                     },
-                    {
-                        text: "Manual OT/HOT",
-                        target: "/user/create",
-                    },
                 ]
             },
             {
@@ -192,25 +188,26 @@ const Dashboard = () => {
     return (
         <Layout className='hrms-dashboard'>
             <div className='hrms-dashboard__container'>
-                <DashboardChart/>
-                <br/>
-                <section className='hrms-dashboard__quick-links'>
-                    <Divider orientation="left">
-                        <PageHeader className="hrms-dashboard__page-header" title="Bring Employees in to your HRMS" />
-                    </Divider>
-                    <div style={{display:'flex', gap:'16px'}}>
-                        {dashboardQuickLinks.admin.map((cards: any) => (
-                            <Card className='hrms-dashboard__card-animated hrms-card'
-                                  onClick={() => navigate(`${cards.target}`)}
-                            >
-                                <Flex vertical>
-                                    {cards.icon}
-                                    <Divider/>
-                                    {cards.heading}
-                                </Flex>
-                            </Card>
-                        ))}
-                    </div>
+                <section className='hrms-dashboard__chart-and-links'>
+                    <section className='hrms-dashboard__quick-links'>
+                        <Divider orientation="left">
+                            <PageHeader className="hrms-dashboard__page-header" title="Bring Employees in to your HRMS" />
+                        </Divider>
+                        <div style={{display:'flex', gap:'16px'}}>
+                            {dashboardQuickLinks.admin.map((cards: any) => (
+                                <Card className='hrms-dashboard__card animated hrms-card'
+                                      onClick={() => navigate(`${cards.target}`)}
+                                >
+                                    <Flex vertical>
+                                        {cards.icon}
+                                        <Divider/>
+                                        {cards.heading}
+                                    </Flex>
+                                </Card>
+                            ))}
+                        </div>
+                    </section>
+                    <DashboardChart/>
                 </section>
                 <br/>
                 <div className='hrms-dashboard__report'>

@@ -37,8 +37,8 @@ const App = () => (
     <Routes>
     <Route path="/" element={<Login />} />
       <Route element={<LayoutComponent />}>
-        
-        {/* <Route path="/home" element={<Login/>}/> */}
+
+         <Route path="/home" element={<Home/>}/>
         <Route
           path="/user/list"
           element={<PrivateRoutes Componant={<UserDataTable />} />}
