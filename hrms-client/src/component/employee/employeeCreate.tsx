@@ -13,7 +13,7 @@ import Document from "./steps/document";
 import Experience from "./steps/experience";
 import {Gender} from "../../constant/constant";
 import {PageHeader} from "@ant-design/pro-layout";
-import {LeftCircleTwoTone, LeftOutlined, RightCircleTwoTone} from "@ant-design/icons/lib";
+import PrevNext from "./prevNext";
 
 
 const EmployeeCreate = () => {
@@ -95,10 +95,9 @@ const EmployeeCreate = () => {
     }
 
     const onChange = (value: any) => {
-        setCurrent(value);
+        // setCurrent(value);
         form.validateFields().then((result: any) => {
             setCurrent(value);
-            console.log(result);
             if (current === 0 && isEditing === false) localStorage.setItem('personalDetail', JSON.stringify(result));
             if (current === 1 && isEditing === false) localStorage.setItem('address', JSON.stringify(result));
             if (current === 2 && isEditing === false) localStorage.setItem('contact', JSON.stringify(result));
@@ -107,13 +106,12 @@ const EmployeeCreate = () => {
                 setEmployeeData({...employeeData, familyDetails: result.familyDetails});
             }
             if (current === 3) {
-                if (isEditing === false) localStorage.setItem('previousExperiences', JSON.stringify(result));
                 setEmployeeData({...employeeData, ...result})
+                if (isEditing === false) localStorage.setItem('previousExperiences', JSON.stringify(result));
             }
             if (current === 5) {
                 if (isEditing === false) localStorage.setItem('bankDetail', JSON.stringify(result));
                 setEmployeeData({...employeeData, bankDetail: result.bankDetail});
-
             }
         }).catch((error: any) => {
             if (current > value) {
@@ -143,7 +141,9 @@ const EmployeeCreate = () => {
             "gender": employeeData.gender,
             "dateOfBirth": employeeData.dateOfBirth,
             "age": employeeData.age,
-            "qualification": employeeData.qualification,
+            "qualification": {
+                code:employeeData.qualification
+            },
             "email": employeeData.email,
             "contact": employeeData.contact,
             "bloodGroup": employeeData.bloodGroup,
@@ -189,7 +189,6 @@ const EmployeeCreate = () => {
         if (id != null) {
             restApi.employeeDetailsByID(id).then((response) => {
                 let docObj: any = {};
-
                 response.documents.map((item: any) => {
                     let customKey = item.documentType;
                     const newDocument: any = {
@@ -206,7 +205,6 @@ const EmployeeCreate = () => {
                 setEmployeeData({
                     ...employeeData,
                     documents: docObj
-
                 })
                 setIsEditing(true);
                 setAge(response.age);
@@ -237,13 +235,14 @@ const EmployeeCreate = () => {
                     let selectedYear = dayjs(storageDetails.dateOfBirth).year();
                     let final = currentYear - selectedYear;
                     setAge(final);
-                    form.setFieldsValue({...storageDetails, dateOfBirth: dayjs(storageDetails.dateOfBirth)});
+                    form.setFieldsValue({...storageDetails, dateOfBirth: dayjs(storageDetails.dateOfBirth),age:final});
                     storageDetails.dateOfBirth = dayjs(storageDetails.dateOfBirth);
+                    storageDetails["age"]=final;
                 } else if (items === "contact") {
                     form.setFieldsValue({...storageDetails, joiningDate: dayjs(storageDetails.joiningDate)});
                     storageDetails.joiningDate = dayjs(storageDetails.joiningDate);
                 } else if (items === "previousExperiences") {
-                    storageDetails.previousExperiences?.forEach((item: any) => {
+                    storageDetails.experiences?.forEach((item: any) => {
                         item.duration[0] = dayjs(item.duration[0]);
                         item.duration[1] = dayjs(item.duration[1]);
                     })
@@ -263,16 +262,23 @@ const EmployeeCreate = () => {
                 tempObj["description"]=item.description;
                 setTempEnum((prevState:any)=>{
                     prevState.designationEnum.push(tempObj);
-                    return prevState;
+                    return {...prevState};
                 })
-
             })
-        }).catch((e) => message.error("data is not inserted"));
-        console.log(tempEnum);
+        }).catch((e) => message.error("enum is not inserted"));
 
-
-
-    }, []);
+        restApi.getEnum(`qualification/all`).then((e) => {
+            e.forEach((item:any)=>{
+                let tempObj:any={};
+                tempObj["code"]=item.code;
+                tempObj["description"]=item.description;
+                setTempEnum((prevState:any)=>{
+                    prevState.qualificationEnum.push(tempObj);
+                    return {...prevState};
+                })
+            })
+        }).catch((e) => message.error("enum is not inserted"));
+        }, []);
 
     return (
         <Layout className='with-background'>
@@ -295,10 +301,8 @@ const EmployeeCreate = () => {
                                       let selectedYear = dayjs(e.dateOfBirth).year();
                                       let final = currentYear - selectedYear;
                                       setAge(final);
-                                      //console.log(e.dateOfBirth);
                                       setEmployeeData({...employeeData, dateOfBirth: e.dateOfBirth, age: final});
                                   } else {
-                                      //console.log(e);
                                       setEmployeeData({...employeeData, ...e})
                                   }
                               }
@@ -307,85 +311,33 @@ const EmployeeCreate = () => {
                           className='employee-create-form'
                     >
                         {current === 0 && (<>
-                            <PersonalDetails age={age}/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)} disabled={current === 0}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-                            </div>
+                            <PersonalDetails age={age} tempEnum={tempEnum}/>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 1 && (<>
                             <Address/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-                            </div>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 2 && (<>
                             <Contact/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-
-                            </div>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 3 && (<>
                             <Experience tempEnum={tempEnum}/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-
-                            </div>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 4 && (<>
                             <FamilyDetail/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-
-                            </div>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 5 && (<>
                             <BankingDeatils/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-                            </div>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 6 && (<>
                             <Document employeeData={employeeData} setEmployeeData={setEmployeeData}
                                       isEditing={isEditing}/>
-                            <div className={"prev_next"}>
-                                <Button onClick={() => onChange(current - 1)}>
-                                    <LeftCircleTwoTone className={"icon"}/>
-                                </Button>
-                                <Button onClick={() => onChange(current + 1)} disabled={current === 6}>
-                                    <RightCircleTwoTone className={"icon"}/>
-                                </Button>
-                            </div>
+                            <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 6 && (<>
                             <Form.Item>

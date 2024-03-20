@@ -41,6 +41,10 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
     const [form] = Form.useForm();
     let length=0;
 
+    const formatDate =(date:any)=>{
+        return dayjs(date).format("YYYY-MM-DD")
+    }
+
     const onFinish = (values: any) => {
         let payload: any = {
             "year": year,
@@ -54,16 +58,14 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
             }
         }
 
-        values.date.forEach((item:any)=>setTotalHoliday((prev:any)=>[...prev,dayjs(item).format("YYYY-MM-DD")]));
+        values.date.forEach((item:any)=>setTotalHoliday((prev:any)=>[...prev,formatDate(item)]));
 
         if (values.date.length > 1) {
-            payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
-            payload.calender.endDate = dayjs(values.date[values.date.length - 1]).format("YYYY-MM-DD");
-            //values.date.forEach((item:any)=>setTotalHoliday([...totalHoliday,dayjs(item).format("YYYY-MM-DD")]))
+            payload.calender.startDate = formatDate(values.date[0]);
+            payload.calender.endDate = formatDate(values.date[values.date.length - 1]);
         } else {
-            payload.calender.startDate = dayjs(values.date[0]).format("YYYY-MM-DD");
-            payload.calender.endDate = dayjs(values.date[0]).format("YYYY-MM-DD");
-            //setTotalHoliday([...totalHoliday,dayjs(values.date[0]).format("YYYY-MM-DD")]);
+            payload.calender.startDate = formatDate(values.date[0]);
+            payload.calender.endDate = formatDate(values.date[0]);
         }
         restApi.holidayCreate(payload).then((e) => {
             const {calender} = payload;
@@ -90,6 +92,37 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
         return daysOfWeek[dayIndex];
     };
 
+    const evenOdd = (date:any) =>{
+        return date%2===0?30:31;
+    }
+
+
+    useEffect(()=>{
+
+        restApi.getAllHoliday().then((response)=> {
+            response.forEach((item:any)=>{
+                if(item.calender.startDate===item.calender.endDate){
+                    setTotalHoliday((prev:any)=>[...prev,formatDate(item.calender.startDate)]);
+                }else{
+                    let date=new Date(item.calender.startDate);
+                    date.setDate(date.getDate()+1);
+                    console.log(date);
+
+
+                }
+
+
+
+
+            })
+
+
+        }).catch((e)=>console.log(e));
+
+
+
+        },[])
+
 
     return (
         <Form layout="inline"
@@ -114,9 +147,7 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
                             minDate={dayjs(new Date(new Date().getFullYear(), 0, 1).toString(), "YYYY-MM-DD")}
                             maxDate={dayjs(new Date(new Date().getFullYear(), 12, 1).toString(), "YYYY-MM-DD")}
                             disabledDate={(current: any) => {
-                                console.log(length,dayjs(current).format("YYYY-MM-DD"));
-                                length=length+1;
-                                return current < dayjs().endOf('day') || totalHoliday.findIndex((item:any)=>dayjs(current).format("YYYY-MM-DD")===item)!==-1;
+                                return totalHoliday.findIndex((item:any)=>dayjs(current).format("YYYY-MM-DD")===item)!==-1;
                             }}
 
                             // disabledDate={(current: any) => {
@@ -251,6 +282,7 @@ function HolidayCreate() {
     const {newUser} = useContext(UserLoginContext);
 
     useEffect(() => {
+        console.log("2222");
         if (
             newUser?.roles &&
             newUser.roles.length <= 1 &&
@@ -260,6 +292,7 @@ function HolidayCreate() {
         } else if (newUser && newUser.roles.length >= 1) {
             setShowAddHolidayStatus(true);
         }
+
     }, [newUser]);
 
     return (

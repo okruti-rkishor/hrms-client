@@ -1,9 +1,12 @@
 import {DatePicker, Form, Input, Radio, Select} from "antd";
-import {Blood_Group, Gender} from "../../../constant/constant";
+import {Blood_Group, Designation, Gender} from "../../../constant/constant";
 import React from "react";
 
 
-const PersonalDetails = ({age,tempEnum}: any) => {
+const PersonalDetails = (props: any) => {
+    let age=props.age;
+    let qualificationEnum=props.tempEnum.qualificationEnum;
+    console.log(qualificationEnum.map((item:any)=>item));
     return (
         <>
             <div style={{display: "flex", flexDirection: "column", marginTop: "35px", gap: "30px"}}
@@ -131,28 +134,18 @@ const PersonalDetails = ({age,tempEnum}: any) => {
 
                 <Form.Item label="Qualification"
                            name={"qualification"}
-                           rules={[
-                               {
-                                   required: true,
-                                   message: "Please enter Qualification",
-                               },
-                               () => ({
-                                   validator(_, value) {
-                                       if (!value) {
-                                           return Promise.reject();
-                                       }
-                                       if (!isNaN(value)) {
-                                           return Promise.reject("Qulification should be text.");
-                                       }
-                                       return Promise.resolve();
-                                   },
-                               }),
-                           ]}
                 >
-                    <Input required={true} style={{height: "40px"}}/>
+                    <Select>
+                            {qualificationEnum.map((item: any) =>
+                                <Select.Option value={item.code} key={item.description}
+                                               style={{height: "40px", textAlign: "center"}}
+                                >
+                                    {item.description}
+                                </Select.Option>
+                            )}
+                        </Select>
+
                 </Form.Item>
-
-
             </div>
         </>
     )
