@@ -105,8 +105,8 @@ const HolidayCreateForm = ({year, isFormDisabled, holidayData, setHolidayData}: 
                     setTotalHoliday((prev:any)=>[...prev,formatDate(item.calender.startDate)]);
                 }else{
                     let date=new Date(item.calender.startDate);
-                    date.setDate(date.getDate()+1);
-                    console.log(date);
+                    date.setDate(date.getDate());
+
 
 
                 }
