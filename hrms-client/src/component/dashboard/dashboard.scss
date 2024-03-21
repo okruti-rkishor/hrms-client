@@ -8,6 +8,26 @@
   margin: 40px 0;
   padding: 0 60px;
 
+  &__page-header {
+    position: relative;
+    text-align: left;
+    padding-bottom: 10px;
+    margin-bottom: 30px !important;
+    border-bottom: 1px solid $hrms-gray-20;
+
+    &:after {
+      content: "";
+      background-color: $hrms-blue-70;
+      width: 50px;
+      height: 4px;
+      border-radius: 6px;
+      display: block;
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+    }
+  }
+
   &__chart {
     width: 200px;
     text-align: center;
@@ -18,25 +38,19 @@
   }
 
   &__quick-links {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    @include flex-col;
   }
 
   &__card {
     @include poppins-s;
     text-align: left;
     min-width: 430px;
-    border: 1px solid #dee2e6;
+    border: 1px solid $hrms-gray-20;
 
     .anticon {
       svg {
-        font-size: $hrms-font-size-l;
+        font-size: $hrms-font-size-ml;
       }
-    }
-
-    &-title {
-      margin-bottom: unset;
     }
 
     &-links {
@@ -54,6 +68,14 @@
       &:hover {
         //color: $hrms-blue-80;
         //cursor: pointer;
+      }
+    }
+
+    &-header {
+      align-items: center;
+
+      &-title {
+        margin-bottom: unset !important;
       }
     }
 
@@ -95,6 +117,17 @@
       flex-direction: row;
       gap: 20px;
       flex-wrap: wrap;
+    }
+
+    .anticon {
+      padding: 8px;
+      background-color: #FAF1E1;
+      //background-color: $hrms-blue-70;
+      border-radius: 50%;
+
+      svg {
+        //fill: $hrms-white;
+      }
     }
   }
 }

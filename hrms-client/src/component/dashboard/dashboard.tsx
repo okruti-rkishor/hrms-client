@@ -190,9 +190,7 @@ const Dashboard = () => {
             <div className='hrms-dashboard__container'>
                 <section className='hrms-dashboard__chart-and-links'>
                     <section className='hrms-dashboard__quick-links'>
-                        <Divider orientation="left">
-                            <PageHeader className="hrms-dashboard__page-header" title="Bring Employees in to your HRMS" />
-                        </Divider>
+                        <Title level={4} className='hrms-dashboard__page-header'>Bring Employees in to your HRMS</Title>
                         <div style={{display:'flex', gap:'16px'}}>
                             {dashboardQuickLinks.admin.map((cards: any) => (
                                 <Card className='hrms-dashboard__card animated hrms-card'
@@ -211,14 +209,12 @@ const Dashboard = () => {
                 </section>
                 <br/>
                 <div className='hrms-dashboard__report'>
-                    <Divider orientation="left">
-                        <PageHeader className="hrms-dashboard__page-header" title="Administration & Reports" />
-                    </Divider>
+                    <Title level={4} className='hrms-dashboard__page-header'>Administration & Reports</Title>
                     <div className='hrms-dashboard__report-links'>
                         {dashboardCardItems.admin.map((cards: any) => (
                             <Card className='hrms-dashboard__card hrms-card'>
-                                <Flex justify='space-between'>
-                                    <Title level={5} className='hrms-dashboard__card-title'>{cards.heading}</Title>
+                                <Flex justify='space-between' className='hrms-dashboard__card-header'>
+                                    <Title level={5} className='hrms-dashboard__card-header-title'>{cards.heading}</Title>
                                     {cards.icon}
                                 </Flex>
                                 <ul className='hrms-dashboard__card-links'>
