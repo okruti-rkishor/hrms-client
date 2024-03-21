@@ -87,7 +87,7 @@ const TempFile: React.FC = () => {
 
     const usersData = async () => {
         try {
-            const response = await restApi.allUsersData();
+            const response = await restApi.getUsers(String(navigatedUser.get('userTitle')).toLocaleUpperCase());
             const newResponse = response.map((item: any) => {
                 return {
                     ...item, email: ((item.email).toLowerCase())
@@ -175,20 +175,21 @@ const TempFile: React.FC = () => {
         {
             title: 'Role',
             dataIndex: 'roles',
-            filters: [
-                {
-                    text: 'Admin',
-                    value: 'ADMIN',
-                },
-                {
-                    text: 'HR',
-                    value: 'HR',
-                },
-                {
-                    text: 'Employee',
-                    value: 'EMPLOYEE',
-                },
-            ],
+            // dataIndex: 'roles',
+            // filters: [
+            //     {
+            //         text: 'Admin',
+            //         value: 'ADMIN',
+            //     },
+            //     {
+            //         text: 'HR',
+            //         value: 'HR',
+            //     },
+            //     {
+            //         text: 'Employee',
+            //         value: 'EMPLOYEE',
+            //     },
+            // ],
             editable: true,
             defaultFilteredValue: getDefaultFilter(),
             onFilter: (value: any, record: any) => {

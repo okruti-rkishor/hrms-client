@@ -1,11 +1,12 @@
 import { Card, Col } from "antd";
+import { useEffect } from "react";
 import CountUp from "react-countup";
 import {useNavigate} from "react-router-dom";
+import rest from '../../../services/http/api'
 
 
 function UserCountCard ({ title = "", count = 0, className = ""}) {
     const navigate = useNavigate();
-
     const handleUserDetailClick = () => {
         navigate(`/user/list?userTitle=${title.toUpperCase()}`);
     };
@@ -25,7 +26,6 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
         </Col>
     );
 }
-
 
 function EventsCountCard ({ title = "", count = 0, className = "", ...props }) {
     const navigate = useNavigate();

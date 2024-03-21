@@ -3,9 +3,11 @@ import {hrms as rest} from "./rest";
 const base = 'api/v1/';
 
 export default {
-    allUsersData:() => rest.get(base + "user/all"),
+    // allUsersData:() => rest.get(base + "user/all"),
     userCount:() => rest.get(base + "user/count-by-role"),
-    userCreate:(data: any) => rest.post(base + "user/register", {}, data),
+    getUsers:(user:string) => rest.get(base + `user/find?role-type=${user}`),
+    getAllUsers:() => rest.get(base + `user`),
+    userCreate:(data: any) => rest.post(base + "user", {}, data),
     userLogin:(data: any) => rest.post(base + "auth/login", {}, data),
     userLogout:(data:any) => rest.post(base + "auth/logout", {}, {},{},{"Authorization":data}),
     userEdit:(data: any, id: string) => rest.put(base + `user/${id}`, {}, data),

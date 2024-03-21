@@ -78,7 +78,7 @@ function RestApi(base:any){
                     throw error;
                 }
             }).catch((error:any) => {
-                console.error(JSON.stringify(error.response.data));
+                console.error(JSON.stringify(error?.response?.data));
                 throw error;
             });
     }

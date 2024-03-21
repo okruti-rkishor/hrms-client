@@ -16,6 +16,7 @@ import "./employeeSearch.scss";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import { PageHeader } from "@ant-design/pro-layout";
+import { removeUnderScore } from "../holiday/holidayList";
 const FormItem = Form.Item;
 
 export interface employeeInterface {
@@ -108,45 +109,32 @@ function EmployeeSearch() {
 
   const onFinish = async (values: any) => {
     let tempFormData = {};
-    let tempResponse: [] = [];
     if (values && values !== undefined) {
-      if (values.name) {
-        tempFormData = { ...tempFormData, name: values.name };
-      }
-      if (values.employeeCode) {
-        tempFormData = { ...tempFormData, employeeCode: values.employeeCode };
-      }
-      if (values.joiningDate) {
-        tempFormData = {
-          ...tempFormData,
-          joiningDate: convert(values.joiningDate),
-        };
-      }
-      if (values.designation) {
-        tempFormData = { ...tempFormData, designation: values.designation };
-      }
-      if (values.contact) {
-        tempFormData = { ...tempFormData, contact: values.contact };
-      }
-      if (values.documentNumber) {
-        tempFormData = {
-          ...tempFormData,
-          documentNumber: values.documentNumber,
-        };
-      }
+      tempFormData = {
+        name: values.name ? values.name : "",
+        employeeCode: values.employeeCode ? values.employeeCode : "",
+        joiningDate: values.joiningDate ? convert(values.joiningDate) : "",
+        designationCode: values.designation ? values.designation : "",
+        contact: values.contact ? values.contact : "",
+        documentNumber: values.documentNumber ? values.documentNumber : "",
+      };
     }
+    let tempResponse: [] = [];
+
     try {
       const response = await rest.employeeSearch(tempFormData);
       tempResponse = response.map((employee: any) => {
         //array of designation's all word
-        let designation = (employee.designation as string).split("_");
+        // let designation = (employee.designation as string).split("_");
+        let formattedDesignation = removeUnderScore(String(employee.designation.code),"_");
         //Uppercase every word's first character
-        designation = designation.map(
-          (nameString: string): string =>
-            nameString.charAt(0).toUpperCase() +
-            nameString.slice(1).toLowerCase()
-        );
-        const formattedDesignation = designation.join(" ");
+        // designation = designation.map(
+        //   (nameString: string): string =>
+        //     nameString.charAt(0).toUpperCase() +
+        //     nameString.slice(1).toLowerCase()
+        // );
+
+        // const formattedDesignation = designation.join(" ");
         return {
           ...employee,
           employeeName: `${employee.name.firstName}${
@@ -200,7 +188,7 @@ function EmployeeSearch() {
                 label={"Designation"}
                 name={"designation"}
                 required={true}
-                initialValue={designation[0]?.code}
+                initialValue={"SENIOR_SOFTWARE_DEVELOPER"}
                 rules={[
                   {
                     required: true,
@@ -209,12 +197,9 @@ function EmployeeSearch() {
                 ]}
               >
                 {/* <Select defaultValue={designation[0]?.code}> */}
-                <Select defaultValue={designation[0]?.code}>
+                <Select>
                   {designation.map((key: DesignationEnum) => (
-                    <Select.Option
-                      key={key.id}
-                      value={key.id}
-                    >
+                    <Select.Option key={key.id} value={key.code}>
                       {key.description}
                     </Select.Option>
                   ))}
@@ -258,11 +243,10 @@ function EmployeeSearch() {
         <hr />
         <div className="search-result-list">
           {showTableStatus !== true ? (
-            <div style={{padding:"40px"}}>
+            <div style={{ padding: "40px" }}>
               Search Result List
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              {/* <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> */}
             </div>
-             
           ) : (
             <EmployeeSearchDataTable employeeResponse={emploreeResponse} />
           )}

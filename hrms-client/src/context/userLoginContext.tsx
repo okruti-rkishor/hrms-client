@@ -8,8 +8,8 @@ import React, {
 } from "react";
 import { jwtDecode } from "jwt-decode";
 import rest from '../services/http/api'
-// import { useNavigate } from "react-router-dom";
-import { SaveToken } from "../component/login/login";
+import { useNavigate } from "react-router-dom";
+
 
 
 export interface UserLoginInterface {
@@ -32,9 +32,7 @@ export interface ProviderDataType extends UserContextType {
 
 const UserLoginContext = createContext<UserContextType>({});
 
-export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({children,}) => {
   const [newUser, setNewUser] = useState<any>({
     loginStatus: false,
     id: "",
@@ -43,6 +41,7 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
     lastName: "",
     roles: [],
   });
+  const navigate  = useNavigate();
   const contextValue: ProviderDataType = {
     newUser,
     setNewUser,
@@ -63,6 +62,7 @@ export const UserLoginContextProvider: React.FC<{ children: ReactNode }> = ({
         })
     }else{
       //navigate login
+      navigate('/login');
       setNewUser({
         loginStatus: false,
         id: "",

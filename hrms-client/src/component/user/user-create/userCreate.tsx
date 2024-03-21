@@ -17,7 +17,11 @@ const UserCreate = (props: any) => {
   const onFinish = async (values: any) => {
     try {
       let payload = values;
-      await restApi.userCreate(values);
+      console.log(payload.employeeId);
+      if (payload.employeeId) {
+        payload.employeeId = null;
+      }
+      await restApi.userCreate(payload);
       success("User created successfully");
       navigate("/");
     } catch (errInfo) {
@@ -83,6 +87,9 @@ const UserCreate = (props: any) => {
               ]}
             >
               <Input placeholder="Enter email-id" />
+            </Form.Item>
+            <Form.Item label="Employee Id" name={"employeeId"}>
+              <Input placeholder="Enter employee-id" />
             </Form.Item>
 
             <Form.Item
