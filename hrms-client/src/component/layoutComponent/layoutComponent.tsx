@@ -48,7 +48,7 @@ function LayoutComponent() {
         <Layout className='hrms-layout'>
             <HeaderComponent />
             <Content className='main-section'><Outlet /></Content>
-            {/* <FooterComponent /> */}
+            {/*<FooterComponent />*/}
             <ScrollToTop/>
         </Layout>
     );
