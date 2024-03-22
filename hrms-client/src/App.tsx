@@ -5,7 +5,7 @@ import {
   Birthday,
   ContactUs,
   EmployeeCreate,
-  EmployeeDetailComponent,
+  EmployeeDetailComponent02,
   EmployeeSearch,
   EnumCards,
   Error,
@@ -30,15 +30,20 @@ import { toast, ToastContainer } from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
 import { useContext } from "react";
 
-const App = () => (
-  <div className="App">
+const App = () => {
+  const {newUser} = useContext(UserLoginContext);
+
+  return(
+    <div className="App">
     <ApiInterceptor />
     <ToastContainer autoClose={8000} position={toast.POSITION.BOTTOM_RIGHT} />
     <Routes>
-    <Route path="/" element={<Login />} />
+      {/* for employee newUser?.roles.length===1&&newUser?.roles[0]==="EMPLOYEE" this condition */}
+      {newUser?.roles.length===0 && <Route path="/" element={<Login />} />}
       <Route element={<LayoutComponent />}>
+      {newUser?.roles.length!==0 && <Route path="/" element={<Home />} />}
 
-         <Route path="/home" element={<Home/>}/>
+        <Route path="/home" element={<Home />} />
         <Route
           path="/user/list"
           element={<PrivateRoutes Componant={<UserDataTable />} />}
@@ -65,7 +70,7 @@ const App = () => (
         />
         <Route
           path="/employee/detail/:id"
-          element={<EmployeeDetailComponent />}
+          element={<EmployeeDetailComponent02 />}
         />
         <Route
           path="/enum"
@@ -84,6 +89,7 @@ const App = () => (
       <Route path="*" element={<Error />} />
     </Routes>
   </div>
-);
+  )
+}
 
 export default App;

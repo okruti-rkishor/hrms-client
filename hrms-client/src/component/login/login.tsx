@@ -1,5 +1,5 @@
 import "./login.scss";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Image } from "antd";
 import rest from "../../services/http/api/index";
@@ -15,17 +15,14 @@ export type SaveToken = {
   expiration: number;
 };
 
-export default function Login() {
-  const [userInputValues, setUserInputValues] = useState<emailInputValueType>(
-    {}
-  );
+const Login=() => {
+  const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
   const navigate = useNavigate();
   // const [decodeToken, setDecodeToken] = useState({});
   const { setNewUser } = useContext<any>(UserLoginContext);
 
   const onFinishLogin = async (values: any) => {
     let decoded = null;
-
     try {
       const response = await rest.userLogin(userInputValues);
       const token = response.jsonToken;
@@ -34,7 +31,7 @@ export default function Login() {
           const userLoginData = await rest.userLoginDetail(values.email);
           const userCardData = { ...userLoginData, loginStatus: true };
           setNewUser(userCardData);
-          navigate("/user/detail");
+          navigate("/");
           decoded = jwtDecode(token);
           console.log("Error decoding JWT:", decoded);
           const saveToken:SaveToken = {
@@ -63,6 +60,15 @@ export default function Login() {
       [e.target.name]: e.target.value,
     }));
   };
+
+  useEffect(()=>{
+    if(localStorage.getItem("loginToken")){
+      navigate('/');
+    }else{
+      navigate('/login');
+    }
+  },[])
+
   return (
     <>
       <div className="login">
@@ -186,3 +192,5 @@ export default function Login() {
     </>
   );
 }
+
+export default  Login;

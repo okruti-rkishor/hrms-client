@@ -43,6 +43,7 @@ const UserDataContent = () => {
     //   localStorage.removeItem("loginToken");
     //   token = null;
     // }
+    console.log(token);
     if (token?.loginToken && (new Date().getTime() < token.expiration) ) {
       try {
         const token = JSON.parse(localStorage.getItem("loginToken") as any);
@@ -57,13 +58,14 @@ const UserDataContent = () => {
           email: "",
           firstName: "",
           lastName: "",
-          role: "",
+          roles: [],
         });
       } catch (error: any) {
         console.error("Unable to Logout the User:", error.message);
       }
     } else {
-      toast.success("Logout Success!!", { autoClose: 900 });
+      alert("Session Expire!"); 
+      toast.success("Session Expired!!", { autoClose: 900 });
       localStorage.removeItem("loginToken");
       navigate("/login");
     }

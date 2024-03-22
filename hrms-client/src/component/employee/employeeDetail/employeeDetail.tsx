@@ -469,15 +469,15 @@ const EmployeeDetailComponent = () => {
   ];
 
   useEffect(() => {
-    // rest
-    //   .employeeDetailsByID(id)
-    //   .then((response: any) => {
-    //     setEmployeeData(response);
-    //   })
-    //   .catch((error: any) => {
-    //     console.log(error);
-    //   });
-    setEmployeeData(data);
+    rest
+      .employeeDetailsByID(id)
+      .then((response: any) => {
+        setEmployeeData(response);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+    // setEmployeeData(data);
   }, [id]);
 
   const items: MenuProps['items'] = [

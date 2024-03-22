@@ -4,7 +4,7 @@ import Anniversary from './events/anniversary/anniversary';
 import Birthday from './events/birthday/birthday';
 import ContactUs from "./company/contactUs";
 import EmployeeCreate from "./employee/employeeCreate";
-import EmployeeDetailComponent from './employee/employeeDetail/employeeDetail';
+import EmployeeDetailComponent02 from './employee/employeeDetail/employeeDetail02';
 import EmployeeSearch from './employee/employeeSearch';
 import EnumCards from "./enums/enum-detail/enum-cards";
 import Error from "./error page/error";
@@ -22,4 +22,4 @@ import UserCreate from "./user/user-create/userCreate";
 import UserDataTable from "./user/user-list/userDataTable";
 import UserDetailsCard from "./user/user-cards/userDetailsCard";
 
-export { AboutUs, Anniversary, Birthday, ContactUs, EmployeeCreate, EmployeeDetailComponent, EmployeeSearch, EnumCards, Error, FAQComponent, ForgotPassword,HolidayCalendar,HolidayCreate,HolidayList, Home,LayoutComponent, Login,  PrivacyPolicy,PrivateRoutes, UserCreate,UserDataTable, UserDetailsCard  };
+export { AboutUs, Anniversary, Birthday, ContactUs, EmployeeCreate, EmployeeDetailComponent02, EmployeeSearch, EnumCards, Error, FAQComponent, ForgotPassword,HolidayCalendar,HolidayCreate,HolidayList, Home,LayoutComponent, Login,  PrivacyPolicy,PrivateRoutes, UserCreate,UserDataTable, UserDetailsCard  };

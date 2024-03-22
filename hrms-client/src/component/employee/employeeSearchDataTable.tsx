@@ -73,14 +73,12 @@ const onFinishSuccessToast = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
-
 const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
   // const initialData = JSON.parse(JSON.stringify(employeeResponse));
   let newEmployeeResponse = employeeResponse;
   const [form] = Form.useForm();
   const [data, setData] = useState(employeeResponse);
   const [editingKey, setEditingKey] = useState("");
-
   const isEditing = (record: Item) => record.key === editingKey;
   const navigate = useNavigate();
 
@@ -102,7 +100,6 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
       console.log(error);
     }
   };
-
 
   const columns = [
     {
@@ -151,8 +148,7 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
                 navigate(`/employee/detail/${record.id}`);
               }}
             >
-              <EyeOutlined />
-              {" "}
+              <EyeOutlined />{" "}
             </Typography.Link>
 
             <Typography.Link
@@ -164,9 +160,7 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
 
             <Popconfirm
               title="Are you sure to delete?"
-              onConfirm={() => 
-                deleteHandel(record)
-              }
+              onConfirm={() => deleteHandel(record)}
               onCancel={cancel}
             >
               {" "}
