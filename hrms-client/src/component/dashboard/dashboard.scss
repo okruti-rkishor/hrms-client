@@ -18,6 +18,7 @@
     &.ant-typography {
       font-size: $hrms-font-size-m;
       line-height: $hrms-line-height-m;
+      margin-bottom: 30px !important;
     }
 
     &:after {
@@ -34,16 +35,27 @@
   }
 
   &__chart {
-    width: 200px;
+    width: 300px;
     text-align: center;
+
+    &-section {
+      display: flex;
+      gap: 10px;
+    }
+
+    .hrms-dashboard__page-header.ant-typography {
+      margin-bottom: unset !important;
+    }
   }
 
   &__chart-and-links {
     @include flex-col-align-start;
+    gap: 40px;
   }
 
   &__quick-links {
-    @include flex-row-space-between;
+    @include flex-row;
+    gap: 40px;
     width: 100%;
 
     &__section {

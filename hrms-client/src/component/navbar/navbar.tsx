@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import {Menu} from 'antd';
 import {
     FormOutlined,
     SolutionOutlined,
@@ -9,12 +9,97 @@ import {
     SearchOutlined
 } from '@ant-design/icons';
 import {Link} from "react-router-dom";
-import {AppstoreOutlined, CalendarOutlined, EditOutlined, PhoneOutlined} from "@ant-design/icons/lib";
+import {
+    AppstoreOutlined,
+    CalendarOutlined,
+    EditOutlined,
+    FileSearchOutlined,
+    UserAddOutlined
+} from "@ant-design/icons/lib";
 import './navbar.scss';
+import UserLoginContext from "../../context/userLoginContext";
 
 
-const items: MenuProps['items'] = [
-    {
+const items = [
+    [
+        {
+        label: 'Employee',
+        key: 'employee',
+        icon: <TeamOutlined />,
+        children: [
+            {
+                label: (
+                    <Link to='/employee/create'>Create</Link>
+                ),
+                key: 'employee create',
+                icon: <FormOutlined/>,
+            },
+            {
+                label: (
+                    <Link to='/employee/search'>Search</Link>
+                ),
+                key: 'employee search',
+                icon: <SearchOutlined/>,
+            }
+        ],
+        },
+        {
+            label: 'Events',
+            key: 'events',
+            icon: <AppstoreOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/event/birthday'>Birthday</Link>
+                    ),
+                    key: 'birthday',
+                    icon: <FormOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/event/anniversary'>Work Anniversary</Link>
+                    ),
+                    key: 'work anniversary',
+                    icon: <SearchOutlined/>,
+                },
+                {
+                    label: 'Internal Events',
+                    type: 'group',
+                    children: [
+                        {
+                            label: 'Option 1',
+                            key: 'custom01',
+                        },
+                        {
+                            label: 'Option 2',
+                            key: 'custom02',
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            label: 'Holiday',
+            key: 'holiday',
+            icon: <CalendarOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/holiday/create'>Create</Link>
+                    ),
+                    key: 'holiday-create',
+                },
+                {
+                    label: (
+                        <Link to='/holiday'>Holiday List</Link>
+                    ),
+                    key: 'holiday-list',
+                }
+            ],
+        },
+    ],
+    [
+        {
         label: 'User',
         key: 'user',
         icon: <UserOutlined />,
@@ -41,78 +126,78 @@ const items: MenuProps['items'] = [
                 icon: <SolutionOutlined/>,
             },
         ],
-    },
-    {
-        label: 'Employee',
-        key: 'employee',
-        icon: <TeamOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='/employee/create'>Create</Link>
-                ),
-                key: 'employee create',
-                icon: <FormOutlined/>,
-            },
-            {
-                label: (
-                    <Link to='/employee/search'>Search</Link>
-                ),
-                key: 'employee search',
-                icon: <SearchOutlined/>,
-            }
-        ],
-    },
-    {
-        label: 'Enum',
-        key: 'enum',
-        icon: <EditOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='/enum'>Detail</Link>
-                ),
-                key: 'enum detail',
-                icon: <FormOutlined/>,
-            },
-        ],
-    },
-    {
-        label: 'Events',
-        key: 'events',
-        icon: <AppstoreOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='/event/birthday'>Birthday</Link>
-                ),
-                key: 'birthday',
-                icon: <FormOutlined/>,
-            },
-            {
-                label: (
-                    <Link to='/event/anniversary'>Work Anniversary</Link>
-                ),
-                key: 'work anniversary',
-                icon: <SearchOutlined/>,
-            },
-            {
-                label: 'Internal Events',
-                type: 'group',
-                children: [
-                    {
-                        label: 'Option 1',
-                        key: 'custom01',
-                    },
-                    {
-                        label: 'Option 2',
-                        key: 'custom02',
-                    },
-                ],
-            },
-        ],
-    },
-    {
+        },
+        {
+            label: 'Employee',
+            key: 'employee',
+            icon: <TeamOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/employee/create'>Create</Link>
+                    ),
+                    key: 'employee create',
+                    icon: <FormOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/employee/search'>Search</Link>
+                    ),
+                    key: 'employee search',
+                    icon: <SearchOutlined/>,
+                }
+            ],
+        },
+        {
+            label: 'Enum',
+            key: 'enum',
+            icon: <EditOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/enum'>Detail</Link>
+                    ),
+                    key: 'enum detail',
+                    icon: <FormOutlined/>,
+                },
+            ],
+        },
+        {
+            label: 'Events',
+            key: 'events',
+            icon: <AppstoreOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/event/birthday'>Birthday</Link>
+                    ),
+                    key: 'birthday',
+                    icon: <FormOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/event/anniversary'>Work Anniversary</Link>
+                    ),
+                    key: 'work anniversary',
+                    icon: <SearchOutlined/>,
+                },
+                {
+                    label: 'Internal Events',
+                    type: 'group',
+                    children: [
+                        {
+                            label: 'Option 1',
+                            key: 'custom01',
+                        },
+                        {
+                            label: 'Option 2',
+                            key: 'custom02',
+                        },
+                    ],
+                },
+            ],
+        },
+        {
         label: 'Holiday',
         key: 'holiday',
         icon: <CalendarOutlined />,
@@ -130,11 +215,22 @@ const items: MenuProps['items'] = [
                 key: 'holiday-list',
             }
         ],
-    },
+    }
+    ]
 ];
+
 
 const NavigationMenu: React.FC = () => {
     const [current, setCurrent] = useState('');
+    const {newUser} = useContext<any>(UserLoginContext);
+
+    const isEmployee = () => {
+        if (newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
+            return false;
+        }
+
+        return true;
+    }
 
     const onClick: MenuProps['onClick'] = (e) => {
         setCurrent(e.key);
@@ -145,7 +241,7 @@ const NavigationMenu: React.FC = () => {
               onClick={onClick}
               selectedKeys={[current]}
               mode="horizontal"
-              items={items}
+              items={items && isEmployee() ? items[0] : items[1]}
               className='navigation-menu'
         />
     );

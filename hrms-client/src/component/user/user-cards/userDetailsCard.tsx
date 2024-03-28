@@ -8,32 +8,30 @@ import EventContext from "../../../context/eventContext";
 import EventData from "../../../custom_hooks/eventData";
 
 function UserDetailsCard() {
-  EventData();
-  const [countAdmin, setCountAdmin] = useState(0);
-  const [countHR, setCountHR] = useState(0);
-  const [countEmployee, setCountEmployee] = useState(0);
-  const { birthdayData, anniversaryData } = useContext<any>(EventContext);
-  let birthdayCount = 0;
-  let anniversaryCount = 0;
+    EventData();
+    const [countAdmin, setCountAdmin] = useState(0);
+    const [countHR, setCountHR] = useState(0);
+    const [countEmployee, setCountEmployee] = useState(0);
+    const { birthdayData, anniversaryData } = useContext<any>(EventContext);
+    let birthdayCount = 0;
+    let anniversaryCount = 0;
 
-    birthdayCount =
-      (birthdayData.today && birthdayData.today.length) +
-      (birthdayData.passed && birthdayData.passed.length) +
-      (birthdayData.upcoming && birthdayData.upcoming.length);
+    birthdayCount = (birthdayData.today && birthdayData.today.length) +
+        (birthdayData.passed && birthdayData.passed.length) +
+        (birthdayData.upcoming && birthdayData.upcoming.length);
 
-    anniversaryCount =
-      (anniversaryData.today && anniversaryData.today.length) +
-      (anniversaryData.passed && anniversaryData.passed.length) +
-      (anniversaryData.upcoming && anniversaryData.upcoming.length);
+    anniversaryCount = (anniversaryData.today && anniversaryData.today.length) +
+        (anniversaryData.passed && anniversaryData.passed.length) +
+        (anniversaryData.upcoming && anniversaryData.upcoming.length);
 
-      const checkRole=(roles:string[],checkUser:string)=>{
+    const checkRole=(roles:string[],checkUser:string)=>{
         const match = roles.filter((role:string)=> checkUser===role)
         return match.length
-      }
-  
-  useEffect(() => {
-    userCount();
-  }, []);
+    }
+
+    useEffect(() => {
+        userCount();
+    }, []);
 
   const userCount = async () => {
     try {
@@ -111,11 +109,9 @@ function UserDetailsCard() {
            const employeeCount = (response.filter((item:any)=> item.roles&&checkRole(item.roles,"EMPLOYEE")))
            setCountEmployee(employeeCount.length);
         }
-        
-        
-        //call api for for all user then 
+        //call api for for all user then
     } catch (error) {
-        
+        console.error(error);
     }
   };
 
