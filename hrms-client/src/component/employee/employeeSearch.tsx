@@ -114,7 +114,9 @@ function EmployeeSearch() {
         name: values.name ? values.name : "",
         employeeCode: values.employeeCode ? values.employeeCode : "",
         joiningDate: values.joiningDate ? convert(values.joiningDate) : "",
-        designationCode: values.designation ? values.designation : "",
+        designationCode: values.designation
+          ? values.designation.toUpperCase()
+          : "",
         contact: values.contact ? values.contact : "",
         documentNumber: values.documentNumber ? values.documentNumber : "",
       };
@@ -124,17 +126,10 @@ function EmployeeSearch() {
     try {
       const response = await rest.employeeSearch(tempFormData);
       tempResponse = response.map((employee: any) => {
-        //array of designation's all word
-        // let designation = (employee.designation as string).split("_");
-        let formattedDesignation = removeUnderScore(String(employee.designation.code),"_");
-        //Uppercase every word's first character
-        // designation = designation.map(
-        //   (nameString: string): string =>
-        //     nameString.charAt(0).toUpperCase() +
-        //     nameString.slice(1).toLowerCase()
-        // );
-
-        // const formattedDesignation = designation.join(" ");
+        let formattedDesignation = removeUnderScore(
+          String(employee.designation.code),
+          "_"
+        );
         return {
           ...employee,
           employeeName: `${employee.name.firstName}${
@@ -188,7 +183,7 @@ function EmployeeSearch() {
                 label={"Designation"}
                 name={"designation"}
                 required={true}
-                initialValue={"SENIOR_SOFTWARE_DEVELOPER"}
+                initialValue={"Senior Software Developer"}
                 rules={[
                   {
                     required: true,
@@ -196,7 +191,6 @@ function EmployeeSearch() {
                   },
                 ]}
               >
-                {/* <Select defaultValue={designation[0]?.code}> */}
                 <Select>
                   {designation.map((key: DesignationEnum) => (
                     <Select.Option key={key.id} value={key.code}>

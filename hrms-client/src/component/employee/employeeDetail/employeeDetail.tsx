@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import rest from "../../../services/http/api";
 import { removeUnderScore } from "../../holiday/holidayList";
@@ -158,7 +158,14 @@ const data = {
 const EmployeeDetailComponent = () => {
   const { id } = useParams();
   const [employeeData, setEmployeeData] = useState<any>({});
+  const componentRef = useRef();
   // const { token } = theme.useToken();
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: "Visitor Pass",
+    onAfterPrint: () => console.log("Printed PDF successfully!"),
+  });
 
   const sections = [
     {
@@ -505,7 +512,10 @@ const EmployeeDetailComponent = () => {
 
   return (
       <Layout className='with-background'>
-        <div className='employee-details data-table'>
+        <div className='employee-details data-table'
+        
+        
+        >
           <Card className='employee-details__section'>
             <Flex className='employee-details__header'>
               <Avatar icon={<UserOutlined />} className='employee-details__avatar'/>
@@ -516,22 +526,22 @@ const EmployeeDetailComponent = () => {
                   </h2>
                   <Flex className='employee-contacts'>
                     <span><HomeTwoTone twoToneColor="#1677ff"/>
-                      {employeeData.permanentAddress?.city} {" | "}
-                      {employeeData.permanentAddress?.state}
+                      {employeeData?.permanentAddress?.city} {" | "}
+                      {employeeData?.permanentAddress?.state}
                     </span>
-                    <span><MailTwoTone twoToneColor="#eb2f96" />{" " + employeeData.officialEmail}</span>
-                    <span><PhoneTwoTone  twoToneColor="#52c41a" />{`+91 ${employeeData.contact}`}</span>
+                    <span><MailTwoTone twoToneColor="#eb2f96" />{" " + employeeData?.officialEmail}</span>
+                    <span><PhoneTwoTone  twoToneColor="#52c41a" />{`+91 ${employeeData?.contact}`}</span>
                   </Flex>
                 </div>
                 <Divider/>
                 <Flex className='employee-job-details'>
                   <span>
                     <h4 className='employee-job-details__title'>Designation</h4>
-                    {removeUnderScore(employeeData.designation, "_")}
+                    {employeeData.designation&&removeUnderScore(employeeData.designation, "_")}
                   </span>
                   <span>
                     <h4 className='employee-job-details__title'>Employee Code</h4>
-                    {employeeData.employeeCode}
+                    {employeeData?.employeeCode}
                   </span>
                   <span>
                     <h4 className='employee-job-details__title'>Job Type</h4>
@@ -606,9 +616,14 @@ const EmployeeDetailComponent = () => {
               </Flex>
             </Card>
           </Flex>
+
         </div>
       </Layout>
   );
 };
 
 export default EmployeeDetailComponent;
+function useReactToPrint(arg0: { content: () => any; documentTitle: string; onAfterPrint: () => void; }) {
+  throw new Error("Function not implemented.");
+}
+

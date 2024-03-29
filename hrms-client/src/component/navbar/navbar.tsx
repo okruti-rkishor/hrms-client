@@ -19,7 +19,6 @@ import {
 import './navbar.scss';
 import UserLoginContext from "../../context/userLoginContext";
 
-
 const items = [
     [
         {
@@ -149,20 +148,6 @@ const items = [
             ],
         },
         {
-            label: 'Enum',
-            key: 'enum',
-            icon: <EditOutlined />,
-            children: [
-                {
-                    label: (
-                        <Link to='/enum'>Detail</Link>
-                    ),
-                    key: 'enum detail',
-                    icon: <FormOutlined/>,
-                },
-            ],
-        },
-        {
             label: 'Events',
             key: 'events',
             icon: <AppstoreOutlined />,
@@ -198,24 +183,32 @@ const items = [
             ],
         },
         {
-        label: 'Holiday',
-        key: 'holiday',
-        icon: <CalendarOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='/holiday/create'>Create</Link>
-                ),
-                key: 'holiday-create',
-            },
-            {
-                label: (
-                    <Link to='/holiday'>Holiday List</Link>
-                ),
-                key: 'holiday-list',
-            }
-        ],
-    }
+            label: 'Holiday',
+            key: 'holiday',
+            icon: <CalendarOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/holiday/create'>Create</Link>
+                    ),
+                    key: 'holiday-create',
+                },
+            ],
+        },
+        {
+            label: 'Setting',
+            key: 'enum',
+            icon: <EditOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/enum'>Detail</Link>
+                    ),
+                    key: 'enum detail',
+                    icon: <FormOutlined/>,
+                },
+            ],
+        }
     ]
 ];
 

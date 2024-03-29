@@ -87,7 +87,7 @@ const HolidayList = ({ addData }: any) => {
                 <Tag color={color} key={Math.random().toString(36).slice(2)}>
                   {tag.toUpperCase()}
                 </Tag>
-                <SwapOutlined style={{ color: "blue" }} />{" "}
+                {" "}
               </>
             ) : (
               <Tag color={color} key={tag}>
@@ -97,33 +97,15 @@ const HolidayList = ({ addData }: any) => {
           })}
         </span>
       ),
-      // filters: [
-      //   {
-      //     text: 'January',
-      //     value: '0',
-      //   },
-      //   {
-      //     text: 'February',
-      //     value: '1',
-      //   },
-      //   {
-      //     text: 'March',
-      //     value: '2',
-      //   },
-      //   {
-      //     text: 'April',
-      //     value: '3',
-      //   },
-      // ],
-      // onFilter: (value: string, record:any) => record.address.indexOf(value) === 0,
     },
-      
+
     {
       title: "Leaves",
       dataIndex: "count",
       key: "count",
       align: "center" as const,
     },
+
     {
       title: "Day",
       dataIndex: "day",
@@ -136,12 +118,12 @@ const HolidayList = ({ addData }: any) => {
       key: "type",
       align: "center" as const,
     },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      align: "center" as const,
-    },
+    // {
+    //   title: "Status",
+    //   dataIndex: "status",
+    //   key: "status",
+    //   align: "center" as const,
+    // },
     {
       title: "Action",
       key: "action",
@@ -181,20 +163,20 @@ const HolidayList = ({ addData }: any) => {
       const response = await rest.getAllHoliday();
       const newResponse = await response.map((item: any, index: number) => {
         if (item.year == new Date().getFullYear()) {
-          const count1 =
-            item.calender.endDate.split("-")[2] -
-            item.calender.startDate.split("-")[2] +
-            1;
+          // const count1 =
+          //   item.calender.endDate.split("-")[2] -
+          //   item.calender.startDate.split("-")[2] +
+          //   1;
           return {
             ...item.calender,
             id: item.id,
-            name: capitalToSmall(item.calender.name),
-            date: [item.calender.startDate, item.calender.endDate],
-            day: capitalToSmall(item.calender.day),
-            type: removeUnderScore(item.calender.type, "_"),
-            status: removeUnderScore(item.calender.status, "_"),
-            notify: item.calender.notify,
-            count: count1 > 1 ? count1 + " days" : count1 + " day",
+            name: capitalToSmall(item.name),
+            date: item.calender.length===1?[item.calender[0].date]:[`${item.calender[0].date} ${"to"} ${item.calender[item.calender.length-1].date}`],
+            day: item.calender.length===1?item.calender[0].day:`${item.calender[0].day} ${"to"} ${item.calender[item.calender.length-1].day}`,
+            type: removeUnderScore(item.type, "_"),
+            // status: removeUnderScore(item.status, "_"),
+            // notify: item.calender.notify,
+            count:item.calender.length,
           };
         }
       });
@@ -217,12 +199,16 @@ const HolidayList = ({ addData }: any) => {
   //     return dataArray.map<any>((item: any) => item.name.includes(value));
   //   });
   // };
-  const onSearch = (e:any) => {
-    const searchedKeyword = e.currentTarget.value as string
-    if(searchedKeyword === ''){
+  const onSearch = (e: any) => {
+    const searchedKeyword = e.currentTarget.value as string;
+    if (searchedKeyword === "") {
       fetchHolidayData();
-    }else{
-      setDataArray(dataArray.filter((item:any)=>item.name.toLowerCase().includes(searchedKeyword.toLowerCase())))
+    } else {
+      setDataArray(
+        dataArray.filter((item: any) =>
+          item.name.toLowerCase().includes(searchedKeyword.toLowerCase())
+        )
+      );
     }
   };
 
@@ -237,7 +223,12 @@ const HolidayList = ({ addData }: any) => {
             />
             <Divider style={{ width: "80%", minWidth: "unset" }} />
             <Flex style={{ marginLeft: "auto" }}>
-              <Search placeholder="input search text" onChange={onSearch} onSearch={onSearch} style={{ width: 200, padding: "5px 10px" }} />
+              <Search
+                placeholder="input search text"
+                onChange={onSearch}
+                onSearch={onSearch}
+                style={{ width: 200, padding: "5px 10px" }}
+              />
               {showCalendar ? (
                 <div style={{ fontSize: "25px" }}>
                   <ConfigProvider

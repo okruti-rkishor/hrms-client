@@ -88,9 +88,6 @@ const UserCreate = (props: any) => {
             >
               <Input placeholder="Enter email-id" />
             </Form.Item>
-            <Form.Item label="Employee Id" name={"employeeId"}>
-              <Input placeholder="Enter employee-id" />
-            </Form.Item>
 
             <Form.Item
               label={"Role"}
@@ -112,51 +109,9 @@ const UserCreate = (props: any) => {
               </Select>
             </Form.Item>
 
-            {/* <Form.Item
-              name="password"
-              label="Password"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                {
-                  pattern: new RegExp(
-                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-                  ),
-                  message:
-                    "Minimum eight characters, at least one uppercase letter, one lowercase letter, one special character and one number are Required",
-                },
-                { required: true, message: "Password name is required." },
-              ]}
-            >
-              <Input.Password placeholder="enter password" />
+            <Form.Item label="Employee" name={"employeeId"}>
+              <Input placeholder="Enter employee-id" />
             </Form.Item>
-
-            <Form.Item
-              name="confirmPassword"
-              label="Confirm Password"
-              dependencies={["password"]}
-              hasFeedback
-              rules={[
-                {
-                  required: true,
-                  message: "Please confirm your password!",
-                },
-                ({ getFieldValue }) => ({
-                  validator(_, value) {
-                    if (!value || getFieldValue("password") === value) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error(
-                        "The new password that you entered do not match!"
-                      )
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input.Password placeholder="confirm password" />
-            </Form.Item> */}
           </div>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
