@@ -8,7 +8,7 @@ const PrevNext= ({onChange,current}:any) =>{
         <Button onClick={() => onChange(current - 1)} disabled={current === 0}>
             <LeftCircleTwoTone className={"icon"}/>
         </Button>
-        <Button onClick={() => onChange(current + 1)}>
+        <Button onClick={() => onChange(current + 1)} disabled={current === 6}>
             <RightCircleTwoTone className={"icon"}/>
         </Button>
     </div>

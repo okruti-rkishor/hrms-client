@@ -13,7 +13,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
 
     const fileProps: UploadProps = {
         onChange(info) {
-
             if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);
             }
@@ -24,7 +23,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             }
 
         },
-
     };
 
     const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
@@ -35,7 +33,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                     if (key === "AADHAAR_CARD" || key === "PAN_CARD") {
                         let tempFileProp = {...fileProps};
                         if (isEditing === true && employeeData.documents[key]) {
-
                             tempFileProp.defaultFileList = [
                                 {
                                     uid: employeeData.documents[key].id,
@@ -87,12 +84,8 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                                                        }
                                                        if (value.length < 10) {
                                                            return Promise.reject("number cannot be less than 10.");
-
                                                        }
-
                                                    }
-
-
                                                    return Promise.resolve();
                                                },
                                            }
@@ -102,9 +95,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                                        value={employeeData.documents[key]?.documentNumber ?? ""} key={index}
                                        onChange={(e) => setDocumentNumber(e.target.value, key)}/>
                             </Form.Item>
-
                         </div>
-
                     } else {
                         <></>
                     }
@@ -171,7 +162,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             style: panelStyle,
         },
     ];
-
 
     const uploadFile = async ({file, onSuccess, onError}: any, customKey: any) => {
         let documentPayload: any = {"document-type": customKey, "file": file};
@@ -242,6 +232,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         });
 
     };
+
     const setDocumentNumber = (value: any, customKey: any) => {
         if (`${customKey}` + "_NUMBER" === "AADHAAR_CARD_NUMBER") {
             setState({...state, AADHAAR_CARD_NUMBER: value})
@@ -260,10 +251,8 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         border: 'none',
     }
 
-
     return (
         <>
-
             <div style={{display: "flex", flexDirection: "column", marginTop: "35px", gap: "30px"}}
                  className={"employee-create-inputs"}>
                 <Collapse

@@ -103,22 +103,9 @@ const BankingDeatils=()=>{
                                             required:true,
                                             message:"please enter your IFSC code"
                                         },
-                                        () => ({
-                                            validator(_, value) {
-                                                if (!value) {
-                                                    return Promise.reject();
-                                                }
-                                                if (isNaN(value)) {
-                                                    return Promise.reject("ifsc code has to be a number.");
-                                                }
-                                                return Promise.resolve();
-                                            },
-                                        }),
                                     ]}>
                                         <Input required={true} style={{height:"40px"}}/>
                                     </Form.Item>
-
-
                                 </Card>
                             ))}
                         </div>

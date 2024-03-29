@@ -57,7 +57,8 @@ const mockVal = (str: string, repeat = 1) => ({
   value: str.repeat(repeat),
 });
 
-const HolidayList = ({ addData }: any) => {
+const HolidayList = ({ holidayData,setHolidayData,totalHoliday,setTotalHoliday}: any) => {
+  console.log("1112222");
   const [dataArray, setDataArray] = useState([{}]);
   const [showCalendar, setShowCalendar] = useState(false);
   const { newUser } = useContext(UserLoginContext);
@@ -90,7 +91,7 @@ const HolidayList = ({ addData }: any) => {
                 {" "}
               </>
             ) : (
-              <Tag color={color} key={tag}>
+              <Tag color={color} key={Math.random().toString(36).slice(2)}>
                 {tag.toUpperCase()}
               </Tag>
             );
@@ -152,6 +153,8 @@ const HolidayList = ({ addData }: any) => {
     try {
       await rest.deleteHoliday(record.id);
       setDataArray(dataArray.filter((item: any) => item.id !== record.id));
+      console.log(holidayData);
+      console.log(record);
       success();
     } catch (error) {
       console.log(error);
@@ -189,7 +192,7 @@ const HolidayList = ({ addData }: any) => {
 
   useEffect(() => {
     fetchHolidayData();
-  }, [addData]);
+  }, [holidayData]);
 
   // const handleSearch = (value: string) => {
   //   setOptions(() => {

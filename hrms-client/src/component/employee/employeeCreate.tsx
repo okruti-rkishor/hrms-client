@@ -125,7 +125,7 @@ const EmployeeCreate = () => {
             "status": employeeData.status,
             "employeeCode": isEditing ? employeeData.employeeCode : randomIdGenerator(),
             "designation": {
-                "code": employeeData.designation
+                "code": isEditing ? employeeData.designation.code : employeeData.designation
             },
             "joiningDate": employeeData.joiningDate,
             "exitDate": null,
@@ -142,7 +142,7 @@ const EmployeeCreate = () => {
             "dateOfBirth": employeeData.dateOfBirth,
             "age": employeeData.age,
             "qualification": {
-                code:employeeData.qualification
+                code:isEditing ? employeeData.qualification.code : employeeData.qualification
             },
             "email": employeeData.email,
             "contact": employeeData.contact,
@@ -208,14 +208,17 @@ const EmployeeCreate = () => {
                 })
                 setIsEditing(true);
                 setAge(response.age);
-                const {name, presentAddress, permanentAddress, ...withoutKeyToBeRemoved} = response;
-                const after = {...name, ...presentAddress, ...permanentAddress, ...response.bankDetail[0], ...withoutKeyToBeRemoved};
+                const {name, presentAddress, permanentAddress,bankDetail, ...withoutKeyToBeRemoved} = response;
+                const after = {...name, ...presentAddress, ...permanentAddress, ...bankDetail, ...withoutKeyToBeRemoved};
                 convertExperienceToArray(response);
 
                 form.setFieldsValue({
                     ...after,
                     dateOfBirth: dayjs(response.dateOfBirth),
-                    joiningDate: dayjs(response.joiningDate)
+                    joiningDate: dayjs(response.joiningDate),
+                    qualification:response.qualification.code,
+                    designation:response.designation.code,
+                    bankDetail:[bankDetail]
                 });
 
                 setEmployeeData({
