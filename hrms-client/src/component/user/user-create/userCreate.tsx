@@ -1,24 +1,31 @@
-import { Button, Divider, Form, Input, Layout, Select } from "antd";
+import { Button, Divider, Flex, Form, Input, Layout, Select } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import "./userCreate.scss";
 import restApi from "../../../services/http/api/index";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import { useEffect, useState } from "react";
 import { User_type } from "../../../constant/constant";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import success = toast.success;
 import error = toast.error;
+import { CheckCircleTwoTone } from "@ant-design/icons";
 
 const UserCreate = (props: any) => {
+  const [allEmployeesId, setAllEmployeesId] = useState<any>();
+  // const [selectedEmployee, setSelectedEmployee] = useState<any>();
+  const [isFindEmployee, SetIsFindEmployee] = useState<boolean>(false);
+  const [email, setEmail] = useState<any>("");
+  const [isCheckEmail, setIsCheckEmail] = useState<any>();
   const userTypesEnum = Object.keys(User_type);
   const navigate = useNavigate();
+  const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
     try {
-      let payload = values;
+      let payload = { ...values };
       console.log(payload.employeeId);
-      if (payload.employeeId) {
+      if (!payload.employeeId) {
         payload.employeeId = null;
       }
       await restApi.userCreate(payload);
@@ -32,6 +39,46 @@ const UserCreate = (props: any) => {
   const onFinishFailed = () => {
     error("Error in user creation");
   };
+
+  const checkEmployeeSelected = (e: string[]) => {
+    const include = e.includes("EMPLOYEE");
+    setIsCheckEmail(include);
+    onChangeEmail({ currentTarget: { value: email } }, include);
+  };
+
+  const onChangeEmail = (e: any, isCheckEmail: boolean = true) => {
+    setEmail(e.currentTarget.value);
+    if (isCheckEmail) {
+      const tempFinded = allEmployeesId.find(
+        (item: any) => item.officialEmail === e.currentTarget.value
+      );
+      if (tempFinded) {
+        SetIsFindEmployee(true);
+        form.setFieldsValue({firstName:tempFinded.name.firstName,lastName:tempFinded.name.lastName,employeeId:tempFinded.id});
+      } else {
+        form.setFieldsValue({firstName:"",lastName:"",employeeId:""});
+        SetIsFindEmployee(false);
+      }
+      // console.log("isCheckEmail", e.currentTarget.value);
+    } else {
+      form.setFieldsValue({firstName:"",lastName:"",employeeId:""});
+      SetIsFindEmployee(false);
+    }
+  };
+
+  const fetchAllEmoloyees = async () => {
+    try {
+      const data = await restApi.getAllEmployee();
+      console.log(data);
+      setAllEmployeesId(data);
+      console.log(data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    //get all employees for employee id associate with this user
+    fetchAllEmoloyees();
+  }, []);
 
   return (
     <Layout className="with-background user-create-section">
@@ -49,46 +96,9 @@ const UserCreate = (props: any) => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           className="user-create-form"
+          form={form}
         >
           <div className="user-create-inputs">
-            <Form.Item
-              label="First Name"
-              name={"firstName"}
-              rules={[
-                { required: true, message: "Please input your First Name!" },
-                { pattern: new RegExp("^[A-Za-z\\s]+$"), message: "" },
-              ]}
-            >
-              <Input placeholder="Enter first name" />
-            </Form.Item>
-
-            <Form.Item
-              label="Last Name"
-              name={"lastName"}
-              rules={[
-                { required: true, message: "Please input your Last Name!" },
-                { pattern: new RegExp("^[A-Za-z\\s]+$"), message: "" },
-              ]}
-            >
-              <Input placeholder="Enter last name" />
-            </Form.Item>
-
-            <Form.Item
-              label="Email Id"
-              name={"email"}
-              rules={[
-                { required: true, message: "Please input your Email id!" },
-                {
-                  pattern: new RegExp(
-                    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                  ),
-                  message: "Not a valid mailId",
-                },
-              ]}
-            >
-              <Input placeholder="Enter email-id" />
-            </Form.Item>
-
             <Form.Item
               label={"Role"}
               name={"roles"}
@@ -100,7 +110,11 @@ const UserCreate = (props: any) => {
                 },
               ]}
             >
-              <Select placeholder="select the role" mode="multiple">
+              <Select
+                placeholder="select the role"
+                mode="multiple"
+                onChange={checkEmployeeSelected}
+              >
                 {userTypesEnum.map((userType) => (
                   <Select.Option key={userType} value={userType}>
                     {userType.toString().toUpperCase()}
@@ -109,8 +123,66 @@ const UserCreate = (props: any) => {
               </Select>
             </Form.Item>
 
+            <div>
+              <Form.Item
+                label="Email Id"
+                name={"email"}
+                rules={[
+                  { required: true, message: "Please input your Email id!" },
+                  {
+                    pattern: new RegExp(
+                      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    ),
+                    message: "Not a valid mailId",
+                  },
+                ]}
+              >
+                <Input
+                  placeholder="Enter email-id"
+                  value={email}
+                  onChange={onChangeEmail}
+                />
+              </Form.Item>
+              {isFindEmployee && (
+                <CheckCircleTwoTone
+                  style={{ position: "absolute", top: 280, right: 520 }}
+                />
+              )}
+            </div>
+
+            <Form.Item
+              label="First Name"
+              name={"firstName"}
+              rules={[
+                { required: true, message: "Please input your First Name!" },
+                { pattern: new RegExp("^[A-Za-z\\s]+$"), message: "" },
+              ]}
+            >
+              <Input
+                placeholder="Enter first name"
+                value={isFindEmployee ? "New Value" : ""}
+                disabled={isFindEmployee}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Last Name"
+              name={"lastName"}
+              rules={[
+                { required: true, message: "Please input your Last Name!" },
+                { pattern: new RegExp("^[A-Za-z\\s]+$"), message: "" },
+              ]}
+            >
+              <Input placeholder="Enter last name" disabled={isFindEmployee} />
+            </Form.Item>
+
             <Form.Item label="Employee" name={"employeeId"}>
-              <Input placeholder="Enter employee-id" />
+              <Input
+                placeholder="Enter employee-id"
+                disabled={isFindEmployee}
+                value={isFindEmployee ? "New Value" : ""}
+                // value={selectedEmployeeId?.employeeCode}
+              />
             </Form.Item>
           </div>
 

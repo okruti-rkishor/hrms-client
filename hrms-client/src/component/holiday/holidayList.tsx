@@ -1,6 +1,4 @@
 import {
-  AutoComplete,
-  Button,
   ConfigProvider,
   Divider,
   Flex,
@@ -23,11 +21,10 @@ import CalendarView from "./calendar";
 import "./holiday-list.scss";
 import rest from "../../services/http/api";
 import UserLoginContext from "../../context/userLoginContext";
-import { AudioOutlined } from "@ant-design/icons";
-import { Input } from "antd";
 import Search from "antd/es/input/Search";
 
 export const capitalToSmall = (str: string) => {
+  str = String(str);
   let tempStr = str.toLowerCase();
   let newString = tempStr.substring(0, 1).toLocaleUpperCase();
   newString += tempStr.substring(1);
@@ -35,6 +32,7 @@ export const capitalToSmall = (str: string) => {
 };
 
 export const removeUnderScore = (str: string = "", character: string = "-") => {
+  str = String(str);
   let splitedStr: string[] = str.split(character);
   const firstLetterCapitalizeArray: string[] = splitedStr.map((str: string) => {
     return capitalToSmall(str);
@@ -53,13 +51,14 @@ const success = () => {
   message.success("Holiday Delete Successful!");
 };
 
-const mockVal = (str: string, repeat = 1) => ({
-  value: str.repeat(repeat),
-});
-
-const HolidayList = ({ holidayData,setHolidayData,totalHoliday,setTotalHoliday}: any) => {
-  console.log("1112222");
-  const [dataArray, setDataArray] = useState([{}]);
+const HolidayList = ({
+  holidayData,
+  setHolidayData,
+  totalHoliday,
+  setTotalHoliday,
+}: any) => {
+  // console.log("1112222");
+  const [dataArray, setDataArray] = useState<any>([{}]);
   const [showCalendar, setShowCalendar] = useState(false);
   const { newUser } = useContext(UserLoginContext);
 
@@ -71,33 +70,60 @@ const HolidayList = ({ holidayData,setHolidayData,totalHoliday,setTotalHoliday}:
       align: "center" as const,
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
       width: "17%",
       align: "center" as const,
-      render: (tags: string[]) => (
-        <span key={Math.random().toString(36).slice(2)}>
-          {tags?.map((tag, index) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return index !== 1 ? (
-              <>
-                <Tag color={color} key={Math.random().toString(36).slice(2)}>
-                  {tag.toUpperCase()}
-                </Tag>
-                {" "}
-              </>
-            ) : (
-              <Tag color={color} key={Math.random().toString(36).slice(2)}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </span>
-      ),
+      // render: (tags: string[]) => (
+      //   <span key={Math.random().toString(36).slice(2)}>
+      //     {tags?.map((tag, index) => {
+      //       let color = tag.length > 10 ? "geekblue" : "blue";
+      //       if (tag === "loser") {
+      //         color = "volcano";
+      //       }
+      //       return index !== 1 ? (
+      //         <>
+      //           <Tag color={color} key={Math.random().toString(36).slice(2)}>
+      //             {tag.toUpperCase()}
+      //           </Tag>{" "}
+      //         </>
+      //       ) : (
+      //         <Tag color={color} key={Math.random().toString(36).slice(2)}>
+      //           {tag.toUpperCase()}
+      //         </Tag>
+      //       );
+      //     })}
+      //   </span>
+      // ),
+    },
+    {
+      title: "End Date",
+      dataIndex: "endDate",
+      key: "endDate",
+      width: "17%",
+      align: "center" as const,
+      // render: (tags: string[]) => (
+      //   <span key={Math.random().toString(36).slice(2)}>
+      //     {tags?.map((tag, index) => {
+      //       let color = tag.length > 10 ? "geekblue" : "blue";
+      //       if (tag === "loser") {
+      //         color = "volcano";
+      //       }
+      //       return index !== 1 ? (
+      //         <>
+      //           <Tag color={color} key={Math.random().toString(36).slice(2)}>
+      //             {tag.toUpperCase()}
+      //           </Tag>{" "}
+      //         </>
+      //       ) : (
+      //         <Tag color={color} key={Math.random().toString(36).slice(2)}>
+      //           {tag.toUpperCase()}
+      //         </Tag>
+      //       );
+      //     })}
+      //   </span>
+      // ),
     },
 
     {
@@ -164,25 +190,50 @@ const HolidayList = ({ holidayData,setHolidayData,totalHoliday,setTotalHoliday}:
   const fetchHolidayData = async () => {
     try {
       const response = await rest.getAllHoliday();
-      const newResponse = await response.map((item: any, index: number) => {
+      const holidayNameList = Object.keys(response);
+
+      console.log(holidayNameList);
+
+      const newResponse1 = holidayNameList.map((key: any, index: number) => {
+        return {
+          name: key,
+          year: response[key][0]?.year,
+          type: response[key][0]?.type,
+          calendar: response[key].map((calendarItem: any) => ({
+            date: calendarItem.date,
+            day: calendarItem.day,
+            id: calendarItem.id,
+          })),
+        };
+      });
+      console.log(newResponse1);
+
+      const newResponse = newResponse1?.map((item: any, index: number) => {
         if (item.year == new Date().getFullYear()) {
-          // const count1 =
-          //   item.calender.endDate.split("-")[2] -
-          //   item.calender.startDate.split("-")[2] +
-          //   1;
           return {
-            ...item.calender,
-            id: item.id,
+            id: index,
             name: capitalToSmall(item.name),
-            date: item.calender.length===1?[item.calender[0].date]:[`${item.calender[0].date} ${"to"} ${item.calender[item.calender.length-1].date}`],
-            day: item.calender.length===1?item.calender[0].day:`${item.calender[0].day} ${"to"} ${item.calender[item.calender.length-1].day}`,
+            startDate: item.calendar[0].date,
+            // item?.calendar?.length === 1
+            //   ? [item.calendar[0].date]
+            //   : [
+            //       `${item.calendar[0].date} ${"to"} ${
+            //         item.calendar[item.calendar.length - 1].date
+            //       }`,
+            //     ],
+            endDate: item.calendar[item.calendar.length - 1].date,
+            day:
+              item?.calendar?.length === 1
+                ? item.calendar[0].day
+                : `${item.calendar[0].day} ${"to"} ${
+                    item.calendar[item.calendar.length - 1].day
+                  }`,
             type: removeUnderScore(item.type, "_"),
-            // status: removeUnderScore(item.status, "_"),
-            // notify: item.calender.notify,
-            count:item.calender.length,
+            count: item?.calendar?.length,
           };
         }
       });
+
       setDataArray(newResponse);
       return response;
     } catch (error) {
@@ -229,7 +280,7 @@ const HolidayList = ({ holidayData,setHolidayData,totalHoliday,setTotalHoliday}:
               <Search
                 placeholder="input search text"
                 onChange={onSearch}
-                onSearch={onSearch}
+                // onSearch={onSearch}
                 style={{ width: 200, padding: "5px 10px" }}
               />
               {showCalendar ? (

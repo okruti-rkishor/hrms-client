@@ -13,6 +13,7 @@ export default {
     userEdit:(data: any, id: string) => rest.put(base + `user/${id}`, {}, data),
     employeeCreate:(data: any) => rest.post(base + "employee", {}, data),
     employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data),
+    getAllEmployee:() => rest.get(base + "employee/getAll", { }),
     employeeDelete:(id: string) => rest.del(base + `employee/${id}`,{}),
     documentUpload:(data:any) => rest.post(base+ "document/upload",{}, data,'',{'Content-Type': 'multipart/form-data'}),
     documentDelete:(id: string) => rest.del(base + `document/${id}`, {}, id),
