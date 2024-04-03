@@ -34,5 +34,6 @@ export default {
     holidayCreate:(data:any)=>rest.post(base+"holiday",{},data),
     getAllHoliday:()=>rest.get(base+"holiday/search"),
     deleteHoliday:(data:string[])=>rest.del(base+`holiday/delete-multiples`,{},data,{}),
-
+    getState:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/states",{},data,{}),
+    getCity:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/state/cities",{},data,{})
 }

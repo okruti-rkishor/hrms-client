@@ -1,5 +1,5 @@
 import {DatePicker, Form, Input, Radio, Select} from "antd";
-import {Blood_Group, Designation, Gender} from "../../../constant/constant";
+import {Blood_Group, Designation, Gender, Status} from "../../../constant/constant";
 import React from "react";
 
 
@@ -11,6 +11,26 @@ const PersonalDetails = (props: any) => {
         <>
             <div style={{display: "flex", flexDirection: "column", marginTop: "35px", gap: "30px"}}
                  className={"employee-create-inputs"}>
+                <Form.Item label={"Status"}
+                           required={true}
+                           name={"status"}
+                           rules={[{
+                               required:true,
+                               message:"select your status"
+                           }]}
+                           initialValue={Object.keys(Status)[0]}
+                >
+
+                    <Select style={{height:"40px"}} defaultValue={Object.keys(Status)[0]}>
+                        {(Object.keys(Status) as Array<keyof typeof Status>).map((key) =>
+                            <Select.Option value={key} key={key}
+                                           style={{height:"40px",textAlign:"center"}}
+                            >
+                                {Status[key]}
+                            </Select.Option>
+                        )}
+                    </Select>
+                </Form.Item>
                 <Form.Item label={"Title"}
                            name={"title"}
                            required={true}
@@ -146,6 +166,7 @@ const PersonalDetails = (props: any) => {
                         </Select>
 
                 </Form.Item>
+
             </div>
         </>
     )

@@ -59,10 +59,12 @@ const EmployeeCreate = () => {
     const [age, setAge] = useState<any>(null);
     let {id} = useParams();
     const navigate = useNavigate();
-    const [tempEnum,setTempEnum]=useState<any>({
-            designationEnum: [],
-            qualificationEnum: []
-        });
+    const [tempEnum, setTempEnum] = useState<any>({
+        designationEnum: [],
+        qualificationEnum: []
+    });
+    const [state, setState] = useState<any>([]);
+    const [city, setCity] = useState<any>([]);
 
     const randomIdGenerator = () => {
         return "ok" + Math.random().toString(36).slice(2);
@@ -121,7 +123,7 @@ const EmployeeCreate = () => {
     };
 
     const onFinish = async (value: object) => {
-        const payload = {
+        const payload:any = {
             "status": employeeData.status,
             "employeeCode": isEditing ? employeeData.employeeCode : randomIdGenerator(),
             "designation": {
@@ -142,7 +144,7 @@ const EmployeeCreate = () => {
             "dateOfBirth": employeeData.dateOfBirth,
             "age": employeeData.age,
             "qualification": {
-                code:isEditing ? employeeData.qualification.code : employeeData.qualification
+                code: isEditing ? employeeData.qualification.code : employeeData.qualification
             },
             "email": employeeData.email,
             "contact": employeeData.contact,
@@ -166,9 +168,14 @@ const EmployeeCreate = () => {
             "bankDetail": employeeData.bankDetail && employeeData.bankDetail[0],
             "documents": Object.keys(employeeData.documents).map((item: any) => {
                 return {id: employeeData.documents[item].id}
-            })
+            }),
+            "active": "true",
         };
         if (employeeData.experiences) convertExperienceToObject(employeeData);
+        if(!employeeData.documents.hasOwnProperty("AADHARD_CARD") && !employeeData.documents.hasOwnProperty("PAN_CARD")){
+            message.error("please upload file");
+            return;
+        }
         if (isEditing === false) {
             restApi.employeeCreate(payload).then((e) => {
                 message.success("data successfully inserted");
@@ -178,6 +185,7 @@ const EmployeeCreate = () => {
                 message.error("data not inserted")
             }));
         } else {
+            payload["id"]=employeeData.id;
             restApi.postEmployeeDetailsByID(payload, id).then((e) => message.success("data successfully inserted")).catch((e) => message.error("data is not inserted"));
             navigate(`/employee/search`)
         }
@@ -208,7 +216,7 @@ const EmployeeCreate = () => {
                 })
                 setIsEditing(true);
                 setAge(response.age);
-                const {name, presentAddress, permanentAddress,bankDetail, ...withoutKeyToBeRemoved} = response;
+                const {name, presentAddress, permanentAddress, bankDetail, ...withoutKeyToBeRemoved} = response;
                 const after = {...name, ...presentAddress, ...permanentAddress, ...bankDetail, ...withoutKeyToBeRemoved};
                 convertExperienceToArray(response);
 
@@ -216,9 +224,9 @@ const EmployeeCreate = () => {
                     ...after,
                     dateOfBirth: dayjs(response.dateOfBirth),
                     joiningDate: dayjs(response.joiningDate),
-                    qualification:response.qualification.code,
-                    designation:response.designation.code,
-                    bankDetail:[bankDetail]
+                    qualification: response.qualification.code,
+                    designation: response.designation.code,
+                    bankDetail: [response.bankDetail]
                 });
 
                 setEmployeeData({
@@ -238,9 +246,13 @@ const EmployeeCreate = () => {
                     let selectedYear = dayjs(storageDetails.dateOfBirth).year();
                     let final = currentYear - selectedYear;
                     setAge(final);
-                    form.setFieldsValue({...storageDetails, dateOfBirth: dayjs(storageDetails.dateOfBirth),age:final});
+                    form.setFieldsValue({
+                        ...storageDetails,
+                        dateOfBirth: dayjs(storageDetails.dateOfBirth),
+                        age: final
+                    });
                     storageDetails.dateOfBirth = dayjs(storageDetails.dateOfBirth);
-                    storageDetails["age"]=final;
+                    storageDetails["age"] = final;
                 } else if (items === "contact") {
                     form.setFieldsValue({...storageDetails, joiningDate: dayjs(storageDetails.joiningDate)});
                     storageDetails.joiningDate = dayjs(storageDetails.joiningDate);
@@ -258,29 +270,36 @@ const EmployeeCreate = () => {
             let localStorageMerge = Object.assign({}, ...localStorageData);
             setEmployeeData({...employeeData, ...localStorageMerge})
         }
-        restApi.getEnum(`designation/all`).then((e) => {
-            e.forEach((item:any)=>{
-                let tempObj:any={};
-                tempObj["code"]=item.code;
-                tempObj["description"]=item.description;
-                setTempEnum((prevState:any)=>{
+        restApi.getEnum(`designation/all`).then((e: any) => {
+            e.forEach((item: any) => {
+                let tempObj: any = {};
+                tempObj["code"] = item.code;
+                tempObj["description"] = item.description;
+                setTempEnum((prevState: any) => {
                     prevState.designationEnum.push(tempObj);
                     return {...prevState};
                 })
             })
-        }).catch((e) => message.error("enum is not inserted"));
-
-        restApi.getEnum(`qualification/all`).then((e) => {
-            e.forEach((item:any)=>{
-                let tempObj:any={};
-                tempObj["code"]=item.code;
-                tempObj["description"]=item.description;
-                setTempEnum((prevState:any)=>{
+        }).catch((e: any) => message.error("enum is not inserted"));
+        restApi.getEnum(`qualification/all`).then((e: any) => {
+            e.forEach((item: any) => {
+                let tempObj: any = {};
+                tempObj["code"] = item.code;
+                tempObj["description"] = item.description;
+                setTempEnum((prevState: any) => {
                     prevState.qualificationEnum.push(tempObj);
                     return {...prevState};
                 })
             })
-        }).catch((e) => message.error("enum is not inserted"));
+        }).catch((e: any) => message.error("enum is not inserted"));
+        restApi.getState({"country": "India"}).then((e: any) => {
+            e.data.states.forEach((item: any) => setState((prevState: any) => [...prevState, {
+                value: item.name,
+                label: item.name
+            }]));
+        }).catch((e: any) => {
+            console.log(e)
+        });
         }, []);
 
     return (
@@ -308,6 +327,23 @@ const EmployeeCreate = () => {
                                   } else {
                                       setEmployeeData({...employeeData, ...e})
                                   }
+                                  if (Object.hasOwn(e, "state")) {
+                                      setCity([]);
+                                      restApi.getCity({"country": "India", "state": e.state}).then((e: any) => {
+                                          e.data.forEach((item: any) => setCity((prevState: any) => {
+                                              let obj = {
+                                                  label: item,
+                                                  value: item
+                                              }
+                                              return [...prevState, {
+                                                  label: item,
+                                                  value: item
+                                              }]
+                                          }))
+                                      }).catch((e: any) => {
+                                          console.log(e)
+                                      });
+                                  }
                               }
                           }}
                           form={form}
@@ -318,7 +354,7 @@ const EmployeeCreate = () => {
                             <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 1 && (<>
-                            <Address/>
+                            <Address state={state} setState={setState} city={city} setCity={setCity}/>
                             <PrevNext onChange={onChange} current={current}/>
                         </>)}
                         {current === 2 && (<>

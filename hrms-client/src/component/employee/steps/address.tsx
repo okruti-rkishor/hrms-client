@@ -1,10 +1,16 @@
-import {Form, Input} from "antd";
-import React from "react";
+import {Cascader, Form, Input, Select} from "antd";
+import React, {useState} from "react";
+import restApi from "../../../services/http/api";
+import {DesignationEnum} from "../employeeSearch";
 
-const Address =()=>{
+const Address = ({state, setState,city,setCity}: any) => {
+
+
+
     return (
         <>
-            <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"employee-create-inputs"}>
+            <div style={{marginTop: "10px", display: "flex", flexDirection: "column", gap: "30px"}}
+                 className={"employee-create-inputs"}>
                 <label>Present Address</label>
                 <Form.Item label={"House number"}
                            name={"line1"}
@@ -14,17 +20,6 @@ const Address =()=>{
                                    required: true,
                                    message: "Please enter House Number",
                                },
-                               () => ({
-                                   validator(_, value) {
-                                       if (!value) {
-                                           return Promise.reject();
-                                       }
-                                       if (isNaN(value)) {
-                                           return Promise.reject("House Number should be number.");
-                                       }
-                                       return Promise.resolve();
-                                   },
-                               }),
                            ]}
                 >
                     <Input required={true}/>
@@ -33,35 +28,13 @@ const Address =()=>{
                            name={"line2"}
                            required={true}
                            rules={[{
-                               required:true,
-                               message:"please fill your Street Address"
+                               required: true,
+                               message: "please fill your Street Address"
                            }]}
                 >
                     <Input required={true}/>
                 </Form.Item>
-                <Form.Item label={"City"}
-                           name={"city"}
-                           required={true}
-                           rules={[
-                               {
-                                   required: true,
-                                   message: "Please enter City",
-                               },
-                               () => ({
-                                   validator(_, value) {
-                                       if (!value) {
-                                           return Promise.reject();
-                                       }
-                                       if (!isNaN(value)) {
-                                           return Promise.reject("City should be text.");
-                                       }
-                                       return Promise.resolve();
-                                   },
-                               }),
-                           ]}
-                >
-                    <Input required={true}/>
-                </Form.Item>
+
                 <Form.Item label={"State"}
                            name={"state"}
                            required={true}
@@ -70,22 +43,26 @@ const Address =()=>{
                                    required: true,
                                    message: "Please enter State",
                                },
-                               () => ({
-                                   validator(_, value) {
-                                       if (!value) {
-                                           return Promise.reject();
-                                       }
-                                       if (!isNaN(value)) {
-                                           return Promise.reject("State should be text.");
-                                       }
-                                       return Promise.resolve();
-                                   },
-                               }),
                            ]}
 
                 >
-                    <Input required={true}/>
+                    <Select options={state} />
                 </Form.Item>
+
+                <Form.Item label={"City"}
+                           name={"city"}
+                           required={true}
+                           rules={[
+                               {
+                                   required: true,
+                                   message: "Please enter City",
+                               },
+                           ]}
+
+                >
+                    <Select options={city}/>
+                </Form.Item>
+
                 <Form.Item label={"Postcode"}
                            name={"zipCode"}
                            required={true}

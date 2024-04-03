@@ -21,8 +21,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
             }
-
-        },
+            },
     };
 
     const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
@@ -72,7 +71,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                                                            return Promise.reject("number cannot be less than 12.");
 
                                                        }
-
                                                    }
                                                    else{
                                                        if (value.length > 10) {
@@ -174,7 +172,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             }
         }
         if (customKey === "PAN_CARD") {
-            if (state.PAN_CARD_NUMBER === null || state.AADHAAR_CARD_NUMBER.length<12) {
+            if (state.PAN_CARD_NUMBER === null || state.PAN_CARD_NUMBER.length<10) {
                 message.error(`please fill ${customKey} number`);
                 return;
             } else {
@@ -210,7 +208,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             }
         }
         if (customKey === "PAN_CARD") {
-            if (state.PAN_CARD_NUMBER.length < 12) {
+            if (state.PAN_CARD_NUMBER.length < 10) {
                 message.error(`please fill ${customKey} number`);
                 return;
             }
@@ -239,7 +237,6 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         } else {
             setState({...state, PAN_CARD_NUMBER: value})
         }
-
     }
 
     const { token } = theme.useToken();
