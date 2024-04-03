@@ -14,7 +14,6 @@ import {
   CalendarTwoTone,
   DeleteOutlined,
   ProfileTwoTone,
-  SwapOutlined,
 } from "@ant-design/icons";
 import { FC, useContext, useEffect, useState } from "react";
 import CalendarView from "./calendar";
@@ -75,27 +74,6 @@ const HolidayList = ({
       key: "startDate",
       width: "17%",
       align: "center" as const,
-      // render: (tags: string[]) => (
-      //   <span key={Math.random().toString(36).slice(2)}>
-      //     {tags?.map((tag, index) => {
-      //       let color = tag.length > 10 ? "geekblue" : "blue";
-      //       if (tag === "loser") {
-      //         color = "volcano";
-      //       }
-      //       return index !== 1 ? (
-      //         <>
-      //           <Tag color={color} key={Math.random().toString(36).slice(2)}>
-      //             {tag.toUpperCase()}
-      //           </Tag>{" "}
-      //         </>
-      //       ) : (
-      //         <Tag color={color} key={Math.random().toString(36).slice(2)}>
-      //           {tag.toUpperCase()}
-      //         </Tag>
-      //       );
-      //     })}
-      //   </span>
-      // ),
     },
     {
       title: "End Date",
@@ -103,27 +81,6 @@ const HolidayList = ({
       key: "endDate",
       width: "17%",
       align: "center" as const,
-      // render: (tags: string[]) => (
-      //   <span key={Math.random().toString(36).slice(2)}>
-      //     {tags?.map((tag, index) => {
-      //       let color = tag.length > 10 ? "geekblue" : "blue";
-      //       if (tag === "loser") {
-      //         color = "volcano";
-      //       }
-      //       return index !== 1 ? (
-      //         <>
-      //           <Tag color={color} key={Math.random().toString(36).slice(2)}>
-      //             {tag.toUpperCase()}
-      //           </Tag>{" "}
-      //         </>
-      //       ) : (
-      //         <Tag color={color} key={Math.random().toString(36).slice(2)}>
-      //           {tag.toUpperCase()}
-      //         </Tag>
-      //       );
-      //     })}
-      //   </span>
-      // ),
     },
 
     {
@@ -145,12 +102,6 @@ const HolidayList = ({
       key: "type",
       align: "center" as const,
     },
-    // {
-    //   title: "Status",
-    //   dataIndex: "status",
-    //   key: "status",
-    //   align: "center" as const,
-    // },
     {
       title: "Action",
       key: "action",
@@ -177,7 +128,8 @@ const HolidayList = ({
 
   const deleteHandel = async (record: any) => {
     try {
-      await rest.deleteHoliday(record.id);
+      // const deleteSelected = dataArray.find((holiday:any)=>holiday.name===record.name);
+      await rest.deleteHoliday(record.idArray);
       setDataArray(dataArray.filter((item: any) => item.id !== record.id));
       console.log(holidayData);
       console.log(record);
@@ -214,13 +166,6 @@ const HolidayList = ({
             id: index,
             name: capitalToSmall(item.name),
             startDate: item.calendar[0].date,
-            // item?.calendar?.length === 1
-            //   ? [item.calendar[0].date]
-            //   : [
-            //       `${item.calendar[0].date} ${"to"} ${
-            //         item.calendar[item.calendar.length - 1].date
-            //       }`,
-            //     ],
             endDate: item.calendar[item.calendar.length - 1].date,
             day:
               item?.calendar?.length === 1
@@ -230,6 +175,7 @@ const HolidayList = ({
                   }`,
             type: removeUnderScore(item.type, "_"),
             count: item?.calendar?.length,
+            idArray:(item.calendar).map((item1:any)=>item1.id)
           };
         }
       });

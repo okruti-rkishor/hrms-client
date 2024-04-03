@@ -33,6 +33,6 @@ export default {
     activeEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
     holidayCreate:(data:any)=>rest.post(base+"holiday",{},data),
     getAllHoliday:()=>rest.get(base+"holiday/search"),
-    deleteHoliday:(data:string)=>rest.del(base+`holiday/${data}`,{},{},{}),
+    deleteHoliday:(data:string[])=>rest.del(base+`holiday/delete-multiples`,{},data,{}),
 
 }
