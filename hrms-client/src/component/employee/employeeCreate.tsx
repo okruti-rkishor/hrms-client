@@ -123,11 +123,13 @@ const EmployeeCreate = () => {
     };
 
     const onFinish = async (value: object) => {
+        console.log(employeeData);
         const payload:any = {
             "status": employeeData.status,
             "employeeCode": isEditing ? employeeData.employeeCode : randomIdGenerator(),
             "designation": {
-                "code": isEditing ? employeeData.designation.code : employeeData.designation
+                "id":tempEnum.designationEnum.find((item:any)=> item.code===employeeData.designation).id,
+                "code":employeeData.designation
             },
             "joiningDate": employeeData.joiningDate,
             "exitDate": null,
@@ -144,7 +146,8 @@ const EmployeeCreate = () => {
             "dateOfBirth": employeeData.dateOfBirth,
             "age": employeeData.age,
             "qualification": {
-                code: isEditing ? employeeData.qualification.code : employeeData.qualification
+                "id":tempEnum.qualificationEnum.find((item:any)=> item.code===employeeData.qualification).id,
+                "code": employeeData.qualification
             },
             "email": employeeData.email,
             "contact": employeeData.contact,
@@ -233,7 +236,9 @@ const EmployeeCreate = () => {
                     ...after,
                     dateOfBirth: dayjs(response.dateOfBirth),
                     documents: docObj,
-                    joiningDate: dayjs(response.joiningDate)
+                    joiningDate: dayjs(response.joiningDate),
+                    qualification: response.qualification.code,
+                    designation: response.designation.code
                 });
             }).catch((error) => console.log(error));
         }
@@ -275,6 +280,7 @@ const EmployeeCreate = () => {
                 let tempObj: any = {};
                 tempObj["code"] = item.code;
                 tempObj["description"] = item.description;
+                tempObj["id"]=item.id;
                 setTempEnum((prevState: any) => {
                     prevState.designationEnum.push(tempObj);
                     return {...prevState};
@@ -286,6 +292,7 @@ const EmployeeCreate = () => {
                 let tempObj: any = {};
                 tempObj["code"] = item.code;
                 tempObj["description"] = item.description;
+                tempObj["id"]=item.id;
                 setTempEnum((prevState: any) => {
                     prevState.qualificationEnum.push(tempObj);
                     return {...prevState};
