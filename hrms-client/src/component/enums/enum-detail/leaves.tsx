@@ -104,46 +104,9 @@ function LeavesType() {
 
     return (
         <>
-
-
-
             <Layout className="with-background leaves-type">
 
-
-
-
-
-                <Flex className="data-table">
-
-
-                    <Sider trigger={null} collapsible collapsed={collapsed} style={{height:"100%"}}>
-                        <div className="demo-logo-vertical" />
-                        <Menu
-                            theme="dark"
-                            mode="inline"
-                            defaultSelectedKeys={['1']}
-                            items={[
-                                {
-                                    key: '1',
-                                    icon: <UserOutlined />,
-                                    label: 'nav 1',
-                                },
-                                {
-                                    key: '2',
-                                    icon: <VideoCameraOutlined />,
-                                    label: 'nav 2',
-                                },
-                                {
-                                    key: '3',
-                                    icon: <UploadOutlined />,
-                                    label: 'nav 3',
-                                },
-                            ]}
-                        />
-
-                    </Sider>
-
-
+                <div className="data-table">
                     <Flex justify={"space-between"} align={"center"}>
                         <div className={"devider"}>
                             <Divider orientation={"left"}><h2>Leave Types</h2></Divider>
@@ -194,7 +157,7 @@ function LeavesType() {
                         columns={columns}
                         dataSource={data}
                     />
-                </Flex>
+                </div>
                 {/*</div>*/}
             </Layout>
         </>
