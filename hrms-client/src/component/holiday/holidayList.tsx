@@ -22,7 +22,7 @@ import rest from "../../services/http/api";
 import UserLoginContext from "../../context/userLoginContext";
 import Search from "antd/es/input/Search";
 
-export const capitalToSmall = (str: string) => {
+export const capitalToSmall = (str: string="") => {
   str = String(str);
   let tempStr = str.toLowerCase();
   let newString = tempStr.substring(0, 1).toLocaleUpperCase();

@@ -207,6 +207,13 @@ const items = [
                     key: 'enum detail',
                     icon: <FormOutlined/>,
                 },
+                {
+                    label: (
+                        <Link to='/setting/leaves'>Leaves</Link>
+                    ),
+                    key: 'leave detail',
+                    icon: <FormOutlined/>,
+                },
             ],
         }
     ]

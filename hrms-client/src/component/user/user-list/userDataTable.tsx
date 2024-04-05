@@ -129,7 +129,7 @@ const TempFile: React.FC = () => {
             const index = newData.findIndex((item) => key === item.id);
             if (index > -1) {
                 //call API
-                const editedData :any = { ...row};
+                const editedData :any = { ...row,id:key};
                 // delete editedData.id;
                 const editResponse = await restApi.userEdit(editedData,key);
                 const item :any = newData[index];

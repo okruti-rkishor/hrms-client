@@ -22,6 +22,7 @@ import {
     UserCreate,
     UserDataTable,
     UserDetailsCard,
+    LeavesType
 } from "./component/index";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -68,6 +69,9 @@ const App = () => {
                     />
                     <Route path="enum"
                            element={<PrivateRoutes Componant={<EnumCards/>}/>}
+                    />
+                    <Route path="setting/leaves"
+                           element={<PrivateRoutes Componant={<LeavesType/>}/>}
                     />
                     <Route path="about-us" element={<AboutUs/>}/>
                     <Route path="faqs" element={<FAQComponent/>}/>

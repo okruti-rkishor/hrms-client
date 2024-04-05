@@ -12,11 +12,10 @@ import {
   Empty,
 } from "antd";
 import "./employeeSearch.scss";
-// import { Designation } from "../../../src/constant/constant";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import { PageHeader } from "@ant-design/pro-layout";
-import { removeUnderScore } from "../holiday/holidayList";
+import {capitalToSmall, removeUnderScore} from "../holiday/holidayList";
 const FormItem = Form.Item;
 
 export interface employeeInterface {
@@ -132,11 +131,11 @@ function EmployeeSearch() {
         );
         return {
           ...employee,
-          employeeName: `${employee.name.firstName}${
+          employeeName: capitalToSmall(`${employee.name.firstName}${
             employee.name.middleName !== null
               ? " " + employee.name.middleName
               : ""
-          } ${employee.name.lastName}`,
+          } ${employee.name.lastName}`),
           designation: formattedDesignation,
         };
       });
@@ -191,7 +190,7 @@ function EmployeeSearch() {
                   },
                 ]}
               >
-                <Select>
+                <Select className={"select-designation"}>
                   {designation.map((key: DesignationEnum) => (
                     <Select.Option key={key.id} value={key.code}>
                       {key.description}

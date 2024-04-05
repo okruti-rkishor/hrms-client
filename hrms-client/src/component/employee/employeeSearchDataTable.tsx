@@ -88,8 +88,8 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
 
   const deleteHandel = async (record: any) => {
     try {
-      rest.employeeDelete(record.id);
-      const newData = newEmployeeResponse.filter(
+      await rest.employeeDelete(record.id);
+      const newData = data.filter(
         (item: any) => item.id !== record.id
       );
       console.log(newData);
@@ -137,11 +137,12 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
       title: "Actions",
       dataIndex: "operation",
       width: "15%",
+      // align:"right",
       key: "operation",
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
         return (
-          <>
+          <div style={{display:"flex", justifyContent:"center", gap:"10px"}}>
             <Typography.Link
               disabled={editingKey !== ""}
               onClick={() => {
@@ -164,9 +165,9 @@ const EmployeeSearchDataTable = ({ employeeResponse }: any) => {
               onCancel={cancel}
             >
               {" "}
-              <DeleteOutlined />
+              <DeleteOutlined className={"search-table delete-button"}/>
             </Popconfirm>
-          </>
+          </div>
         );
       },
     },
