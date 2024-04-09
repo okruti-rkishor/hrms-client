@@ -6,6 +6,7 @@ import {UploadOutlined} from '@ant-design/icons';
 import {CaretRightOutlined} from "@ant-design/icons/lib";
 
 const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element => {
+    console.log("7777")
     const [state, setState] = useState<any>({
         AADHAAR_CARD_NUMBER: employeeData.documents["AADHAAR_CARD"]?.documentNumber ?? "",
         PAN_CARD_NUMBER: employeeData.documents["PAN_CARD"]?.documentNumber ?? ""

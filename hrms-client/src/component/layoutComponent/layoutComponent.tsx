@@ -5,6 +5,7 @@ import FooterComponent from '../footer/footer';
 import { Content } from "antd/es/layout/layout";
 import {Outlet} from "react-router-dom";
 import './layoutComponent.scss';
+import Navbar from "../navbar/navbar";
 
 
 function ScrollToTop() {
@@ -46,8 +47,13 @@ function ScrollToTop() {
 function LayoutComponent() {
     return (
         <Layout className='hrms-layout'>
-            <HeaderComponent />
-            <Content className='main-section'><Outlet /></Content>
+            <Navbar />
+
+            <div className={"hrms-layout__content"}>
+                <HeaderComponent />
+                <Content className='main-section'><Outlet /></Content>
+            </div>
+
             {/*<FooterComponent />*/}
             <ScrollToTop/>
         </Layout>

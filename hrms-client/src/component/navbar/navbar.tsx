@@ -237,10 +237,9 @@ const NavigationMenu: React.FC = () => {
     };
 
     return (
-        <Menu style={{width: '100%'}}
-              onClick={onClick}
+        <Menu onClick={onClick}
               selectedKeys={[current]}
-              mode="horizontal"
+              mode="vertical"
               items={items && isEmployee() ? items[0] : items[1]}
               className='navigation-menu'
         />

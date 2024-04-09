@@ -57,6 +57,7 @@
     @include flex-row;
     gap: 40px;
     width: 100%;
+    flex-wrap: wrap;
 
     &__section {
       width: fit-content;
@@ -66,7 +67,7 @@
   &__card {
     @include poppins-s;
     text-align: left;
-    min-width: 430px;
+    min-width: 400px;
     border: 1px solid $hrms-gray-20;
 
     .anticon {
@@ -102,8 +103,8 @@
     }
 
     &.animated {
-      min-width: 120px;
-      max-width: 120px;
+      min-width: 110px;
+      max-width: 110px;
       cursor: pointer;
       text-align: center;
       transition: all .25s ease;

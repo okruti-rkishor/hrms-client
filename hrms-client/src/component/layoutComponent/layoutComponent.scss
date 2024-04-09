@@ -4,6 +4,9 @@
 
 
 .hrms-layout {
+  display: flex;
+  flex-direction: row;
+
   .main-section {
     min-height: 90vh;
   }
@@ -37,5 +40,10 @@
     &:hover {
       transform: translateY(-7px);
     }
+  }
+
+  &__content{
+    width: 100%;
+    padding-left: 160px;
   }
 }

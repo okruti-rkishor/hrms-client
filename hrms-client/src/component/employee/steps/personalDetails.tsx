@@ -4,6 +4,7 @@ import React from "react";
 
 
 const PersonalDetails = (props: any) => {
+    console.log("22222222222");
     let age=props.age;
     let qualificationEnum=props.tempEnum.qualificationEnum;
     console.log(qualificationEnum.map((item:any)=>item));

@@ -89,24 +89,13 @@ const HolidayCreateForm = ({year, isFormDisabled,holidayData,setHolidayData,tota
 
         useEffect(() => {
             restApi.getAllHoliday().then((response) => {
-                let tempArray: any = [];
-                response.forEach((item: any) => {
-                    let startDate = item.calender.startDate;
-                    let endDate = item.calender.endDate;
-                    if (startDate === endDate) {
-                        tempArray.push(startDate);
-                    } else {
-                        for (; startDate <= endDate;) {
-                            let newStartDate = new Date(startDate);
-                            startDate = formatDate(newStartDate);
-                            tempArray.push(startDate);
-                            newStartDate.setDate(newStartDate.getDate() + 1);
-                            startDate = formatDate(newStartDate);
-                        }
-                    }
+                let values=Object.values(response);
+                values.forEach((item:any)=>{
+                    item.forEach((item:any)=>setTotalHoliday((prevState:any)=> [...prevState, item.date]));
                 })
-                setTotalHoliday([...totalHoliday, ...tempArray]);
+
             }).catch((e) => console.log(e));
+
 
         }, [])
 
@@ -199,6 +188,7 @@ const HolidayCreateForm = ({year, isFormDisabled,holidayData,setHolidayData,tota
 ;
 
 const HolidayYearTab = ({holidayData, setHolidayData, totalHoliday, setTotalHoliday}: any) => {
+    console.log("222222");
     const currentYear = new Date().getFullYear();
     const previousYear = new Date().getFullYear() - 1;
     const nextYear = new Date().getFullYear() + 1;
@@ -260,6 +250,7 @@ const HolidayYearTab = ({holidayData, setHolidayData, totalHoliday, setTotalHoli
 };
 
 function HolidayCreate() {
+    console.log("111");
     const [holidayData, setHolidayData] = useState<Item[]>([]);
     const [totalHoliday, setTotalHoliday] = useState<any>([]);
     const [showAddHolidayStatus, setShowAddHolidayStatus] = useState<boolean>(false);
@@ -275,6 +266,9 @@ function HolidayCreate() {
         } else if (newUser && newUser.roles.length >= 1) {
             setShowAddHolidayStatus(true);
         }
+
+
+
     }, [newUser]);
 
     return (

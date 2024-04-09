@@ -4,6 +4,7 @@ import {Gender} from "../../../constant/constant";
 import {CloseOutlined} from "@ant-design/icons/lib";
 
 const FamilyDetail = () => {
+    console.log("8888")
     return (
         <>
             <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>

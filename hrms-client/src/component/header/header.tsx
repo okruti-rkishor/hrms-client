@@ -18,7 +18,7 @@ const HeaderComponent = () => {
                 <Link to='/home'>
                     <h1 style={{color: "white", textAlign: 'left'}}>HRMS</h1>
                 </Link>
-                <Navbar/>
+                {/*<Navbar/>*/}
                 {
                     newUser.loginStatus ? <UserLoginCard/> :
                         <Button className={"login-button"} onClick={() => navigate("/login")}>

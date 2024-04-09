@@ -1,8 +1,9 @@
-import {DatePicker, Form, Input, Select} from "antd";
+import {DatePicker, Form, Input} from "antd";
 import React from "react";
-import {Status} from "../../../constant/constant";
+
 
 const Contact =()=>{
+    console.log("66666")
     return (
         <>
             <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"30px"}} className={"employee-create-inputs"}>

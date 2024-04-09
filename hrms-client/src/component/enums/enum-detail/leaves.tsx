@@ -7,7 +7,16 @@ import submit = Simulate.submit;
 import './leaves.scss'
 import {toast} from "react-toastify";
 import rest from "../../../services/http/api"
-import {UploadOutlined, UserOutlined, VideoCameraOutlined} from "@ant-design/icons/lib";
+import {
+    BookOutlined,
+    CalendarOutlined,
+    ProfileOutlined,
+    RightOutlined,
+    ScheduleOutlined,
+    UploadOutlined, UsergroupAddOutlined,
+    UserOutlined,
+    VideoCameraOutlined
+} from "@ant-design/icons/lib";
 import Sider from "antd/es/layout/Sider";
 
 interface DataType {
@@ -106,10 +115,45 @@ function LeavesType() {
         <>
             <Layout className="with-background leaves-type">
 
-                <div className="data-table">
+                <div className="leave-list">
+                    <div className="leave-list_item">
+                        <ul>
+                            <li>
+                                <a>
+                                    <CalendarOutlined />
+                                    <span>Work Weeks</span>
+                                    <RightOutlined />
+                                </a>
+
+                            </li>
+                            <li>
+                                <a>
+                                    <ProfileOutlined />
+                                    <a>Leave Types</a>
+                                    <RightOutlined />
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <UsergroupAddOutlined />
+                                    <a>Designation</a>
+                                    <RightOutlined />
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <BookOutlined />
+                                    <a>Qualification</a>
+                                    <RightOutlined />
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div className="leave-list_table">
                     <Flex justify={"space-between"} align={"center"}>
                         <div className={"devider"}>
-                            <Divider orientation={"left"}><h2>Leave Types</h2></Divider>
+                            <h2>Leave Types</h2>
+                            <p>The below table shows the list of leave types.</p>
                         </div>
                         <Button
                             type="primary"
@@ -118,12 +162,10 @@ function LeavesType() {
                         />
                     </Flex>
 
-                    <Divider/>
 
                     <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
                         <Form
                             layout="horizontal"
-
                         >
                             <Form.Item
                                 label="Leave Type"
@@ -157,12 +199,11 @@ function LeavesType() {
                         columns={columns}
                         dataSource={data}
                     />
+                    </div>
                 </div>
                 {/*</div>*/}
             </Layout>
         </>
-
-
     );
 }
 

@@ -21,6 +21,7 @@ import "./holiday-list.scss";
 import rest from "../../services/http/api";
 import UserLoginContext from "../../context/userLoginContext";
 import Search from "antd/es/input/Search";
+import dayjs from "dayjs";
 
 export const capitalToSmall = (str: string="") => {
   str = String(str);
@@ -56,7 +57,6 @@ const HolidayList = ({
   totalHoliday,
   setTotalHoliday,
 }: any) => {
-  // console.log("1112222");
   const [dataArray, setDataArray] = useState<any>([{}]);
   const [showCalendar, setShowCalendar] = useState(false);
   const { newUser } = useContext(UserLoginContext);
@@ -131,8 +131,13 @@ const HolidayList = ({
       // const deleteSelected = dataArray.find((holiday:any)=>holiday.name===record.name);
       await rest.deleteHoliday(record.idArray);
       setDataArray(dataArray.filter((item: any) => item.id !== record.id));
-      console.log(holidayData);
-      console.log(record);
+
+      let date:any=[];
+      for(let startDate=new Date(record.startDate),endDate=new Date(record.endDate);startDate<=endDate;startDate.setDate(startDate.getDate()+1)){
+        let newStartDate=new Date(startDate);
+        date.push(dayjs(newStartDate).format("YYYY-MM-DD"));
+      }
+      setTotalHoliday(totalHoliday.filter((value:any) => !(date.includes(value))));
       success();
     } catch (error) {
       console.log(error);
@@ -143,9 +148,6 @@ const HolidayList = ({
     try {
       const response = await rest.getAllHoliday();
       const holidayNameList = Object.keys(response);
-
-      console.log(holidayNameList);
-
       const newResponse1 = holidayNameList.map((key: any, index: number) => {
         return {
           name: key,
@@ -213,63 +215,61 @@ const HolidayList = ({
   };
 
   return (
-    <Layout className="with-background">
       <div className="holiday-list">
         <div className="data-table">
           <Flex style={{ width: "inherit", alignItems: "center" }}>
             <PageHeader
-              title="Holiday View"
-              style={{ height: "fit-content" }}
+                title="Holiday View"
+                style={{ height: "fit-content" }}
             />
             <Divider style={{ width: "80%", minWidth: "unset" }} />
             <Flex style={{ marginLeft: "auto" }}>
               <Search
-                placeholder="input search text"
-                onChange={onSearch}
-                // onSearch={onSearch}
-                style={{ width: 200, padding: "5px 10px" }}
+                  placeholder="input search text"
+                  onChange={onSearch}
+                  // onSearch={onSearch}
+                  style={{ width: 200, padding: "5px 10px" }}
               />
               {showCalendar ? (
-                <div style={{ fontSize: "25px" }}>
-                  <ConfigProvider
-                    theme={{
-                      token: {
-                        colorPrimary: "#ffffff",
-                      },
-                    }}
-                  >
-                    <ProfileTwoTone
-                      onClick={() => {
-                        setShowCalendar(false);
-                      }}
-                    />
-                  </ConfigProvider>
-                </div>
+                  <div style={{ fontSize: "25px" }}>
+                    <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: "#ffffff",
+                          },
+                        }}
+                    >
+                      <ProfileTwoTone
+                          onClick={() => {
+                            setShowCalendar(false);
+                          }}
+                      />
+                    </ConfigProvider>
+                  </div>
               ) : (
-                <div style={{ fontSize: "25px" }}>
-                  <CalendarTwoTone
-                    onClick={() => {
-                      setShowCalendar(true);
-                    }}
-                  />
-                </div>
+                  <div style={{ fontSize: "25px" }}>
+                    <CalendarTwoTone
+                        onClick={() => {
+                          setShowCalendar(true);
+                        }}
+                    />
+                  </div>
               )}
             </Flex>
           </Flex>
           {showCalendar ? (
-            <CalendarView data={dataArray} mode={"month"} />
+              <CalendarView data={dataArray} mode={"month"} />
           ) : (
-            <Table
-              style={{ textAlign: "center" }}
-              rowKey={(record: any) => record.id}
-              bordered
-              columns={column}
-              dataSource={dataArray}
-            />
+              <Table
+                  style={{ textAlign: "center" }}
+                  rowKey={(record: any) => record.id}
+                  bordered
+                  columns={column}
+                  dataSource={dataArray}
+              />
           )}
         </div>
       </div>
-    </Layout>
   );
 };
 

@@ -1,14 +1,25 @@
 .navigation-menu {
+  background: #1077DA !important;
+  z-index: 100;
 
   &.ant-menu {
     font-size: 16px;
-    display: flex;
-    flex: 0 0 70%;
+    //display: flex;
+    //flex: 0 0 70%;
     //gap: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding-top: 75px;
 
     &.ant-menu-light {
+      max-width: fit-content;
       background: unset;
       color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
 
       &.ant-menu-horizontal {
         >.ant-menu-submenu {

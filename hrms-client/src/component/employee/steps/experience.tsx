@@ -4,6 +4,7 @@ import React from "react";
 import {CloseOutlined} from "@ant-design/icons/lib";
 
 const Experience = ({tempEnum}: any) => {
+    console.log("44444")
     const {RangePicker} = DatePicker;
     const options: SelectProps['options'] = [
         {

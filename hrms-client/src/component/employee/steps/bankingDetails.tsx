@@ -3,6 +3,7 @@ import React from "react";
 
 
 const BankingDeatils=()=>{
+    console.log("55555")
     return (
         <>
             <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
