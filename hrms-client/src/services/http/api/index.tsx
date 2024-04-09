@@ -37,5 +37,6 @@ export default {
     getState:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/states",{},data,{}),
     getCity:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/state/cities",{},data,{}),
     leaveTypeCreate:(data: any) => rest.post(base + "leave_type", {}, data),
-
+    getAllLeaveTypes:() => rest.get(base + "leave_type/all", {}, ),
+    leaveTypeDelete:(data:string) => rest.del(base + `leave_type/${data}`, {}, ),
 }
