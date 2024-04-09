@@ -22,7 +22,7 @@ import {
     UserCreate,
     UserDataTable,
     UserDetailsCard,
-    LeavesType
+    Leaves
 } from "./component/index";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,7 +30,6 @@ import ApiInterceptor from "./apiInterceptor";
 import {toast, ToastContainer} from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
 import {useContext} from "react";
-
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
@@ -71,7 +70,7 @@ const App = () => {
                            element={<PrivateRoutes Componant={<EnumCards/>}/>}
                     />
                     <Route path="setting/leaves"
-                           element={<PrivateRoutes Componant={<LeavesType/>}/>}
+                           element={<PrivateRoutes Componant={<Leaves/>}/>}
                     />
                     <Route path="about-us" element={<AboutUs/>}/>
                     <Route path="faqs" element={<FAQComponent/>}/>
