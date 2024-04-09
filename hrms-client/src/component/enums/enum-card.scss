@@ -20,6 +20,7 @@
         border-bottom: 1px solid $hrms-color-100;
         text-align: center;
       }
+
       &.active{
         box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
       }
@@ -51,16 +52,14 @@
     .ant-row{
       justify-content: unset;
     }
-
-
   }
 }
-.data-table.data-table-with-enums{
-  margin:0 auto 40px;
-  display:flex;
-  flex-direction: column;
-  gap:30px;
 
+.data-table.data-table-with-enums{
+  margin-block: 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 
   button{
     width:5%;
@@ -79,12 +78,14 @@
       margin-right: unset;
     }
   }
+
   .anticon{
     font-size:18px;
     margin-right:10px;
     color:#1677FF;
 
   }
+
   .ant-select-arrow{
     .anticon{
       font-size: unset;
@@ -92,14 +93,12 @@
     }
 
   }
+}
 
-}
-.data-table.enum-create-section {
-  margin: 40px auto 20px;
-}
 .editableInput{
   width: 50%;
   height: 50%;
+
   >.ant-select-selector{
     height:50% !important;
   }

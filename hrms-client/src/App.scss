@@ -16,12 +16,13 @@
   .ant-layout {
     //background: unset;
     background: $hrms-white-30;
+    height: 100%;
 
     &.with-background {
       //background: $hrms-white-10;
       background: #e8f0fe80;
       height: 100%;
-      padding: 40px;
+      padding: 40px 40px 20px;
     }
 
     .ant-select-multiple {
@@ -70,7 +71,7 @@
 
 .ant-divider {
   &.ant-divider-horizontal.ant-divider-with-text {
-    margin: 0 0 20px;
+    margin: 0 0 30px;
 
     &:before, &:after {
       border-block-start-color: #d8d8d8;

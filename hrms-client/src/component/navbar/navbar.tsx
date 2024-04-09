@@ -22,25 +22,25 @@ import UserLoginContext from "../../context/userLoginContext";
 const items = [
     [
         {
-        label: 'Employee',
-        key: 'employee',
-        icon: <TeamOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='/employee/create'>Create</Link>
-                ),
-                key: 'employee create',
-                icon: <FormOutlined/>,
-            },
-            {
-                label: (
-                    <Link to='/employee/search'>Search</Link>
-                ),
-                key: 'employee search',
-                icon: <SearchOutlined/>,
-            }
-        ],
+            label: 'Employee',
+            key: 'employee',
+            icon: <TeamOutlined />,
+            children: [
+                {
+                    label: (
+                        <Link to='/employee/create'>Create</Link>
+                    ),
+                    key: 'employee create',
+                    icon: <FormOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/employee/search'>Search</Link>
+                    ),
+                    key: 'employee search',
+                    icon: <SearchOutlined/>,
+                }
+            ],
         },
         {
             label: 'Events',
@@ -88,12 +88,6 @@ const items = [
                     ),
                     key: 'holiday-create',
                 },
-                {
-                    label: (
-                        <Link to='/holiday'>Holiday List</Link>
-                    ),
-                    key: 'holiday-list',
-                }
             ],
         },
     ],
@@ -196,7 +190,7 @@ const items = [
             ],
         },
         {
-            label: 'Setting',
+            label: 'Settings',
             key: 'enum',
             icon: <EditOutlined />,
             children: [

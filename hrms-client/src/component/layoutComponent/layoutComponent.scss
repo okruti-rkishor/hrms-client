@@ -9,6 +9,7 @@
 
   .main-section {
     min-height: 90vh;
+    height: 100%;
   }
 
   .scroll-to-top {
@@ -44,6 +45,7 @@
 
   &__content{
     width: 100%;
-    padding-left: 160px;
+    height: 100%;
+    padding-left: 140px;
   }
 }

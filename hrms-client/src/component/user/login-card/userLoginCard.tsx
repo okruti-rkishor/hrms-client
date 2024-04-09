@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import {
   CalendarOutlined,
   LogoutOutlined,
+  SettingOutlined,
   ToTopOutlined,
   UserOutlined,
 } from "@ant-design/icons/lib";
@@ -35,6 +36,11 @@ const UserDataContent = () => {
       icon: <ToTopOutlined />,
       linkTarget: "www.google.com",
     },
+    {
+      linkText: "Change Password",
+      icon: <SettingOutlined />,
+      linkTarget: "www.google.com",
+    },
   ];
 
   const handleLogout = async () => {
@@ -51,7 +57,7 @@ const UserDataContent = () => {
         console.log(resp);
         localStorage.removeItem("loginToken");
         navigate("/login");
-        toast.success("Logout Success!!", { autoClose: 900 });
+        toast.success("Logout Success!!", { autoClose: 2000 });
         setNewUser({
           loginStatus: false,
           id: "",
@@ -64,8 +70,8 @@ const UserDataContent = () => {
         console.error("Unable to Logout the User:", error.message);
       }
     } else {
-      alert("Session Expire!"); 
-      toast.success("Session Expired!!", { autoClose: 900 });
+      // alert("Session Expire!");
+      toast.success("Session Expired!!", { autoClose: 2000 });
       localStorage.removeItem("loginToken");
       navigate("/login");
     }
@@ -81,7 +87,8 @@ const UserDataContent = () => {
         description={[
           <>
             <h5 className="user-card-mail">{newUser.email}</h5>
-            {newUser.roles?.map((tag: string) => {
+            {
+              newUser.roles?.map((tag: string) => {
               return (
                 <Tag
                   className={`user-tag ${tag.toLocaleLowerCase()}`}
@@ -89,8 +96,8 @@ const UserDataContent = () => {
                 >
                   {tag.toUpperCase()}
                 </Tag>
-              );
-            })}
+              )})
+            }
           </>,
         ]}
       />
@@ -102,11 +109,10 @@ const UserDataContent = () => {
           </Link>
         ))}
       </div>
-      <Button
-        type="primary"
-        key="logout"
-        onClick={handleLogout}
-        className="logout-button"
+      <Button type="primary"
+              key="logout"
+              onClick={handleLogout}
+              className="logout-button"
       >
         <LogoutOutlined /> Logout
       </Button>
