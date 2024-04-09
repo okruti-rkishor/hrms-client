@@ -21,6 +21,6 @@ import PrivateRoutes from '../privateRoutes/privateRoutes';
 import UserCreate from "./user/user-create/userCreate";
 import UserDataTable from "./user/user-list/userDataTable";
 import UserDetailsCard from "./user/user-cards/userDetailsCard";
-import Leaves from "./leave/leaves";
+import LeavesType from "./enums/enum-detail/leaves"
 
-export { AboutUs, Anniversary, Birthday, ContactUs, EmployeeCreate, EmployeeDetailComponent02, EmployeeSearch, EnumCards, Error, FAQComponent, ForgotPassword,HolidayCalendar,HolidayCreate,HolidayList, Home,LayoutComponent, Login,  PrivacyPolicy,PrivateRoutes, UserCreate,UserDataTable, UserDetailsCard, Leaves  };
+export { AboutUs, Anniversary, Birthday, ContactUs, EmployeeCreate, EmployeeDetailComponent02, EmployeeSearch, EnumCards, Error, FAQComponent, ForgotPassword,HolidayCalendar,HolidayCreate,HolidayList, Home,LayoutComponent, Login,  PrivacyPolicy,PrivateRoutes, UserCreate,UserDataTable, UserDetailsCard, LeavesType  };
