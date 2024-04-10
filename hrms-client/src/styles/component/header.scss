@@ -5,13 +5,13 @@ $button: linear-gradient(135deg, #5FA4E6 25%, #665DCD 40%);
 
 header {
   .header-section {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 60px;
+    display: grid;
+    //flex-direction: row;
+    //align-items: center;
+    //justify-content: space-between;
+    //max-width: 1440px;
+    //margin: 0 auto;
+    padding: 10px 60px;
   }
 
   &.ant-layout-header {
@@ -20,6 +20,9 @@ header {
     z-index: 5;
     padding: 0;
     background: #1077DA !important;
+
+    height: unset;
+    color: unset;
 
     .ant-row {
       .ant-col:last-child {

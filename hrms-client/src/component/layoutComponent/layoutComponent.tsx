@@ -48,12 +48,10 @@ function LayoutComponent() {
     return (
         <Layout className='hrms-layout'>
             <Navbar />
-
             <div className={"hrms-layout__content"}>
                 <HeaderComponent />
                 <Content className='main-section'><Outlet /></Content>
             </div>
-
             {/*<FooterComponent />*/}
             <ScrollToTop/>
         </Layout>

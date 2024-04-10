@@ -231,12 +231,18 @@ const NavigationMenu: React.FC = () => {
     };
 
     return (
-        <Menu onClick={onClick}
-              selectedKeys={[current]}
-              mode="vertical"
-              items={items && isEmployee() ? items[0] : items[1]}
-              className='navigation-menu'
-        />
+        <section className="hrms-navbar">
+            <Link to='/home' className="hrms-navbar__header">
+                <h1 className="hrms-navbar__header-text">HRMS</h1>
+            </Link>
+            <Menu onClick={onClick}
+                  selectedKeys={[current]}
+                  mode="vertical"
+                  items={items && isEmployee() ? items[0] : items[1]}
+                  className='navigation-menu'
+            />
+        </section>
+
     );
 };
 

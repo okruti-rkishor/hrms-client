@@ -2,25 +2,36 @@
 @import '../common/01-generic/index';
 
 
-.navigation-menu {
+.hrms-navbar {
   background: #1077DA !important;
   z-index: 100;
+  font-size: $hrms-font-size-m;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  &__header {
+    text-align: center;
+
+    &-text {
+      @include poppins-xl;
+      color: $hrms-white;
+      margin-block: 18px 40px;
+    }
+  }
+}
+
+.navigation-menu {
+  //background: #1077DA !important;
+  //z-index: 100;
 
   &.ant-menu {
-    font-size: 16px;
-    //display: flex;
-    //flex: 0 0 70%;
-    //gap: 10px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    padding-top: 75px;
 
     &.ant-menu-light {
       max-width: fit-content;
       background: unset;
-      color: #ffffff;
+      color: $hrms-white;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -49,11 +60,10 @@
 
     &.navigation-menu {
       .ant-menu-submenu-title {
-        color: #ffffff;
+        color: $hrms-white;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 4px;
         height: unset;
         padding: 10px 38px 10px 16px;
         font-size: $hrms-font-size-m;
@@ -69,7 +79,7 @@
       }
 
       svg{
-        font-size: 18px;
+        font-size: $hrms-font-size-sm;
       }
     }
   }

@@ -145,6 +145,16 @@ $hrms-font-style: normal;
   color: $hrms-black-10;
 }
 
+//font-size: 28px -- font-weight: 600 -- line-height: 32px
+@mixin poppins-xl () {
+  font-family: $hrms-font-family-poppins;
+  font-size: $hrms-font-size-lm;
+  line-height: $hrms-line-height-l;
+  font-weight: $hrms-font-weight-600;
+  font-style: $hrms-font-style;
+  color: $hrms-black-10;
+}
+
 
 //  "Roboto" FONT
 

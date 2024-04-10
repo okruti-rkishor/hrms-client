@@ -124,7 +124,8 @@ const UserLoginCard = () => {
   return (
     <Popover content={<UserDataContent />} trigger="hover">
       <div className="user-login__avatar">
-        <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=0" />
+        {/*<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=0" />*/}
+        <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />
       </div>
     </Popover>
   );
