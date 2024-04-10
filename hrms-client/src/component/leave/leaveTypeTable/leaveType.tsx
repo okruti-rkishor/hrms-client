@@ -1,23 +1,15 @@
 import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
-import {Button, Flex, Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
 import {
-    BookOutlined,
-    CalendarOutlined, CloseCircleOutlined,
     DeleteOutlined,
-    ProfileOutlined,
-    RightOutlined,
-    UsergroupAddOutlined
 } from "@ant-design/icons/lib";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import rest from '../../../services/http/api'
 
 function LeavesType({isModalOpen,setIsModalOpen}:any) {
-    // const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
-    //const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [allData, setAllData] = useState<any>();
-    // const [activationStatus, setActivationStatus] = useState(true);
     const leavesRecord = {
         paidType: [
             {value: 'PAID', label: 'Paid'},
@@ -88,22 +80,7 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
             console.log(error);
         }
     };
-    // const statusHandel = async (record: any) => {
-    //     try {
-    //         if (activationStatus) {
-    //             await rest.updateLeaveType(false,record.id)
-    //             console.log("DeActivate Done")
-    //             setActivationStatus(prev => !prev);
-    //         } else {
-    //             await rest.updateLeaveType(true,record.id)
-    //             console.log("Activate")
-    //             setActivationStatus(prev => !prev);
-    //         }
-    //     }catch (e) {
-    //
-    //     }
-    //
-    // }
+
     const columns: TableColumnsType<any> = [
         {
             title: 'Name',
@@ -132,21 +109,6 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
                         {" "}
                         <DeleteOutlined className={"search-table delete-button"}/>
                     </Popconfirm>
-                    {/*    <Popconfirm*/}
-                    {/*        title={activationStatus ? "Are you sure to Deactivate?" : "Are you sure to activate?"}*/}
-                    {/*        onConfirm={() => statusHandel(record)}*/}
-                    {/*        onCancel={() => {*/}
-                    {/*            console.log("Cancel")*/}
-                    {/*        }}*/}
-                    {/*    >*/}
-                    {/*        {" "}*/}
-                    {/*        {activationStatus ? <Tooltip title="DeActivate" color={"red"} key={"red"}>*/}
-                    {/*            <CloseCircleOutlined/>*/}
-                    {/*        </Tooltip> : <Tooltip title="Activate" color={"green"} key={"green"}>*/}
-                    {/*            <CheckCircleOutlined className={"search-table delete-button"}/>*/}
-                    {/*        </Tooltip>}*/}
-                    {/*    </Popconfirm>*/}
-                    {/**/}
                 </>
         },
     ];
@@ -207,7 +169,6 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
 
                         </Modal>
                         <Table
-                            // style={{textAlign:"left",width:800}}
                             size={"small"}
                             columns={columns}
                             dataSource={allData}
