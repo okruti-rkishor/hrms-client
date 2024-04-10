@@ -76,7 +76,6 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
                 paidType: removeUnderScore(String(item.paidType), "_"),
                 description: capitalToSmall(String(item.description))
             })))
-            console.log(leaveTypes);
         } catch (e) {
 
         }
