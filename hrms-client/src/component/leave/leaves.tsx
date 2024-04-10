@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Flex, Layout} from 'antd';
 import {PlusCircleOutlined} from '@ant-design/icons';
-import './leaves.scss'
+import '../../styles/component/leaves.scss'
 import {
     BookOutlined,
     CalendarOutlined,

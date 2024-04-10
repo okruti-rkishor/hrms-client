@@ -1,7 +1,7 @@
 import { Form, Input, Button, Image } from "antd";
 import { useState } from "react";
 import rest from "../../services/http/api";
-import "./forgotPassword.scss";
+import "../../styles/component/forgotPassword.scss";
 import { Steps } from "antd";
 import {  toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import type { Dayjs } from "dayjs";
 import type { BadgeProps, CalendarProps } from "antd";
 import { Badge, Calendar } from "antd";
-import "./calendar.scss";
+import "../../styles/component/calendar.scss";
 
 export interface propsData {
   count: string;
@@ -26,7 +26,7 @@ const setDataForCalendar = (data: propsData[]) => {
 
   const newSetData:propsData[] = data.map((item: propsData) => {
     item.ddStart = item?.date[0].split("-")[2];
-    item.mmStart = item?.date[0].split("-")[1];   
+    item.mmStart = item?.date[0].split("-")[1];
     item.ddEnd = item?.date[1].split("-")[2];
     item.mmEnd = item?.date[1].split("-")[1];
     return item;
@@ -43,7 +43,7 @@ const CalendarView = (props: any) => {
     const tempMonth = value.month();
     const tempYear = value.year();
     let listData;
-    const showData = propsData.find(  
+    const showData = propsData.find(
       (item: any) =>
         tempDate === item.date[0].split("-")[2] &&
         tempMonth === item.mm &&

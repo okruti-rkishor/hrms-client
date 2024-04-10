@@ -1,6 +1,6 @@
 import {Pie} from "react-chartjs-2";
 import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
-import '../dashboard.scss';
+import '../../../styles/component/dashboard.scss';
 import Title from "antd/lib/typography/Title";
 import restApi from "../../../services/http/api";
 import React, {useEffect, useState} from "react";

@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import "./hrmslink.scss";
+import "../../styles/common/01-generic/hrmslink.scss";
 
 
 const LinkIconSVG = () => {

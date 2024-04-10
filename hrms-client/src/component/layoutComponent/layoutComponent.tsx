@@ -4,7 +4,7 @@ import HeaderComponent from '../header/header';
 import FooterComponent from '../footer/footer';
 import { Content } from "antd/es/layout/layout";
 import {Outlet} from "react-router-dom";
-import './layoutComponent.scss';
+import '../../styles/component/layoutComponent.scss';
 import Navbar from "../navbar/navbar";
 
 

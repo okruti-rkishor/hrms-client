@@ -11,7 +11,7 @@ import {
   Layout,
   Empty,
 } from "antd";
-import "./employeeSearch.scss";
+import "../../styles/component/employeeSearch.scss";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import { PageHeader } from "@ant-design/pro-layout";

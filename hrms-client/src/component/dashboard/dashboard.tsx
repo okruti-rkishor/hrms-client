@@ -1,6 +1,6 @@
 import React from 'react';
 import {Layout} from "antd";
-import './dashboard.scss';
+import '../../styles/component/dashboard.scss';
 import DashboardChart from "./chart/dashboardChart";
 import QuickLinks from "./quickLinks/quickLinks";
 import DashboardReport from "./report/dashboardReport";

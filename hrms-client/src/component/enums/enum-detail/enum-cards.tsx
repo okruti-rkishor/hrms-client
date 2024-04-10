@@ -13,7 +13,7 @@ import {
 } from "antd";
 import CountUp from "react-countup";
 import {PageHeader} from "@ant-design/pro-layout";
-import '../enum-card.scss'
+import '../../../styles/component/enum-card.scss'
 import React, {useEffect, useState} from "react";
 import {
     CheckCircleOutlined,

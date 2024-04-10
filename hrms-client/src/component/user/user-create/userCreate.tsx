@@ -1,6 +1,6 @@
 import { Button, Divider, Flex, Form, Input, Layout, Select } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-import "./userCreate.scss";
+import "../../../styles/component/user/userCreate.scss";
 import restApi from "../../../services/http/api/index";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";

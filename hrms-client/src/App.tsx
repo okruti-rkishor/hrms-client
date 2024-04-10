@@ -9,7 +9,6 @@ import {
     EmployeeSearch,
     EnumCards,
     Error,
-    FAQComponent,
     ForgotPassword,
     HolidayCalendar,
     HolidayCreate,
@@ -73,7 +72,6 @@ const App = () => {
                            element={<PrivateRoutes Componant={<Leaves/>}/>}
                     />
                     <Route path="about-us" element={<AboutUs/>}/>
-                    <Route path="faqs" element={<FAQComponent/>}/>
                     <Route path="privacy-policy" element={<PrivacyPolicy/>}/>
                     <Route path="contact-us" element={<ContactUs/>}/>
                     <Route path="holiday" element={<HolidayList/>}/>

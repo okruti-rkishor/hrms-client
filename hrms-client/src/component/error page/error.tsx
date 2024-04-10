@@ -1,7 +1,7 @@
 import { Button, Result } from "antd";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import "./error.scss";
+import "../../styles/component/error.scss";
 import UserLoginContext from "../../context/userLoginContext";
 
 const Error = () => {

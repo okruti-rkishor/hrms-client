@@ -1,8 +1,8 @@
 import React from "react";
-import './featureSections.scss'
+import '../../../styles/component/featureSections.scss'
 import {Button} from "antd";
 import {useNavigate} from "react-router-dom";
-import HrmsLink from "../../../utilities/links/hrmslink";
+import HrmsLink from "../../links/hrmslink";
 
 
 

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import './birthdayAnnimation.scss';
+import '../../../styles/component/birthdayAnnimation.scss';
 
 
 const BirthdayAnimation = () => {

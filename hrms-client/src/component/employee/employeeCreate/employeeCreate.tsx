@@ -1,19 +1,19 @@
 import React, {useEffect, useState,} from "react";
 import {Form, Button, message, Steps, Divider, Layout} from "antd";
-import './employeeCreate.scss';
-import restApi from "../../services/http/api/index";
+import '../../../styles/component/employeeCreate.scss';
+import restApi from "../../../services/http/api/index";
 import {useNavigate, useParams} from "react-router-dom";
 import dayjs from 'dayjs'
-import PersonalDetails from "./steps/personalDetails";
-import Address from "./steps/address";
-import Contact from "./steps/contact";
-import FamilyDetail from "./steps/familyDetail";
-import BankingDeatils from "./steps/bankingDetails";
-import Document from "./steps/document";
-import Experience from "./steps/experience";
-import {Gender} from "../../constant/constant";
+import PersonalDetails from "../steps/personalDetails";
+import Address from "../steps/address";
+import Contact from "../steps/contact";
+import FamilyDetail from "../steps/familyDetail";
+import BankingDeatils from "../steps/bankingDetails";
+import Document from "../steps/document";
+import Experience from "../steps/experience";
+import {Gender} from "../../../constant/constant";
 import {PageHeader} from "@ant-design/pro-layout";
-import PrevNext from "./prevNext";
+import PrevNext from "../prevNext";
 
 
 const EmployeeCreate = () => {

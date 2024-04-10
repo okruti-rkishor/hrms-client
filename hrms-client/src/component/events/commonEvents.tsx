@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Layout, Table } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-import "./common.scss";
+import "../../styles/component/commonEvents.scss";
 
 
 export interface CommonComponentProps {
@@ -16,7 +16,7 @@ export type data = {
   upcoming: { employeeName: string; date: string }[];
 };
 
-const Common: React.FC<CommonComponentProps> = ({ data, event, animation }) => {
+const CommonEvents: React.FC<CommonComponentProps> = ({ data, event, animation }) => {
   const dataToday = data.today;
   const dataPassed = data.passed;
   const dataUpcoming = data.upcoming;
@@ -60,4 +60,4 @@ const Common: React.FC<CommonComponentProps> = ({ data, event, animation }) => {
   );
 };
 
-export default Common;
+export default CommonEvents;

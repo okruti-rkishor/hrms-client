@@ -1,6 +1,6 @@
 import Title from "antd/lib/typography/Title";
 import {Card, Flex} from "antd";
-import HrmsLink from "../../../utilities/links/hrmslink";
+import HrmsLink from "../../links/hrmslink";
 import React from "react";
 import {
     ApartmentOutlined,

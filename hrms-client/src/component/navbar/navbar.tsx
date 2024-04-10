@@ -16,7 +16,7 @@ import {
     FileSearchOutlined,
     UserAddOutlined
 } from "@ant-design/icons/lib";
-import './navbar.scss';
+import '../../styles/component/navbar.scss';
 import UserLoginContext from "../../context/userLoginContext";
 
 const items = [

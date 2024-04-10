@@ -1,5 +1,5 @@
 import EventData from "../../../custom_hooks/eventData";
-import Common from "../common/common";
+import CommonEvents from "../commonEvents";
 import EventContext from "../../../context/eventContext";
 import { useContext, useEffect } from "react";
 import { anniversaryAnimation } from "./anniversaryAnimation";
@@ -48,7 +48,7 @@ function Anniversary() {
 
   return (
     <>
-        <Common data={newData} event={"Work Anniversary"} animation={<> </>}/>
+        <CommonEvents data={newData} event={"Work Anniversary"} animation={<> </>}/>
     </>
   );
 }

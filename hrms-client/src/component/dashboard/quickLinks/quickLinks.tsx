@@ -10,7 +10,7 @@ import {
 } from "@ant-design/icons/lib";
 import Title from "antd/lib/typography/Title";
 import {Card, Divider, Flex} from "antd";
-import "../dashboard.scss";
+import "../../../styles/component/dashboard.scss";
 
 
 const dashboardQuickLinks:any = {

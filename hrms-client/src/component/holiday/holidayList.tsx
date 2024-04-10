@@ -17,7 +17,7 @@ import {
 } from "@ant-design/icons";
 import { FC, useContext, useEffect, useState } from "react";
 import CalendarView from "./calendar";
-import "./holiday-list.scss";
+import "../../styles/component/holiday-list.scss";
 import rest from "../../services/http/api";
 import UserLoginContext from "../../context/userLoginContext";
 import Search from "antd/es/input/Search";

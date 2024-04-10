@@ -8,7 +8,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Input, Select, Tabs} from "antd";
 import {DatePicker} from "antd";
 import dayjs from "dayjs";
-import "./holiday.scss";
+import "../../styles/component/holiday.scss";
 import HolidayList from "./holidayList";
 import UserLoginContext from "../../context/userLoginContext";
 import restApi from "../../services/http/api/index";

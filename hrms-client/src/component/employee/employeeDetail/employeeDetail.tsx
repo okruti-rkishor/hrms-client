@@ -4,7 +4,7 @@ import rest from "../../../services/http/api";
 import { removeUnderScore } from "../../holiday/holidayList";
 import {Divider, Tabs, Space, Card, Flex, Avatar, Layout, Button, Dropdown, MenuProps, message,} from "antd";
 import Icon, {MailOutlined, PhoneOutlined, UserOutlined,} from "@ant-design/icons";
-import "./employeeDetail.scss";
+import "../../../styles/component/employeeDetail.scss";
 import {
   CaretDownOutlined, DeleteTwoTone,
   DownOutlined,
@@ -374,8 +374,8 @@ const EmployeeDetailComponent = () => {
   return (
       <Layout className='with-background'>
         <div className='employee-details data-table'
-        
-        
+
+
         >
           <Card className='employee-details__section'>
             <Flex className='employee-details__header'>

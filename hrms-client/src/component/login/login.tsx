@@ -1,4 +1,4 @@
-import "./login.scss";
+import "../../styles/component/login.scss";
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Image } from "antd";

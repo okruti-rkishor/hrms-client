@@ -11,7 +11,7 @@ import {
   ToTopOutlined,
   UserOutlined,
 } from "@ant-design/icons/lib";
-import "./userLoginCard.scss";
+import "../../../styles/component/user/userLoginCard.scss";
 
 const { Meta } = Card;
 

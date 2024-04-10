@@ -1,6 +1,6 @@
 import React from 'react';
 import { Footer } from "antd/es/layout/layout";
-import './footer.scss';
+import '../../styles/component/footer.scss';
 import {Link} from "react-router-dom";
 import {FacebookOutlined, InstagramOutlined, MailOutlined, PhoneOutlined, TwitterOutlined} from "@ant-design/icons/lib";
 

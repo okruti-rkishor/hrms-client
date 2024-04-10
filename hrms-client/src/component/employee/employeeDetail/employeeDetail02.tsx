@@ -21,7 +21,7 @@ import Icon, {
   PrinterOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import "./employeeDetail.scss";
+import "../../../styles/component/employeeDetail.scss";
 import {
   CaretDownOutlined,
   DeleteTwoTone,

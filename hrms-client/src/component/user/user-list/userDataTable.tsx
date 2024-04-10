@@ -5,7 +5,7 @@ import { PageHeader } from '@ant-design/pro-layout';
 import restApi from "../../../services/http/api";
 import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
 import {User_type} from "../../../constant/constant";
-import './userDataTable.scss';
+import '../../../styles/component/user/userDataTable.scss';
 import {toast} from 'react-toastify';
 import success = toast.success;
 
