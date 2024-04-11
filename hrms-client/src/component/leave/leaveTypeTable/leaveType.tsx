@@ -1,6 +1,6 @@
 import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
-import {Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {Form, Input, Layout, Modal, Popconfirm, Select, Spin, Table, TableColumnsType} from "antd";
 import {
     DeleteOutlined,
 } from "@ant-design/icons/lib";
@@ -15,8 +15,6 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
             {value: 'PAID', label: 'Paid'},
             {value: 'UN_PAID', label: 'Unpaid'},
         ],
-
-
     }
     const {TextArea} = Input;
 
@@ -118,7 +116,7 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
 
     useEffect(() => {
         fetchData();
-    }, [])
+        }, [])
 
     return (
         <>

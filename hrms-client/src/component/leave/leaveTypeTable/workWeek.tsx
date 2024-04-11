@@ -1,5 +1,5 @@
-import {Form, Input, Modal, Table, TableColumnsType} from "antd";
-import React, {useState} from "react";
+import {Form, Input, Layout, Modal, Spin, Table, TableColumnsType} from "antd";
+import React, {useEffect, useState} from "react";
 import rest from "../../../services/http/api";
 import {toast} from "react-toastify";
 
@@ -58,22 +58,22 @@ const data: DataType[] = [
     },
 ];
 
-const WorkWeek = ({isModalOpen,setIsModalOpen}:any) =>{
+const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
     const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
     const [formData, setFormData] = useState({});
     const [collapsed, setCollapsed] = useState(false);
     const {TextArea} = Input;
-    const handleOk = async() => {
+    const handleOk = async () => {
         console.log(formData);
         const keys = Object.keys(formData)
-        if(keys.length===3){
-            try{
+        if (keys.length === 3) {
+            try {
                 await rest.leaveTypeCreate(formData)
                 setIsModalOpen(false);
-            }catch{
+            } catch {
 
             }
-        }else{
+        } else {
             toast("Fill All Fields")
         }
     };
@@ -91,45 +91,48 @@ const WorkWeek = ({isModalOpen,setIsModalOpen}:any) =>{
     //     console.log(values)
     //     setIsModalOpen(false);
     // }
+
     return (
-        <div>
-            <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
-                <Form
-                    layout="horizontal"
-                >
-                    <Form.Item
-                        label="Leave Type"
-                        name="leaveType"
-                        rules={[{required: true, message: 'Please input Leave Type!'}]}>
-                        <Input name="leaveType" onChange={onChangeFormData}/>
-                    </Form.Item>
-                    <Form.Item
-                        label="Paid Type"
-                        name={"paidType"}
-                        rules={[{required: true, message: 'Please input Paid Type!'}]}>
-                        <Input name={"paidType"} onChange={onChangeFormData}/>
-                    </Form.Item>
-                    <Form.Item label="Description" name={"description"}>
-                        <TextArea
-                            name={"description"}
-                            showCount
-                            maxLength={50}
-                            style={{height: 50}}
-                            onChange={onChangeFormData}
-                            placeholder="Description"
-                        />
-                        {/*<Input/>*/}
-                    </Form.Item>
+        <>
+            <Layout className="with-background leaves-type">
+                <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
+                    <Form
+                        layout="horizontal"
+                    >
+                        <Form.Item
+                            label="Leave Type"
+                            name="leaveType"
+                            rules={[{required: true, message: 'Please input Leave Type!'}]}>
+                            <Input name="leaveType" onChange={onChangeFormData}/>
+                        </Form.Item>
+                        <Form.Item
+                            label="Paid Type"
+                            name={"paidType"}
+                            rules={[{required: true, message: 'Please input Paid Type!'}]}>
+                            <Input name={"paidType"} onChange={onChangeFormData}/>
+                        </Form.Item>
+                        <Form.Item label="Description" name={"description"}>
+                            <TextArea
+                                name={"description"}
+                                showCount
+                                maxLength={50}
+                                style={{height: 50}}
+                                onChange={onChangeFormData}
+                                placeholder="Description"
+                            />
+                            {/*<Input/>*/}
+                        </Form.Item>
 
-                </Form>
+                    </Form>
 
-            </Modal>
-            <Table
-                size={"middle"}
-                columns={columns}
-                dataSource={data}
-            />
-        </div>
+                </Modal>
+                <Table
+                    size={"small"}
+                    columns={columns}
+                    dataSource={data}
+                />
+            </Layout>
+        </>
     )
 }
 export default WorkWeek;

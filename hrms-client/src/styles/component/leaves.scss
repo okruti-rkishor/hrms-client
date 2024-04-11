@@ -29,7 +29,7 @@
       ul {
         list-style-type: none;
 
-        li {
+        .hrms-settings__sidebar-item {
           padding: 12px;
           background-color: white;
           //box-shadow: 0 0 20px 0 #CCDEFF;
@@ -46,6 +46,12 @@
 
           &:hover{
             background: #fafafa;
+            cursor:pointer;
+          }
+
+          &.active{
+            background: #fafafa;
+
           }
         }
       }
@@ -69,6 +75,9 @@
         }
 
       }
+    }
+    .ant-layout.with-background.leaves-type{
+      padding: 20px;
     }
   }
 
@@ -101,6 +110,20 @@
       position: absolute;
       bottom: -3px;
       left: 0;
+    }
+  }
+
+  &__icon{
+    text-align: left;
+    margin-bottom: 30px;
+    width: fit-content;
+    svg{
+      font-size: 16px;
+      margin-right: 5px;
+    }
+    span:last-child{
+      font-size: 16px;
+
     }
   }
 }
