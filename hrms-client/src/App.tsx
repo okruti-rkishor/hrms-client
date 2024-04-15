@@ -35,6 +35,7 @@ const App = () => {
 
     return (
         <div className="App">
+
             <ApiInterceptor/>
             <ToastContainer autoClose={8000} position={toast.POSITION.BOTTOM_RIGHT}/>
             <Routes>
