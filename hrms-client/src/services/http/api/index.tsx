@@ -31,12 +31,23 @@ export default {
     deleteEnum:(id:string)=>rest.del(base+`${id}`,{}),
     putEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
     activeEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
+    //Holiday
     holidayCreate:(data:any)=>rest.post(base+"holiday",{},data),
     getAllHoliday:()=>rest.get(base+"holiday/search"),
     deleteHoliday:(data:string[])=>rest.del(base+`holiday/delete-multiples`,{},data,{}),
+    //State-city
     getState:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/states",{},data,{}),
     getCity:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/state/cities",{},data,{}),
+    //LeaveType
     leaveTypeCreate:(data: any) => rest.post(base + "leave_type", {}, data),
     getAllLeaveTypes:() => rest.get(base + "leave_type/all", {}, ),
     leaveTypeDelete:(data:string) => rest.del(base + `leave_type/${data}`, {}, ),
+    //Work Week
+    workWeekCreate:(data: any) => rest.post(base + "work_week", {}, data),
+    getAllWorkWeek:() => rest.get(base + "work_week/all", {}, ),
+    deleteWorkWeek:(data:string) => rest.del(base + `work_week/${data}`, {}, ),
+    //leaveEntitlement
+    leaveEntitlementCreate:(data: any) => rest.post(base + "leave-entitlement", {}, data),
+    getAllLeaveEntitlement :(data:string) => rest.get(base + "leave-entitlement/search", {type:data}, ),
+    deleteLeaveEntitlement :(id:string) => rest.del(base + `leave-entitlement/${id}`, {}, ),
 }

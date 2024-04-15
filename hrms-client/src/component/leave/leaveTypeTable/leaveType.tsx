@@ -1,16 +1,13 @@
-import {toast} from "react-toastify";
 import React, {useEffect, useState} from "react";
-import {Form, Input, Layout, Modal, Popconfirm, Select, Spin, Table, TableColumnsType} from "antd";
-import {
-    DeleteOutlined,
-} from "@ant-design/icons/lib";
+import {Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {DeleteOutlined} from "@ant-design/icons/lib";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import rest from '../../../services/http/api'
+import CommonTableComponant from "../CommonTableComponant";
 
-function LeavesType({isModalOpen,setIsModalOpen}:any) {
-    const [formData, setFormData] = useState({});
+function LeavesType({isModalOpen, setIsModalOpen}: any) {
     const [allData, setAllData] = useState<any>();
-    const leavesRecord = {
+    const leavesRecords = {
         paidType: [
             {value: 'PAID', label: 'Paid'},
             {value: 'UN_PAID', label: 'Unpaid'},
@@ -18,44 +15,6 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
     }
     const {TextArea} = Input;
 
-    const handleOk = async () => {
-        console.log(formData);
-        const keys = Object.keys(formData)
-
-        if (keys.length === 3) {
-            try {
-                await rest.leaveTypeCreate(formData)
-                fetchData();
-                setIsModalOpen(false);
-
-            } catch {
-
-            }
-
-        } else {
-            toast("Fill All Fields")
-        }
-    };
-
-    const onChangeFormData = (e: any) => {
-
-        let tempData = {}
-        if (e?.target?.name === "type") {
-            tempData = {
-                ...formData,
-                [e?.target?.name]: String(e?.target?.value).toLocaleUpperCase().replace(" ", "_")
-            }
-        } else {
-            tempData = {
-                ...formData,
-                [e?.target?.name]: String(e?.target?.value)
-            }
-        }
-        setFormData({...tempData});
-        console.log("tempData", tempData);
-
-
-    }
     const fetchData = async () => {
         try {
             const leaveTypes = await rest.getAllLeaveTypes();
@@ -70,20 +29,11 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
 
         }
     }
-    const deleteHandel = async (record: any) => {
-        try {
-            await rest.leaveTypeDelete(record.id);
-            fetchData()
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const columns: TableColumnsType<any> = [
         {
             title: 'Name',
             dataIndex: 'type',
-            render: (text: string) => <a>{text}</a>,
         },
         {
             title: 'Paid Type',
@@ -93,86 +43,63 @@ function LeavesType({isModalOpen,setIsModalOpen}:any) {
             title: 'Description',
             dataIndex: 'description',
         },
-        {
-            title: 'Action',
-            render: (_: any, record: any) =>
-                <>
-                    <Popconfirm
-                        title="Are you sure to delete?"
-                        onConfirm={() => deleteHandel(record)}
-                        onCancel={() => {
-                            console.log("Cancel")
-                        }}
-                    >
-                        {" "}
-                        <DeleteOutlined className={"search-table delete-button"}/>
-                    </Popconfirm>
-                </>
-        },
-    ];
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
 
-    useEffect(() => {
-        fetchData();
-        }, [])
+    ];
+
+    const propsData = {
+        title: "Work Week",
+        create: rest.leaveTypeCreate,
+        getAll: rest.getAllLeaveTypes,
+        delete: rest.leaveTypeDelete,
+        isModalOpen: isModalOpen,
+        setIsModalOpen: setIsModalOpen,
+        columns: columns,
+        allData: allData,
+        setAllData: setAllData,
+        // fetchData: fetchData,
+        deleteById:rest.leaveTypeDelete,
+        formFields: [
+            <Form.Item
+                key={"type"}
+                label={capitalToSmall("type")}
+                name={"type"}
+                rules={[{required: true, message: `Please input ${capitalToSmall(String("type"))}!`}]}>
+                <Input name={"type"}/>
+            </Form.Item>,
+
+            <Form.Item
+                label="Paid Type"
+                name={"paidType"}
+                rules={[{required: true, message: 'Please input Paid Type!'}]}>
+                <Select
+                    style={{height: 40, width: 272}}>
+                    {leavesRecords.paidType.map((leavesRecords: any) => (
+                        <option key={leavesRecords.value} value={leavesRecords.value}>{leavesRecords.label}</option>))}
+                </Select>
+            </Form.Item>,
+
+            <Form.Item
+                label={capitalToSmall("description")}
+                name={"description"}
+                rules={[{required: true, message: `Please input ${capitalToSmall(String("description"))}!`}]}>
+                <TextArea
+                    name={"description"}
+                    showCount
+                    maxLength={50}
+                    style={{height: 50}}
+                    placeholder="Description"
+                />
+            </Form.Item>
+        ],
+    }
 
     return (
         <>
             <Layout className="with-background leaves-type">
-                <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
-                            <Form
-                                layout="horizontal"
-                            >
-                                <Form.Item
-                                    label="Leave Type"
-                                    name="type"
-                                    rules={[{required: true, message: 'Please input Leave Type!'}]}>
-                                    {/*<Input name="leaveType" onChange={onChangeFormData}/>*/}
-                                    <Input
-                                        placeholder={"Enter Leave Name"}
-                                        name={"type"}
-                                        onChange={onChangeFormData}
-                                    />
-
-                                </Form.Item>
-                                <Form.Item
-                                    label="Paid Type"
-                                    name={"paidType"}
-                                    rules={[{required: true, message: 'Please input Paid Type!'}]}>
-                                    <Select
-                                        style={{height: 40, width: 272}}
-
-                                        onChange={(e) => {
-                                            onChangeFormData({target: {name: "paidType", value: e}})
-                                        }}
-                                    >
-                                        {leavesRecord.paidType.map((item: any) => (
-                                            <option key={item.value} value={item.value}>{item.label}</option>))}
-                                    </Select>
-                                </Form.Item>
-                                <Form.Item label="Description" name={"description"}>
-                                    <TextArea
-                                        name={"description"}
-                                        showCount
-                                        maxLength={50}
-                                        style={{height: 50}}
-                                        onChange={onChangeFormData}
-                                        placeholder="Description"
-                                    />
-                                </Form.Item>
-
-                            </Form>
-
-                        </Modal>
-                        <Table
-                            size={"small"}
-                            columns={columns}
-                            dataSource={allData}
-                        />
+                <CommonTableComponant propsData={propsData}/>
             </Layout>
         </>
     )
 }
+
 export default LeavesType;

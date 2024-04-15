@@ -1,138 +1,84 @@
-import {Form, Input, Layout, Modal, Spin, Table, TableColumnsType} from "antd";
+import {Form, Input, Modal, Popconfirm, Table, TableColumnsType} from "antd";
 import React, {useEffect, useState} from "react";
 import rest from "../../../services/http/api";
 import {toast} from "react-toastify";
+import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
+import {DeleteOutlined} from "@ant-design/icons/lib";
+import CommonTableComponant from "../CommonTableComponant";
 
 interface DataType {
     key: React.Key;
-    name: string;
-    age: number;
-    address: string;
+    day: string;
+    status: string;
 }
-
-interface FormData {
-    leaveType: string;
-    paidType: string;
-    description: string;
-}
-
-const columns: TableColumnsType<DataType> = [
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        render: (text: string) => <a>{text}</a>,
-    },
-    {
-        title: 'Age',
-        dataIndex: 'age',
-    },
-    {
-        title: 'Address',
-        dataIndex: 'address',
-    },
-];
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-    },
-    {
-        key: '4',
-        name: 'Disabled User',
-        age: 99,
-        address: 'Sydney No. 1 Lake Park',
-    },
-];
 
 const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
-    const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
-    const [formData, setFormData] = useState({});
-    const [collapsed, setCollapsed] = useState(false);
-    const {TextArea} = Input;
-    const handleOk = async () => {
-        console.log(formData);
-        const keys = Object.keys(formData)
-        if (keys.length === 3) {
-            try {
-                await rest.leaveTypeCreate(formData)
-                setIsModalOpen(false);
-            } catch {
 
-            }
-        } else {
-            toast("Fill All Fields")
-        }
-    };
-
-    const onChangeFormData = (e: any) => {
-        const tempData = {...formData, [e.target.name]: e.target.value}
-        setFormData(prev => ({...prev, ...tempData}));
-        console.log("tempData", tempData);
-    }
-
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
-    // const leaveTypeFormSubmit = (values: any) => {
-    //     console.log(values)
-    //     setIsModalOpen(false);
+    // const [allData, setAllData] = useState<any>([]);
+    // const fetchData = async () => {
+    //     try {
+    //         const leaveTypes = await rest.getAllWorkWeek();
+    //         setAllData(leaveTypes.map((item: any, index: number) => ({
+    //             ...item,
+    //             key: item.id,
+    //             day: removeUnderScore(String(item.day), "_"),
+    //             status: removeUnderScore(String(item.status), "_"),
+    //         })))
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
     // }
 
+    const columns: TableColumnsType<DataType> = [
+        {
+            title: 'Id',
+            dataIndex: 'key',
+        },
+        {
+            title: 'Day',
+            dataIndex: 'day',
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+        },
+    ];
+
+    const propsData = {
+        title: "Work Week",
+        create: rest.workWeekCreate,
+        getAll: rest.getAllWorkWeek,
+        delete: rest.deleteWorkWeek,
+        isModalOpen: isModalOpen,
+        setIsModalOpen: setIsModalOpen,
+        columns: columns,
+        deleteById:rest.deleteWorkWeek,
+        formFields: [<Form.Item
+            label="Day"
+            name="day"
+            rules={[{required: true, message: 'Please input Day!'}]}>
+            <Input name="day"/>
+        </Form.Item>,
+            <Form.Item
+                label="Status"
+                name={"status"}
+                rules={[{required: true, message: 'Please input Status!'}]}>
+                <Input name={"status"}/>
+            </Form.Item>],
+        // allData: allData,
+        // setAllData: setAllData,
+        // fetchData: fetchData,
+
+    }
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, [])
+
     return (
-        <>
-            <Layout className="with-background leaves-type">
-                <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
-                    <Form
-                        layout="horizontal"
-                    >
-                        <Form.Item
-                            label="Leave Type"
-                            name="leaveType"
-                            rules={[{required: true, message: 'Please input Leave Type!'}]}>
-                            <Input name="leaveType" onChange={onChangeFormData}/>
-                        </Form.Item>
-                        <Form.Item
-                            label="Paid Type"
-                            name={"paidType"}
-                            rules={[{required: true, message: 'Please input Paid Type!'}]}>
-                            <Input name={"paidType"} onChange={onChangeFormData}/>
-                        </Form.Item>
-                        <Form.Item label="Description" name={"description"}>
-                            <TextArea
-                                name={"description"}
-                                showCount
-                                maxLength={50}
-                                style={{height: 50}}
-                                onChange={onChangeFormData}
-                                placeholder="Description"
-                            />
-                            {/*<Input/>*/}
-                        </Form.Item>
-
-                    </Form>
-
-                </Modal>
-                <Table
-                    size={"small"}
-                    columns={columns}
-                    dataSource={data}
-                />
-            </Layout>
-        </>
+        <div>
+            <CommonTableComponant propsData={propsData}/>
+        </div>
     )
 }
 export default WorkWeek;
