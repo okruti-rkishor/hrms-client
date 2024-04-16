@@ -1,9 +1,5 @@
-import {Form, Input, Modal, Popconfirm, Table, TableColumnsType} from "antd";
-import React, {useEffect, useState} from "react";
+import {Form, Input, TableColumnsType} from "antd";
 import rest from "../../../services/http/api";
-import {toast} from "react-toastify";
-import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
-import {DeleteOutlined} from "@ant-design/icons/lib";
 import CommonTableComponant from "../CommonTableComponant";
 
 interface DataType {
@@ -16,6 +12,10 @@ interface DataType {
 const LeaveEntitlement = ({isModalOpen, setIsModalOpen}: any) => {
     const columns: TableColumnsType<DataType> = [
         {
+            title: 'Employee',
+            dataIndex: 'employee',
+        },
+        {
             title: 'Type',
             dataIndex: 'type',
         },
@@ -23,10 +23,7 @@ const LeaveEntitlement = ({isModalOpen, setIsModalOpen}: any) => {
             title: 'Unit',
             dataIndex: 'unit',
         },
-        {
-            title: 'Employee',
-            dataIndex: 'employee',
-        },
+
     ];
 
     const propsData = {
@@ -37,6 +34,7 @@ const LeaveEntitlement = ({isModalOpen, setIsModalOpen}: any) => {
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
         columns: columns,
+        deleteById: rest.deleteLeaveEntitlement,
         formFields: [<Form.Item
             label="Type"
             name="type"
@@ -55,7 +53,6 @@ const LeaveEntitlement = ({isModalOpen, setIsModalOpen}: any) => {
                 rules={[{required: true, message: 'Please input Employee Id!'}]}>
                 <Input name={"employee"}/>
             </Form.Item>],
-
     }
 
     return (

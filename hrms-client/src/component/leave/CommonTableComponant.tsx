@@ -3,13 +3,17 @@ import React, {useEffect, useState} from "react";
 import rest from "../../services/http/api";
 import {toast} from "react-toastify";
 import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
-import {DeleteOutlined} from "@ant-design/icons/lib";
+import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
 
 function CommonTableComponant({propsData}: any) {
     console.log("render");
-    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen} = propsData;
+    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
     const [form] = Form.useForm();
-    const [allNewData,deleteHandel]:any= useFetchLeaveTableData({getAll,tableColumns:columns.map((tableColumn:any)=>tableColumn.dataIndex),deleteById})
+    const [allNewData, setAllNewData ,deleteHandel]: any = useFetchLeaveTableData({
+        getAll,
+        tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
+        deleteById
+    })
     const [newColumn, setNewColumn] = useState([
         ...columns,
         {
@@ -26,9 +30,23 @@ function CommonTableComponant({propsData}: any) {
                         {" "}
                         <DeleteOutlined className={"search-table delete-button"}/>
                     </Popconfirm>
+                    {showStatus && <Popconfirm
+                        title={`Are you sure to ${record.active==="True" ? "inactive" : "active"}?`}
+                        onConfirm={() => {
+                            updateStatus(record)
+                        }}
+                        onCancel={() => {
+                            console.log("Cancel")
+                        }}>
+                        {" "}
+                        {record.status ? <CloseCircleOutlined className={"search-table delete-button"}/> :
+                            <CheckCircleOutlined  className={"search-table delete-button"}/>}
+                    </Popconfirm>}
                 </>
         },
     ])
+    const[reRender, setReRender] = useState(false);
+
     const handleOk = async () => {
         const values = form.getFieldsValue();
         console.log("values", values);
@@ -40,7 +58,7 @@ function CommonTableComponant({propsData}: any) {
             try {
                 await create(values)
                 setIsModalOpen(false);
-            } catch(e) {
+            } catch (e) {
                 console.log(e)
             }
 
@@ -51,6 +69,25 @@ function CommonTableComponant({propsData}: any) {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+    const updateStatus = async (record: any) => {
+        try {
+            await restParams.update(record.active==="True" ? "inactive" : "active", record.id);
+            setAllNewData((prev:any)=>prev.map((item:any)=>{
+                if(item.id===record.id){
+                    if(record.active==="True")
+                    item.active="False"
+                    else
+                        item.active="True"
+                }
+                return item;
+            }))
+            console.log(record)
+            setReRender(true);
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
 
     return (<>
         <div>

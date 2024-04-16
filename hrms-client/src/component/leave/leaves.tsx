@@ -13,6 +13,7 @@ import WorkWeek from "./leaveTypeTable/workWeek";
 import Title from "antd/lib/typography/Title";
 import {useNavigate} from "react-router-dom"
 import LeaveEntitlement from "./leaveTypeTable/leaveEntitlement";
+import Designation from "./leaveTypeTable/desigation";
 
 
 const leaveSidebarItems: any = [
@@ -32,24 +33,31 @@ const leaveSidebarItems: any = [
     },
     {
         key: 3,
-        label: <div>Designation</div>,
+        label: "Designation",
         leftIcon: <UsergroupAddOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "designation",
     },
     {
         key: 4,
-        label: <div>Qualification</div>,
+        label: "Qualification",
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "qualification",
     },
     {
         key: 5,
-        label: <div>Leave Entitlement</div>,
+        label: "Leave Entitlement",
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "leave-entitlement",
+    },
+    {
+        key: 6,
+        label: "Designation",
+        leftIcon: <BookOutlined/>,
+        rightIcon: <RightOutlined/>,
+        className: "designation",
     }
 
 ]
@@ -98,12 +106,14 @@ function Leaves() {
             return <WorkWeek isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else if(leaveTypeTable.key === 2) {
             return <LeaveType isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+        }else if(leaveTypeTable.key === 3) {
+            return <Designation isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+        }else if(leaveTypeTable.key === 5){
+            return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else {
             return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-
         }
     }
-
 
     useEffect(() => {
         setSpinning(true);
@@ -141,7 +151,7 @@ function Leaves() {
                                 />
                             </Tooltip>
                         </Flex>
-                        <LeaveComponentRender/>
+                        {<LeaveComponentRender/>}
 
 
                     </div>

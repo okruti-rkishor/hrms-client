@@ -40,7 +40,7 @@ export const removeUnderScore = (str: string = "", character: string = "-") => {
   let newString = "";
   firstLetterCapitalizeArray.forEach((str, index) => {
     newString += str;
-    if (index <= firstLetterCapitalizeArray.length - 1) {
+    if (index < firstLetterCapitalizeArray.length - 1) {
       newString += " ";
     }
   });

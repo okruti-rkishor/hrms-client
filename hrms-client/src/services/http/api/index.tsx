@@ -48,6 +48,12 @@ export default {
     deleteWorkWeek:(data:string) => rest.del(base + `work_week/${data}`, {}, ),
     //leaveEntitlement
     leaveEntitlementCreate:(data: any) => rest.post(base + "leave-entitlement", {}, data),
-    getAllLeaveEntitlement :(data:string) => rest.get(base + "leave-entitlement/search", {type:data}, ),
+    getAllLeaveEntitlement :(data:string) => rest.get(base + "leave-entitlement/search", {}, ),
     deleteLeaveEntitlement :(id:string) => rest.del(base + `leave-entitlement/${id}`, {}, ),
+    //Designation
+    createDesignation:(data:any)=>rest.post(base+"designation",{},data),
+    getAllDesignation:()=>rest.get(base+"designation/all"),
+    deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
+    updateDesignation:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
+    updateDesignationStatus:(status:any,id:string)=>rest.put(base+`designation/${id}/${status}`,{},{}),
 }

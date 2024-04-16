@@ -33,7 +33,7 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
     useEffect(()=>{
         fetchDataInsideHook();
     },[])
-    return [value,deleteHandel];
+    return [value, setValue, deleteHandel];
 };
 
 export default useFetchLeaveTableData;
