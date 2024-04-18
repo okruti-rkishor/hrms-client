@@ -1,4 +1,4 @@
-import {Form, Input, Modal, Popconfirm, Table, TableColumnsType} from "antd";
+import {Card, Form, Input, Modal, Popconfirm, Table, TableColumnsType} from "antd";
 import React, {useEffect, useState} from "react";
 import rest from "../../services/http/api";
 import {toast} from "react-toastify";
@@ -92,12 +92,15 @@ function CommonTableComponant({propsData}: any) {
     return (<>
         <div>
             <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
-                <Form
-                    form={form}
-                    layout="horizontal">
-                    {formFields?.map((formInput: any) => (<>{formInput}</>))}
-                </Form>
+                <Card>
+                    <Form
+                        form={form}
+                        layout="horizontal">
+                        {formFields?.map((formInput: any) => (<>{formInput}</>))}
+                    </Form>
+                </Card>
             </Modal>
+
 
             <Table
                 size={"middle"}

@@ -5,11 +5,9 @@ import CommonTableComponant from "../CommonTableComponant";
 interface DataType {
     key: React.Key;
     description: string;
-    code: string;
-    status: string;
 }
 
-const Designation = ({isModalOpen, setIsModalOpen}: any) => {
+const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Code',
@@ -19,37 +17,33 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
             title: 'Description',
             dataIndex: 'description',
         },
-        {
-            title: 'Active',
-            dataIndex: 'active',
-        },
-
     ];
+
     const propsData = {
-        title: "Designation",
-        create: rest.createDesignation,
-        getAll: rest.getAllDesignation,
-        delete: rest.deleteDesignation,
-        update: rest.updateDesignationStatus,
+        title: "Leave Entitlement",
+        create: rest.createQualification,
+        getAll: rest.getAllQualification,
+        delete: rest.deleteQualification,
+        update: rest.updateQualificationStatus,
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
         columns: columns,
-        deleteById: rest.deleteDesignation,
-        showStatus: true,
+        deleteById: rest.deleteQualification,
         formFields: [
+            <Form.Item
+                label="Code"
+                name={"code"}
+                rules={[{required: true, message: 'Please input Code!'}]}>
+                <Input name={"code"}/>
+            </Form.Item>,
             <Form.Item
                 label="Description"
                 name="description"
                 rules={[{required: true, message: 'Please input Description!'}]}>
                 <Input name="description"/>
             </Form.Item>,
-
-            <Form.Item
-                label="Code"
-                name={"code"}
-                rules={[{required: true, message: 'Please input Code!'}]}>
-                <Input name={"code"}/>
-            </Form.Item>,],
+        ],
+        showStatus: true,
     }
 
     return (
@@ -58,4 +52,4 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         </div>
     )
 }
-export default Designation;
+export default Qualification;

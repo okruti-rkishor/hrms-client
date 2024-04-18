@@ -1,10 +1,11 @@
-import {Form, Input, Modal, Popconfirm, Table, TableColumnsType} from "antd";
+import {Form, Input, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
 import React, {useEffect, useState} from "react";
 import rest from "../../../services/http/api";
 import {toast} from "react-toastify";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import {DeleteOutlined} from "@ant-design/icons/lib";
 import CommonTableComponant from "../CommonTableComponant";
+import {Leave_Type_Status, Week_Days} from "../../../constant/constant"
 
 interface DataType {
     key: React.Key;
@@ -13,22 +14,6 @@ interface DataType {
 }
 
 const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
-
-    // const [allData, setAllData] = useState<any>([]);
-    // const fetchData = async () => {
-    //     try {
-    //         const leaveTypes = await rest.getAllWorkWeek();
-    //         setAllData(leaveTypes.map((item: any, index: number) => ({
-    //             ...item,
-    //             key: item.id,
-    //             day: removeUnderScore(String(item.day), "_"),
-    //             status: removeUnderScore(String(item.status), "_"),
-    //         })))
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Id',
@@ -44,6 +29,28 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
         },
     ];
 
+    const workWeekDayOptations = () => {
+        const keys = Object.keys(Week_Days) as Array<keyof typeof Week_Days>;
+        // const keys = Object.keys(Leave_Type_Status)
+        const optations = keys.map((status: keyof typeof Week_Days) => {
+            return {
+                value: status, label: Week_Days[status]
+            }
+        })
+        return optations;
+    }
+    const workWeekStatusOptations = () => {
+        const keys = Object.keys(Leave_Type_Status) as Array<keyof typeof Leave_Type_Status>;
+        // const keys = Object.keys(Leave_Type_Status)
+        const optations = keys.map((status: keyof typeof Leave_Type_Status) => {
+            return {
+                value: status, label: Leave_Type_Status[status]
+            }
+        })
+        return optations;
+    }
+
+
     const propsData = {
         title: "Work Week",
         create: rest.workWeekCreate,
@@ -52,28 +59,27 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
         columns: columns,
-        deleteById:rest.deleteWorkWeek,
+        deleteById: rest.deleteWorkWeek,
         formFields: [<Form.Item
             label="Day"
             name="day"
-            rules={[{required: true, message: 'Please input Day!'}]}>
-            <Input name="day"/>
+            rules={[{required: true, message: 'Please input Day!'}]}
+            initialValue={"MONDAY"}>
+            <Select
+            >
+                {workWeekDayOptations().map((optation: any) => <option key={optation.label} defaultValue={"MONDAY"} value={optation.value}>{optation.label}</option>)}
+            </Select>
         </Form.Item>,
             <Form.Item
                 label="Status"
                 name={"status"}
-                rules={[{required: true, message: 'Please input Status!'}]}>
-                <Input name={"status"}/>
+                rules={[{required: true, message: 'Please input Status!'}]}
+                initialValue={"FULL_DAY"}>
+                <Select>
+                    {workWeekStatusOptations().map((optation: any) => <option key={optation.label} value={optation.value}>{optation.label}</option>)}
+                </Select>
             </Form.Item>],
-        // allData: allData,
-        // setAllData: setAllData,
-        // fetchData: fetchData,
-
     }
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, [])
 
     return (
         <div>

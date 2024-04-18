@@ -14,6 +14,8 @@ import Title from "antd/lib/typography/Title";
 import {useNavigate} from "react-router-dom"
 import LeaveEntitlement from "./leaveTypeTable/leaveEntitlement";
 import Designation from "./leaveTypeTable/desigation";
+import Qualification from "./leaveTypeTable/qualification";
+import Holiday from "./leaveTypeTable/holiday";
 
 
 const leaveSidebarItems: any = [
@@ -47,18 +49,19 @@ const leaveSidebarItems: any = [
     },
     {
         key: 5,
+        label: "Holiday",
+        leftIcon: <CalendarOutlined />,
+        rightIcon: <RightOutlined/>,
+        className: "designation",
+    },
+    {
+        key: 6,
         label: "Leave Entitlement",
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "leave-entitlement",
     },
-    {
-        key: 6,
-        label: "Designation",
-        leftIcon: <BookOutlined/>,
-        rightIcon: <RightOutlined/>,
-        className: "designation",
-    }
+
 
 ]
 
@@ -108,8 +111,10 @@ function Leaves() {
             return <LeaveType isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else if(leaveTypeTable.key === 3) {
             return <Designation isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+        }else if(leaveTypeTable.key === 4){
+            return <Qualification isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else if(leaveTypeTable.key === 5){
-            return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <Holiday isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else {
             return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }

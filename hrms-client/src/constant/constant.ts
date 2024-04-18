@@ -69,3 +69,35 @@ export enum Holiday_Status {
     HALF_DAY = "Half Day",
     NON_WORKING_DAY="Non Working Day"
 }
+export enum Leave_Type_Status {
+    FULL_DAY = "Full Day",
+    HALF_DAY = "Half Day",
+    NON_WORKING_DAY="Non Working Day"
+}
+
+export enum Leave_Type{
+    CASUAL_LEAVE  = "Casual Leave",
+    SICK_LEAVE = "Sick Leave"
+}
+
+export enum Paid_Type{
+    PAID="Paid",
+    UN_PAID="Un Paid"
+}
+
+export enum Leave_Gender {
+    MALE="Male",
+    FEMALE="Female",
+    BOTH="Female",
+}
+
+export enum Week_Days {
+    MONDAY = "Monday",
+    TUESDAY="Tuesday",
+    WEDNESDAY="Wednesday",
+    THURSDAY="Thursday",
+    FRIDAY="Friday",
+    SATURDAY="Saturday",
+    SUNDAY="Sunday"
+
+}
