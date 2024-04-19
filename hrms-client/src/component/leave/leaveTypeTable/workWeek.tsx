@@ -67,7 +67,8 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
             initialValue={"MONDAY"}>
             <Select
             >
-                {workWeekDayOptations().map((optation: any) => <option key={optation.label} defaultValue={"MONDAY"} value={optation.value}>{optation.label}</option>)}
+                {workWeekDayOptations().map((optation: any) => <option key={optation.label} defaultValue={"MONDAY"}
+                                                                       value={optation.value}>{optation.label}</option>)}
             </Select>
         </Form.Item>,
             <Form.Item
@@ -76,9 +77,23 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
                 rules={[{required: true, message: 'Please input Status!'}]}
                 initialValue={"FULL_DAY"}>
                 <Select>
-                    {workWeekStatusOptations().map((optation: any) => <option key={optation.label} value={optation.value}>{optation.label}</option>)}
+                    {workWeekStatusOptations().map((optation: any) => <option key={optation.label}
+                                                                              value={optation.value}>{optation.label}</option>)}
                 </Select>
             </Form.Item>],
+        formInputs: [
+            {
+                value:"day",
+                type:"string",
+                tagType:"select"
+            },
+            {
+                value:"status",
+                type:"string",
+                tagType:"select"
+            },
+        ]
+
     }
 
     return (

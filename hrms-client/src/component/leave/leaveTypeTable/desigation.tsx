@@ -10,6 +10,18 @@ interface DataType {
 }
 
 const Designation = ({isModalOpen, setIsModalOpen}: any) => {
+
+    const fetchAllDesignation = async ()=>{
+        try {
+            const designations = await rest.getAllDesignation();
+            const newDesignations = designations.map((designation:any)=>({...designation,status:designation.active?"Active":"Inactive"}))
+            return newDesignations;
+        }catch (e) {
+            console.log(e);
+        }
+
+    }
+
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Sr. No',
@@ -24,13 +36,13 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         },
         {
             title: 'Status',
-            dataIndex: 'active',
+            dataIndex: 'status',
         },
     ];
     const propsData = {
         title: "Designation",
         create: rest.createDesignation,
-        getAll: rest.getAllDesignation,
+            getAll: fetchAllDesignation,
         delete: rest.deleteDesignation,
         update: rest.updateDesignationStatus,
         isModalOpen: isModalOpen,

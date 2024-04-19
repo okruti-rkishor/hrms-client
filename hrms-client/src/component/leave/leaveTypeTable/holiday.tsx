@@ -175,6 +175,22 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
             </Form.Item>
 
         ],
+        formInputs: [
+            {
+                value:"status",
+                type:"string",
+                tagType:"Select"
+            }, {
+                value:"name",
+                type:"string",
+                tagType:"Input"
+            },
+            {
+                value:"date",
+                type:"date",
+                tagType:"datePicker"
+            },
+        ]
     }
 
     return (

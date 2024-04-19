@@ -74,15 +74,13 @@ function CommonTableComponant({propsData}: any) {
             await restParams.update(record.active==="True" ? "inactive" : "active", record.id);
             setAllNewData((prev:any)=>prev.map((item:any)=>{
                 if(item.id===record.id){
-                    if(record.active==="True")
-                    item.active="False"
+                    if(record.status==="Active")
+                    item.status="Inactive"
                     else
-                        item.active="True"
+                        item.status="Active"
                 }
                 return item;
             }))
-            // console.log(record)
-            // setReRender(true);
         } catch (e) {
             console.log(e)
         }
