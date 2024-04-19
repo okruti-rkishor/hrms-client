@@ -59,7 +59,7 @@
     }
 
     &.navigation-menu {
-      .ant-menu-submenu-title {
+      .ant-menu-submenu-title, >.ant-menu-item {
         color: $hrms-white;
         display: flex;
         flex-direction: column;
@@ -75,6 +75,19 @@
 
         .ant-menu-title-content {
           margin: unset;
+        }
+      }
+
+      >.ant-menu-item {
+        margin: unset;
+        width: 100%;
+
+        &.ant-menu-item-selected {
+          background-color: rgba(0, 0, 0, 0.06);
+        }
+
+        &:hover {
+          color: $hrms-white;
         }
       }
 
