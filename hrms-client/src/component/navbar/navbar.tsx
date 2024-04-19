@@ -180,35 +180,11 @@ const items = [
             label: <Link to='/leave'>Leaves</Link>,
             key: 'leaves',
             icon: <CalendarOutlined />,
-            // children: [
-            //     {
-            //         label: (
-            //             <Link to='/holiday/create'>Create</Link>
-            //         ),
-            //         key: 'holiday-create',
-            //     },
-            // ],
         },
         {
             label: <Link to='/setting/leaves'>Settings</Link>,
-            key: 'enum',
+            key: 'setting',
             icon: <EditOutlined />,
-            // children: [
-            //     {
-            //         label: (
-            //             <Link to='/enum'>Detail</Link>
-            //         ),
-            //         key: 'enum detail',
-            //         icon: <FormOutlined/>,
-            //     },
-            //     {
-            //         label: (
-            //             <Link to='/setting/leaves'>Leaves</Link>
-            //         ),
-            //         key: 'leave detail',
-            //         icon: <FormOutlined/>,
-            //     },
-            // ],
         }
     ]
 ];
