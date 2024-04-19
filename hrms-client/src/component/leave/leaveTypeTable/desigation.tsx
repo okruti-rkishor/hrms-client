@@ -12,6 +12,9 @@ interface DataType {
 const Designation = ({isModalOpen, setIsModalOpen}: any) => {
     const columns: TableColumnsType<DataType> = [
         {
+            title: 'Sr. No',
+            dataIndex: 'key',
+        },{
             title: 'Code',
             dataIndex: 'code',
         },
@@ -20,10 +23,9 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
             dataIndex: 'description',
         },
         {
-            title: 'Active',
+            title: 'Status',
             dataIndex: 'active',
         },
-
     ];
     const propsData = {
         title: "Designation",

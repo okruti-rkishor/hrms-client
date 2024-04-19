@@ -1,4 +1,4 @@
-import {DatePicker, Form, Input, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {DatePicker, Form, Input, message, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
 import {Holiday_Type, Leave_Type_Status, Week_Days} from "../../../constant/constant"
@@ -14,7 +14,12 @@ interface DataType {
 
 const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
 
+
     const columns: TableColumnsType<DataType> = [
+        {
+            title: 'Sr. No',
+            dataIndex: 'key',
+        },
         {
             title: 'Name',
             dataIndex: 'name',
@@ -38,16 +43,19 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
         }
 
     ];
+    const success = () => {
+        message.success("Holiday Delete Successful!");
+    };
     const deleteHandel = async (record: any) => {
         try {
             // const deleteSelected = dataArray.find((holiday:any)=>holiday.name===record.name);
-            await rest.deleteHoliday(record.idArray);
+            await rest.deleteHoliday(record);
             let date:any=[];
             for(let startDate=new Date(record.startDate),endDate=new Date(record.endDate);startDate<=endDate;startDate.setDate(startDate.getDate()+1)){
                 let newStartDate=new Date(startDate);
                 date.push(dayjs(newStartDate).format("YYYY-MM-DD"));
             }
-            // success();
+            success();
         } catch (error) {
             console.log(error);
         }
@@ -61,6 +69,7 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
                     name: key,
                     year: response[key][0]?.year,
                     type: response[key][0]?.type,
+                    id:response[key][0]?.id,
                     calendar: response[key].map((calendarItem: any) => ({
                         date: calendarItem.date,
                         day: calendarItem.day,
@@ -73,7 +82,7 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
             const newResponse = newResponse1?.map((item: any, index: number) => {
                 if (item.year == new Date().getFullYear()) {
                     return {
-                        id: index,
+                        id: item.id,
                         name: capitalToSmall(item.name),
                         startDate: item.calendar[0].date,
                         endDate: item.calendar[item.calendar.length - 1].date,

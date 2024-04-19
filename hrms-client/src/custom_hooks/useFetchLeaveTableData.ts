@@ -5,6 +5,7 @@ import rest from "../services/http/api";
 
 const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
     const [value, setValue] = useState<any>([]);
+
     const fetchDataInsideHook = async () => {
         try {
             const data = await getAll()
@@ -13,8 +14,9 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
                 tableColumns.map((column:any)=>{
                     newRow[column] = removeUnderScore(String(record[column]),"_");
                 })
-                newRow["key"] = `${index}`
-                newRow["id"] =record.id;
+                newRow["key"] = `${index+1}`
+                // newRow["id"] =record.id;
+                record.idArray?newRow["id"] =record.idArray:newRow["id"] =record.id;
                     return newRow;
             })
             await setValue(newData);

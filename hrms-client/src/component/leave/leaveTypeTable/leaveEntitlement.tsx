@@ -1,6 +1,7 @@
 import {Form, Input, TableColumnsType} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
+import {useEffect, useState} from "react";
 
 interface DataType {
     key: React.Key;
@@ -10,10 +11,15 @@ interface DataType {
 }
 
 const LeaveEntitlement = ({isModalOpen, setIsModalOpen}: any) => {
+    const [employees, setEmployees] = useState([]);
     const columns: TableColumnsType<DataType> = [
         {
-            title: 'Employee',
-            dataIndex: 'employee',
+            title: 'Sr. No',
+            dataIndex: 'key',
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
         },
         {
             title: 'Type',
@@ -25,11 +31,31 @@ const LeaveEntitlement = ({isModalOpen, setIsModalOpen}: any) => {
         },
 
     ];
+    const getEntitlementData = async ()=>{
+        try {
+            const allEmployees = await rest.getAllEmployee();
+            const tempLeaveEntitlement = await rest.getAllLeaveEntitlement();
+            const newTempLeaveEntitlement = tempLeaveEntitlement.map((item:any)=>{
+                const employee:any = allEmployees.find((employee:any)=>(employee.id===item.employee));
+                const returnData = {
+                    ...item,
+                    name:employee?.name?.firstName+" "+employee?.name?.middleName+" "+employee?.name?.lastName
+                }
+                console.log("returnData", returnData);
+                    return returnData;
+            }
+            )
+            console.log("newTempLeaveEntitlement", newTempLeaveEntitlement);
+            return newTempLeaveEntitlement;
+        }catch (e) {
+            console.log(e)
+        }
+    }
 
     const propsData = {
         title: "Leave Entitlement",
         create: rest.leaveEntitlementCreate,
-        getAll: rest.getAllLeaveEntitlement,
+        getAll: getEntitlementData,
         delete: rest.deleteLeaveEntitlement,
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,

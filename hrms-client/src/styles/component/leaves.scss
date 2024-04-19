@@ -12,7 +12,7 @@
     h2{
       text-align: left;
       font-weight: 400;
-      margin-bottom:30px;
+      //margin-bottom:30px;
     }
     p{
       font-weight: 400;
@@ -127,4 +127,8 @@
 
     }
   }
+}
+
+.leave-list_table_flex{
+  align-items:unset;
 }

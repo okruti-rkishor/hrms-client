@@ -10,6 +10,9 @@ interface DataType {
 const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
     const columns: TableColumnsType<DataType> = [
         {
+            title: 'Sr. No',
+            dataIndex: 'key',
+        },{
             title: 'Code',
             dataIndex: 'code',
         },

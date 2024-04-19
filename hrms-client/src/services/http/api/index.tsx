@@ -48,7 +48,7 @@ export default {
     deleteWorkWeek:(data:string) => rest.del(base + `work_week/${data}`, {}, ),
     //leaveEntitlement
     leaveEntitlementCreate:(data: any) => rest.post(base + "leave-entitlement", {}, data),
-    getAllLeaveEntitlement :(data:string) => rest.get(base + "leave-entitlement/search", {}, ),
+    getAllLeaveEntitlement :() => rest.get(base + "leave-entitlement/search", {}, ),
     deleteLeaveEntitlement :(id:string) => rest.del(base + `leave-entitlement/${id}`, {}, ),
     //Designation
     createDesignation:(data:any)=>rest.post(base+"designation",{},data),
@@ -56,11 +56,13 @@ export default {
     deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
     updateDesignation:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
     updateDesignationStatus:(status:any,id:string)=>rest.put(base+`designation/${id}/${status}`,{},{}),
-    //Designation
+    //Qualification
     createQualification:(data:any)=>rest.post(base+"qualification",{},data),
     getAllQualification:()=>rest.get(base+"qualification/all"),
     deleteQualification:(id:string)=>rest.del(base+`qualification/${id}`,{}),
     updateQualification:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
-    // http://localhost:8080/hrms/api/v1/qualification/fd196d1b-f871-48d5-972e-4fa2811b78f9?active=true
     updateQualificationStatus:(status:any,id:string)=>rest.put(base+`qualification/${id}/`,{active:status},{}),
+    //Leave Application
+    createLeave:(data:any,id:string)=>rest.post(base+"leaveRequest",{empId:id},data),
+
 }

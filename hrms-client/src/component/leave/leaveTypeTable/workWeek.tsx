@@ -16,7 +16,7 @@ interface DataType {
 const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
     const columns: TableColumnsType<DataType> = [
         {
-            title: 'Id',
+            title: 'Sr. No',
             dataIndex: 'key',
         },
         {

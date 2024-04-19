@@ -29,13 +29,13 @@ import ApiInterceptor from "./apiInterceptor";
 import {toast, ToastContainer} from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
 import {useContext} from "react";
+import LeaveIndex from "./component/leavesSection/leaveIndex";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
 
     return (
         <div className="App">
-
             <ApiInterceptor/>
             <ToastContainer autoClose={8000} position={toast.POSITION.BOTTOM_RIGHT}/>
             <Routes>
@@ -75,7 +75,8 @@ const App = () => {
                     <Route path="about-us" element={<AboutUs/>}/>
                     <Route path="privacy-policy" element={<PrivacyPolicy/>}/>
                     <Route path="contact-us" element={<ContactUs/>}/>
-                    <Route path="holiday" element={<HolidayList/>}/>
+                    {/*<Route path="holiday" element={<HolidayList/>}/>*/}
+                    <Route path="leave" element={<LeaveIndex />}/>
                     <Route path="holiday/create" element={<HolidayCreate/>}/>
                     <Route path="holiday/calendar" element={<HolidayCalendar/>}/>
                 </Route>

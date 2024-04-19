@@ -4,6 +4,7 @@ import {DeleteOutlined} from "@ant-design/icons/lib";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import rest from '../../../services/http/api'
 import CommonTableComponant from "../CommonTableComponant";
+import {Leave_Type} from "../../../constant/constant";
 
 function LeavesType({isModalOpen, setIsModalOpen}: any) {
     const [allData, setAllData] = useState<any>();
@@ -32,6 +33,9 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
 
     const columns: TableColumnsType<any> = [
         {
+            title: 'Sr. No',
+            dataIndex: 'key',
+        },{
             title: 'Name',
             dataIndex: 'type',
         },
@@ -59,17 +63,32 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
         // fetchData: fetchData,
         deleteById:rest.leaveTypeDelete,
         formFields: [
+            // <Form.Item
+            //     key={"type"}
+            //     label={capitalToSmall("type")}
+            //     name={"type"}
+            //     rules={[{required: true, message: `Please input ${capitalToSmall(String("type"))}!`}]}>
+            //     <Input name={"type"}/>
+            // </Form.Item>,
             <Form.Item
-                key={"type"}
-                label={capitalToSmall("type")}
-                name={"type"}
-                rules={[{required: true, message: `Please input ${capitalToSmall(String("type"))}!`}]}>
-                <Input name={"type"}/>
+                label="Leave Type"
+                name="type"
+                initialValue={"SICK_LEAVE"}
+                rules={[{required: true, message: 'Please input Leave Type!'}]}>
+                <Select
+                    style={{height: 40, width: 272}}>
+                    {(Object.keys(Leave_Type) as Array<keyof typeof Leave_Type>).map((key) =>
+                        <Select.Option value={key} key={key}>
+                            {Leave_Type[key]}
+                        </Select.Option>
+                    )}
+                </Select>
             </Form.Item>,
 
             <Form.Item
                 label="Paid Type"
                 name={"paidType"}
+                initialValue={"UN_PAID"}
                 rules={[{required: true, message: 'Please input Paid Type!'}]}>
                 <Select
                     style={{height: 40, width: 272}}>

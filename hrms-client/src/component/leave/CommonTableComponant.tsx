@@ -45,7 +45,7 @@ function CommonTableComponant({propsData}: any) {
                 </>
         },
     ])
-    const[reRender, setReRender] = useState(false);
+    // const[reRender, setReRender] = useState(false);
 
     const handleOk = async () => {
         const values = form.getFieldsValue();
@@ -81,8 +81,8 @@ function CommonTableComponant({propsData}: any) {
                 }
                 return item;
             }))
-            console.log(record)
-            setReRender(true);
+            // console.log(record)
+            // setReRender(true);
         } catch (e) {
             console.log(e)
         }
@@ -91,7 +91,7 @@ function CommonTableComponant({propsData}: any) {
 
     return (<>
         <div>
-            <Modal title="Create Leave Type" open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
+            <Modal title={`Add ${title}`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
                 <Card>
                     <Form
                         form={form}
@@ -103,6 +103,7 @@ function CommonTableComponant({propsData}: any) {
 
 
             <Table
+                bordered
                 size={"middle"}
                 columns={newColumn}
                 dataSource={allNewData}
