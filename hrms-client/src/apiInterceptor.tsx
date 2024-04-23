@@ -4,7 +4,7 @@ import _ from "lodash";
 import {toast} from "react-toastify";
 import {hrms }  from "../src/services/http/api/rest";
 import generateMessage from "./services/http/api/message";
-import './styles/component/loadingSpinner.scss'
+// import './styles/component/loadingSpinner.scss'
 
 
 //import {fm} from "../../componentsv2/shared/Internationalization/index";

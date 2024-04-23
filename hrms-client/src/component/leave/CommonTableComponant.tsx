@@ -4,6 +4,7 @@ import rest from "../../services/http/api";
 import {toast} from "react-toastify";
 import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
 import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
+import dayjs from "dayjs";
 
 function CommonTableComponant({propsData}: any) {
     console.log("render");
@@ -50,13 +51,49 @@ function CommonTableComponant({propsData}: any) {
     const [render,setRender] = useState(false);
     // const[reRender, setReRender] = useState(false);
 
+    const getDayOfWeek = (date: any) => {
+        const daysOfWeek = [
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ];
+        const dayIndex = new Date(date).getDay();
+        return daysOfWeek[dayIndex];
+    };
+
+    const holidayHandle = (values: any) =>{
+        let payload: any = {
+            "year": new Date().getFullYear(),
+            "name": values.name,
+            "type": values.type,
+            "calender": {}
+        }
+
+        const tempCalender = values.date.map((item: any) => {
+            let tempCal: any = {};
+            tempCal["date"] = dayjs(item).format("YYYY-MM-DD");
+            tempCal["day"] = getDayOfWeek(item).toUpperCase();
+            tempCal["status"] = values.status;
+            return {...tempCal};
+        });
+
+        payload.calender = tempCalender;
+
+        return payload;
+    }
+
     const handleOk = async () => {
-        const values = form.getFieldsValue();
-        console.log("values", values);
-        const keys = Object.keys(values)
-        keys.map((key) => {
-            values[key] = values[key].replace(" ", "_").toLocaleUpperCase();
+        let values = form.getFieldsValue();
+        const keys = Object.keys(values);
+        if(title!=="Holiday")keys.map((key) => {
+            if(typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
+            else values[key] = values[key].replace(" ", "_").toLocaleUpperCase();
         })
+        else values=holidayHandle(values);
         if (keys.length === formFields.length) {
             try {
                 await create(values)
@@ -69,9 +106,11 @@ function CommonTableComponant({propsData}: any) {
             toast("Fill All Fields")
         }
     };
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
     const updateStatus = async (record: any) => {
         try {
             await restParams.update(record.status==="Active " ? "inactive"  : "active", record.id);

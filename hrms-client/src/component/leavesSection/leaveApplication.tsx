@@ -1,6 +1,3 @@
-
-
-
 import React from "react";
 
 
@@ -46,7 +43,6 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
         deleteById: rest.deleteDesignation,//todo
         showStatus: false,
         formFields: [
-
             <Form.Item
                 label="leaveType"
                 name="leaveType"
@@ -90,6 +86,8 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                 rules={[{required: true, message: 'Please input Reason!'}]}>
                 <Input name={"reason"}/>
             </Form.Item>,],
+        formFieldsType:[{startDate:Date},{endDate:Date},{leaveType:String},{reason:String}]
+
     }
 
     return (

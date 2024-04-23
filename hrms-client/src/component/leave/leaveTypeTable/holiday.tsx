@@ -115,8 +115,8 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
     }
 
     const propsData = {
-        title: "Work Week",
-        create: rest.workWeekCreate,
+        title: "Holiday",
+        create: rest.holidayCreate,
         getAll: fetchHolidayData,
         delete: deleteHandel,
         isModalOpen: isModalOpen,
@@ -175,22 +175,7 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
             </Form.Item>
 
         ],
-        formInputs: [
-            {
-                value:"status",
-                type:"string",
-                tagType:"Select"
-            }, {
-                value:"name",
-                type:"string",
-                tagType:"Input"
-            },
-            {
-                value:"date",
-                type:"date",
-                tagType:"datePicker"
-            },
-        ]
+        formFieldsType:[{name:String},{status:Date},{date:Date},{type:String}]
     }
 
     return (

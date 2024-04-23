@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType, Tag} from "antd";
 import {DeleteOutlined} from "@ant-design/icons/lib";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import rest from '../../../services/http/api'
@@ -43,6 +43,11 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
         {
             title: 'Paid Type',
             dataIndex: 'paidType',
+            render: (text) => {
+                if(text.length>5)return <Tag color={"blue"} key={text}>{text}</Tag>
+                else return <Tag color={"green"} key={text}>{text}</Tag>
+            }
+
         },
         {
             title: 'Description',

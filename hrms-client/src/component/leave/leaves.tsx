@@ -6,7 +6,7 @@ import {
     BookOutlined,
     CalendarOutlined, CaretLeftOutlined, LeftOutlined,
     ProfileOutlined,
-    RightOutlined, UsergroupAddOutlined
+    RightOutlined, SolutionOutlined, UsergroupAddOutlined
 } from "@ant-design/icons/lib";
 import LeaveType from "./leaveTypeTable/leaveType";
 import WorkWeek from "./leaveTypeTable/workWeek";
@@ -49,12 +49,16 @@ const leaveSidebarItems: any = [
     {
         key: 5,
         label: "Holiday",
-        leftIcon: <CalendarOutlined />,
+        leftIcon: <CalendarOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "designation",
-    },
-
-
+    }, {
+        key: 6,
+        label: "Leave Entitlement",
+        leftIcon: <SolutionOutlined/>,
+        rightIcon: <RightOutlined/>,
+        className: "leave-entitlement",
+    }
 ]
 
 function Leaves() {
@@ -98,15 +102,15 @@ function Leaves() {
     const LeaveComponentRender = () => {
         if (leaveTypeTable.key === 1) {
             return <WorkWeek isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-        }else if(leaveTypeTable.key === 2) {
+        } else if (leaveTypeTable.key === 2) {
             return <LeaveType isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-        }else if(leaveTypeTable.key === 3) {
+        } else if (leaveTypeTable.key === 3) {
             return <Designation isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-        }else if(leaveTypeTable.key === 4){
+        } else if (leaveTypeTable.key === 4) {
             return <Qualification isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-        }else if(leaveTypeTable.key === 5){
+        } else if (leaveTypeTable.key === 5) {
             return <Holiday isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
-        }else {
+        } else {
             return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }
     }
@@ -147,8 +151,9 @@ function Leaves() {
                                 />
                             </Tooltip>
                         </Flex>
-                        {<LeaveComponentRender/>}
 
+
+                        <LeaveComponentRender/>
 
                     </div>
                 </div>
