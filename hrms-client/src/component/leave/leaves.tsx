@@ -34,14 +34,14 @@ const leaveSidebarItems: any = [
     },
     {
         key: 3,
-        label: "Designation",
+        label: "Designations",
         leftIcon: <UsergroupAddOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "designation",
     },
     {
         key: 4,
-        label: "Qualification",
+        label: "Qualifications",
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "qualification",
