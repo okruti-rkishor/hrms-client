@@ -1,4 +1,4 @@
-import {Form, Input, TableColumnsType} from "antd";
+import {Form, Input, TableColumnsType, Tag} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
 
@@ -11,12 +11,15 @@ interface DataType {
 
 const Designation = ({isModalOpen, setIsModalOpen}: any) => {
 
-    const fetchAllDesignation = async ()=>{
+    const fetchAllDesignation = async () => {
         try {
             const designations = await rest.getAllDesignation();
-            const newDesignations = designations.map((designation:any)=>({...designation,status:designation.active?"Active":"Inactive"}))
+            const newDesignations = designations.map((designation: any) => ({
+                ...designation,
+                status: designation.active ? "Active" : "Inactive"
+            }))
             return newDesignations;
-        }catch (e) {
+        } catch (e) {
             console.log(e);
         }
 
@@ -26,7 +29,7 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Sr. No',
             dataIndex: 'key',
-        },{
+        }, {
             title: 'Code',
             dataIndex: 'code',
         },
@@ -37,12 +40,21 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Status',
             dataIndex: 'status',
+            render: (_, {status}) => (
+                <>
+                    {status && (
+                        <Tag color={status.length === 7 ? 'green' : 'red'} key={status}>
+                            {status.toUpperCase()}
+                        </Tag>
+                    )}
+                </>
+            ),
         },
     ];
     const propsData = {
         title: "Designation",
         create: rest.createDesignation,
-            getAll: fetchAllDesignation,
+        getAll: fetchAllDesignation,
         delete: rest.deleteDesignation,
         update: rest.updateDesignationStatus,
         isModalOpen: isModalOpen,

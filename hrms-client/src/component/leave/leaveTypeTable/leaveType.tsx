@@ -35,7 +35,8 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
         {
             title: 'Sr. No',
             dataIndex: 'key',
-        },{
+        },
+        {
             title: 'Name',
             dataIndex: 'type',
         },

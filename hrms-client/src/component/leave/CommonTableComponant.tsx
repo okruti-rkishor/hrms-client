@@ -26,12 +26,13 @@ function CommonTableComponant({propsData}: any) {
                         onCancel={() => {
                             console.log("Cancel")
                         }}
+                        style={{color:"red"}}
                     >
                         {" "}
                         <DeleteOutlined className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
-                        title={`Are you sure to ${record.active==="True" ? "inactive" : "active"}?`}
+                        title={`Are you sure to ${record.status==="Active " ? "Inactive" : "Active"}?`}
                         onConfirm={() => {
                             updateStatus(record)
                         }}
@@ -39,12 +40,14 @@ function CommonTableComponant({propsData}: any) {
                             console.log("Cancel")
                         }}>
                         {" "}
-                        {record.status ? <CloseCircleOutlined className={"search-table delete-button"}/> :
-                            <CheckCircleOutlined  className={"search-table delete-button"}/>}
+                        {record.status ==="Active " ? <CloseCircleOutlined style={{color:"red"}} className={"search-table delete-button"}/> :
+                            <CheckCircleOutlined style={{color:"green"}}  className={"search-table delete-button"}/>}
                     </Popconfirm>}
+
                 </>
         },
     ])
+    const [render,setRender] = useState(false);
     // const[reRender, setReRender] = useState(false);
 
     const handleOk = async () => {
@@ -71,7 +74,9 @@ function CommonTableComponant({propsData}: any) {
     };
     const updateStatus = async (record: any) => {
         try {
-            await restParams.update(record.active==="True" ? "inactive" : "active", record.id);
+            await restParams.update(record.status==="Active " ? "inactive"  : "active", record.id);
+            setRender(prev=>!prev)
+
             setAllNewData((prev:any)=>prev.map((item:any)=>{
                 if(item.id===record.id){
                     if(record.status==="Active")
@@ -80,7 +85,8 @@ function CommonTableComponant({propsData}: any) {
                         item.status="Active"
                 }
                 return item;
-            }))
+            }
+            ))
         } catch (e) {
             console.log(e)
         }

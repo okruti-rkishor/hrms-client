@@ -12,7 +12,8 @@ const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Sr. No',
             dataIndex: 'key',
-        },{
+        },
+        {
             title: 'Code',
             dataIndex: 'code',
         },
