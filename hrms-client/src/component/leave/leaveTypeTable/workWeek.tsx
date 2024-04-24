@@ -18,14 +18,18 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Sr. No',
             dataIndex: 'key',
+            align:"center",
+            width: '7%',
         },
         {
             title: 'Day',
             dataIndex: 'day',
+            align:"center",
         },
         {
             title: 'Status',
             dataIndex: 'status',
+            align:"center",
         },
     ];
 

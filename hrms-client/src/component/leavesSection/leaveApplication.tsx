@@ -32,7 +32,7 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
         },
     ];
     const propsData = {
-        title: "Designation",
+        title: "Leave Application",
         create: rest.createLeave,
         getAll: rest.getAllDesignation,//todo
         delete: rest.deleteDesignation,//todo

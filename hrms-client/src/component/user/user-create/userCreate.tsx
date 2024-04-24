@@ -84,7 +84,7 @@ const UserCreate = (props: any) => {
     <Layout className="with-background user-create-section">
       <div className="data-table" style={{ width: "50%" }}>
         <Divider orientation="left">
-          <PageHeader className="site-page-header" title="User Create" />
+          <PageHeader className="site-page-header" title="Create User" />
         </Divider>
         <Form
           name="basic"
@@ -178,7 +178,7 @@ const UserCreate = (props: any) => {
 
             <Form.Item label="Employee" name={"employeeId"}>
               <Input
-                placeholder="Enter employee-id"
+                placeholder="Enter Employee"
                 disabled={isFindEmployee}
                 value={isFindEmployee ? "New Value" : ""}
                 // value={selectedEmployeeId?.employeeCode}

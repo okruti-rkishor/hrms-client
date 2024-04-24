@@ -29,7 +29,7 @@ const LeaveBalance = ({isModalOpen, setIsModalOpen}: any) => {
         },
     ];
     const propsData = {
-        title: "Designation",
+        title: "Leave Balance",
         create: rest.createDesignation,
         getAll: rest.getAllDesignation,
         delete: rest.deleteDesignation,

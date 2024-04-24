@@ -19,6 +19,7 @@ function CommonTableComponant({propsData}: any) {
         ...columns,
         {
             title: 'Action',
+            align:"center",
             render: (_: any, record: any) =>
                 <>
                     <Popconfirm
@@ -30,7 +31,7 @@ function CommonTableComponant({propsData}: any) {
                         style={{color:"red"}}
                     >
                         {" "}
-                        <DeleteOutlined className={"search-table delete-button"}/>
+                        <DeleteOutlined style={{color:"red"}} className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
                         title={`Are you sure to ${record.status==="Active " ? "Inactive" : "Active"}?`}

@@ -205,6 +205,13 @@ const TempFile: React.FC = () => {
                             </Tag>
                         );
                     })}
+                    {record.roles?.map((tag:string) => {
+                        return (
+                            <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
+                                {tag.toUpperCase()}
+                            </Tag>
+                        );
+                    })}
                 </>
             ),
         },

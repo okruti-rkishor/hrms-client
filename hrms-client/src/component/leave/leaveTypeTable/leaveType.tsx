@@ -35,16 +35,20 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
         {
             title: 'Sr. No',
             dataIndex: 'key',
+            align: "center",
+            width: '7%',
         },
         {
             title: 'Name',
             dataIndex: 'type',
+            align: "center",
         },
         {
             title: 'Paid Type',
             dataIndex: 'paidType',
+            align: "center",
             render: (text) => {
-                if(text.length>5)return <Tag color={"blue"} key={text}>{text}</Tag>
+                if (text.length > 5) return <Tag color={"blue"} key={text}>{text}</Tag>
                 else return <Tag color={"green"} key={text}>{text}</Tag>
             }
 
@@ -52,6 +56,7 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
         {
             title: 'Description',
             dataIndex: 'description',
+            align: "center",
         },
 
     ];
@@ -66,16 +71,8 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
         columns: columns,
         allData: allData,
         setAllData: setAllData,
-        // fetchData: fetchData,
-        deleteById:rest.leaveTypeDelete,
+        deleteById: rest.leaveTypeDelete,
         formFields: [
-            // <Form.Item
-            //     key={"type"}
-            //     label={capitalToSmall("type")}
-            //     name={"type"}
-            //     rules={[{required: true, message: `Please input ${capitalToSmall(String("type"))}!`}]}>
-            //     <Input name={"type"}/>
-            // </Form.Item>,
             <Form.Item
                 label="Leave Type"
                 name="type"

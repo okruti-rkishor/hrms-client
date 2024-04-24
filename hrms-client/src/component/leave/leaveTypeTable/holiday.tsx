@@ -19,27 +19,34 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Sr. No',
             dataIndex: 'key',
+            align:"center",
+            width: '7%',
         },
         {
             title: 'Name',
             dataIndex: 'name',
+            align:"center",
         },
         {
             title: 'Start',
             dataIndex: 'startDate',
+            align:"center",
         },
         {
             title: 'End',
             dataIndex: 'endDate',
+            align:"center",
         },
         {
             title: "Leaves",
             dataIndex: "count",
+            align:"center",
         },
 
         {
             title: "Day",
             dataIndex: "day",
+            align:"center",
         }
 
     ];

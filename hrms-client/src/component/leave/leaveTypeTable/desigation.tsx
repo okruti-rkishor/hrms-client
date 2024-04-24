@@ -29,17 +29,23 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Sr. No',
             dataIndex: 'key',
-        }, {
+            align:"center",
+            width: '7%',
+        },
+        {
             title: 'Code',
             dataIndex: 'code',
+            align:"center",
         },
         {
             title: 'Description',
             dataIndex: 'description',
+            align:"center",
         },
         {
             title: 'Status',
             dataIndex: 'status',
+            align:"center",
             render: (_, {status}) => (
                 <>
                     {status && (
