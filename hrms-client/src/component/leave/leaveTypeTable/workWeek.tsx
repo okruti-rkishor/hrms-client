@@ -68,7 +68,7 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
             label="Day"
             name="day"
             rules={[{required: true, message: 'Please input Day!'}]}
-            initialValue={"MONDAY"}>
+            initialValue={"-Select-"}>
             <Select
             >
                 {workWeekDayOptations().map((optation: any) => <option key={optation.label} defaultValue={"MONDAY"}
@@ -79,7 +79,7 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
                 label="Status"
                 name={"status"}
                 rules={[{required: true, message: 'Please input Status!'}]}
-                initialValue={"FULL_DAY"}>
+                initialValue={"-Select-"}>
                 <Select>
                     {workWeekStatusOptations().map((optation: any) => <option key={optation.label}
                                                                               value={optation.value}>{optation.label}</option>)}

@@ -29,23 +29,23 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Sr. No',
             dataIndex: 'key',
-            align:"center",
+            align: "center",
             width: '7%',
         },
         {
             title: 'Code',
             dataIndex: 'code',
-            align:"center",
+            align: "center",
         },
         {
             title: 'Description',
             dataIndex: 'description',
-            align:"center",
+            align: "center",
         },
         {
             title: 'Status',
             dataIndex: 'status',
-            align:"center",
+            align: "center",
             render: (_, {status}) => (
                 <>
                     {status && (
@@ -70,18 +70,18 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
         showStatus: true,
         formFields: [
             <Form.Item
+                label="Code"
+                name={"code"}
+                rules={[{required: true, message: 'Please input Code!'}]}>
+                <Input name={"code"}/>
+            </Form.Item>,
+            <Form.Item
                 label="Description"
                 name="description"
                 rules={[{required: true, message: 'Please input Description!'}]}>
                 <Input name="description"/>
             </Form.Item>,
-
-            <Form.Item
-                label="Code"
-                name={"code"}
-                rules={[{required: true, message: 'Please input Code!'}]}>
-                <Input name={"code"}/>
-            </Form.Item>,],
+        ],
     }
 
     return (

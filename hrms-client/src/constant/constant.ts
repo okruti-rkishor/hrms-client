@@ -56,23 +56,22 @@ export enum Documents{
 export enum User_type {
     EMPLOYEE = "Employee",
     ADMIN = "Admin",
-    HR = "Hr",
+    HR = "Hr"
 }
 
 export enum Holiday_Type {
     NATIONAL_HOLIDAY = "National Holiday",
-    HOLIDAY = "Holiday",
+    HOLIDAY = "Holiday"
 }
 
 export enum Holiday_Status {
     FULL_DAY = "Full Day",
-    HALF_DAY = "Half Day",
-    NON_WORKING_DAY="Non Working Day"
+    HALF_DAY = "Half Day"
 }
+
 export enum Leave_Type_Status {
-    FULL_DAY = "Full Day",
-    HALF_DAY = "Half Day",
-    NON_WORKING_DAY="Non Working Day"
+    WORKING="Working",
+    WEEKEND="Weekend"
 }
 
 export enum Leave_Type{

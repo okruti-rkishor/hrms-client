@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout, Divider} from 'antd';
-import { PageHeader } from '@ant-design/pro-layout';
+import {PageHeader} from '@ant-design/pro-layout';
 import restApi from "../../../services/http/api";
-import {CloseOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
+import {CloseOutlined, DeleteOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
 import {User_type} from "../../../constant/constant";
 import '../../../styles/component/user/userDataTable.scss';
 import {toast} from 'react-toastify';
@@ -30,7 +30,8 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
 
 const userTypesEnum = Object.keys(User_type);
 
-const EditableCell: React.FC<EditableCellProps> = ({   editing,
+const EditableCell: React.FC<EditableCellProps> = ({
+                                                       editing,
                                                        dataIndex,
                                                        title,
                                                        inputType,
@@ -43,36 +44,36 @@ const EditableCell: React.FC<EditableCellProps> = ({   editing,
     const inputNode = dataIndex === 'roles' ?
         <Select mode="multiple"
                 placeholder="Select the role"
-                style={{ flex: 1 }}
+                style={{flex: 1}}
         >
             {userTypesEnum.map((userType) =>
                 <Select.Option key={userType} value={userType.toString().toUpperCase()}>
                     {userType.toString().toUpperCase()}
                 </Select.Option>)
             }
-        </Select> : <Input />;
+        </Select> : <Input/>;
 
-        return (
-            <td {...restProps}>
-                {editing ? (
-                    <Form.Item
-                        name={dataIndex}
-                        style={{ margin: 0 }}
-                        rules={[
-                            {
-                                required: true,
-                                message: `Please Input ${title}!`,
-                            }
-                        ]}
-                    >
-                        {inputNode}
-                    </Form.Item>
-                ) : (
-                    children
-                )}
-            </td>
-        );
-    };
+    return (
+        <td {...restProps}>
+            {editing ? (
+                <Form.Item
+                    name={dataIndex}
+                    style={{margin: 0}}
+                    rules={[
+                        {
+                            required: true,
+                            message: `Please Input ${title}!`,
+                        }
+                    ]}
+                >
+                    {inputNode}
+                </Form.Item>
+            ) : (
+                children
+            )}
+        </td>
+    );
+};
 
 const TempFile: React.FC = () => {
     const [form] = Form.useForm();
@@ -81,9 +82,11 @@ const TempFile: React.FC = () => {
     const [navigatedUser] = useSearchParams();
 
 
-    useEffect(()=>{
+
+
+    useEffect(() => {
         usersData();
-    },[]);
+    }, []);
 
     const usersData = async () => {
         try {
@@ -96,8 +99,7 @@ const TempFile: React.FC = () => {
             })
 
             setUserData(newResponse);
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
         }
     };
@@ -105,7 +107,7 @@ const TempFile: React.FC = () => {
     const isEditing = (record: Item) => record.id === editingKey;
 
     const edit = (record: Item) => {
-        form.setFieldsValue({ name: '', age: '', address: '', ...record });
+        form.setFieldsValue({name: '', age: '', address: '', ...record});
         setEditingKey(record.id);
     };
 
@@ -113,11 +115,11 @@ const TempFile: React.FC = () => {
         setEditingKey('');
     };
 
-    const getDefaultFilter=()=>{
-        if(navigatedUser.get('userTitle')){
+    const getDefaultFilter = () => {
+        if (navigatedUser.get('userTitle')) {
             return [navigatedUser.get('userTitle')];
 
-        }else {
+        } else {
             return [];
         }
     }
@@ -129,10 +131,10 @@ const TempFile: React.FC = () => {
             const index = newData.findIndex((item) => key === item.id);
             if (index > -1) {
                 //call API
-                const editedData :any = { ...row,id:key};
+                const editedData: any = {...row, id: key};
                 // delete editedData.id;
-                const editResponse = await restApi.userEdit(editedData,key);
-                const item :any = newData[index];
+                const editResponse = await restApi.userEdit(editedData, key);
+                const item: any = newData[index];
                 // const item = newData[index];
                 newData.splice(index, 1, {
                     ...item,
@@ -151,20 +153,29 @@ const TempFile: React.FC = () => {
         }
     };
 
+    const deleteHandel = async (record:any)=>{
+        try {
+            await restApi.userDelete(record.id)
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+
     const columns = [
         {
             title: 'First name',
             dataIndex: 'firstName',
             width: '15%',
             editable: true,
-            sorter: (a:any, b:any) => a.firstName.localeCompare(b.firstName),
+            sorter: (a: any, b: any) => a.firstName.localeCompare(b.firstName),
         },
         {
             title: 'Last name',
             dataIndex: 'lastName',
             width: '15%',
             editable: true,
-            sorter: (a:any, b:any) => a.lastName.localeCompare(b.lastName),
+            sorter: (a: any, b: any) => a.lastName.localeCompare(b.lastName),
         },
         {
             title: 'Email',
@@ -175,37 +186,22 @@ const TempFile: React.FC = () => {
         {
             title: 'Role',
             dataIndex: 'roles',
-            // dataIndex: 'roles',
-            // filters: [
-            //     {
-            //         text: 'Admin',
-            //         value: 'ADMIN',
-            //     },
-            //     {
-            //         text: 'HR',
-            //         value: 'HR',
-            //     },
-            //     {
-            //         text: 'Employee',
-            //         value: 'EMPLOYEE',
-            //     },
-            // ],
             editable: true,
             defaultFilteredValue: getDefaultFilter(),
             onFilter: (value: any, record: any) => {
-               return record.roles?.includes(value) ?? false;
+                return record.roles?.includes(value) ?? false;
             },
             width: '25%',
-            render: (_:any, record:any) => (
+            render: (_: any, record: any) => (
                 <>
-                    {record.roles?.map((tag:string) => {
+                    {record.roles?.map((tag: string) => {
                         return (
                             <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
                                 {tag.toUpperCase()}
                             </Tag>
                         );
                     })}
-                    {record.roles?.map((tag:string) => {
+                    {record.roles?.map((tag: string) => {
                         return (
                             <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
                                 {tag.toUpperCase()}
@@ -223,17 +219,30 @@ const TempFile: React.FC = () => {
                 const editable = isEditing(record);
                 return editable ? (
                     <span>
-                        <Typography.Link onClick={() => save(record.id)} style={{ marginRight: 8 }}>
-                          <SaveTwoTone twoToneColor="#52c41a" style={{ fontSize: '18px', marginLeft: '10px' }}/>
+                        <Typography.Link onClick={() => save(record.id)} style={{marginRight: 8}}>
+                          <SaveTwoTone twoToneColor="#52c41a" style={{fontSize: '18px', marginLeft: '10px'}}/>
                         </Typography.Link>
                         <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                          <a><CloseOutlined style={{ color: '#950a11', fontSize: '18px', marginLeft: '10px' }}/></a>
+                          <a><CloseOutlined style={{color: '#950a11', fontSize: '18px', marginLeft: '10px'}}/></a>
                         </Popconfirm>
                     </span>
                 ) : (
-                    <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                        <EditTwoTone style={{ fontSize: '18px', marginLeft: '10px' }}/>
-                    </Typography.Link>
+                    <div style={{display:"flex"}}>
+                        <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                            <EditTwoTone style={{fontSize: '18px', marginLeft: '10px'}}/>
+                        </Typography.Link>
+                        <Popconfirm
+                            title={"Are you sure to delete user?"}
+                            onConfirm={()=> {
+                                deleteHandel(record)
+                            }}
+                            onCancel={() => {
+                                console.log("Cancel")
+                            }}
+                        >
+                            <DeleteOutlined  style={{color:"red"}}/>
+                        </Popconfirm>
+                    </div>
                 );
             },
         },
@@ -256,8 +265,10 @@ const TempFile: React.FC = () => {
         };
     });
 
-    function capitalizeTitle(s: string){
-        return s.toLowerCase().replace( /\b./g, function(a: string){ return a.toUpperCase(); } );
+    function capitalizeTitle(s: string) {
+        return s.toLowerCase().replace(/\b./g, function (a: string) {
+            return a.toUpperCase();
+        });
     }
 
     return (
@@ -266,12 +277,12 @@ const TempFile: React.FC = () => {
                 <Divider orientation="left">
                     <PageHeader
                         className="site-page-header"
-                        title= {navigatedUser.get('userTitle') ?
+                        title={navigatedUser.get('userTitle') ?
                             `${capitalizeTitle(`${navigatedUser.get('userTitle')}`)} List` : 'Users List'
                         }
                     />
                 </Divider>
-                <Form form={form} component={false} >
+                <Form form={form} component={false}>
                     <Table
                         components={{
                             body: {

@@ -1,7 +1,7 @@
 import {DatePicker, Form, Input, message, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
-import {Holiday_Type, Leave_Type_Status, Week_Days} from "../../../constant/constant"
+import {Holiday_Status, Holiday_Type, Leave_Type_Status, Week_Days} from "../../../constant/constant"
 import dayjs from "dayjs";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import {toast} from "react-toastify";
@@ -111,11 +111,11 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
         }
     };
     const workWeekStatusOptations = () => {
-        const keys = Object.keys(Leave_Type_Status) as Array<keyof typeof Leave_Type_Status>;
+        const keys = Object.keys(Holiday_Status) as Array<keyof typeof Holiday_Status>;
         // const keys = Object.keys(Leave_Type_Status)
-        const optations = keys.map((status: keyof typeof Leave_Type_Status) => {
+        const optations = keys.map((status: keyof typeof Holiday_Status) => {
             return {
-                value: status, label: Leave_Type_Status[status]
+                value: status, label: Holiday_Status[status]
             }
         })
         return optations;
@@ -171,7 +171,9 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
                 {
                     required: true,
                     message: "Please select type of Holiday",
-                }]}>
+                }]}
+                       initialValue={"-Select-"}
+            >
                 <Select placeholder={"Select Holiday Type here"}>
                     {(Object.keys(Holiday_Type) as Array<keyof typeof Holiday_Type>).map((key) =>
                         <Select.Option value={key} key={key}>

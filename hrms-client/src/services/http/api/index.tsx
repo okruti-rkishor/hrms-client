@@ -11,6 +11,7 @@ export default {
     userLogin:(data: any) => rest.post(base + "auth/login", {}, data),
     userLogout:(data:any) => rest.post(base + "auth/logout", {}, {},{},{"Authorization":data}),
     userEdit:(data: any, id: string) => rest.put(base + `user/${id}`, {}, data),
+    userDelete:(id: string) => rest.del(base + `user/${id}`,{}),
     employeeCreate:(data: any) => rest.post(base + "employee", {}, data),
     employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data),
     getAllEmployee:() => rest.get(base + "employee/getAll", { }),
@@ -34,34 +35,36 @@ export default {
     //Holiday
     holidayCreate:(data:any)=>rest.post(base+"holiday",{},data),
     getAllHoliday:()=>rest.get(base+"holiday/search"),
-    deleteHoliday:(data:string[])=>rest.del(base+`holiday/delete-multiples`,{},data,{}),
+    deleteHoliday:(data:string[])=>rest.del(base+`holiday`,{},data,{}),//todo
+    //single delete
+    deletOneeHoliday:(id:string[])=>rest.del(base+`holiday/${id}`,{},{},{}),//todo
     //State-city
     getState:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/states",{},data,{}),
     getCity:(data: object)=>rest.post("https://countriesnow.space/api/v0.1/countries/state/cities",{},data,{}),
     //LeaveType
-    leaveTypeCreate:(data: any) => rest.post(base + "leave_type", {}, data),
-    getAllLeaveTypes:() => rest.get(base + "leave_type/all", {}, ),
-    leaveTypeDelete:(data:string) => rest.del(base + `leave_type/${data}`, {}, ),
+    leaveTypeCreate:(data: any) => rest.post(base + "leave-type", {}, data),
+    getAllLeaveTypes:() => rest.get(base + "leave-type/all", {}, ),
+    leaveTypeDelete:(data:string) => rest.del(base + `leave-type/${data}`, {}, ),
     //Work Week
-    workWeekCreate:(data: any) => rest.post(base + "work_week", {}, data),
-    getAllWorkWeek:() => rest.get(base + "work_week/all", {}, ),
-    deleteWorkWeek:(data:string) => rest.del(base + `work_week/${data}`, {}, ),
+    workWeekCreate:(data: any) => rest.post(base + "work-week", {}, data),
+    getAllWorkWeek:() => rest.get(base + "work-week/all", {}, ),
+    deleteWorkWeek:(data:string) => rest.del(base + `work-week/${data}`, {}, ),
     //leaveEntitlement
     leaveEntitlementCreate:(data: any) => rest.post(base + "leave-entitlement", {}, data),
     getAllLeaveEntitlement :() => rest.get(base + "leave-entitlement/search", {}, ),
     deleteLeaveEntitlement :(id:string) => rest.del(base + `leave-entitlement/${id}`, {}, ),
     //Designation
     createDesignation:(data:any)=>rest.post(base+"designation",{},data),
-    getAllDesignation:()=>rest.get(base+"designation/all"),
+    getAllDesignation:()=>rest.get(base+"designation/search",{}),
     deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
-    updateDesignation:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
-    updateDesignationStatus:(status:any,id:string)=>rest.put(base+`designation/${id}/${status}`,{},{}),
+    updateDesignation:(data:any,id:string)=>rest.put(base+`designation/${id}`,{},data),
+    updateDesignationStatus:(status:any,id:string)=>rest.put(base+`designation/${id}`,{active:status},{}),//todo
     //Qualification
     createQualification:(data:any)=>rest.post(base+"qualification",{},data),
-    getAllQualification:()=>rest.get(base+"qualification/all"),
+    getAllQualification:()=>rest.get(base+"qualification/search"),
     deleteQualification:(id:string)=>rest.del(base+`qualification/${id}`,{}),
-    updateQualification:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
-    updateQualificationStatus:(status:any,id:string)=>rest.put(base+`qualification/${id}/`,{active:status},{}),
+    updateQualification:(data:any,id:string)=>rest.put(base+`qualification/${id}`,{},data),
+    updateQualificationStatus:(status:any,id:string)=>rest.put(base+`qualification/${id}`,{active:status},{}),
     //Leave Application
     createLeave:(data:any,id:string)=>rest.post(base+"leaveRequest",{empId:id},data),
 

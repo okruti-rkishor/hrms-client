@@ -7,9 +7,8 @@ import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined}
 import dayjs from "dayjs";
 
 function CommonTableComponant({propsData}: any) {
-    console.log("render");
+    console.log("common componant render")
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
-    const [form] = Form.useForm();
     const [allNewData, setAllNewData ,deleteHandel]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
@@ -49,8 +48,7 @@ function CommonTableComponant({propsData}: any) {
                 </>
         },
     ])
-    const [render,setRender] = useState(false);
-    // const[reRender, setReRender] = useState(false);
+    const [form] = Form.useForm();
 
     const getDayOfWeek = (date: any) => {
         const daysOfWeek = [
@@ -73,7 +71,6 @@ function CommonTableComponant({propsData}: any) {
             "type": values.type,
             "calender": {}
         }
-
         const tempCalender = values.date.map((item: any) => {
             let tempCal: any = {};
             tempCal["date"] = dayjs(item).format("YYYY-MM-DD");
@@ -88,6 +85,7 @@ function CommonTableComponant({propsData}: any) {
     }
 
     const handleOk = async () => {
+        console.log(form.getFieldError);
         let values = form.getFieldsValue();
         const keys = Object.keys(values);
         if(title!=="Holiday")keys.map((key) => {
@@ -115,8 +113,6 @@ function CommonTableComponant({propsData}: any) {
     const updateStatus = async (record: any) => {
         try {
             await restParams.update(record.status==="Active " ? "inactive"  : "active", record.id);
-            setRender(prev=>!prev)
-
             setAllNewData((prev:any)=>prev.map((item:any)=>{
                 if(item.id===record.id){
                     if(record.status==="Active")
