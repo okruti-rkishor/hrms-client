@@ -68,11 +68,16 @@
       display: flex;
       flex-direction: column;
       gap: 30px;
+      position: relative;
 
-      &_flex{
+      &_data{
 
-        button{
+        &_button{
+          position: absolute;
           width:70px;
+          top: 32px;
+          right: 25px;
+
         }
 
       }

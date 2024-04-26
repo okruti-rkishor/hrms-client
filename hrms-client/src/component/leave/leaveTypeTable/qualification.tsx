@@ -1,6 +1,8 @@
-import {Form, Input, TableColumnsType, Tag} from "antd";
+import {Button, Form, Input, Layout, TableColumnsType, Tag, Tooltip} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
+import {PlusCircleOutlined} from "@ant-design/icons/lib";
+import React, {useState} from "react";
 
 interface DataType {
     key: React.Key;
@@ -90,8 +92,18 @@ const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
     }
 
     return (
-        <div>
-            <CommonTableComponant propsData={propsData}/>
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
+            <Layout className="with-background leaves-type">
+                <CommonTableComponant propsData={propsData}/>
+            </Layout>
         </div>
     )
 }

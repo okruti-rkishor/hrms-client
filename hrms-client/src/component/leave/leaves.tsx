@@ -34,14 +34,14 @@ const leaveSidebarItems: any = [
     },
     {
         key: 3,
-        label: "Designations",
+        label: "Designation",
         leftIcon: <UsergroupAddOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "designation",
     },
     {
         key: 4,
-        label: "Qualifications",
+        label: "Qualification",
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "qualification",
@@ -69,10 +69,7 @@ function Leaves() {
         rightIcon: <RightOutlined/>,
         className: "leave-types",
     });
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [spinning, setSpinning] = React.useState<boolean>(true);
     const navigate = useNavigate();
-
 
     const LeaveSidebar = () => {
         return (
@@ -101,35 +98,26 @@ function Leaves() {
 
     const LeaveComponentRender = () => {
         if (leaveTypeTable.key === 1) {
-            return <WorkWeek isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <WorkWeek/>
         } else if (leaveTypeTable.key === 2) {
-            return <LeaveType isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <LeaveType/>
         } else if (leaveTypeTable.key === 3) {
-            return <Designation isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <Designation/>
         } else if (leaveTypeTable.key === 4) {
-            return <Qualification isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <Qualification/>
         } else if (leaveTypeTable.key === 5) {
-            return <Holiday isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <Holiday/>
         } else {
-            return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <LeaveEntitlement/>
         }
     }
 
-    useEffect(() => {
-        setSpinning(true);
-        setTimeout(() => {
-            setSpinning(false);
-        }, 500);
-    }, [leaveTypeTable]);
+
 
     return (
         <>
-            <Spin spinning={spinning} fullscreen tip="Loading" size="large"/>
             <Layout className="with-background hrms-settings">
-                {/*<a onClick={() => navigate(-1)} className={"with-background hrms-settings__icon"}>*/}
-                {/*    <CaretLeftOutlined/>*/}
-                {/*    <span>Back</span>*/}
-                {/*</a>*/}
+
                 <Title level={4} className='hrms-settings__page-header'>
                     Attendance & Leave Setup
                 </Title>
@@ -138,19 +126,12 @@ function Leaves() {
                         <LeaveSidebar/>
                     </div>
                     <div className="leave-list_table">
-                        <Flex justify={"space-between"} align={"center"} className={"leave-list_table_flex"}>
+                        <div className={"leave-list_table_title"}>
                             <div className={"devider"}>
                                 <h2>{leaveTypeTable.label}</h2>
-                                {/*<p>The below table shows the list of {leaveTypeTable.label}.</p>*/}
                             </div>
-                            <Tooltip title="Add" color={"blue"} key={"blue"}>
-                                <Button
-                                    type="primary"
-                                    icon={<PlusCircleOutlined/>}
-                                    onClick={() => setIsModalOpen(true)}
-                                />
-                            </Tooltip>
-                        </Flex>
+
+                        </div>
 
 
                         <LeaveComponentRender/>

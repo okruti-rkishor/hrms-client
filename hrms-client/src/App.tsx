@@ -28,11 +28,13 @@ import "react-toastify/dist/ReactToastify.css";
 import ApiInterceptor from "./apiInterceptor";
 import {toast, ToastContainer} from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
-import {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import LeaveIndex from "./component/leavesSection/leaveIndex";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
+
+
 
     return (
         <div className="App">

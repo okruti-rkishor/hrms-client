@@ -7,7 +7,7 @@ import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined}
 import dayjs from "dayjs";
 
 function CommonTableComponant({propsData}: any) {
-    console.log("common componant render")
+    console.log("33333");
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
@@ -33,7 +33,8 @@ function CommonTableComponant({propsData}: any) {
                         <DeleteOutlined style={{color: "red"}} className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
-                        title={`Are you sure to ${record.status === "Active" ? "Inactive" : "Active"}?`}
+                        title={`Are you sure to ${record.status === "Active " ? "Inactive" : "Active"}?`}
+
                         onConfirm={() => {
                             updateStatus(record)
                         }}
@@ -41,9 +42,8 @@ function CommonTableComponant({propsData}: any) {
                             console.log("Cancel")
                         }}>
                         {" "}
-                        {record.status ? <Tooltip color={"green"}> <CloseCircleOutlined style={{color: "red"}}
-                                                                                        className={"search-table delete-button"}/>
-                            </Tooltip> :
+                        {record.status === "Active " ?
+                            <CloseCircleOutlined style={{color: "red"}} className={"search-table delete-button"}/> :
                             <CheckCircleOutlined style={{color: "green"}} className={"search-table delete-button"}/>}
                     </Popconfirm>}
 
@@ -51,6 +51,7 @@ function CommonTableComponant({propsData}: any) {
         },
     ])
     const [form] = Form.useForm();
+    const [buttonDisabled, setButtonDisabled] = useState(true);
 
     const getDayOfWeek = (date: any) => {
         const daysOfWeek = [
@@ -99,6 +100,8 @@ function CommonTableComponant({propsData}: any) {
             try {
                 await create(values)
                 setIsModalOpen(false);
+                values["key"]=allNewData.length+1;
+                setAllNewData((prevState:any)=>[...prevState,values]);
             } catch (e) {
                 console.log(e)
             }
@@ -136,12 +139,22 @@ function CommonTableComponant({propsData}: any) {
 
     return (<>
         <div>
-            <Modal title={`Add ${title}`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
+            <Modal title={`Add ${title}`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk}
+                   okButtonProps={{disabled: buttonDisabled}}>
                 <Card>
                     <Form
                         form={form}
-                        layout="horizontal">
+                        layout="horizontal"
+                        onValuesChange={()=>{console.log(form.getFieldsError().filter(({errors}) => errors.length))}}
+                        onFieldsChange={() =>
+                            setButtonDisabled(
+                                !form.isFieldsTouched(true) ||
+                                !!form.getFieldsError().filter(({errors}) => errors.length).length
+                            )
+                        }
+                    >
                         {formFields?.map((formInput: any) => (<>{formInput}</>))}
+
                     </Form>
                 </Card>
             </Modal>

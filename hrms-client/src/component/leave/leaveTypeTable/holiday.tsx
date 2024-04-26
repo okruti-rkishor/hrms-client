@@ -1,10 +1,24 @@
-import {DatePicker, Form, Input, message, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {
+    Button,
+    DatePicker,
+    Form,
+    Input, Layout,
+    message,
+    Modal,
+    Popconfirm,
+    Select,
+    Table,
+    TableColumnsType,
+    Tooltip
+} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
 import {Holiday_Status, Holiday_Type, Leave_Type_Status, Week_Days} from "../../../constant/constant"
 import dayjs from "dayjs";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import {toast} from "react-toastify";
+import {PlusCircleOutlined} from "@ant-design/icons/lib";
+import React, {useState} from "react";
 
 interface DataType {
     key: React.Key;
@@ -12,7 +26,8 @@ interface DataType {
     status: string;
 }
 
-const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
+const Holiday = () => {
+    const [isModalOpen,setIsModalOpen]=useState(false);
 
 
     const columns: TableColumnsType<DataType> = [
@@ -188,8 +203,18 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
     }
 
     return (
-        <div>
-            <CommonTableComponant propsData={propsData}/>
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
+            <Layout className="with-background leaves-type">
+                <CommonTableComponant propsData={propsData}/>
+            </Layout>
         </div>
     )
 }

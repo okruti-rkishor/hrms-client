@@ -1,16 +1,16 @@
-////.loading-spin {
-////  box-sizing: border-box;
-////  display: inline-block;
-////  width: 50px;
-////  height: 80px;
-////  border-top: 5px solid #108ee9;
-////  border-bottom: 5px solid #108ee9;
-////  position: relative;
-////  background: linear-gradient(#108ee9 30px, transparent 0) no-repeat;
-////  background-size: 2px 40px;
-////  background-position: 50% 0;
-////  animation: spinx 5s linear infinite;
-////}
+//.loading-spin {
+//  box-sizing: border-box;
+//  display: inline-block;
+//  width: 50px;
+//  height: 80px;
+//  border-top: 5px solid #108ee9;
+//  border-bottom: 5px solid #108ee9;
+//  position: relative;
+//  background: linear-gradient(#108ee9 30px, transparent 0) no-repeat;
+//  background-size: 2px 40px;
+//  background-position: 50% 0;
+//  animation: spinx 5s linear infinite;
+//}
 //
 //.loading-spin:before, .loading-spin:after {
 //  content: "";
@@ -77,3 +77,8 @@
 //    background-position: 50% 36px;
 //  }
 //}
+.content {
+  padding: 50px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}

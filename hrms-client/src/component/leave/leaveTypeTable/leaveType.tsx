@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from "react";
-import {Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType, Tag} from "antd";
-import {DeleteOutlined} from "@ant-design/icons/lib";
+import {Button, Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType, Tag, Tooltip} from "antd";
+import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons/lib";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import rest from '../../../services/http/api'
 import CommonTableComponant from "../CommonTableComponant";
 import {Leave_Type} from "../../../constant/constant";
 
-function LeavesType({isModalOpen, setIsModalOpen}: any) {
+function LeavesType() {
+    const [isModalOpen,setIsModalOpen]=useState(false);
     const [allData, setAllData] = useState<any>();
     const leavesRecords = {
         paidType: [
@@ -116,11 +117,19 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
     }
 
     return (
-        <>
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
             <Layout className="with-background leaves-type">
                 <CommonTableComponant propsData={propsData}/>
             </Layout>
-        </>
+        </div>
     )
 }
 

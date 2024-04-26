@@ -1,9 +1,9 @@
-import {Form, Input, Modal, Popconfirm, Select, Table, TableColumnsType} from "antd";
+import {Button, Flex, Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColumnsType, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
 import rest from "../../../services/http/api";
 import {toast} from "react-toastify";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
-import {DeleteOutlined} from "@ant-design/icons/lib";
+import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons/lib";
 import CommonTableComponant from "../CommonTableComponant";
 import {Leave_Type_Status, Week_Days} from "../../../constant/constant"
 
@@ -13,7 +13,9 @@ interface DataType {
     status: string;
 }
 
-const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
+const WorkWeek = () => {
+    const [isModalOpen,setIsModalOpen]=useState(false);
+    console.log("222222222");
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Sr. No',
@@ -43,6 +45,7 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
         })
         return optations;
     }
+
     const workWeekStatusOptations = () => {
         const keys = Object.keys(Leave_Type_Status) as Array<keyof typeof Leave_Type_Status>;
         // const keys = Object.keys(Leave_Type_Status)
@@ -53,7 +56,6 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
         })
         return optations;
     }
-
 
     const propsData = {
         title: "Work Week",
@@ -97,13 +99,23 @@ const WorkWeek = ({isModalOpen, setIsModalOpen}: any) => {
                 tagType:"select"
             },
         ]
-
     }
 
     return (
-        <div>
-            <CommonTableComponant propsData={propsData}/>
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
+            <Layout className="with-background leaves-type">
+                <CommonTableComponant propsData={propsData}/>
+            </Layout>
         </div>
+
     )
 }
 export default WorkWeek;

@@ -85,17 +85,17 @@ function LeaveIndex() {
 
     const LeaveComponentRender = () => {
         if (leaveTypeTable.key === 1) {
-            return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <LeaveEntitlement/>
         }else if(leaveTypeTable.key === 2) {
             return <LeaveApplication isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else if(leaveTypeTable.key === 3) {
             return <LeaveBalance isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
         }else if(leaveTypeTable.key === 4){
-            return <Qualification isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <Qualification/>
         }else if(leaveTypeTable.key === 5){
-            return <Holiday isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <Holiday/>
         }else {
-            return <LeaveEntitlement isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <LeaveEntitlement/>
         }
     }
 

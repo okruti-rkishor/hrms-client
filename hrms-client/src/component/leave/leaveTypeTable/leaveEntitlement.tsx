@@ -121,11 +121,12 @@
 // }
 // export default LeaveEntitlement;
 
-import { Form, Input, Select, TableColumnsType } from "antd";
+import {Button, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../CommonTableComponant";
 import React, { useEffect, useState, useMemo } from "react";
 import { Leave_Type } from "../../../constant/constant";
+import {PlusCircleOutlined} from "@ant-design/icons/lib";
 
 interface DataType {
     key: React.Key;
@@ -134,7 +135,8 @@ interface DataType {
     employee: string;
 }
 
-const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
+const LeaveEntitlement = () => {
+    const [isModalOpen,setIsModalOpen]=useState(false);
     console.log("Leave Entitelment component render");
     const [employeeList, setEmployeeList] = useState<any[]>([]);
 
@@ -238,8 +240,18 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
     console.log("Leave Entitelment component render2", propsData);
 
     return (
-        <div>
-            <CommonTableComponant propsData={propsData} />
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
+            <Layout className="with-background leaves-type">
+                <CommonTableComponant propsData={propsData}/>
+            </Layout>
         </div>
     );
 };
