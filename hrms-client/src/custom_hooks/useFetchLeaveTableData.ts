@@ -15,8 +15,13 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
                     newRow[column] = removeUnderScore(String(record[column]),"_");
                 })
                 newRow["key"] = `${index+1}`
-                // newRow["id"] =record.id;
                 record.idArray?newRow["id"] =record.idArray:newRow["id"] =record.id;
+                if(record.active === true || record.active === false) {
+                    newRow["status"] = record.active;
+                    newRow["active"] = record.active===true?"Active":"Inactive";
+                }
+                if(record.code)
+                newRow["code"] = record.code;
                     return newRow;
             })
             await setValue(newData);

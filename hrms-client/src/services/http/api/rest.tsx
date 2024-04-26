@@ -54,7 +54,7 @@ function RestApi(base:any){
             });
     }
 
-    async function put(uriTemplate:string, pathArgs:any, body:any, queryArgs?:any) {
+    async function put(uriTemplate:string, pathArgs:any, body?:any, queryArgs?:any) {
         const uri = pathArgs ? Mustache.render(uriTemplate, pathArgs) : uriTemplate;
         console.log("PUT " + uri, queryArgs ? queryArgs : "");
         console.log(JSON.stringify(body));

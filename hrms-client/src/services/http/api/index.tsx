@@ -58,14 +58,16 @@ export default {
     getAllDesignation:()=>rest.get(base+"designation/search",{}),
     deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
     updateDesignation:(data:any,id:string)=>rest.put(base+`designation/${id}`,{},data),
-    updateDesignationStatus:(status:any,id:string)=>rest.put(base+`designation/${id}`,{active:status},{}),//todo
+    updateDesignationStatus:(status:boolean,id:string)=>rest.put(base+`designation/${id}`,{},{},{active:status}),//todo  => Done
     //Qualification
     createQualification:(data:any)=>rest.post(base+"qualification",{},data),
     getAllQualification:()=>rest.get(base+"qualification/search"),
     deleteQualification:(id:string)=>rest.del(base+`qualification/${id}`,{}),
     updateQualification:(data:any,id:string)=>rest.put(base+`qualification/${id}`,{},data),
-    updateQualificationStatus:(status:any,id:string)=>rest.put(base+`qualification/${id}`,{active:status},{}),
+    updateQualificationStatus:(status:boolean,id:string)=>rest.put(base+`qualification/${id}`,{},null,{active:status}),
     //Leave Application
     createLeave:(data:any,id:string)=>rest.post(base+"leaveRequest",{empId:id},data),
+    searchLeave:()=>rest.get(base+`leave-request/search`),
+
 
 }

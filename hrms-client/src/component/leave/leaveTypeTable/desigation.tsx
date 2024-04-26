@@ -41,22 +41,24 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
             title: 'Description',
             dataIndex: 'description',
             align: "center",
+
         },
         {
             title: 'Status',
-            dataIndex: 'status',
+            dataIndex: 'active',
             align: "center",
             render: (_, {status}) => (
                 <>
-                    {status && (
-                        <Tag color={status.length === 7 ? 'green' : 'red'} key={status}>
-                            {status.toUpperCase()}
+                    {(
+                        <Tag color={status === "true" ? 'green' : 'red'} key={status}>
+                            {status === "true"?"Active":"Inactive"}
                         </Tag>
                     )}
                 </>
             ),
         },
     ];
+
     const propsData = {
         title: "Designation",
         create: rest.createDesignation,

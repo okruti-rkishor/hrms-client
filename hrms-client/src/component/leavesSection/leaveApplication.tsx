@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 
 import {DatePicker, Form, Input, Select, TableColumnsType} from "antd";
@@ -14,6 +14,32 @@ interface DataType {
 }
 
 const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
+
+    const [employeeList, setEmployeeList] = useState<any[]>([]);
+
+    const getEntitlementData = async () => {
+        try {
+            const allEmployees = await rest.getAllEmployee();
+            const tempAllEmp = allEmployees.map((employee: any) => ({
+                name: employee.name.firstName + " " + employee.name.lastName,
+                id: employee.id
+            }));
+            setEmployeeList(tempAllEmp);
+            // const tempLeaveEntitlement = await rest.getEntitlementId(empid,leaveType);
+
+            // const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any) => {
+            //     const employee: any = allEmployees.find((employee: any) => employee.id === item.employee);
+            //     return {
+            //         ...item,
+            //         name: employee?.name?.firstName + " " + employee?.name?.lastName
+            //     };
+            // });
+            // return newTempLeaveEntitlement;
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Leave Type',
@@ -34,7 +60,7 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
     const propsData = {
         title: "Leave Application",
         create: rest.createLeave,
-        getAll: rest.getAllDesignation,//todo
+        getAll: rest.searchLeave,
         delete: rest.deleteDesignation,//todo
         update: rest.updateDesignationStatus,//todo
         isModalOpen: isModalOpen,
@@ -67,7 +93,8 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                     maxTagCount="responsive"
                     size="large"
                 />
-            </Form.Item>,<Form.Item
+            </Form.Item>,
+            <Form.Item
                 label="End Date"
                 name="endDate"
                 // initialValue={"SICK_LEAVE"}
@@ -78,14 +105,24 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                     size="large"
                 />
             </Form.Item>,
-
-
             <Form.Item
                 label="Reason"
                 name={"reason"}
                 rules={[{required: true, message: 'Please input Reason!'}]}>
                 <Input name={"reason"}/>
-            </Form.Item>,],
+            </Form.Item>,
+            <Form.Item
+                label="Employee"
+                name={"employee"}
+                rules={[{ required: true, message: 'Please input Employee Id!' }]}>
+                <Select style={{ height: 40, width: 272 }}>
+                    {employeeList.map((employee: any) =>
+                        <Select.Option value={employee.id} key={employee.id}>
+                            {employee.name}
+                        </Select.Option>)}
+                </Select>
+            </Form.Item>,
+        ],
         formFieldsType:[{startDate:Date},{endDate:Date},{leaveType:String},{reason:String}]
 
     }

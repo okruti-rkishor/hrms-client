@@ -17,7 +17,9 @@ const generateMessage = async (code: number) => {
             return "NOT FOUND";
         case code === 409: // 4xx Client Error
             return "DATA CONFLICT";
-        case code < 500: // 4xx Client Error
+        case code === 410: // 4xx Client Error
+            return "DELETE SUCCESS";
+            case code < 500: // 4xx Client Error
             return "CLIENT ERROR";
 
         default:

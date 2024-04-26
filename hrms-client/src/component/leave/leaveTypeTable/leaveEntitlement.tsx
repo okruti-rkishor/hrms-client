@@ -148,7 +148,7 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
             setEmployeeList(tempAllEmp);
             const tempLeaveEntitlement = await rest.getAllLeaveEntitlement();
             const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any) => {
-                const employee: any = allEmployees.find((employee: any) => employee.id === item.employee);
+                const employee: any = allEmployees.find((employee: any) => employee.id === item.employeeId);
                 return {
                     ...item,
                     name: employee?.name?.firstName + " " + employee?.name?.lastName
@@ -175,7 +175,7 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
             },
             {
                 title: 'Type',
-                dataIndex: 'type',
+                dataIndex: 'leaveType',
                 align: "center",
             },
             {
@@ -200,7 +200,7 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
             formFields: [
                 <Form.Item
                     label="Leave Type"
-                    name="type"
+                    name="leaveType"
                     initialValue={"SICK_LEAVE"}
                     rules={[{ required: true, message: 'Please input Leave Type!' }]}>
                     <Select style={{ height: 40, width: 272 }}>
@@ -219,7 +219,7 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
                 </Form.Item>,
                 <Form.Item
                     label="Employee"
-                    name={"employee"}
+                    name={"employeeId"}
                     rules={[{ required: true, message: 'Please input Employee Id!' }]}>
                     <Select style={{ height: 40, width: 272 }}>
                         {employeeList.map((employee: any) =>
