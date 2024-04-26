@@ -201,7 +201,7 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
                 <Form.Item
                     label="Leave Type"
                     name="leaveType"
-                    initialValue={"SICK_LEAVE"}
+                    initialValue={"-Select-"}
                     rules={[{ required: true, message: 'Please input Leave Type!' }]}>
                     <Select style={{ height: 40, width: 272 }}>
                         {(Object.keys(Leave_Type) as Array<keyof typeof Leave_Type>).map((key) =>
@@ -220,7 +220,9 @@ const LeaveEntitlement = ({ isModalOpen, setIsModalOpen }: any) => {
                 <Form.Item
                     label="Employee"
                     name={"employeeId"}
-                    rules={[{ required: true, message: 'Please input Employee Id!' }]}>
+                    rules={[{ required: true, message: 'Please input Employee Id!' }]}
+                    initialValue={"-Select-"}
+                >
                     <Select style={{ height: 40, width: 272 }}>
                         {employeeList.map((employee: any) =>
                             <Select.Option value={employee.id} key={employee.id}>

@@ -94,7 +94,7 @@ function EmployeeSearch() {
 
   const fetchDesignationData = async () => {
     try {
-      const resp: any = await rest.getEnum("designation/all");
+      const resp: any = await rest.getAllDesignation();
       console.log(resp);
       setDesignation(resp);
     } catch (error) {

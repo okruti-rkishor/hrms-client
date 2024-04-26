@@ -91,6 +91,8 @@ function RestApi(base:any){
         }
         return http.delete(uri, { data: body, params: queryArgs || {} })
             .catch((error:any) => {
+                if(error.response.status===410)
+                    return
                 console.error(JSON.stringify(error.response.data));
                 throw error;
             });

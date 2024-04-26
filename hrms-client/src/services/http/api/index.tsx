@@ -58,7 +58,7 @@ export default {
     getAllDesignation:()=>rest.get(base+"designation/search",{}),
     deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
     updateDesignation:(data:any,id:string)=>rest.put(base+`designation/${id}`,{},data),
-    updateDesignationStatus:(status:boolean,id:string)=>rest.put(base+`designation/${id}`,{},{},{active:status}),//todo  => Done
+    updateDesignationStatus:(status:boolean,id:string)=>rest.put(base+`designation/${id}`,{},undefined,{active:status}),//todo  => Done
     //Qualification
     createQualification:(data:any)=>rest.post(base+"qualification",{},data),
     getAllQualification:()=>rest.get(base+"qualification/search"),

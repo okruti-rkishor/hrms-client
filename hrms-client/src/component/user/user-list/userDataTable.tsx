@@ -81,9 +81,6 @@ const TempFile: React.FC = () => {
     const [userData, setUserData] = useState<Item[]>([]);
     const [navigatedUser] = useSearchParams();
 
-
-
-
     useEffect(() => {
         usersData();
     }, []);
@@ -156,6 +153,8 @@ const TempFile: React.FC = () => {
     const deleteHandel = async (record:any)=>{
         try {
             await restApi.userDelete(record.id)
+            const newUserData = userData.filter((user)=>(record.id!==user.id))
+            setUserData(newUserData);
         }
         catch (e) {
             console.log(e)
@@ -187,20 +186,9 @@ const TempFile: React.FC = () => {
             title: 'Role',
             dataIndex: 'roles',
             editable: true,
-            defaultFilteredValue: getDefaultFilter(),
-            onFilter: (value: any, record: any) => {
-                return record.roles?.includes(value) ?? false;
-            },
             width: '25%',
             render: (_: any, record: any) => (
                 <>
-                    {record.roles?.map((tag: string) => {
-                        return (
-                            <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
                     {record.roles?.map((tag: string) => {
                         return (
                             <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>

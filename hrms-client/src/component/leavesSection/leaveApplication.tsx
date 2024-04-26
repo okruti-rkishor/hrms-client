@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
 
 import {DatePicker, Form, Input, Select, TableColumnsType} from "antd";
@@ -16,7 +16,6 @@ interface DataType {
 const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
 
     const [employeeList, setEmployeeList] = useState<any[]>([]);
-
     const getEntitlementData = async () => {
         try {
             const allEmployees = await rest.getAllEmployee();
@@ -25,21 +24,10 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                 id: employee.id
             }));
             setEmployeeList(tempAllEmp);
-            // const tempLeaveEntitlement = await rest.getEntitlementId(empid,leaveType);
-
-            // const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any) => {
-            //     const employee: any = allEmployees.find((employee: any) => employee.id === item.employee);
-            //     return {
-            //         ...item,
-            //         name: employee?.name?.firstName + " " + employee?.name?.lastName
-            //     };
-            // });
-            // return newTempLeaveEntitlement;
         } catch (e) {
             console.log(e);
         }
     };
-
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Leave Type',
@@ -70,9 +58,21 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
         showStatus: false,
         formFields: [
             <Form.Item
+                label="Employee"
+                name={"employee"}
+                initialValue={"-Select-"}
+                rules={[{ required: true, message: 'Please input Employee Id!' }]}>
+                <Select style={{ height: 40, width: 272 }}>
+                    {employeeList.map((employee: any) =>
+                        <Select.Option value={employee.id} key={employee.id}>
+                            {employee.name}
+                        </Select.Option>)}
+                </Select>
+            </Form.Item>,
+            <Form.Item
                 label="leaveType"
                 name="leaveType"
-                initialValue={"SICK_LEAVE"}
+                initialValue={"-Select-"}
                 rules={[{required: true, message: 'Please input Leave Type!'}]}>
                 <Select
                     style={{height: 40, width: 272}}>
@@ -86,7 +86,6 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
             <Form.Item
                 label="Start Date"
                 name="startDate"
-                // initialValue={"SICK_LEAVE"}
                 rules={[{required: true, message: 'Please input StartDate!'}]}>
                 <DatePicker
                     name="startDate"
@@ -97,7 +96,6 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
             <Form.Item
                 label="End Date"
                 name="endDate"
-                // initialValue={"SICK_LEAVE"}
                 rules={[{required: true, message: 'Please input End Date!'}]}>
                 <DatePicker
                     name="endtDate"
@@ -112,8 +110,9 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                 <Input name={"reason"}/>
             </Form.Item>,
             <Form.Item
-                label="Employee"
-                name={"employee"}
+                label="IntitelmentId"
+                name={"intitelmentId"}
+                initialValue={"-Select-"}
                 rules={[{ required: true, message: 'Please input Employee Id!' }]}>
                 <Select style={{ height: 40, width: 272 }}>
                     {employeeList.map((employee: any) =>
@@ -126,6 +125,10 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
         formFieldsType:[{startDate:Date},{endDate:Date},{leaveType:String},{reason:String}]
 
     }
+
+    useEffect(()=>{
+        getEntitlementData();
+    },[])
 
     return (
         <div>

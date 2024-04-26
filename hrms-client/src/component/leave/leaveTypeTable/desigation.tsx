@@ -11,7 +11,7 @@ interface DataType {
 
 const Designation = ({isModalOpen, setIsModalOpen}: any) => {
 
-    const fetchAllDesignation = async () => {
+    const fetchDesignations = async () => {
         try {
             const designations = await rest.getAllDesignation();
             const newDesignations = designations.map((designation: any) => ({
@@ -47,22 +47,22 @@ const Designation = ({isModalOpen, setIsModalOpen}: any) => {
             title: 'Status',
             dataIndex: 'active',
             align: "center",
-            render: (_, {status}) => (
-                <>
-                    {(
-                        <Tag color={status === "true" ? 'green' : 'red'} key={status}>
-                            {status === "true"?"Active":"Inactive"}
-                        </Tag>
-                    )}
-                </>
-            ),
+            // render: (_, {status}) => (
+            //     <>
+            //         {(
+            //             <Tag color={status.length === 4 ? 'green' : 'red'} key={status}>
+            //                 {`${status===true?}`}
+            //             </Tag>
+            //         )}
+            //     </>
+            // ),
         },
     ];
 
     const propsData = {
         title: "Designation",
         create: rest.createDesignation,
-        getAll: fetchAllDesignation,
+        getAll: fetchDesignations,
         delete: rest.deleteDesignation,
         update: rest.updateDesignationStatus,
         isModalOpen: isModalOpen,

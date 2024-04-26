@@ -76,7 +76,7 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
             <Form.Item
                 label="Leave Type"
                 name="type"
-                initialValue={"SICK_LEAVE"}
+                initialValue={"-Select-"}
                 rules={[{required: true, message: 'Please input Leave Type!'}]}>
                 <Select
                     style={{height: 40, width: 272}}>
@@ -91,7 +91,7 @@ function LeavesType({isModalOpen, setIsModalOpen}: any) {
             <Form.Item
                 label="Paid Type"
                 name={"paidType"}
-                initialValue={"UN_PAID"}
+                initialValue={"-Select-"}
                 rules={[{required: true, message: 'Please input Paid Type!'}]}>
                 <Select
                     style={{height: 40, width: 272}}>

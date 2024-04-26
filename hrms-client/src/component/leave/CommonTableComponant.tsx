@@ -1,4 +1,4 @@
-import {Card, Form, Input, Modal, Popconfirm, Table, TableColumnsType} from "antd";
+import {Card, Form, Input, Modal, Popconfirm, Table, TableColumnsType, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
 import rest from "../../services/http/api";
 import {toast} from "react-toastify";
@@ -9,7 +9,7 @@ import dayjs from "dayjs";
 function CommonTableComponant({propsData}: any) {
     console.log("common componant render")
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
-    const [allNewData, setAllNewData ,deleteHandel]: any = useFetchLeaveTableData({
+    const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
         deleteById
@@ -18,7 +18,7 @@ function CommonTableComponant({propsData}: any) {
         ...columns,
         {
             title: 'Action',
-            align:"center",
+            align: "center",
             render: (_: any, record: any) =>
                 <>
                     <Popconfirm
@@ -27,13 +27,13 @@ function CommonTableComponant({propsData}: any) {
                         onCancel={() => {
                             console.log("Cancel")
                         }}
-                        style={{color:"red"}}
+                        style={{color: "red"}}
                     >
                         {" "}
-                        <DeleteOutlined style={{color:"red"}} className={"search-table delete-button"}/>
+                        <DeleteOutlined style={{color: "red"}} className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
-                        title={`Are you sure to ${record.status==="Active " ? "Inactive" : "Active"}?`}
+                        title={`Are you sure to ${record.status === "Active" ? "Inactive" : "Active"}?`}
                         onConfirm={() => {
                             updateStatus(record)
                         }}
@@ -41,8 +41,10 @@ function CommonTableComponant({propsData}: any) {
                             console.log("Cancel")
                         }}>
                         {" "}
-                        {record.status ==="Active " ? <CloseCircleOutlined style={{color:"red"}} className={"search-table delete-button"}/> :
-                            <CheckCircleOutlined style={{color:"green"}}  className={"search-table delete-button"}/>}
+                        {record.status ? <Tooltip color={"green"}> <CloseCircleOutlined style={{color: "red"}}
+                                                                                        className={"search-table delete-button"}/>
+                            </Tooltip> :
+                            <CheckCircleOutlined style={{color: "green"}} className={"search-table delete-button"}/>}
                     </Popconfirm>}
 
                 </>
@@ -64,7 +66,7 @@ function CommonTableComponant({propsData}: any) {
         return daysOfWeek[dayIndex];
     };
 
-    const holidayHandle = (values: any) =>{
+    const holidayHandle = (values: any) => {
         let payload: any = {
             "year": new Date().getFullYear(),
             "name": values.name,
@@ -88,11 +90,11 @@ function CommonTableComponant({propsData}: any) {
         console.log(form.getFieldError);
         let values = form.getFieldsValue();
         const keys = Object.keys(values);
-        if(title!=="Holiday")keys.map((key) => {
-            if(typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
+        if (title !== "Holiday") keys.map((key) => {
+            if (typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
             else values[key] = values[key].replace(" ", "_").toLocaleUpperCase();
         })
-        else values=holidayHandle(values);
+        else values = holidayHandle(values);
         if (keys.length === formFields.length) {
             try {
                 await create(values)
@@ -112,20 +114,19 @@ function CommonTableComponant({propsData}: any) {
 
     const updateStatus = async (record: any) => {
         try {
-            await restParams.update(record.status? false  : true, record.id);
-            setAllNewData((prev:any)=>prev.map((item:any)=>{
-                if(item.id===record.id){
-                    if (record.active === "Active") {
-                        item.active = "Inactive"
-                        item.status = false
+            await restParams.update(record.status ? false : true, record.id);
+            setAllNewData((prev: any) => prev.map((item: any) => {
+                    if (item.id === record.id) {
+                        if (record.active === "Active") {
+                            item.active = "Inactive"
+                            item.status = false
+                        } else {
+                            item.active = "Active"
+                            item.status = true
+                        }
                     }
-                    else {
-                        item.active = "Active"
-                        item.status = true
-                    }
+                    return item;
                 }
-                return item;
-            }
             ))
         } catch (e) {
             console.log(e)

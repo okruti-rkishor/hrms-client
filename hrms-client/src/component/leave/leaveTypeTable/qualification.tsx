@@ -11,8 +11,7 @@ interface DataType {
 }
 
 const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
-
-    const fetchAllDesignation = async () => {
+    const fetchQualifications = async () => {
         try {
             const qualifications = await rest.getAllQualification();
             const newQualifications = qualifications.map((designation: any) => ({
@@ -66,7 +65,7 @@ const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
     const propsData = {
         title: "Leave Entitlement",
         create: rest.createQualification,
-        getAll: fetchAllDesignation,
+        getAll: fetchQualifications,
         delete: rest.deleteQualification,
         update: rest.updateQualificationStatus,
         isModalOpen: isModalOpen,

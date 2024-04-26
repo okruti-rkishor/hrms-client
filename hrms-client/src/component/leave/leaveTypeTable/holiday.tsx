@@ -142,7 +142,7 @@ const Holiday = ({isModalOpen, setIsModalOpen}: any) => {
                 label="Status"
                 name={"status"}
                 rules={[{required: true, message: 'Please input Status!'}]}
-                initialValue={"FULL_DAY"}>
+                initialValue={"-Select-"}>
                 <Select>
                     {workWeekStatusOptations().map((optation: any) => <option key={optation.label}
                                                                               value={optation.value}>{optation.label}</option>)}
