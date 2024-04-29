@@ -33,8 +33,12 @@ function CommonTableComponant({propsData}: any) {
                         <DeleteOutlined style={{color: "red"}} className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
+<<<<<<< Updated upstream
                         title={`Are you sure to ${record.status === "Active " ? "Inactive" : "Active"}?`}
 
+=======
+                        title={`Are you sure to ${record.status  ? "Inactive" : "Active"}?`}
+>>>>>>> Stashed changes
                         onConfirm={() => {
                             updateStatus(record)
                         }}

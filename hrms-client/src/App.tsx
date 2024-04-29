@@ -30,6 +30,7 @@ import {toast, ToastContainer} from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
 import React, {useContext, useEffect} from "react";
 import LeaveIndex from "./component/leavesSection/leaveIndex";
+import LeaveRequest from "./component/leavesSection/leaveRequest";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
@@ -73,6 +74,9 @@ const App = () => {
                     />
                     <Route path="setting/leaves"
                            element={<PrivateRoutes Componant={<Leaves/>}/>}
+                    />
+                    <Route path="home/leaves"
+                           element={<PrivateRoutes Componant={<LeaveRequest/>}/>}
                     />
                     <Route path="about-us" element={<AboutUs/>}/>
                     <Route path="privacy-policy" element={<PrivacyPolicy/>}/>

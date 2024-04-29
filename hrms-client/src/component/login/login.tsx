@@ -130,13 +130,13 @@ const Login=() => {
                           required: true,
                           message: "Please input your password!",
                         },
-                        {
-                          pattern: new RegExp(
-                            /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
-                          ),
-                          message:
-                            "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
-                        },
+                        // {
+                        //   pattern: new RegExp(
+                        //     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
+                        //   ),
+                        //   message:
+                        //     "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
+                        // },
                       ]}
                     >
                       <Input.Password

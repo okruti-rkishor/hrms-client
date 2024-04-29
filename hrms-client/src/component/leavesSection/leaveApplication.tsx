@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 
 import {DatePicker, Form, Input, Select, TableColumnsType} from "antd";
@@ -12,10 +12,22 @@ interface DataType {
     code: string;
     status: string;
 }
+interface IApplicant {
+    id: string;
+    leaveType: string;
+    emtitlementId: string;
+}
+
 
 const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
 
     const [employeeList, setEmployeeList] = useState<any[]>([]);
+    const [applicant, setApplicant] = useState<IApplicant>({
+        id:"",
+        leaveType:"",
+        emtitlementId:""
+    });
+    const EntitlementId = useRef();
     const getEntitlementData = async () => {
         try {
             const allEmployees = await rest.getAllEmployee();
@@ -28,6 +40,16 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
             console.log(e);
         }
     };
+    const setIntitalMentId = async ()=>{
+        try {
+            const tempEntId = await rest.getIntitlementByEmpLeaveType(applicant?.id, applicant?.leaveType);
+            console.log("tempEntId", tempEntId);
+            setApplicant((prev:any)=>({...prev,emtitlementId:tempEntId.id}))
+            EntitlementId.current = tempEntId.id
+        }catch (e) {
+            console.log(e);
+        }
+    }
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Leave Type',
@@ -59,10 +81,12 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
         formFields: [
             <Form.Item
                 label="Employee"
-                name={"employee"}
+                name={"employeeId"}
                 initialValue={"-Select-"}
                 rules={[{ required: true, message: 'Please input Employee Id!' }]}>
-                <Select style={{ height: 40, width: 272 }}>
+                <Select
+                    onChange={(e)=>setApplicant((prev:any)=>({...prev,id:e}))}
+                    style={{ height: 40, width: 272 }}>
                     {employeeList.map((employee: any) =>
                         <Select.Option value={employee.id} key={employee.id}>
                             {employee.name}
@@ -75,6 +99,7 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                 initialValue={"-Select-"}
                 rules={[{required: true, message: 'Please input Leave Type!'}]}>
                 <Select
+                    onChange={(e)=>setApplicant((prev:any)=>({...prev,leaveType:e}))}
                     style={{height: 40, width: 272}}>
                     {(Object.keys(Leave_Type) as Array<keyof typeof Leave_Type>).map((key) =>
                         <Select.Option value={key} key={key}>
@@ -88,6 +113,9 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                 name="startDate"
                 rules={[{required: true, message: 'Please input StartDate!'}]}>
                 <DatePicker
+                    onChange={(e)=>{
+                        setIntitalMentId()
+                    }}
                     name="startDate"
                     maxTagCount="responsive"
                     size="large"
@@ -110,16 +138,12 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
                 <Input name={"reason"}/>
             </Form.Item>,
             <Form.Item
-                label="IntitelmentId"
-                name={"intitelmentId"}
-                initialValue={"-Select-"}
+                // ref={EntitlementId}
+                label="EntitlementId Id"
+                name={"entitlementId"}
+                initialValue={EntitlementId.current}
                 rules={[{ required: true, message: 'Please input Employee Id!' }]}>
-                <Select style={{ height: 40, width: 272 }}>
-                    {employeeList.map((employee: any) =>
-                        <Select.Option value={employee.id} key={employee.id}>
-                            {employee.name}
-                        </Select.Option>)}
-                </Select>
+                <Input name={"intitelmentId"}  />
             </Form.Item>,
         ],
         formFieldsType:[{startDate:Date},{endDate:Date},{leaveType:String},{reason:String}]

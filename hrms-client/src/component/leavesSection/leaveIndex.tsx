@@ -111,7 +111,7 @@ function LeaveIndex() {
             <Spin spinning={spinning} fullscreen tip="Loading" size="large"/>
             <Layout className="with-background hrms-settings">
                 <Title level={4} className='hrms-settings__page-header'>
-                    Leave Setup & Request
+                    Leave Section
                 </Title>
                 <div className="leave-list">
                     <div className="leave-list_item">

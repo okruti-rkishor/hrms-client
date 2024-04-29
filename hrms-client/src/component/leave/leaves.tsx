@@ -119,7 +119,7 @@ function Leaves() {
             <Layout className="with-background hrms-settings">
 
                 <Title level={4} className='hrms-settings__page-header'>
-                    Attendance & Leave Setup
+                    Settings
                 </Title>
                 <div className="leave-list">
                     <div className="leave-list_item">
