@@ -7,7 +7,7 @@ import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined}
 import dayjs from "dayjs";
 
 function CommonTableComponant({propsData}: any) {
-    console.log("2222222");
+    //console.log("2222222");
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
@@ -30,7 +30,7 @@ function CommonTableComponant({propsData}: any) {
                         style={{color: "red"}}
                     >
                         {" "}
-                        <DeleteOutlined style={{color: "red"}} className={"search-table delete-button"}/>
+                        <DeleteOutlined style={{color: "red",cursor:"pointer"}} className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
 
@@ -90,18 +90,21 @@ function CommonTableComponant({propsData}: any) {
     }
 
     const handleOk = async () => {
-        console.log(form.getFieldError);
-        let values = form.getFieldsValue();
-        const keys = Object.keys(values);
-        if (title !== "Holiday") keys.map((key) => {
+        let values = form.getFieldsValue(true);
+        const keys:any = Object.keys(values);
+
+
+        if (title !== "Holiday") keys.map((key:any) => {
             if (typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
             else values[key] = values[key].replace(" ", "_").toLocaleUpperCase();
         })
         else values = holidayHandle(values);
         if (keys.length === formFields.length) {
             try {
-                await create(values)
+                const response=await create(values)
                 setIsModalOpen(false);
+                console.log("response",response);
+                values["id"]=response;
                 values["key"]=allNewData.length+1;
 
                 setAllNewData((prevState:any)=>[...prevState,values]);

@@ -28,7 +28,6 @@ function LeavesType() {
                 description: capitalToSmall(String(item.description))
             })))
         } catch (e) {
-
         }
     }
 
