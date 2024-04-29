@@ -3,7 +3,7 @@
     .forms-steps{
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      //align-items: center;
       max-width: 1150px;
       width: 100%;
       margin: 16px auto 0;
@@ -37,7 +37,7 @@
 
   &-form {
     width: 70%;
-    height: 550px;
+    height: 460px;
     overflow-x: hidden;
     overflow-y: scroll;
   }
@@ -82,9 +82,9 @@ label{
 }
 
 .ant-steps-vertical .ant-steps-item{
-  height: 80px;
-  max-height: 80px;
-  min-height: 80px;
+  height: 40px;
+  max-height: 65px;
+  min-height: 40px;
 }
 
 .ant-form-item-explain-error{

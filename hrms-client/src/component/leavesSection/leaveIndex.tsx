@@ -54,7 +54,7 @@ function LeaveIndex() {
         className: "leave-entitlement",
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [spinning, setSpinning] = React.useState<boolean>(true);
+
     const navigate = useNavigate();
 
 
@@ -87,9 +87,9 @@ function LeaveIndex() {
         if (leaveTypeTable.key === 1) {
             return <LeaveEntitlement/>
         }else if(leaveTypeTable.key === 2) {
-            return <LeaveApplication isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <LeaveApplication/>
         }else if(leaveTypeTable.key === 3) {
-            return <LeaveBalance isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+            return <LeaveBalance/>
         }else if(leaveTypeTable.key === 4){
             return <Qualification/>
         }else if(leaveTypeTable.key === 5){
@@ -99,16 +99,10 @@ function LeaveIndex() {
         }
     }
 
-    useEffect(() => {
-        setSpinning(true);
-        setTimeout(() => {
-            setSpinning(false);
-        }, 500);
-    }, [leaveTypeTable]);
+
 
     return (
         <>
-            <Spin spinning={spinning} fullscreen tip="Loading" size="large"/>
             <Layout className="with-background hrms-settings">
                 <Title level={4} className='hrms-settings__page-header'>
                     Leave Section

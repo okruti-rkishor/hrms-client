@@ -363,7 +363,7 @@ const EnumCards = () => {
     ]
 
     useEffect(() => {
-        restApi.getEnum(`designation/all`).then((e) => {
+        restApi.getEnum(`designation`).then((e) => {
             e.forEach((item: any) => {
                 item["status"] = item.active === true ? "Active" : "InActive";
                 delete item.active;
@@ -377,7 +377,7 @@ const EnumCards = () => {
             })
         }).catch((e) => message.error("data is not inserted"));
 
-        restApi.getEnum(`qualification/all`).then((e) => {
+        restApi.getEnum(`qualification`).then((e) => {
             e.forEach((item: any) => {
                 item["status"] = item.active === true ? "Active" : "InActive";
                 delete item.active;

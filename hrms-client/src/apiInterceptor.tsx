@@ -41,6 +41,7 @@ class ApiInterceptor extends React.Component<any, any> {
             });
         rest.http.interceptors.response.use((response: any) => {
             //this.hideLoader(response.config.url);
+
             this.setState({...this.state,loading:false});
             // Do something with response data
             return response;

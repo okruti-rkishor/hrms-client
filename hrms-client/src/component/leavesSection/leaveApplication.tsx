@@ -1,10 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 
 
-import {DatePicker, Form, Input, Select, TableColumnsType} from "antd";
+import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
 import rest from "../../services/http/api";
 import CommonTableComponant from "../leave/CommonTableComponant";
 import {Holiday_Type, Leave_Type} from "../../constant/constant"
+import {PlusCircleOutlined} from "@ant-design/icons/lib";
 
 interface DataType {
     key: React.Key;
@@ -19,15 +20,18 @@ interface IApplicant {
 }
 
 
-const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
-
+const LeaveApplication = () => {
     const [employeeList, setEmployeeList] = useState<any[]>([]);
+
     const [applicant, setApplicant] = useState<IApplicant>({
         id:"",
         leaveType:"",
         emtitlementId:""
     });
     const EntitlementId = useRef();
+
+    const [isModalOpen,setIsModalOpen]=useState(false);
+
     const getEntitlementData = async () => {
         try {
             const allEmployees = await rest.getAllEmployee();
@@ -58,9 +62,22 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
         {
             title: 'Start Date',
             dataIndex: 'startDate',
-        },{
+        },
+        {
             title: 'End Date',
             dataIndex: 'endDate',
+        },
+        {
+            title: 'Requested Days',
+            dataIndex: 'requestedDays',
+        },
+        {
+            title: 'Leave Status',
+            dataIndex: 'leaveStatus',
+        },
+        {
+            title: 'Reason',
+            dataIndex: 'reason',
         },
         {
             title: 'Reason',
@@ -155,8 +172,18 @@ const LeaveApplication = ({isModalOpen, setIsModalOpen}: any) => {
     },[])
 
     return (
-        <div>
-            <CommonTableComponant propsData={propsData}/>
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
+            <Layout className="with-background leaves-type">
+                <CommonTableComponant propsData={propsData}/>
+            </Layout>
         </div>
     )
 }

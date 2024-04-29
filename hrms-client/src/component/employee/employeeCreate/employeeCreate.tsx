@@ -276,7 +276,7 @@ const EmployeeCreate = () => {
             let localStorageMerge = Object.assign({}, ...localStorageData);
             setEmployeeData({...employeeData, ...localStorageMerge})
         }
-        restApi.getEnum(`designation/all`).then((e: any) => {
+        restApi.getEnum(`designation`).then((e: any) => {
             e.forEach((item: any) => {
                 let tempObj: any = {};
                 tempObj["code"] = item.code;
@@ -288,7 +288,7 @@ const EmployeeCreate = () => {
                 })
             })
         }).catch((e: any) => message.error("enum is not inserted"));
-        restApi.getEnum(`qualification/all`).then((e: any) => {
+        restApi.getEnum(`qualification`).then((e: any) => {
             e.forEach((item: any) => {
                 let tempObj: any = {};
                 tempObj["code"] = item.code;

@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 
 
-import {DatePicker, Form, Input, Select, TableColumnsType} from "antd";
+import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
 import rest from "../../services/http/api";
 import CommonTableComponant from "../leave/CommonTableComponant";
 import {Holiday_Type, Leave_Type} from "../../constant/constant"
+import {PlusCircleOutlined} from "@ant-design/icons/lib";
 
 interface DataType {
     key: React.Key;
@@ -13,7 +14,8 @@ interface DataType {
     status: string;
 }
 
-const LeaveBalance = ({isModalOpen, setIsModalOpen}: any) => {
+const LeaveBalance = () => {
+    const [isModalOpen,setIsModalOpen]=useState(false);
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Code',
@@ -89,8 +91,18 @@ const LeaveBalance = ({isModalOpen, setIsModalOpen}: any) => {
     }
 
     return (
-        <div>
-            <CommonTableComponant propsData={propsData}/>
+        <div className={"leave-list_table_data"}>
+            <Tooltip title="Add" color={"blue"} key={"blue"}>
+                <Button
+                    type="primary"
+                    icon={<PlusCircleOutlined/>}
+                    onClick={() => setIsModalOpen(true)}
+                    className={"leave-list_table_data_button"}
+                />
+            </Tooltip>
+            <Layout className="with-background leaves-type">
+                <CommonTableComponant propsData={propsData}/>
+            </Layout>
         </div>
     )
 }

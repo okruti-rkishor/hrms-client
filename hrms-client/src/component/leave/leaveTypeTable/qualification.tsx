@@ -12,7 +12,8 @@ interface DataType {
     active: string;
 }
 
-const Qualification = ({isModalOpen, setIsModalOpen}: any) => {
+const Qualification = () => {
+    const [isModalOpen,setIsModalOpen]=useState(false);
     const fetchQualifications = async () => {
         try {
             const qualifications = await rest.getAllQualification();
