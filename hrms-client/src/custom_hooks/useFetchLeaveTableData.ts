@@ -4,9 +4,7 @@ import rest from "../services/http/api";
 
 
 const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
-    console.log("")
     const [value, setValue] = useState<any>([]);
-
 
     const fetchDataInsideHook = async () => {
         try {
@@ -26,7 +24,7 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
                 newRow["code"] = record.code;
                     return newRow;
             })
-            await setValue(newData);
+            setValue([...newData]);
         } catch (e) {
             console.log("error", e)
         }
@@ -35,18 +33,17 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
     const deleteHandel = async (record: any) => {
         try {
             await deleteById(record.id);
-            await fetchDataInsideHook();
+            setValue((prevState:any)=>prevState.filter((item:any)=>item.id !== record.id));
         } catch (error) {
             console.log(error);
         }
     };
 
-
     useEffect(()=>{
         fetchDataInsideHook();
     },[])
 
-    return [value, setValue, deleteHandel];
+    return [value, setValue,deleteHandel];
 };
 
 export default useFetchLeaveTableData;

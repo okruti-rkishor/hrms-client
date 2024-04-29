@@ -97,21 +97,21 @@ function Leaves() {
     }
 
     const LeaveComponentRender = () => {
-        if (leaveTypeTable.key === 1) {
-            return <WorkWeek/>
-        } else if (leaveTypeTable.key === 2) {
-            return <LeaveType/>
-        } else if (leaveTypeTable.key === 3) {
-            return <Designation/>
-        } else if (leaveTypeTable.key === 4) {
-            return <Qualification/>
-        } else if (leaveTypeTable.key === 5) {
-            return <Holiday/>
-        } else {
-            return <LeaveEntitlement/>
+        switch (leaveTypeTable.key) {
+            case 1:
+                return <WorkWeek/>;
+            case 2:
+                return <LeaveType/>;
+            case 3:
+                return <Designation/>;
+            case 4:
+                return <Qualification/>;
+            case 5:
+                return <Holiday/>;
+            default:
+                return <LeaveEntitlement/>;
         }
     }
-
 
 
     return (
@@ -119,8 +119,6 @@ function Leaves() {
             <Layout className="with-background hrms-settings">
 
                 <Title level={4} className='hrms-settings__page-header'>
-
-
                     Setting & Leave Setup
                 </Title>
                 <div className="leave-list">
@@ -134,7 +132,6 @@ function Leaves() {
                             </div>
 
                         </div>
-
 
                         <LeaveComponentRender/>
 

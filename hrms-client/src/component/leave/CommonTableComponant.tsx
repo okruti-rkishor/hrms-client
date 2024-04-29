@@ -7,7 +7,7 @@ import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined}
 import dayjs from "dayjs";
 
 function CommonTableComponant({propsData}: any) {
-    console.log("33333");
+    console.log("2222222");
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
@@ -103,6 +103,7 @@ function CommonTableComponant({propsData}: any) {
                 await create(values)
                 setIsModalOpen(false);
                 values["key"]=allNewData.length+1;
+
                 setAllNewData((prevState:any)=>[...prevState,values]);
             } catch (e) {
                 console.log(e)
@@ -147,7 +148,6 @@ function CommonTableComponant({propsData}: any) {
                     <Form
                         form={form}
                         layout="horizontal"
-                        onValuesChange={()=>{console.log(form.getFieldsError().filter(({errors}) => errors.length))}}
                         onFieldsChange={() =>
                             setButtonDisabled(
                                 !form.isFieldsTouched(true) ||
