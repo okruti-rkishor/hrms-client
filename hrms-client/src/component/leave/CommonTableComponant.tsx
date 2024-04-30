@@ -98,6 +98,7 @@ function CommonTableComponant({propsData}: any) {
                 values["status"]=true;
                 values["active"]="Active";
             }
+
         }
     }
 
