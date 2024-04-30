@@ -75,7 +75,7 @@ const App = () => {
                            element={<PrivateRoutes Componant={<Leaves/>}/>}
                     />
                     <Route path="employee/leaves"
-                           element={<LeaveRequest/>}
+                           element={<PrivateRoutes Componant={<LeaveRequest/>}/>}
                     />
                     <Route path="about-us" element={<AboutUs/>}/>
                     <Route path="privacy-policy" element={<PrivacyPolicy/>}/>
