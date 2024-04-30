@@ -9,22 +9,15 @@ import {
     Select,
     Table,
     TableColumnsType, Tag,
-    Tooltip
 } from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
-import rest from "../../services/http/api";
-import {toast} from "react-toastify";
-import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
+import rest from "../../../services/http/api";
 import {
-    CheckCircleOutlined,
-    CheckOutlined,
-    CloseCircleOutlined,
-    DeleteOutlined,
     PlusCircleOutlined
 } from "@ant-design/icons/lib";
 import dayjs from "dayjs";
-import {Leave_Type} from "../../constant/constant";
-import UserLoginContext from "../../context/userLoginContext";
+import {Leave_Type} from "../../../constant/constant";
+import UserLoginContext from "../../../context/userLoginContext";
 
 
 interface DataType {

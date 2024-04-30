@@ -12,8 +12,6 @@ import {
     ForgotPassword,
     HolidayCalendar,
     HolidayCreate,
-    HolidayList,
-    Home,
     LayoutComponent,
     Login,
     PrivacyPolicy,
@@ -21,7 +19,7 @@ import {
     UserCreate,
     UserDataTable,
     UserDetailsCard,
-    Leaves
+    Setting
 } from "./component/index";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,8 +27,9 @@ import ApiInterceptor from "./apiInterceptor";
 import {toast, ToastContainer} from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
 import React, {useContext, useEffect} from "react";
-import LeaveIndex from "./component/leavesSection/leaveIndex";
-import LeaveRequest from "./component/leavesSection/leaveRequest";
+import LeaveIndex from "./component/leaves/leaveIndex";
+import LeaveRequest from "./component/leaves/leaveStatus/leaveRequest";
+import Dashboard from "./component/dashboard/dashboard";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
@@ -44,8 +43,8 @@ const App = () => {
                 {/* for employee newUser?.roles.length===1&&newUser?.roles[0]==="EMPLOYEE" this condition */}
                 {newUser?.roles.length === 0 && <Route path="/" element={<Login/>}/>}
                 <Route path="/" element={<LayoutComponent/>}>
-                    {newUser?.roles.length !== 0 && <Route index element={<Home/>}/>}
-                    <Route path="home" element={<Home/>}/>
+                    {newUser?.roles.length !== 0 && <Route index element={<Dashboard/>}/>}
+                    <Route path="home" element={<Dashboard/>}/>
                     <Route path="user/list"
                            element={<PrivateRoutes Componant={<UserDataTable/>}/>}
                     />
@@ -72,7 +71,7 @@ const App = () => {
                            element={<PrivateRoutes Componant={<EnumCards/>}/>}
                     />
                     <Route path="setting/leaves"
-                           element={<PrivateRoutes Componant={<Leaves/>}/>}
+                           element={<PrivateRoutes Componant={<Setting/>}/>}
                     />
                     <Route path="employee/leaves"
                            element={<PrivateRoutes Componant={<LeaveRequest/>}/>}

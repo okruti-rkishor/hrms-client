@@ -1,7 +1,7 @@
 
 import {Button, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
 import rest from "../../../services/http/api";
-import CommonTableComponant from "../CommonTableComponant";
+import CommonTableComponant from "../../setting/CommonTableComponant";
 import React, { useEffect, useState, useMemo } from "react";
 import { Leave_Type } from "../../../constant/constant";
 import {PlusCircleOutlined} from "@ant-design/icons/lib";

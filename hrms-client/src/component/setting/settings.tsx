@@ -8,14 +8,14 @@ import {
     ProfileOutlined,
     RightOutlined, SolutionOutlined, UsergroupAddOutlined
 } from "@ant-design/icons/lib";
-import LeaveType from "./leaveTypeTable/leaveType";
-import WorkWeek from "./leaveTypeTable/workWeek";
+import LeaveType from "../setting/settingTable/leaveType";
+import WorkWeek from "../setting/settingTable/workWeek";
 import Title from "antd/lib/typography/Title";
 import {useNavigate} from "react-router-dom"
 // import LeaveEntitlement from "./leaveTypeTable/leaveEntitlement";
-import Designation from "./leaveTypeTable/desigation";
-import Qualification from "./leaveTypeTable/qualification";
-import Holiday from "./leaveTypeTable/holiday";
+import Designation from "../setting/settingTable/desigation";
+import Qualification from "../setting/settingTable/qualification";
+import Holiday from "../setting/settingTable/holiday";
 
 const leaveSidebarItems: any = [
     {

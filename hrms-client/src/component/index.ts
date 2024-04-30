@@ -11,7 +11,6 @@ import ForgotPassword from './forgotPassword/forgotPassword';
 import HolidayCalendar from './holiday/calendar';
 import HolidayCreate from './holiday/holidayCreate';
 import HolidayList from './holiday/holidayList';
-import Home from "../component/home/home";
 import Login from "./login/login";
 import LayoutComponent from './layoutComponent/layoutComponent';
 import PrivacyPolicy from "./company/privacyPolicy";
@@ -21,4 +20,4 @@ import UserDataTable from "./user/user-list/userDataTable";
 import UserDetailsCard from "./user/user-cards/userDetailsCard";
 import Setting from "./setting/settings";
 
-export { AboutUs, Anniversary, Birthday, ContactUs, EmployeeCreate, EmployeeDetailComponent02, EmployeeSearch, EnumCards, Error, ForgotPassword,HolidayCalendar,HolidayCreate,HolidayList, Home,LayoutComponent, Login,  PrivacyPolicy,PrivateRoutes, UserCreate,UserDataTable, UserDetailsCard, Setting  };
+export { AboutUs, Anniversary, Birthday, ContactUs, EmployeeCreate, EmployeeDetailComponent02, EmployeeSearch, EnumCards, Error, ForgotPassword,HolidayCalendar,HolidayCreate,HolidayList,LayoutComponent, Login,  PrivacyPolicy,PrivateRoutes, UserCreate,UserDataTable, UserDetailsCard, Setting  };

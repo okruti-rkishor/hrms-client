@@ -7,10 +7,10 @@ import {
 } from "@ant-design/icons/lib";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import LeaveEntitlement from "../setting/leaveTypeTable/leaveEntitlement";
+import LeaveEntitlement from "./leaveSetting/leaveEntitlement";
 import {Button, Flex, Layout, Spin, Tooltip} from "antd";
 import Title from "antd/lib/typography/Title";
-import LeaveApplication from "./leaveApplication";
+import LeaveApplication from "./leaveSetting/leaveApplication";
 
 const leaveSidebarItems: any = [
     {
@@ -22,7 +22,7 @@ const leaveSidebarItems: any = [
     },
     {
         key: 2,
-        label: "Leave Application",
+        label: "Leave Requests",
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "leaveApplication",
