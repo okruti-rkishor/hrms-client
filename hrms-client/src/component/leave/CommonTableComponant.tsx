@@ -89,24 +89,34 @@ function CommonTableComponant({propsData}: any) {
         return payload;
     }
 
-    const handleOk = async () => {
-        let values = form.getFieldsValue(true);
-        const keys:any = Object.keys(values);
+    const handleValues = (values:any,keys:any) =>{
+        if (title !== "Holiday") {
+            keys.forEach((key: any) => {
+                values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
+            })
+            if(title === "Designation" || title === "Qualification"){
+                values["status"]=true;
+                values["active"]="Active";
+            }
+        }
+    }
 
+    const handleOk = async () => {
+        let values = form.getFieldsValue();
+        const keys:any = Object.keys(values);
 
         if (title !== "Holiday") keys.map((key:any) => {
             if (typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
-            else values[key] = values[key].replace(" ", "_").toLocaleUpperCase();
         })
         else values = holidayHandle(values);
+
         if (keys.length === formFields.length) {
             try {
                 const response=await create(values)
                 setIsModalOpen(false);
-                console.log("response",response);
+                handleValues(values,keys);
                 values["id"]=response;
                 values["key"]=allNewData.length+1;
-
                 setAllNewData((prevState:any)=>[...prevState,values]);
             } catch (e) {
                 console.log(e)

@@ -66,7 +66,7 @@ const Qualification = () => {
     ];
 
     const propsData = {
-        title: "Leave Entitlement",
+        title: "Qualification",
         create: rest.createQualification,
         getAll: fetchQualifications,
         delete: rest.deleteQualification,
