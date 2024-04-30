@@ -14,6 +14,29 @@ function CommonTableComponant({propsData}: any) {
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
         deleteById
     })
+    const [form] = Form.useForm();
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+
+    const updateStatus = async (record: any) => {
+        try {
+            await restParams.update(record.status ? false : true, record.id);
+            setAllNewData((prev: any) => prev.map((item: any) => {
+                    if (item.id === record.id) {
+                        if (record.active === "Active") {
+                            item.active = "Inactive"
+                            item.status = false
+                        } else {
+                            item.active = "Active"
+                            item.status = true
+                        }
+                    }
+                    return item;
+                }
+            ))
+        } catch (e) {
+            console.log(e)
+        }
+    }
     const [newColumn, setNewColumn] = useState([
         ...columns,
         {
@@ -53,8 +76,6 @@ function CommonTableComponant({propsData}: any) {
                 </>
         },
     ])
-    const [form] = Form.useForm();
-    const [buttonDisabled, setButtonDisabled] = useState(true);
 
     const getDayOfWeek = (date: any) => {
         const daysOfWeek = [
@@ -89,6 +110,7 @@ function CommonTableComponant({propsData}: any) {
         return payload;
     }
 
+
     const handleValues = (values:any,keys:any) =>{
         if (title !== "Holiday") {
             keys.forEach((key: any) => {
@@ -102,14 +124,18 @@ function CommonTableComponant({propsData}: any) {
         }
     }
 
-    const handleOk = async () => {
-        let values = form.getFieldsValue();
-        const keys:any = Object.keys(values);
 
-        if (title !== "Holiday") keys.map((key:any) => {
+
+
+    const handleOk = async () => {
+        let values = form.getFieldsValue(true);
+        const keys: any = Object.keys(values);
+        if (title !== "Holiday") keys.map((key: any) => {
+
             if (typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
         })
         else values = holidayHandle(values);
+
 
         if (keys.length === formFields.length) {
             try {
@@ -118,40 +144,26 @@ function CommonTableComponant({propsData}: any) {
                 handleValues(values,keys);
                 values["id"]=response;
                 values["key"]=allNewData.length+1;
-                setAllNewData((prevState:any)=>[...prevState,values]);
+
+                if(title==="Leave Entitlement"||title==="Holiday"){
+                    let tempData = await getAll();
+                    tempData = tempData.map((data:any,index:number)=>({...data,key:index+1}))
+                    setAllNewData(tempData);
+                }else{
+                    setAllNewData((prevState:any)=>[...prevState,values]);
+                }
             } catch (e) {
                 console.log(e)
             }
 
-        } else {
-            toast("Fill All Fields")
-        }
-    };
+
+    }}
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
-    const updateStatus = async (record: any) => {
-        try {
-            await restParams.update(record.status ? false : true, record.id);
-            setAllNewData((prev: any) => prev.map((item: any) => {
-                    if (item.id === record.id) {
-                        if (record.active === "Active") {
-                            item.active = "Inactive"
-                            item.status = false
-                        } else {
-                            item.active = "Active"
-                            item.status = true
-                        }
-                    }
-                    return item;
-                }
-            ))
-        } catch (e) {
-            console.log(e)
-        }
-    }
+
 
 
     return (<>
