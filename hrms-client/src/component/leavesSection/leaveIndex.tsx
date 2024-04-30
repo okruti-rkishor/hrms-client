@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons/lib";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import LeaveEntitlement from "../leave/leaveTypeTable/leaveEntitlement";
+import LeaveEntitlement from "../setting/leaveTypeTable/leaveEntitlement";
 import {Button, Flex, Layout, Spin, Tooltip} from "antd";
 import Title from "antd/lib/typography/Title";
 import LeaveApplication from "./leaveApplication";

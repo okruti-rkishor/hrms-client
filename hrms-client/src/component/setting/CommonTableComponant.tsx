@@ -90,7 +90,7 @@ function CommonTableComponant({propsData}: any) {
     }
 
     const handleValues = (values:any,keys:any) =>{
-        if (title !== "Holiday") {
+
             keys.forEach((key: any) => {
                 values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
             })
@@ -99,7 +99,7 @@ function CommonTableComponant({propsData}: any) {
                 values["active"]="Inactive";
             }
 
-        }
+
     }
 
     const handleOk = async () => {
