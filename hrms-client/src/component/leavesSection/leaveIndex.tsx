@@ -7,18 +7,10 @@ import {
 } from "@ant-design/icons/lib";
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import WorkWeek from "../leave/leaveTypeTable/workWeek";
-import LeaveType from "../leave/leaveTypeTable/leaveType";
-import Designation from "../leave/leaveTypeTable/desigation";
-import Qualification from "../leave/leaveTypeTable/qualification";
-import Holiday from "../leave/leaveTypeTable/holiday";
 import LeaveEntitlement from "../leave/leaveTypeTable/leaveEntitlement";
 import {Button, Flex, Layout, Spin, Tooltip} from "antd";
 import Title from "antd/lib/typography/Title";
 import LeaveApplication from "./leaveApplication";
-import LeaveBalance from "./leaveBalance";
-
-
 
 const leaveSidebarItems: any = [
     {
@@ -34,14 +26,7 @@ const leaveSidebarItems: any = [
         leftIcon: <BookOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "leaveApplication",
-    },{
-        key: 3,
-        label: "Leave Balance",
-        leftIcon: <BookOutlined/>,
-        rightIcon: <RightOutlined/>,
-        className: "leaveBalance",
-    },
-
+    }
 ]
 
 
@@ -88,14 +73,8 @@ function LeaveIndex() {
             return <LeaveEntitlement/>
         }else if(leaveTypeTable.key === 2) {
             return <LeaveApplication/>
-        }else if(leaveTypeTable.key === 3) {
-            return <LeaveBalance/>
-        }else if(leaveTypeTable.key === 4){
-            return <Qualification/>
-        }else if(leaveTypeTable.key === 5){
-            return <Holiday/>
         }else {
-            return <LeaveEntitlement/>
+            return <LeaveApplication/>
         }
     }
 
@@ -105,7 +84,7 @@ function LeaveIndex() {
         <>
             <Layout className="with-background hrms-settings">
                 <Title level={4} className='hrms-settings__page-header'>
-                    Leave Section
+                    Leaves Setup
                 </Title>
                 <div className="leave-list">
                     <div className="leave-list_item">

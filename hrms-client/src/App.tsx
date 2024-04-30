@@ -36,7 +36,6 @@ const App = () => {
     const {newUser} = useContext(UserLoginContext);
 
 
-
     return (
         <div className="App">
             <ApiInterceptor/>
@@ -75,14 +74,14 @@ const App = () => {
                     <Route path="setting/leaves"
                            element={<PrivateRoutes Componant={<Leaves/>}/>}
                     />
-                    <Route path="home/leaves"
+                    <Route path="employee/leaves"
                            element={<PrivateRoutes Componant={<LeaveRequest/>}/>}
                     />
                     <Route path="about-us" element={<AboutUs/>}/>
                     <Route path="privacy-policy" element={<PrivacyPolicy/>}/>
                     <Route path="contact-us" element={<ContactUs/>}/>
                     {/*<Route path="holiday" element={<HolidayList/>}/>*/}
-                    <Route path="leave" element={<LeaveIndex />}/>
+                    <Route path="leave" element={<LeaveIndex/>}/>
                     <Route path="holiday/create" element={<HolidayCreate/>}/>
                     <Route path="holiday/calendar" element={<HolidayCalendar/>}/>
                 </Route>

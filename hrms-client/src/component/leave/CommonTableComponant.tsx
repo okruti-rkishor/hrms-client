@@ -30,12 +30,13 @@ function CommonTableComponant({propsData}: any) {
                         style={{color: "red"}}
                     >
                         {" "}
-                        <DeleteOutlined style={{color: "red",cursor:"pointer"}} className={"search-table delete-button"}/>
+                        <DeleteOutlined style={{color: "red", cursor: "pointer"}}
+                                        className={"search-table delete-button"}/>
                     </Popconfirm>
                     {showStatus && <Popconfirm
 
 
-                        title={`Are you sure to ${record.status  ? "Inactive" : "Active"}?`}
+                        title={`Are you sure to ${record.status ? "Inactive" : "Active"}?`}
 
                         onConfirm={() => {
                             updateStatus(record)
@@ -85,7 +86,6 @@ function CommonTableComponant({propsData}: any) {
         });
 
         payload.calender = tempCalender;
-
         return payload;
     }
 
@@ -95,8 +95,8 @@ function CommonTableComponant({propsData}: any) {
                 values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
             })
             if(title === "Designation" || title === "Qualification"){
-                values["status"]=true;
-                values["active"]="Active";
+                values["status"]=false;
+                values["active"]="Inactive";
             }
 
         }

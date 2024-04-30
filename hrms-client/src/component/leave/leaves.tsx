@@ -12,7 +12,7 @@ import LeaveType from "./leaveTypeTable/leaveType";
 import WorkWeek from "./leaveTypeTable/workWeek";
 import Title from "antd/lib/typography/Title";
 import {useNavigate} from "react-router-dom"
-import LeaveEntitlement from "./leaveTypeTable/leaveEntitlement";
+// import LeaveEntitlement from "./leaveTypeTable/leaveEntitlement";
 import Designation from "./leaveTypeTable/desigation";
 import Qualification from "./leaveTypeTable/qualification";
 import Holiday from "./leaveTypeTable/holiday";
@@ -52,13 +52,14 @@ const leaveSidebarItems: any = [
         leftIcon: <CalendarOutlined/>,
         rightIcon: <RightOutlined/>,
         className: "designation",
-    }, {
-        key: 6,
-        label: "Leave Entitlement",
-        leftIcon: <SolutionOutlined/>,
-        rightIcon: <RightOutlined/>,
-        className: "leave-entitlement",
-    }
+    },
+    // {
+    //     key: 6,
+    //     label: "Leave Entitlement",
+    //     leftIcon: <SolutionOutlined/>,
+    //     rightIcon: <RightOutlined/>,
+    //     className: "leave-entitlement",
+    // }
 ]
 
 function Leaves() {
@@ -109,7 +110,7 @@ function Leaves() {
             case 5:
                 return <Holiday/>;
             default:
-                return <LeaveEntitlement/>;
+                return <Holiday/>;
         }
     }
 
@@ -132,7 +133,6 @@ function Leaves() {
                             </div>
 
                         </div>
-
                         <LeaveComponentRender/>
 
                     </div>

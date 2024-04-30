@@ -79,7 +79,7 @@ const dashboardCardItems:any = {
             links: [
                 {
                     text: "View Leave Requests",
-                    target: "leaves",
+                    target: "/employee/leaves",
                 },
                 {
                     text: "Assign Leave",

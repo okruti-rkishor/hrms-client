@@ -68,10 +68,9 @@ export default {
     //Leave Application
     createLeave:(data:any,id:string)=>rest.post(base+"leave-request",{empId:id},data),
     getLeaveRequest:(id:string)=>rest.get(base+`leave-request/${id}`,{},),
-    searchLeave:()=>rest.post(base+`leave-request/search`,{},{"leaveType": "CASUAL_LEAVE",
-        "startDate":"2024-04-01",
-        "endDate":"2024-05-06",
-        "leaveStatus":"PENDING"}),
+    searchLeave:()=>rest.post(base+`leave-request/search`,{},{
+        "startDate":"2024-03-01",
+        "endDate":"2024-07-06"}),
     getIntitlementByEmpLeaveType:(id:string,leaveType:string)=>rest.get(base+`leave-entitlement/employee-id/${id}/leave-type/${leaveType}`),
     getLeaveBalance:(id:string, leaveType?:string)=>rest.get(base+`leave-balance`,{},{"employee-id":id,"leave-type":leaveType}),
 }

@@ -8,14 +8,20 @@ import {
     Modal,
     Select,
     Table,
-    TableColumnsType,
+    TableColumnsType, Tag,
     Tooltip
 } from "antd";
 import React, {useContext, useEffect, useRef, useState} from "react";
 import rest from "../../services/http/api";
 import {toast} from "react-toastify";
 import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
-import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
+import {
+    CheckCircleOutlined,
+    CheckOutlined,
+    CloseCircleOutlined,
+    DeleteOutlined,
+    PlusCircleOutlined
+} from "@ant-design/icons/lib";
 import dayjs from "dayjs";
 import {Leave_Type} from "../../constant/constant";
 import UserLoginContext from "../../context/userLoginContext";
@@ -27,6 +33,7 @@ interface DataType {
     code: string;
     status: string;
 }
+
 interface IApplicant {
     id: string;
     leaveType: string;
@@ -36,16 +43,18 @@ interface IApplicant {
 
 function LeaveRequest() {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [buttonDisabled, setButtonDisabled] = useState(true);
+    const [isBalModalOpen, setIsBalModalOpen] = useState(false);
     const [allNewData, setAllNewData] = useState([]);
     const [employeeList, setEmployeeList] = useState([]);
     const [empId, setEmpId] = useState("");
-    const [requestLeaves, setRequestLeaves] = useState([]);
+    const [requestLeaves, setRequestLeaves] = useState<any[]>([]);
     const [applicant, setApplicant] = useState<IApplicant>({
         id: "",
         leaveType: "",
         emtitlementId: ""
     });
-    const {newUser,setNewUser} = useContext(UserLoginContext);
+    const {newUser, setNewUser} = useContext(UserLoginContext);
     console.log("newUser", newUser);
     const newColumns: TableColumnsType<DataType> = [
         {
@@ -66,38 +75,74 @@ function LeaveRequest() {
     ];
     const leaveRequestColumn: TableColumnsType<DataType> = [
         {
+            title: 'Sr. No',
+            dataIndex: 'key',
+            align:"center"
+        },
+        {
             title: 'Leave Type',
             dataIndex: 'leaveType',
+            align:"center"
         },
         {
             title: 'Start Date',
             dataIndex: 'startDate',
+            align:"center"
         },
         {
             title: 'End Date',
             dataIndex: 'endDate',
-        },{
+            align:"center"
+        },
+        {
             title: 'Requested Days',
             dataIndex: 'requestedDays',
-        },{
+            width:"7%",
+            align:"center"
+        },
+        {
             title: 'reason',
             dataIndex: 'reason',
-        },{
+            align:"center"
+        },
+        {
             title: 'Leave Status',
             dataIndex: 'leaveStatus',
+            align:"center",
+            render: (_) => (
+                <>
+                    {
+                        <Tag color={_ === "PENDING" ? 'red' : 'green'}>
+                            {`${_}`}
+                        </Tag>
+                    }
+                </>
+            ),
+
+            // render: (_: any, record: object) => (
+            //     <>
+            //
+            //         return (
+            //         <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
+            //             {record[leaveStatus].toUpperCase()}
+            //         </Tag>
+            //         );
+            //     </>
+            // ),
         },
     ];
     const title = "Holiday";
     const EntitlementId = useRef();
     const [form] = Form.useForm();
+
     const handleOk = async () => {
         console.log(form.getFieldError);
         let values = form.getFieldsValue();
-        if(empId){
+        if (empId) {
             values.employeeId = empId
         }
-        let startDateTemp=dayjs(values.startDate)
-        let endDateTemp=dayjs(values.endDate)
+        let startDateTemp = dayjs(values.startDate)
+        let endDateTemp = dayjs(values.endDate)
         const startDate = startDateTemp.format("YYYY-MM-DD")
         const endDate = endDateTemp.format("YYYY-MM-DD")
         values.startDate = startDate
@@ -105,13 +150,22 @@ function LeaveRequest() {
         console.log(values);
         try {
             const tempEntId = await rest.getIntitlementByEmpLeaveType(empId, values?.leaveType);
-            values.entitlementId =tempEntId.id
-            await rest.createLeave(values,values.employeeId)
+            values.entitlementId = tempEntId.id
+            await rest.createLeave(values, values.employeeId)
             setIsModalOpen(false)
-        }catch (e) {
+            const tempAppliedLeaveObj: object = {
+                ...values,
+                leaveStatus: "PENDING",
+                requestedDays: parseInt(endDate.split("-")[2]) - parseInt(startDate.split("-")[2])
+            }
+            console.log("Start Here-", tempAppliedLeaveObj);
+            console.log(requestLeaves);
+            // const addRequestTemp = [...requestLeaves, values];
+            setRequestLeaves([...requestLeaves, tempAppliedLeaveObj]);
+
+        } catch (e) {
             console.log(e)
         }
-
     };
 
     const handleCancel = () => {
@@ -136,13 +190,14 @@ function LeaveRequest() {
             }));
             setEmployeeList(tempAllEmp);
             //find logedin employee if employee available otherwise empty object
-                const tempFinded = allEmployees.find((item: any) => item?.officialEmail === newUser?.email)||{};
+            const tempFinded = allEmployees.find((item: any) => item?.officialEmail === newUser?.email) || {};
             setEmpId(tempFinded.id);
             console.log(tempFinded);
             //find all leaves for particilar employee no provide leaveType
             const remainingLeaves = await rest.getLeaveBalance(tempFinded.id);
             setAllNewData(remainingLeaves)
-            const requestedLeavesTemp = await rest.getLeaveRequest(tempFinded.id);
+            let requestedLeavesTemp = await rest.getLeaveRequest(tempFinded.id);
+            requestedLeavesTemp = requestedLeavesTemp.map((leave:any,index:number)=>({...leave,key:index+1}))
             setRequestLeaves(requestedLeavesTemp);
         } catch (e) {
             console.log(e);
@@ -156,16 +211,23 @@ function LeaveRequest() {
 
     return (<>
         <div style={{width: "90%", margin: "40px auto"}}>
-            <Modal title={`Add Leave`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk}>
+            <Modal title={`Add Leave`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk} okButtonProps={{disabled: buttonDisabled}}>
                 <Card>
                     <Form
                         form={form}
-                        layout="horizontal">
-                        {!(empId)&&<Form.Item
+                        layout="horizontal"
+                        onFieldsChange={() =>
+                            setButtonDisabled(
+                                !form.isFieldsTouched(true) ||
+                                !!form.getFieldsError().filter(({errors}) => errors.length).length
+                            )
+                        }>
+                        {!(empId) && <Form.Item
                             label="Employee"
                             name={"employeeId"}
                             initialValue={"-Select-"}
-                            rules={[{required: true, message: 'Please input Employee Id!'}]}>
+                            rules={[{required: true, message: 'Please input Employee Id!'}]}
+                            >
                             <Select
                                 onChange={(e) => setApplicant((prev: any) => ({...prev, id: e}))}
                                 style={{height: 40, width: 272}}>
@@ -192,6 +254,7 @@ function LeaveRequest() {
                         </Form.Item>
                         <Form.Item
                             label="Start Date"
+                            style={{height: 40, width: 700}}
                             name="startDate"
                             rules={[{required: true, message: 'Please input StartDate!'}]}>
                             <DatePicker
@@ -222,12 +285,29 @@ function LeaveRequest() {
                     </Form>
                 </Card>
             </Modal>
+            <Modal title={`Leave Balance`} open={isBalModalOpen} onCancel={() => setIsBalModalOpen(false)}
+                   onOk={() => setIsBalModalOpen(false)}>
+                <Card>
+                    {/*<h2>*/}
+                    {/*    Leave Balance*/}
+                    {/*</h2>*/}
+                    <Table
+                        bordered
+                        size={"middle"}
+                        columns={newColumns}
+                        dataSource={allNewData}
+                        pagination={false}
+                    />
+                </Card>
+            </Modal>
             <Card>
-                <div style={{display: "flex", justifyContent: "space-around", width: 1050, gap: 35}}>
-
-                    <Divider orientation="left">Leave Balance</Divider>
-                    <Button onClick={() => setIsModalOpen(true)}>
-                        New Leave
+                <div style={{display: "flex", justifyContent: "space-around", width: 950, gap: 15}}>
+                    <Divider orientation="left">Leave Requests</Divider>
+                    <Button type={"primary"} onClick={() => setIsModalOpen(true)}>
+                        <PlusCircleOutlined/> Add
+                    </Button>
+                    <Button onClick={() => setIsBalModalOpen(true)}>
+                        Balance
                     </Button>
                 </div>
                 <Table
@@ -235,12 +315,6 @@ function LeaveRequest() {
                     size={"middle"}
                     columns={leaveRequestColumn}
                     dataSource={requestLeaves}
-                />
-                <Table
-                    bordered
-                    size={"middle"}
-                    columns={newColumns}
-                    dataSource={allNewData}
                 />
             </Card>
         </div>

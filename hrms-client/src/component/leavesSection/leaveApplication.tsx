@@ -22,7 +22,6 @@ interface IApplicant {
 
 const LeaveApplication = () => {
     const [employeeList, setEmployeeList] = useState<any[]>([]);
-
     const [applicant, setApplicant] = useState<IApplicant>({
         id:"",
         leaveType:"",
@@ -56,6 +55,10 @@ const LeaveApplication = () => {
     }
     const columns: TableColumnsType<DataType> = [
         {
+            title: 'Sr. No',
+            dataIndex: 'key',
+        },
+        {
             title: 'Leave Type',
             dataIndex: 'leaveType',
         },
@@ -79,10 +82,10 @@ const LeaveApplication = () => {
             title: 'Reason',
             dataIndex: 'reason',
         },
-        {
-            title: 'Reason',
-            dataIndex: 'reason',
-        },
+        // {
+        //     title: 'Reason',
+        //     dataIndex: 'reason',
+        // },
     ];
     const propsData = {
         title: "Leave Application",
