@@ -6,7 +6,6 @@ import rest from "../../../services/http/api";
 import CommonTableComponant from "../../setting/CommonTableComponant";
 import {Holiday_Type, Leave_Type} from "../../../constant/constant"
 import {PlusCircleOutlined} from "@ant-design/icons/lib";
-
 interface DataType {
     key: React.Key;
     description: string;
@@ -30,6 +29,7 @@ const LeaveBalance = () => {
             dataIndex: 'active',
         },
     ];
+
     const propsData = {
         title: "Leave Balance",
         create: rest.createDesignation,

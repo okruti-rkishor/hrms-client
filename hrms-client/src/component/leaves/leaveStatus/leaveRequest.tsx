@@ -18,6 +18,7 @@ import {
 import dayjs from "dayjs";
 import {Leave_Type} from "../../../constant/constant";
 import UserLoginContext from "../../../context/userLoginContext";
+import "../../../styles/component/leaves.scss";
 
 
 interface DataType {
@@ -95,7 +96,7 @@ function LeaveRequest() {
         {
             title: 'reason',
             dataIndex: 'reason',
-            align:"center"
+            align:"center",
         },
         {
             title: 'Leave Status',
@@ -194,11 +195,13 @@ function LeaveRequest() {
 
     useEffect(() => {
         console.log("newUser UseEffect", newUser);
-        getEntitlementData();
-    }, []);
+        if(newUser?.email){
+            getEntitlementData();
+        }
+    }, [newUser?.email]);
 
     return (<>
-        <div style={{width: "90%", margin: "40px auto"}}>
+        <div className="hrms__leave-request" style={{width: "90%", margin: "40px auto"}}>
             <Modal title={`Add Leave`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk} okButtonProps={{disabled: buttonDisabled}}>
                 <Card>
                     <Form

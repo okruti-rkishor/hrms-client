@@ -61,7 +61,7 @@ const LeaveApplication = () => {
             const fullLeaveRequests = response.map((leaveRequest:any,index:number)=>{
                 const found = allEmp.find((employee:any)=>leaveRequest.employeeId===employee.id)
                 return{
-                    ...leaveRequest,name:found?.name?.firstName+" "+ found?.name?.lastName
+                    ...leaveRequest,name:found?.name?.firstName+" "+ found?.name?.lastName,reason:leaveRequest.reason.substring(0,7)+ "..."
                 }
             })
             console.log(fullLeaveRequests);
