@@ -94,7 +94,7 @@ function LeaveRequest() {
             align:"center"
         },
         {
-            title: 'reason',
+            title: 'Reason',
             dataIndex: 'reason',
             align:"center",
         },
@@ -105,7 +105,7 @@ function LeaveRequest() {
             render: (_) => (
                 <>
                     {
-                        <Tag color={_ === "PENDING" ? 'red' : 'green'}>
+                        <Tag color={_.length === 7 ? 'red' : 'green'}>
                             {`${_}`}
                         </Tag>
                     }

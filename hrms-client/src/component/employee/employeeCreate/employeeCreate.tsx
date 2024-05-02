@@ -17,7 +17,6 @@ import PrevNext from "../prevNext";
 
 
 const EmployeeCreate = () => {
-    console.log("111111111111111111111111");
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
     const [employeeData, setEmployeeData] = useState<any>({

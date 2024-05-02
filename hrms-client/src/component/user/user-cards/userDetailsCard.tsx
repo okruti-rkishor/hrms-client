@@ -118,7 +118,7 @@ function UserDetailsCard() {
       <div className="data-table user-detail-card">
         <div className="user-count">
           <Divider orientation="left">
-            <PageHeader className="" title="Users Detail" />
+            <PageHeader className="" title="Users Dashboard" />
           </Divider>
           <Row
             gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}

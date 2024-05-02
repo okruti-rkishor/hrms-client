@@ -206,7 +206,7 @@ const EmployeeDetailComponent02 = () => {
           <h3>Personal-Detail</h3>
              <Flex vertical>
                <span>Personal-Email:{employeeData.email}</span>
-               <span>Joining-Email:{employeeData.joiningDate}</span>
+               <span>Joining-Date:{employeeData.joiningDate}</span>
                <span>Total Experience:{employeeData.totalExperience}</span>
                <span>Gender:{employeeData.gender}</span>
                <span>Date Of Birth:{employeeData.dateOfBirth}</span>

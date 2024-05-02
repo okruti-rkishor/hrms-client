@@ -197,6 +197,13 @@ function CommonTableComponant({propsData}: any) {
         try {
             await rest.updateLeaveRequest(status, record.id);
             setAllNewData((prev: any) => prev.map((item: any) => {
+                if(item.id===record.id){
+                    return {
+                        ...item,leaveStatus:status
+                    }
+                }else{
+                    return item
+                }
 
                 }
             ))

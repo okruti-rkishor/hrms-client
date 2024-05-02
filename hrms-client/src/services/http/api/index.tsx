@@ -71,7 +71,7 @@ export default {
     deleteLeaveRequest:(id:string)=>rest.del(base+`leave-request/${id}`,{}),
     updateLeaveRequest:(status:string,id:string)=>rest.put(base+`leave-request/${id}/update-status`,{},undefined,{status:status}),
     searchLeave:()=>rest.post(base+`leave-request/search`,{},{
-        "leaveStatus":"PENDING",
+        // "leaveStatus":"PENDING",
         "startDate":"2024-03-01",
         "endDate":"2024-07-06"}),
     getIntitlementByEmpLeaveType:(id:string,leaveType:string)=>rest.get(base+`leave-entitlement/employee-id/${id}/leave-type/${leaveType}`),
