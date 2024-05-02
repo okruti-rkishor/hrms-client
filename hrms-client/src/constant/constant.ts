@@ -4,10 +4,8 @@ export enum Gender {
 
 }
 export enum Type_Time{
-    PART_TIME="Partime",
+    TRAINEE="Trainee",
     FULL_TIME="FullTime",
-    FREELANCER="FreeLancer",
-    CONTRACT="Contract"
 }
 export enum Status{
     ACTIVE="Active",

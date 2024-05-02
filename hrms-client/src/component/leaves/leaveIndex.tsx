@@ -11,6 +11,7 @@ import LeaveEntitlement from "./leaveSetting/leaveEntitlement";
 import {Button, Flex, Layout, Spin, Tooltip} from "antd";
 import Title from "antd/lib/typography/Title";
 import LeaveApplication from "./leaveSetting/leaveApplication";
+import "../../styles/component/leaveIndex.scss";
 
 const leaveSidebarItems: any = [
     {
@@ -84,8 +85,14 @@ function LeaveIndex() {
         <>
             <Layout className="with-background hrms-settings">
                 <Title level={4} className='hrms-settings__page-header'>
-                    Leaves Setup
+                    <span>Leaves Setup</span>
+                    <ul>
+                        <li><span>Employee</span></li>
+                        <li><span>Admin</span></li>
+                    </ul>
                 </Title>
+
+
                 <div className="leave-list">
                     <div className="leave-list_item">
                         <LeaveSidebar/>

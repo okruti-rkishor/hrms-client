@@ -126,7 +126,6 @@ const EmployeeCreate = () => {
     const onFinish = async (value: object) => {
         console.log(employeeData);
         const payload:any = {
-            "status": employeeData.status,
             "employeeCode": isEditing ? employeeData.employeeCode : randomIdGenerator(),
             "designation": {
                 "id":tempEnum.designationEnum.find((item:any)=> item.code===employeeData.designation).id,
