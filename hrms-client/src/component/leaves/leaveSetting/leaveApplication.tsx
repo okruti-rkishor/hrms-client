@@ -53,12 +53,39 @@ const LeaveApplication = () => {
             console.log(e);
         }
     }
+
+    const fetchAllLeaveRequests = async()=>{
+        try {
+            const allEmp = await rest.getAllEmployee();
+            const response = await rest.searchLeave();
+            const fullLeaveRequests = response.map((leaveRequest:any)=>{
+                const found = allEmp.find((employee:any)=>leaveRequest.employeeId===employee.id)
+                return{
+                    ...leaveRequest,name:found?.name?.firstName+" "+ found?.name?.lastName
+                }
+            })
+            console.log(fullLeaveRequests);
+            return(fullLeaveRequests);
+
+        }catch (e) {
+           console.log(e)
+        }
+    }
+    // fetchAllLeaveRequests();
+
+    useEffect(()=>{
+        fetchAllLeaveRequests()
+    },[])
+
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Sr. No',
             dataIndex: 'key',
         },
         {
+            title: 'Emp Name',
+            dataIndex: 'name',
+        },{
             title: 'Leave Type',
             dataIndex: 'leaveType',
         },
@@ -90,14 +117,14 @@ const LeaveApplication = () => {
     const propsData = {
         title: "Leave Application",
         create: rest.createLeave,
-        getAll: rest.searchLeave,
+        getAll: fetchAllLeaveRequests,
         delete: rest.deleteDesignation,//todo
         update: rest.updateDesignationStatus,//todo
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
         columns: columns,//todo
         deleteById: rest.deleteDesignation,//todo
-        showStatus: false,
+        showStatus: true,
         formFields: [
             <Form.Item
                 label="Employee"

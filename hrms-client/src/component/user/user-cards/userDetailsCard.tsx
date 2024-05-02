@@ -9,9 +9,10 @@ import EventData from "../../../custom_hooks/eventData";
 
 function UserDetailsCard() {
     EventData();
-    const [countAdmin, setCountAdmin] = useState(0);
-    const [countHR, setCountHR] = useState(0);
-    const [countEmployee, setCountEmployee] = useState(0);
+    const[count,setCount] = useState({countAdmin:0,countHR:0,countEmployee:0})
+    // const [countAdmin, setCountAdmin] = useState(0);
+    // const [countHR, setCountHR] = useState(0);
+    // const [countEmployee, setCountEmployee] = useState(0);
     const { birthdayData, anniversaryData } = useContext<any>(EventContext);
     let birthdayCount = 0;
     let anniversaryCount = 0;
@@ -36,78 +37,15 @@ function UserDetailsCard() {
   const userCount = async () => {
     try {
         // const response = await restApi.getUsers("EMPLOYEE");
-        const response = [
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "ADMIN"
-                ]
-            },
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "ADMIN", "HR"
-                ]
-            },
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "EMPLOYEE"
-                ]
-            },
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "ADMIN"
-                ]
-            },
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "EMPLOYEE", "HR"
-                ]
-            },
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "EMPLOYEE"
-                ]
-            },
-            {
-                "id": "ca33514a-b497-4597-92cb-9fafd16d4363",
-                "firstName": "Admin",
-                "lastName": "Admin",
-                "email": "admin@okruti.com",
-                "roles": [
-                    "EMPLOYEE"
-                ]
-            },
-        ];
+        const response = await restApi.getUsers("")
         if(response.length>=1){
            const adminCount = (response.filter((item:any)=> item.roles&&checkRole(item.roles,"ADMIN")))
-            setCountAdmin(adminCount.length);
+            setCount((prev:any)=>({...prev,countAdmin:adminCount.length,}));
            const hrCount = (response.filter((item:any)=> item.roles&&checkRole(item.roles,"HR")))
-            setCountHR(hrCount.length);
+            setCount((prev:any)=>({...prev,countHR:hrCount.length}));
            const employeeCount = (response.filter((item:any)=> item.roles&&checkRole(item.roles,"EMPLOYEE")))
-           setCountEmployee(employeeCount.length);
+            setCount((prev:any)=>({...prev,countEmployee:employeeCount.length}));
+
         }
         //call api for for all user then
     } catch (error) {
@@ -115,20 +53,44 @@ function UserDetailsCard() {
     }
   };
 
+
+
+    // useEffect(() => {
+    //     usersData();
+    // }, []);
+    //
+    // const usersData = async () => {
+    //     try {
+    //         const response = await restApi.getUsers(String(navigatedUser.get('userTitle')).toLocaleUpperCase());
+    //         const newResponse = response.map((item: any) => {
+    //             return {
+    //                 ...item, email: ((item.email).toLowerCase())
+    //
+    //             };
+    //         })
+    //
+    //         setUserData(newResponse);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
+
+
+
   const userCountCardProps = [
     {
       title: "Admin",
-      count: countAdmin,
+      count: count.countAdmin,
       className: "admin",
     },
     {
       title: "HR",
-      count: countHR,
+      count: count.countHR,
       className: "hr-user",
     },
     {
       title: "Employee",
-      count: countEmployee,
+      count: count.countEmployee,
       className: "employee",
     },
   ];

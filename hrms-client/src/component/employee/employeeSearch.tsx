@@ -96,6 +96,7 @@ function EmployeeSearch() {
     try {
       const resp: any = await rest.getAllDesignation();
       console.log(resp);
+      resp.unshift({id: '-Select-', code: '-Select-', description: '-Select-', active: false,})
       setDesignation(resp);
     } catch (error) {
       console.log(error);
@@ -108,18 +109,29 @@ function EmployeeSearch() {
 
   const onFinish = async (values: any) => {
     let tempFormData = {};
-    if (values && values !== undefined) {
-      tempFormData = {
-        name: values.name ? values.name : "",
-        employeeCode: values.employeeCode ? values.employeeCode : "",
-        joiningDate: values.joiningDate ? convert(values.joiningDate) : "",
-        designationCode: values.designation
-          ? values.designation.toUpperCase()
-          : "",
-        contact: values.contact ? values.contact : "",
-        documentNumber: values.documentNumber ? values.documentNumber : "",
-      };
+    if(values.designationCode === "-Select-")delete values.designationCode
+    //how many times iterate loop
+    const valuesKey = Object.keys(values)
+    valuesKey.forEach((key:string)=>{
+    if(values[key]===""||values[key]===undefined){
+      delete values.key
     }
+    })
+
+     tempFormData = values
+
+    // if (values && values !== undefined) {
+    //   tempFormData = {
+    //     name: values.name ? values.name : "",
+    //     employeeCode: values.employeeCode ? values.employeeCode : "",
+    //     joiningDate: values.joiningDate ? convert(values.joiningDate) : "",
+    //     designationCode: values.designation
+    //       ? values.designation.toUpperCase()
+    //       : "",
+    //     contact: values.contact ? values.contact : "",
+    //     documentNumber: values.documentNumber ? values.documentNumber : "",
+    //   };
+    // }
     let tempResponse: [] = [];
 
     try {
@@ -180,9 +192,9 @@ function EmployeeSearch() {
             <Col className="gutter-row" span={8}>
               <Form.Item
                 label={"Designation"}
-                name={"designation"}
+                name={"designationCode"}
                 required={true}
-                initialValue={"Senior Software Developer"}
+                initialValue={"-Select-"}
                 rules={[
                   {
                     required: true,

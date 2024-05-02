@@ -33,7 +33,6 @@ interface IApplicant {
     emtitlementId: string;
 }
 
-
 function LeaveRequest() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [buttonDisabled, setButtonDisabled] = useState(true);
@@ -66,6 +65,7 @@ function LeaveRequest() {
             dataIndex: 'used',
         },
     ];
+
     const leaveRequestColumn: TableColumnsType<DataType> = [
         {
             title: 'Sr. No',
@@ -88,9 +88,9 @@ function LeaveRequest() {
             align:"center"
         },
         {
-            title: 'Requested Days',
+            title: 'Days',
             dataIndex: 'requestedDays',
-            width:"7%",
+            width:"5%",
             align:"center"
         },
         {
@@ -187,11 +187,16 @@ function LeaveRequest() {
             setEmpId(tempFinded.id);
             console.log(tempFinded);
             //find all leaves for particilar employee no provide leaveType
-            const remainingLeaves = await rest.getLeaveBalance(tempFinded.id);
-            setAllNewData(remainingLeaves)
-            let requestedLeavesTemp = await rest.getLeaveRequest(tempFinded.id);
-            requestedLeavesTemp = requestedLeavesTemp.map((leave:any,index:number)=>({...leave,key:index+1}))
-            setRequestLeaves(requestedLeavesTemp);
+            if(tempFinded.id){
+                const remainingLeaves = await rest.getLeaveBalance(tempFinded.id);
+                setAllNewData(remainingLeaves)
+                let requestedLeavesTemp = await rest.getLeaveRequest(tempFinded.id);
+                requestedLeavesTemp = requestedLeavesTemp.map((leave:any,index:number)=>({...leave,key:index+1}))
+                setRequestLeaves(requestedLeavesTemp);
+            }else{
+
+            }
+
         } catch (e) {
             console.log(e);
         }

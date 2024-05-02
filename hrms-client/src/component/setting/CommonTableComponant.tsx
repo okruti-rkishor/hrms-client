@@ -7,7 +7,6 @@ import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined}
 import dayjs from "dayjs";
 
 function CommonTableComponant({propsData}: any) {
-    //console.log("2222222");
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
@@ -118,7 +117,12 @@ function CommonTableComponant({propsData}: any) {
                 handleValues(values,keys);
                 values["id"]=response;
                 values["key"]=allNewData.length+1;
-                setAllNewData((prevState:any)=>[...prevState,values]);
+                if (title==="Leave Entitlement"||title==="Holiday"){
+                    console.log(await getAll());
+                    setAllNewData(await getAll());
+                }else{
+                    setAllNewData((prevState:any)=>[...prevState,values]);
+                }
             } catch (e) {
                 console.log(e)
             }

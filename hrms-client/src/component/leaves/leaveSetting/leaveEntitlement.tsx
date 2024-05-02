@@ -27,11 +27,12 @@ const LeaveEntitlement = () => {
             }));
             setEmployeeList(tempAllEmp);
             const tempLeaveEntitlement = await rest.getAllLeaveEntitlement();
-            const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any) => {
+            const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any,index:number) => {
                 const employee: any = allEmployees.find((employee: any) => employee.id === item.employeeId);
                 return {
                     ...item,
-                    name: employee?.name?.firstName + " " + employee?.name?.lastName
+                    name: employee?.name?.firstName + " " + employee?.name?.lastName,
+                    key:index
                 };
             });
             return newTempLeaveEntitlement;
@@ -71,7 +72,7 @@ const LeaveEntitlement = () => {
         () => ({
             title: "Leave Entitlement",
             create: rest.leaveEntitlementCreate,
-            getAll: () => getEntitlementData(),
+            getAll: getEntitlementData,
             delete: rest.deleteLeaveEntitlement,
             isModalOpen: isModalOpen,
             setIsModalOpen: setIsModalOpen,

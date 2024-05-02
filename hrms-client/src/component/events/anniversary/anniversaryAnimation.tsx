@@ -49,7 +49,7 @@ const confettiCss = `
 }
 `;
 
-export function anniversaryAnimation() {
+export default function AnniversaryAnimation() {
     const getRandomItem = (list: string[]) => list[Math.floor(Math.random() * list.length)];
   
     const el = document.createElement('div');

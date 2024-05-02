@@ -28,7 +28,7 @@ export default {
     allAnniversary:() => rest.get(base + "event/work"),
     postEmployeeDetailsByID:(data: object,id:any) => rest.put(base + `employee/${id}`,{},data, {}),
     postEnum:(data:any,id:string)=>rest.post(base+`${id}`,{},data),
-    getEnum:(id:string)=>rest.get(base+`${id}/search`),
+    getEnum:(id:string)=>rest.get(base+`${id}/find`),
     deleteEnum:(id:string)=>rest.del(base+`${id}`,{}),
     putEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
     activeEnum:(data:any,id:string)=>rest.put(base+`${id}`,{},data),
@@ -55,7 +55,7 @@ export default {
     deleteLeaveEntitlement :(id:string) => rest.del(base + `leave-entitlement/${id}`, {}, ),
     //Designation
     createDesignation:(data:any)=>rest.post(base+"designation",{},data),
-    getAllDesignation:()=>rest.get(base+"designation/search",{}),
+    getAllDesignation:()=>rest.get(base+"designation/find",{}),
     deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
     updateDesignation:(data:any,id:string)=>rest.put(base+`designation/${id}`,{},data),
     updateDesignationStatus:(status:boolean,id:string)=>rest.put(base+`designation/${id}`,{},undefined,{active:status}),//todo  => Done

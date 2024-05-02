@@ -2,7 +2,7 @@ import EventData from "../../../custom_hooks/eventData";
 import CommonEvents from "../commonEvents";
 import EventContext from "../../../context/eventContext";
 import { useContext, useEffect } from "react";
-import { anniversaryAnimation } from "./anniversaryAnimation";
+import anniversaryAnimation  from "./anniversaryAnimation";
 
 function Anniversary() {
   EventData('anniversary');

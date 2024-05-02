@@ -34,7 +34,7 @@ const UserDataContent = () => {
     {
       linkText: "Request Leave",
       icon: <ToTopOutlined />,
-      linkTarget: "www.google.com",
+      linkTarget: "employee/leaves",
     },
     {
       linkText: "Change Password",

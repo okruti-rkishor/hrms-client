@@ -145,7 +145,7 @@ const UserCreate = (props: any) => {
               </Form.Item>
               {isFindEmployee && (
                 <CheckCircleTwoTone
-                  style={{ position: "absolute", top: 280, right: 520 }}
+                  style={{ position: "absolute",  top: 271, right: 420 }}
                 />
               )}
             </div>
@@ -176,7 +176,9 @@ const UserCreate = (props: any) => {
               <Input placeholder="Enter last name" disabled={isFindEmployee} />
             </Form.Item>
 
-            <Form.Item label="Employee" name={"employeeId"}>
+            <Form.Item
+                style={{display:'none'}}
+                label="Employee" name={"employeeId"}>
               <Input
                 placeholder="Enter Employee"
                 disabled={isFindEmployee}

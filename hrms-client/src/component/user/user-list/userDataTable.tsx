@@ -30,16 +30,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
 
 const userTypesEnum = Object.keys(User_type);
 
-const EditableCell: React.FC<EditableCellProps> = ({
-                                                       editing,
-                                                       dataIndex,
-                                                       title,
-                                                       inputType,
-                                                       record,
-                                                       index,
-                                                       children,
-                                                       ...restProps
-                                                   }) => {
+const EditableCell: React.FC<EditableCellProps> = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps}) => {
 
     const inputNode = dataIndex === 'roles' ?
         <Select mode="multiple"
