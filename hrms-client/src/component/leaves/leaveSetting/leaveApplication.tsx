@@ -31,18 +31,18 @@ const LeaveApplication = () => {
 
     const [isModalOpen,setIsModalOpen]=useState(false);
 
-    const getEntitlementData = async () => {
-        try {
-            const allEmployees = await rest.getAllEmployee();
-            const tempAllEmp = allEmployees.map((employee: any) => ({
-                name: employee.name.firstName + " " + employee.name.lastName,
-                id: employee.id
-            }));
-            setEmployeeList(tempAllEmp);
-        } catch (e) {
-            console.log(e);
-        }
-    };
+    // const getEntitlementData = async () => {
+    //     try {
+    //         const allEmployees = await rest.getAllEmployee();
+    //         const tempAllEmp = allEmployees.map((employee: any) => ({
+    //             name: employee.name.firstName + " " + employee.name.lastName,
+    //             id: employee.id
+    //         }));
+    //         setEmployeeList(tempAllEmp);
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // };
     const setIntitalMentId = async ()=>{
         try {
             const tempEntId = await rest.getIntitlementByEmpLeaveType(applicant?.id, applicant?.leaveType);
@@ -58,7 +58,7 @@ const LeaveApplication = () => {
         try {
             const allEmp = await rest.getAllEmployee();
             const response = await rest.searchLeave();
-            const fullLeaveRequests = response.map((leaveRequest:any)=>{
+            const fullLeaveRequests = response.map((leaveRequest:any,index:number)=>{
                 const found = allEmp.find((employee:any)=>leaveRequest.employeeId===employee.id)
                 return{
                     ...leaveRequest,name:found?.name?.firstName+" "+ found?.name?.lastName
@@ -98,7 +98,7 @@ const LeaveApplication = () => {
             dataIndex: 'endDate',
         },
         {
-            title: 'Requested Days',
+            title: 'Days',
             dataIndex: 'requestedDays',
         },
         {
@@ -118,12 +118,12 @@ const LeaveApplication = () => {
         title: "Leave Application",
         create: rest.createLeave,
         getAll: fetchAllLeaveRequests,
-        delete: rest.deleteDesignation,//todo
+        delete: rest.deleteLeaveRequest,
         update: rest.updateDesignationStatus,//todo
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
-        columns: columns,//todo
-        deleteById: rest.deleteDesignation,//todo
+        columns: columns,
+        deleteById: rest.deleteLeaveRequest,
         showStatus: true,
         formFields: [
             <Form.Item
@@ -194,12 +194,11 @@ const LeaveApplication = () => {
             </Form.Item>,
         ],
         formFieldsType:[{startDate:Date},{endDate:Date},{leaveType:String},{reason:String}]
-
     }
 
-    useEffect(()=>{
-        getEntitlementData();
-    },[])
+    // useEffect(()=>{
+    //     getEntitlementData();
+    // },[])
 
     return (
         <div className={"leave-list_table_data"}>

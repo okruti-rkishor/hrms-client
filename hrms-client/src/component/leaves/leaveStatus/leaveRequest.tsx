@@ -65,7 +65,6 @@ function LeaveRequest() {
             dataIndex: 'used',
         },
     ];
-
     const leaveRequestColumn: TableColumnsType<DataType> = [
         {
             title: 'Sr. No',
@@ -164,16 +163,7 @@ function LeaveRequest() {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-    // const setIntitalMentId = async () => {
-    //     try {
-    //         const tempEntId = await rest.getIntitlementByEmpLeaveType(applicant?.id, applicant?.leaveType);
-    //         console.log("tempEntId", tempEntId);
-    //         setApplicant((prev: any) => ({...prev, emtitlementId: tempEntId.id}))
-    //         EntitlementId.current = tempEntId.id
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // }
+
     const getEntitlementData = async () => {
         try {
             const allEmployees = await rest.getAllEmployee();

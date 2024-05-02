@@ -98,3 +98,10 @@ export enum Week_Days {
     SUNDAY="Sunday"
 
 }
+
+export enum Leave_Status {
+    PENDING="Pending",
+    APPROVED="Aproved",
+    REJECTED="Rejected",
+    CANCELLED="Cancelled"
+}

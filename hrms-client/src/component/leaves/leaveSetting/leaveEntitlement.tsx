@@ -32,7 +32,7 @@ const LeaveEntitlement = () => {
                 return {
                     ...item,
                     name: employee?.name?.firstName + " " + employee?.name?.lastName,
-                    key:index
+                    key:index+1
                 };
             });
             return newTempLeaveEntitlement;

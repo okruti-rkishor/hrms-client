@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
 import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
 import dayjs from "dayjs";
+import {Leave_Type_Status} from "../../constant/constant";
 
 function CommonTableComponant({propsData}: any) {
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
@@ -20,6 +21,7 @@ function CommonTableComponant({propsData}: any) {
             align: "center",
             render: (_: any, record: any) =>
                 <>
+
                     <Popconfirm
                         title="Are you sure to delete?"
                         onConfirm={() => deleteHandel(record)}
@@ -32,11 +34,10 @@ function CommonTableComponant({propsData}: any) {
                         <DeleteOutlined style={{color: "red", cursor: "pointer"}}
                                         className={"search-table delete-button"}/>
                     </Popconfirm>
-                    {showStatus && <Popconfirm
 
 
+                    {showStatus && !(title === 'Leave Application') && <Popconfirm
                         title={`Are you sure to ${record.status ? "Inactive" : "Active"}?`}
-
                         onConfirm={() => {
                             updateStatus(record)
                         }}
@@ -47,7 +48,45 @@ function CommonTableComponant({propsData}: any) {
                         {record.status === "Active " ?
                             <CloseCircleOutlined style={{color: "red"}} className={"search-table delete-button"}/> :
                             <CheckCircleOutlined style={{color: "green"}} className={"search-table delete-button"}/>}
-                    </Popconfirm>}
+                    </Popconfirm>
+                    }
+                    {showStatus && title === 'Leave Application' && <>
+                        <Popconfirm
+                            title={`Are you sure to  Aproved Request?`}
+
+                            onConfirm={() => {
+                                updateLeaveRequest(record, "APPROVED")
+                            }}
+                            onCancel={() => {
+                                console.log("Cancel")
+                            }}>
+                            {" "}
+                            <Tooltip title={"Approve"}>
+                                <CheckCircleOutlined style={{color: "green"}} className={"search-table delete-button"}/>
+                            </Tooltip>
+
+                        </Popconfirm>
+
+
+                        <Popconfirm
+                            title={`Are you sure to Rejected Request?`}
+                            onConfirm={() => {
+                                updateLeaveRequest(record, "REJECTED")
+                            }}
+                            onCancel={() => {
+                                console.log("Cancel")
+                            }}>
+                            {" "}
+                            {
+                                <Tooltip title={"Rejected"}>
+                                    <CloseCircleOutlined style={{color: "red"}}
+                                                         className={"search-table delete-button"}/>
+                                </Tooltip>
+
+                            }
+                        </Popconfirm>
+
+                    </>}
 
                 </>
         },
@@ -87,41 +126,39 @@ function CommonTableComponant({propsData}: any) {
         payload.calender = tempCalender;
         return payload;
     }
+    const handleValues = (values: any, keys: any) => {
 
-    const handleValues = (values:any,keys:any) =>{
-
-            keys.forEach((key: any) => {
-                values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
-            })
-            if(title === "Designation" || title === "Qualification"){
-                values["status"]=false;
-                values["active"]="Inactive";
-            }
+        keys.forEach((key: any) => {
+            values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
+        })
+        if (title === "Designation" || title === "Qualification") {
+            values["status"] = false;
+            values["active"] = "Inactive";
+        }
 
 
     }
-
     const handleOk = async () => {
         let values = form.getFieldsValue();
-        const keys:any = Object.keys(values);
+        const keys: any = Object.keys(values);
 
-        if (title !== "Holiday") keys.map((key:any) => {
+        if (title !== "Holiday") keys.map((key: any) => {
             if (typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
         })
         else values = holidayHandle(values);
 
         if (keys.length === formFields.length) {
             try {
-                const response=await create(values)
+                const response = await create(values)
                 setIsModalOpen(false);
-                handleValues(values,keys);
-                values["id"]=response;
-                values["key"]=allNewData.length+1;
-                if (title==="Leave Entitlement"||title==="Holiday"){
+                handleValues(values, keys);
+                values["id"] = response;
+                values["key"] = allNewData.length + 1;
+                if (title === "Leave Entitlement" || title === "Holiday") {
                     console.log(await getAll());
                     setAllNewData(await getAll());
-                }else{
-                    setAllNewData((prevState:any)=>[...prevState,values]);
+                } else {
+                    setAllNewData((prevState: any) => [...prevState, values]);
                 }
             } catch (e) {
                 console.log(e)
@@ -131,7 +168,6 @@ function CommonTableComponant({propsData}: any) {
             toast("Fill All Fields")
         }
     };
-
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -150,6 +186,18 @@ function CommonTableComponant({propsData}: any) {
                         }
                     }
                     return item;
+                }
+            ))
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const updateLeaveRequest = async (record: any, status: string) => {
+        try {
+            await rest.updateLeaveRequest(status, record.id);
+            setAllNewData((prev: any) => prev.map((item: any) => {
+
                 }
             ))
         } catch (e) {

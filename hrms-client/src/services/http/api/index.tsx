@@ -61,14 +61,17 @@ export default {
     updateDesignationStatus:(status:boolean,id:string)=>rest.put(base+`designation/${id}`,{},undefined,{active:status}),//todo  => Done
     //Qualification
     createQualification:(data:any)=>rest.post(base+"qualification",{},data),
-    getAllQualification:()=>rest.get(base+"qualification/search"),
+    getAllQualification:()=>rest.get(base+"qualification/find"),
     deleteQualification:(id:string)=>rest.del(base+`qualification/${id}`,{}),
     updateQualification:(data:any,id:string)=>rest.put(base+`qualification/${id}`,{},data),
     updateQualificationStatus:(status:boolean,id:string)=>rest.put(base+`qualification/${id}`,{},null,{active:status}),
     //Leave Application
     createLeave:(data:any,id:string)=>rest.post(base+"leave-request",{empId:id},data),
     getLeaveRequest:(id:string)=>rest.get(base+`leave-request/${id}`,{},),
+    deleteLeaveRequest:(id:string)=>rest.del(base+`leave-request/${id}`,{}),
+    updateLeaveRequest:(status:string,id:string)=>rest.put(base+`leave-request/${id}/update-status`,{},undefined,{status:status}),
     searchLeave:()=>rest.post(base+`leave-request/search`,{},{
+        "leaveStatus":"PENDING",
         "startDate":"2024-03-01",
         "endDate":"2024-07-06"}),
     getIntitlementByEmpLeaveType:(id:string,leaveType:string)=>rest.get(base+`leave-entitlement/employee-id/${id}/leave-type/${leaveType}`),
