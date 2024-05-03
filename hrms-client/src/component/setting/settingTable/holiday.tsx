@@ -29,7 +29,6 @@ interface DataType {
 const Holiday = () => {
     const [isModalOpen,setIsModalOpen]=useState(false);
 
-
     const columns: TableColumnsType<DataType> = [
         // {
         //     title: 'Sr. No',
@@ -88,6 +87,7 @@ const Holiday = () => {
             const holidayNameList = Object.keys(response);
             const newResponse1 = holidayNameList.map((key: any, index: number) => {
                 return {
+                    key:index+1,
                     name: key,
                     year: response[key][0]?.year,
                     type: response[key][0]?.type,
