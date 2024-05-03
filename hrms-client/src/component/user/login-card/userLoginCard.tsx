@@ -71,7 +71,7 @@ const UserDataContent = () => {
       }
     } else {
       // alert("Session Expire!");
-      toast.success("Session Expired!!", { autoClose: 2000 });
+      toast.success("Logout Success!!", { autoClose: 2000 });
       localStorage.removeItem("loginToken");
       navigate("/login");
     }

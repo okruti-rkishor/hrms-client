@@ -130,7 +130,7 @@ const LeaveApplication = () => {
                 rules={[{ required: true, message: 'Please input Employee Id!' }]}>
                 <Select
                     onChange={(e)=>setApplicant((prev:any)=>({...prev,id:e}))}
-                    style={{ height: 40, width: 272 }}>
+                >
                     {employeeList.map((employee: any) =>
                         <Select.Option value={employee.id} key={employee.id}>
                             {employee.name}
@@ -143,8 +143,7 @@ const LeaveApplication = () => {
                 initialValue={"-Select-"}
                 rules={[{required: true, message: 'Please input Leave Type!'}]}>
                 <Select
-                    onChange={(e)=>setApplicant((prev:any)=>({...prev,leaveType:e}))}
-                    style={{height: 40, width: 272}}>
+                    onChange={(e)=>setApplicant((prev:any)=>({...prev,leaveType:e}))}>
                     {(Object.keys(Leave_Type) as Array<keyof typeof Leave_Type>).map((key) =>
                         <Select.Option value={key} key={key}>
                             {Leave_Type[key]}

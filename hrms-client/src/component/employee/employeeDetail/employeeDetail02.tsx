@@ -529,17 +529,17 @@ const EmployeeDetailComponent02 = () => {
 
   const items: MenuProps["items"] = [
     {
-      label: <Link to="/user/create">Edit Details</Link>,
+      label: <Link to={`/employee/detail/${employeeData.id}`}>Edit Details</Link>,
       key: "1",
       icon: <EditTwoTone />,
     },
     {
-      label: <Link to="/user/create">Delete</Link>,
+      label: <Link to="">Delete</Link>,
       key: "2",
       icon: <DeleteTwoTone />,
     },
     {
-      label: <Link to="/user/create">Print</Link>,
+      label: <Link to="">Print</Link>,
       key: "2",
       icon: <PrinterOutlined style={{ color: "skyBlue" }} />,
     },

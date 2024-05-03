@@ -197,7 +197,14 @@ function LeaveRequest() {
 
     return (<>
         <div className="hrms__leave-request" style={{width: "90%", margin: "40px auto"}}>
-            <Modal title={`Add Leave`} open={isModalOpen} onCancel={handleCancel} onOk={handleOk} okButtonProps={{disabled: buttonDisabled}}>
+            <Modal
+                title={`Add Leave`}
+                open={isModalOpen}
+                onCancel={handleCancel}
+                onOk={handleOk}
+                okButtonProps={{disabled: buttonDisabled}}
+                className="leave-modal"
+            >
                 <Card>
                     <Form
                         form={form}
@@ -240,7 +247,7 @@ function LeaveRequest() {
                         </Form.Item>
                         <Form.Item
                             label="Start Date"
-                            style={{height: 40, width: 700}}
+                            //style={{height: 40, width: 700}}
                             name="startDate"
                             rules={[{required: true, message: 'Please input StartDate!'}]}>
                             <DatePicker
