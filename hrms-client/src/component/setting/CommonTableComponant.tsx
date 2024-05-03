@@ -22,7 +22,7 @@ function CommonTableComponant({propsData}: any) {
             render: (_: any, record: any) =>
                 <>
 
-                    <Popconfirm
+                    {!(title === 'Leave Application')&&<Popconfirm
                         title="Are you sure to delete?"
                         onConfirm={() => deleteHandel(record)}
                         onCancel={() => {
@@ -33,7 +33,7 @@ function CommonTableComponant({propsData}: any) {
                         {" "}
                         <DeleteOutlined style={{color: "red", cursor: "pointer"}}
                                         className={"search-table delete-button"}/>
-                    </Popconfirm>
+                    </Popconfirm>}
 
 
                     {showStatus && !(title === 'Leave Application') && <Popconfirm
@@ -151,7 +151,8 @@ function CommonTableComponant({propsData}: any) {
             try {
                 const response = await create(values)
                 setIsModalOpen(false);
-                handleValues(values, keys);
+                if(title!=="Holiday")
+                    handleValues(values, keys);
                 values["id"] = response;
                 values["key"] = allNewData.length + 1;
                 if (title === "Leave Entitlement" || title === "Holiday") {

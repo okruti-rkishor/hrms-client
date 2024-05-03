@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 
 
-import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
+import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tag, Tooltip} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../../setting/CommonTableComponant";
 import {Holiday_Type, Leave_Type} from "../../../constant/constant"
@@ -31,18 +31,6 @@ const LeaveApplication = () => {
 
     const [isModalOpen,setIsModalOpen]=useState(false);
 
-    // const getEntitlementData = async () => {
-    //     try {
-    //         const allEmployees = await rest.getAllEmployee();
-    //         const tempAllEmp = allEmployees.map((employee: any) => ({
-    //             name: employee.name.firstName + " " + employee.name.lastName,
-    //             id: employee.id
-    //         }));
-    //         setEmployeeList(tempAllEmp);
-    //     } catch (e) {
-    //         console.log(e);
-    //     }
-    // };
     const setIntitalMentId = async ()=>{
         try {
             const tempEntId = await rest.getIntitlementByEmpLeaveType(applicant?.id, applicant?.leaveType);
@@ -61,7 +49,7 @@ const LeaveApplication = () => {
             const fullLeaveRequests = response.map((leaveRequest:any,index:number)=>{
                 const found = allEmp.find((employee:any)=>leaveRequest.employeeId===employee.id)
                 return{
-                    ...leaveRequest,name:found?.name?.firstName+" "+ found?.name?.lastName,reason:leaveRequest.reason.substring(0,7)+ "..."
+                    ...leaveRequest,name:found?.name?.firstName+" "+ found?.name?.lastName,reason:leaveRequest.reason.length>7?leaveRequest.reason.substring(0,7)+ "...":leaveRequest.reason
                 }
             })
             console.log(fullLeaveRequests);
@@ -104,6 +92,15 @@ const LeaveApplication = () => {
         {
             title: 'Leave Status',
             dataIndex: 'leaveStatus',
+            render: (_) => (
+                <>
+                    {
+                        <Tag color={_ === "Pending " ? 'red' : _ === "Approved " ?'green':"blue"}>
+                            {`${_.toUpperCase()}`}
+                        </Tag>
+                    }
+                </>
+            ),
         },
         {
             title: 'Reason',

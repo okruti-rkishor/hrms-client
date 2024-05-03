@@ -105,23 +105,12 @@ function LeaveRequest() {
             render: (_) => (
                 <>
                     {
-                        <Tag color={_.length === 7 ? 'red' : 'green'}>
+                        <Tag color={_ === "PENDING" ? 'red' : _ === "APPROVED" ?'green':"blue"}>
                             {`${_}`}
                         </Tag>
                     }
                 </>
             ),
-
-            // render: (_: any, record: object) => (
-            //     <>
-            //
-            //         return (
-            //         <Tag className={`user-tag ${tag.toLocaleLowerCase()}`} key={tag}>
-            //             {record[leaveStatus].toUpperCase()}
-            //         </Tag>
-            //         );
-            //     </>
-            // ),
         },
     ];
     const title = "Holiday";
@@ -142,13 +131,14 @@ function LeaveRequest() {
         values.endDate = endDate
         console.log(values);
         try {
-            const tempEntId = await rest.getIntitlementByEmpLeaveType(empId, values?.leaveType);
+            const tempEntId = await rest.getIntitlementByEmpLeaveType(values.employeeId, values?.leaveType);
             values.entitlementId = tempEntId.id
             await rest.createLeave(values, values.employeeId)
             setIsModalOpen(false)
             const tempAppliedLeaveObj: object = {
                 ...values,
                 leaveStatus: "PENDING",
+                key:requestLeaves.length+1,
                 requestedDays: parseInt(endDate.split("-")[2]) - parseInt(startDate.split("-")[2])
             }
             console.log("Start Here-", tempAppliedLeaveObj);
@@ -179,7 +169,12 @@ function LeaveRequest() {
             console.log(tempFinded);
             //find all leaves for particilar employee no provide leaveType
             if(tempFinded.id){
-                const remainingLeaves = await rest.getLeaveBalance(tempFinded.id);
+                let remainingLeaves = await rest.getLeaveBalance(tempFinded.id);
+                // remainingLeaves = remainingLeaves.map((leaveRequestItem:any)=>{
+                //     return {
+                //         ...leaveRequestItem,reason:leaveRequestItem.reason.length>10?leaveRequestItem.reason.substring(0,7)+ "...":leaveRequestItem.reason
+                //     }
+                // })
                 setAllNewData(remainingLeaves)
                 let requestedLeavesTemp = await rest.getLeaveRequest(tempFinded.id);
                 requestedLeavesTemp = requestedLeavesTemp.map((leave:any,index:number)=>({...leave,key:index+1}))
