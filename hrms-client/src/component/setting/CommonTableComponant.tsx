@@ -61,8 +61,8 @@ function CommonTableComponant({propsData}: any) {
                                 console.log("Cancel")
                             }}>
                             {" "}
-                            <Tooltip title={"Approve"}>
-                                <CheckCircleOutlined style={{color: "green"}} className={"search-table delete-button"}/>
+                            <Tooltip title={"Approve"} color={"green"}>
+                                <CheckCircleOutlined  className={"search-table delete-button"} style={{cursor:"pointer"}}/>
                             </Tooltip>
 
                         </Popconfirm>
@@ -78,9 +78,9 @@ function CommonTableComponant({propsData}: any) {
                             }}>
                             {" "}
                             {
-                                <Tooltip title={"Rejected"}>
-                                    <CloseCircleOutlined style={{color: "red"}}
-                                                         className={"search-table delete-button"}/>
+                                <Tooltip title={"Rejected"} color={"red"}>
+                                    <CloseCircleOutlined
+                                                         className={"search-table delete-button"} style={{cursor:"pointer"}}/>
                                 </Tooltip>
 
                             }

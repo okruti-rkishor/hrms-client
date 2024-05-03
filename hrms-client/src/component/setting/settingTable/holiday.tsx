@@ -31,12 +31,12 @@ const Holiday = () => {
 
 
     const columns: TableColumnsType<DataType> = [
-        {
-            title: 'Sr. No',
-            dataIndex: 'key',
-            align:"center",
-            width: '7%',
-        },
+        // {
+        //     title: 'Sr. No',
+        //     dataIndex: 'key',
+        //     align:"center",
+        //     width: '7%',
+        // },
         {
             title: 'Name',
             dataIndex: 'name',

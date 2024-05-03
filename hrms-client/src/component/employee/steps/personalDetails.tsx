@@ -107,12 +107,11 @@ const PersonalDetails = (props: any) => {
                                    },
                                }),
                            ]}
-
-
                 >
                     <DatePicker style={{width: "100%"}} format="YYYY-MM-DD"
                                 disabledDate={(current) => current.isAfter(new Date())}
-                    />
+
+                                />
 
                 </Form.Item>
                 {age!==null ? <span style={{
@@ -124,7 +123,7 @@ const PersonalDetails = (props: any) => {
                 <Form.Item label="Blood Group"
                            name={"bloodGroup"}
                            initialValue={Object.keys(Blood_Group)[8]}>
-                    <Select listItemHeight={9} listHeight={310}>
+                    <Select virtual={false}>
                         {(Object.keys(Blood_Group) as Array<keyof typeof Blood_Group>).map((key) =>
                             <Select.Option value={key} key={key}>
                                 {Blood_Group[key]}
@@ -136,7 +135,7 @@ const PersonalDetails = (props: any) => {
                 <Form.Item label="Qualification"
                            name={"qualification"}
                 >
-                    <Select>
+                    <Select virtual={false}>
                             {qualificationEnum.map((item: any) =>
                                 <Select.Option value={item.code} key={item.description}
                                                style={{height: "40px", textAlign: "center"}}

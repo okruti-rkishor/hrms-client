@@ -14,9 +14,11 @@ import Experience from "../steps/experience";
 import {Gender} from "../../../constant/constant";
 import {PageHeader} from "@ant-design/pro-layout";
 import PrevNext from "../prevNext";
+import utc from "dayjs/plugin/utc";
 
 
 const EmployeeCreate = () => {
+    dayjs.extend(utc);
     const [current, setCurrent] = useState(0);
     const [form] = Form.useForm();
     const [employeeData, setEmployeeData] = useState<any>({
@@ -124,13 +126,18 @@ const EmployeeCreate = () => {
 
     const onFinish = async (value: object) => {
         console.log(employeeData);
+        console.log(dayjs(employeeData.dateOfBirth).utc().toString());
+        console.log(dayjs(employeeData.dateOfBirth).utc(true).toString());
+        console.log(dayjs(employeeData.dateOfBirth).utc(false).toString());
+        console.log(dayjs.utc(employeeData.dateOfBirth).local().toString());
+
         const payload:any = {
             "employeeCode": isEditing ? employeeData.employeeCode : randomIdGenerator(),
             "designation": {
                 "id":tempEnum.designationEnum.find((item:any)=> item.code===employeeData.designation).id,
                 "code":employeeData.designation
             },
-            "joiningDate": employeeData.joiningDate,
+            "joiningDate": dayjs(employeeData.joiningDate).utc(true),
             "exitDate": null,
             "officialEmail": employeeData.officialEmail,
             "totalExperience": employeeData.totalExperience,
@@ -142,7 +149,7 @@ const EmployeeCreate = () => {
                 "lastName": employeeData.lastName
             },
             "gender": employeeData.gender,
-            "dateOfBirth": employeeData.dateOfBirth,
+            "dateOfBirth": dayjs(employeeData.dateOfBirth).utc(true),
             "age": employeeData.age,
             "qualification": {
                 "id":tempEnum.qualificationEnum.find((item:any)=> item.code===employeeData.qualification).id,
@@ -180,15 +187,15 @@ const EmployeeCreate = () => {
         }
         if (isEditing === false) {
             restApi.employeeCreate(payload).then((e) => {
-                message.success("data successfully inserted");
+                message.success("employee successfully inserted");
                 if (localStorage.length) localStorage.clear();
                 navigate(`/employee/search`)
             }).catch(((e) => {
-                message.error("data not inserted")
+                message.error("employee not inserted")
             }));
         } else {
             payload["id"]=employeeData.id;
-            restApi.postEmployeeDetailsByID(payload, id).then((e) => message.success("data successfully inserted")).catch((e) => message.error("data is not inserted"));
+            restApi.postEmployeeDetailsByID(payload, id).then((e) => message.success("employee successfully inserted")).catch((e) => message.error("employee is not inserted"));
             navigate(`/employee/search`)
         }
     }

@@ -1,10 +1,11 @@
-import {Cascader, Form, Input, Select} from "antd";
+import {Cascader, Form, Input, Select, SelectProps} from "antd";
 import React, {useState} from "react";
 import restApi from "../../../services/http/api";
 import {DesignationEnum} from "../employeeSearch";
 
 const Address = ({state, setState,city,setCity}: any) => {
     console.log("3333333333333333");
+    const options: SelectProps['options'] = state;
 
 
 
@@ -47,7 +48,7 @@ const Address = ({state, setState,city,setCity}: any) => {
                            ]}
 
                 >
-                    <Select options={state} />
+                    <Select options={options} virtual={false}/>
                 </Form.Item>
 
                 <Form.Item label={"City"}
@@ -61,7 +62,7 @@ const Address = ({state, setState,city,setCity}: any) => {
                            ]}
 
                 >
-                    <Select options={city}/>
+                    <Select options={city} virtual={false}/>
                 </Form.Item>
 
                 <Form.Item label={"Postcode"}

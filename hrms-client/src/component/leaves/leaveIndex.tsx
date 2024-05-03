@@ -85,11 +85,7 @@ function LeaveIndex() {
         <>
             <Layout className="with-background hrms-settings">
                 <Title level={4} className='hrms-settings__page-header'>
-                    <span>Leaves Setup</span>
-                    <ul>
-                        <li><span>Employee</span></li>
-                        <li><span>Admin</span></li>
-                    </ul>
+                    Leaves Setup
                 </Title>
 
 
@@ -102,13 +98,6 @@ function LeaveIndex() {
                             <div className={"devider"}>
                                 <h2>{leaveTypeTable.label}</h2>
                             </div>
-                            <Tooltip title="Add" color={"blue"} key={"blue"}>
-                                <Button
-                                    type="primary"
-                                    icon={<PlusCircleOutlined/>}
-                                    onClick={() => setIsModalOpen(true)}
-                                />
-                            </Tooltip>
                         </Flex>
                         {<LeaveComponentRender/>}
                     </div>

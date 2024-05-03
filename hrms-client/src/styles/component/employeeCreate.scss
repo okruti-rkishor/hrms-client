@@ -33,6 +33,7 @@
       height: 40px !important;
       text-align: left;
     }
+
   }
 
   &-form {
@@ -126,4 +127,7 @@ label{
   .icon{
     font-size: 33px;
   }
+}
+.ant-select-dropdown{
+  padding: unset;
 }

@@ -1,11 +1,10 @@
 import React, {useEffect, useRef, useState} from "react";
-
-
 import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tag, Tooltip} from "antd";
 import rest from "../../../services/http/api";
 import CommonTableComponant from "../../setting/CommonTableComponant";
 import {Holiday_Type, Leave_Type} from "../../../constant/constant"
 import {PlusCircleOutlined} from "@ant-design/icons/lib";
+import "../../../styles/component/leaveApplication.scss";
 
 interface DataType {
     key: React.Key;
@@ -197,13 +196,14 @@ const LeaveApplication = () => {
     // },[])
 
     return (
-        <div className={"leave-list_table_data"}>
+        <div className={"leave-list_table_data leave-application"}>
             <Tooltip title="Add" color={"blue"} key={"blue"}>
                 <Button
                     type="primary"
                     icon={<PlusCircleOutlined/>}
                     onClick={() => setIsModalOpen(true)}
                     className={"leave-list_table_data_button"}
+                    style={{display:"none"}}
                 />
             </Tooltip>
             <Layout className="with-background leaves-type">
