@@ -55,10 +55,10 @@ function LeaveIndex() {
                                 onClick={() => {
                                     console.log(item);
                                     setLeaveTypeTable(item);
-                                }}>
+                                }} key={item.key}>
                                 <a>
                                     {item.leftIcon}
-                                    <a>{item.label}</a>
+                                    {item.label}
                                     {item.rightIcon}
                                 </a>
                             </li>

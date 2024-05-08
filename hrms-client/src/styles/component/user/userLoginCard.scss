@@ -16,6 +16,15 @@
     justify-self: flex-end;
   }
 
+  &__avatar__bell-outlined {
+    svg {
+      width: 25px;
+      height: 19px;
+    }
+
+
+  }
+
   &__card {
     &.ant-card {
       .ant-card-meta-title {
@@ -29,7 +38,10 @@
     }
 
     .ant-card-body {
+      display: flex;
+      flex-direction: column;
       padding: 16px;
+
     }
 
     .user-card-mail {
@@ -86,6 +98,69 @@
         }
       }
     }
+  }
+
+
+
+}
+
+.user-login__card{
+  .notification-detail{
+    &-view{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      p{
+        color: hsl(0, 0%, 30%);
+        line-height: 18px;
+        font-size: 13px;
+        height: fit-content;
+      }
+
+      &_switch{
+        display: flex;
+        gap:15px;
+
+        .ant-btn{
+          border:unset;
+          padding: 3px 8px;
+          font-size: 13px;
+          color: hsl(0, 0%, 30%);
+          line-height: 18px;
+          height: fit-content;
+          box-shadow: none;
+
+
+
+          &.active{
+            background-color: rgba(0, 0, 0, 0.05);
+            &:hover,:active{
+              background-color: rgba(0, 0, 0, 0.05);
+
+            }
+
+          }
+
+
+
+        }
+
+
+      }
+    }
+
+    &-image{
+      text-align: center;
+      p{
+        color: hsl(0, 0%, 30%);
+        line-height: 18px;
+        font-size: 13px;
+        height: fit-content;
+        opacity: .5;
+      }
+    }
+
   }
 }
 

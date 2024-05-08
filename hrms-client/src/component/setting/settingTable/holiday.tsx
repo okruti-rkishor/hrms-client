@@ -27,8 +27,8 @@ interface DataType {
 }
 
 const Holiday = () => {
-    const [isModalOpen,setIsModalOpen]=useState(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [totalHoliday,setTotalHoliday]=useState([]);
     const columns: TableColumnsType<DataType> = [
         // {
         //     title: 'Sr. No',
@@ -39,28 +39,28 @@ const Holiday = () => {
         {
             title: 'Name',
             dataIndex: 'name',
-            align:"center",
+            align: "center",
         },
         {
             title: 'Start',
             dataIndex: 'startDate',
-            align:"center",
+            align: "center",
         },
         {
             title: 'End',
             dataIndex: 'endDate',
-            align:"center",
+            align: "center",
         },
         {
             title: "Leaves",
             dataIndex: "count",
-            align:"center",
+            align: "center",
         },
 
         {
             title: "Day",
             dataIndex: "day",
-            align:"center",
+            align: "center",
         }
 
     ];
@@ -71,9 +71,9 @@ const Holiday = () => {
         try {
             // const deleteSelected = dataArray.find((holiday:any)=>holiday.name===record.name);
             await rest.deleteHoliday(record);
-            let date:any=[];
-            for(let startDate=new Date(record.startDate),endDate=new Date(record.endDate);startDate<=endDate;startDate.setDate(startDate.getDate()+1)){
-                let newStartDate=new Date(startDate);
+            let date: any = [];
+            for (let startDate = new Date(record.startDate), endDate = new Date(record.endDate); startDate <= endDate; startDate.setDate(startDate.getDate() + 1)) {
+                let newStartDate = new Date(startDate);
                 date.push(dayjs(newStartDate).format("YYYY-MM-DD"));
             }
             success();
@@ -87,11 +87,11 @@ const Holiday = () => {
             const holidayNameList = Object.keys(response);
             const newResponse1 = holidayNameList.map((key: any, index: number) => {
                 return {
-                    key:index+1,
+                    key: index + 1,
                     name: key,
                     year: response[key][0]?.year,
                     type: response[key][0]?.type,
-                    id:response[key][0]?.id,
+                    id: response[key][0]?.id,
                     calendar: response[key].map((calendarItem: any) => ({
                         date: calendarItem.date,
                         day: calendarItem.day,
@@ -143,6 +143,8 @@ const Holiday = () => {
         delete: deleteHandel,
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
+        totalHoliday:totalHoliday,
+        setTotalHoliday:setTotalHoliday,
         columns: columns,
         deleteById: deleteHandel,
         formFields: [
@@ -177,9 +179,9 @@ const Holiday = () => {
                     placeholder={"Enter Holiday Date here"}
                     minDate={dayjs(new Date(new Date().getFullYear(), 0, 1).toString(), "YYYY-MM-DD")}
                     maxDate={dayjs(new Date(new Date().getFullYear(), 12, 1).toString(), "YYYY-MM-DD")}
-                    // disabledDate={(current: any) => {
-                    //     return totalHoliday.findIndex((item: any) => dayjs(current).format("YYYY-MM-DD") === item) !== -1;
-                    // }}
+                    disabledDate={(current: any) => {
+                        return totalHoliday.findIndex((item: any) => dayjs(current).format("YYYY-MM-DD") === item) !== -1;
+                    }}
                 />
             </Form.Item>,
             <Form.Item label={"Type"} name={"type"} rules={[
@@ -199,7 +201,7 @@ const Holiday = () => {
             </Form.Item>
 
         ],
-        formFieldsType:[{name:String},{status:Date},{date:Date},{type:String}]
+        formFieldsType: [{name: String}, {status: Date}, {date: Date}, {type: String}]
     }
 
     return (

@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import {Leave_Type_Status} from "../../constant/constant";
 
 function CommonTableComponant({propsData}: any) {
-    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, ...restParams} = propsData;
+    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false,totalHoliday,setTotalHoliday, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
@@ -126,18 +126,44 @@ function CommonTableComponant({propsData}: any) {
         payload.calender = tempCalender;
         return payload;
     }
-    const handleValues = (values: any, keys: any) => {
 
-        keys.forEach((key: any) => {
-            values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
-        })
-        if (title === "Designation" || title === "Qualification") {
+    const replaceUnderScore = (values: any, keys: any) => {
+        if (title !== "Holiday" && title!=="Designation" && title!=="Qualification") {
+            keys.forEach((key: any) => {
+                values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
+            })
+        }else{
             values["status"] = false;
             values["active"] = "Inactive";
         }
+    }
 
+    const replaceSpace = (values: any, keys: any) =>{
+        if (title==="Designation" || title==="Qualification") {
+            keys.forEach((key: any) => {
+                if(key==="code")values[key] = values[key].replaceAll(" ", "_");
+            })
+        }
+    }
+
+    const disableDate = (values:any) =>{
+        if(title==="Holiday") {
+            const data=form.getFieldsValue();
+            const date=data.date.map((item:any)=>{
+                return dayjs(item).format("YYYY-MM-DD");
+            })
+            const start:any=new Date(date[0]);
+            const end:any=new Date(date[date.length-1]);
+            const oneday:any = 1000 * 60 * 60 * 24;
+            values["startDate"]=date[0];
+            values["endDate"]=date[date.length-1];
+            values["count"]=Math.round(Math.abs((end - start) / oneday));
+            values["day"] = getDayOfWeek(start)+" to "+getDayOfWeek(end);
+            setTotalHoliday([...totalHoliday,...date]);
+        }
 
     }
+
     const handleOk = async () => {
         let values = form.getFieldsValue();
         const keys: any = Object.keys(values);
@@ -149,18 +175,16 @@ function CommonTableComponant({propsData}: any) {
 
         if (keys.length === formFields.length) {
             try {
+                replaceSpace(values, keys);
                 const response = await create(values)
                 setIsModalOpen(false);
-                if(title!=="Holiday")
-                    handleValues(values, keys);
+                replaceUnderScore(values, keys);
                 values["id"] = response;
                 values["key"] = allNewData.length + 1;
-                if (title === "Leave Entitlement" || title === "Holiday") {
-                    console.log(await getAll());
-                    setAllNewData(await getAll());
-                } else {
-                    setAllNewData((prevState: any) => [...prevState, values]);
-                }
+                disableDate(values);
+                setAllNewData((prevState: any) => [...prevState, values]);
+                form.resetFields();
+
             } catch (e) {
                 console.log(e)
             }
@@ -169,6 +193,7 @@ function CommonTableComponant({propsData}: any) {
             toast("Fill All Fields")
         }
     };
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -212,6 +237,11 @@ function CommonTableComponant({propsData}: any) {
             console.log(e)
         }
     }
+
+    useEffect(()=>{
+        console.log(allNewData)
+
+    },[allNewData])
 
 
     return (<>

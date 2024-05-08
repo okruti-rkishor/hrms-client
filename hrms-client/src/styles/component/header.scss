@@ -5,14 +5,15 @@ $button: linear-gradient(135deg, #5FA4E6 25%, #665DCD 40%);
 
 header {
   .header-section {
-    display: grid;
-    //flex-direction: row;
-    //align-items: center;
-    //justify-content: space-between;
-    //max-width: 1440px;
-    //margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    max-width: 1440px;
+    margin: 0 auto;
     padding: 10px 60px;
-    place-items: end;
+    gap: 32px;
+    //place-items: end;
   }
 
   &.ant-layout-header {

@@ -25,6 +25,7 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
                     return newRow;
             })
             setValue([...newData]);
+            // return [...newData];
         } catch (e) {
             console.log("error", e)
         }
@@ -40,6 +41,7 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
     };
 
     useEffect(()=>{
+        console.log("2222222222222222");
         fetchDataInsideHook();
     },[])
 
