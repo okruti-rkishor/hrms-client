@@ -87,17 +87,9 @@ const WorkWeek = () => {
                                                                               value={optation.value}>{optation.label}</option>)}
                 </Select>
             </Form.Item>],
-        formInputs: [
-            {
-                value:"day",
-                type:"string",
-                tagType:"select"
-            },
-            {
-                value:"status",
-                type:"string",
-                tagType:"select"
-            },
+        formFieldsType: [
+            {name: "day", type: "string"},
+            {name: "status", type: "string"}
         ]
     }
 

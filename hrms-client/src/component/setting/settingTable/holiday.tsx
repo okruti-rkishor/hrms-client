@@ -28,7 +28,7 @@ interface DataType {
 
 const Holiday = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [totalHoliday,setTotalHoliday]=useState([]);
+    const [totalHoliday, setTotalHoliday] = useState([]);
     const columns: TableColumnsType<DataType> = [
         // {
         //     title: 'Sr. No',
@@ -143,8 +143,8 @@ const Holiday = () => {
         delete: deleteHandel,
         isModalOpen: isModalOpen,
         setIsModalOpen: setIsModalOpen,
-        totalHoliday:totalHoliday,
-        setTotalHoliday:setTotalHoliday,
+        totalHoliday: totalHoliday,
+        setTotalHoliday: setTotalHoliday,
         columns: columns,
         deleteById: deleteHandel,
         formFields: [
@@ -201,7 +201,12 @@ const Holiday = () => {
             </Form.Item>
 
         ],
-        formFieldsType: [{name: String}, {status: Date}, {date: Date}, {type: String}]
+        formFieldsType: [
+            {name: "name", type: "string"},
+            {name: "date", type: "date"},
+            {name: "type", type: "code" },
+            {name: "status", type: "code"},
+        ]
     }
 
     return (

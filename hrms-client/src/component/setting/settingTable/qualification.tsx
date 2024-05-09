@@ -89,6 +89,10 @@ const Qualification = () => {
                 <Input name="description"/>
             </Form.Item>,
         ],
+        formFieldsType: [
+            {name: "code", type: "code"},
+            {name: "description", type: "string"}
+        ],
         showStatus: true,
     }
 

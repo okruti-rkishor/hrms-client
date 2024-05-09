@@ -112,6 +112,11 @@ const LeaveEntitlement = () => {
                     </Select>
                 </Form.Item>,
             ],
+            formFieldsType: [
+                {name: "leaveType", type: "code"},
+                {name: "unit", type: "number"},
+                {name: "employeeId", type: "string" }
+            ]
         }),
         [isModalOpen, setIsModalOpen, employeeList]
     );

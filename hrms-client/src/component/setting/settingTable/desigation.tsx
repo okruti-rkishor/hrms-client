@@ -87,6 +87,10 @@ const Designation = () => {
                 <Input name="description"/>
             </Form.Item>,
         ],
+        formFieldsType: [
+            {name: "code", type: "code"},
+            {name: "description", type: "string"}
+        ]
     }
 
     return (

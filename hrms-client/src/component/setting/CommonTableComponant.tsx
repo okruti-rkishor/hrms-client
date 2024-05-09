@@ -5,10 +5,23 @@ import {toast} from "react-toastify";
 import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
 import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
 import dayjs from "dayjs";
-import {Leave_Type_Status} from "../../constant/constant";
+import {
+    addUnderScore,
+    dateFormat,
+    firstCharUpperCase,
+    pascalCase,
+    removeUnderScore,
+    removeUnderScoreWithLowerCase
+} from "../../utility/utility";
+import WorkWeek from "./settingTable/workWeek";
+import LeaveType from "./settingTable/leaveType";
+import Designation from "./settingTable/desigation";
+import Qualification from "./settingTable/qualification";
+import Holiday from "./settingTable/holiday";
+
 
 function CommonTableComponant({propsData}: any) {
-    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false,totalHoliday,setTotalHoliday, ...restParams} = propsData;
+    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false,totalHoliday,setTotalHoliday,formFieldsType, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
@@ -127,23 +140,39 @@ function CommonTableComponant({propsData}: any) {
         return payload;
     }
 
-    const replaceUnderScore = (values: any, keys: any) => {
-        if (title !== "Holiday" && title!=="Designation" && title!=="Qualification") {
-            keys.forEach((key: any) => {
-                values[key] = values[key].charAt(0) + values[key].substring(1).toLowerCase().replace("_", " ");
-            })
-        }else{
-            values["status"] = false;
-            values["active"] = "Inactive";
-        }
-    }
+    const formFieldsFormat =  (values:any,format:boolean) =>{
+        let payloadFormat={...values};
+        const keys: any = Object.keys(payloadFormat);
+        keys.map((key:any)=>{
+            let type=formFieldsType.find((item:any)=>item.name===key);
+            console.log(type);
+            switch (type.type) {
+                case "code":
+                    payloadFormat[key]=addUnderScore(payloadFormat[key]);
+                break;
+                case "Code":
 
-    const replaceSpace = (values: any, keys: any) =>{
-        if (title==="Designation" || title==="Qualification") {
-            keys.forEach((key: any) => {
-                if(key==="code")values[key] = values[key].replaceAll(" ", "_");
-            })
-        }
+                    payloadFormat[key]=firstCharUpperCase(payloadFormat[key]);
+                    break;
+                case "date":
+
+                    payloadFormat[key]=dateFormat(payloadFormat[key]);
+                    break;
+                case "number":
+
+                    break;
+                case 4:
+                    payloadFormat[key]=dateFormat(payloadFormat[key]);
+                    break;
+                case 5:
+                    payloadFormat[key]=dateFormat(payloadFormat[key]);
+                    break;
+                default:
+                    if(format)payloadFormat=pascalCase(payloadFormat[key]);
+                    else payloadFormat=firstCharUpperCase(payloadFormat[key]);
+            }
+        })
+        return payloadFormat;
     }
 
     const disableDate = (values:any) =>{
@@ -166,32 +195,28 @@ function CommonTableComponant({propsData}: any) {
 
     const handleOk = async () => {
         let values = form.getFieldsValue();
-        const keys: any = Object.keys(values);
+        let payloadFormat:any=null;
 
-        if (title !== "Holiday") keys.map((key: any) => {
-            if (typeof values[key]) dayjs(values[key]).format("YYYY-MM-DD");
-        })
-        else values = holidayHandle(values);
+        if (title !== "Holiday") payloadFormat=formFieldsFormat(values,false);
+        else payloadFormat = holidayHandle(values);
 
-        if (keys.length === formFields.length) {
+
             try {
-                replaceSpace(values, keys);
-                const response = await create(values)
+                const response = await create(payloadFormat);
                 setIsModalOpen(false);
-                replaceUnderScore(values, keys);
-                values["id"] = response;
-                values["key"] = allNewData.length + 1;
-                disableDate(values);
-                setAllNewData((prevState: any) => [...prevState, values]);
+                const tableFormat=formFieldsFormat(values,true);
+                tableFormat["id"] = response;
+                tableFormat["key"] = allNewData.length + 1;
+                console.log("tableFormat",tableFormat);
+
+                setAllNewData((prevState: any) => [...prevState, tableFormat]);
                 form.resetFields();
 
             } catch (e) {
                 console.log(e)
             }
 
-        } else {
-            toast("Fill All Fields")
-        }
+
     };
 
     const handleCancel = () => {
@@ -239,7 +264,8 @@ function CommonTableComponant({propsData}: any) {
     }
 
     useEffect(()=>{
-        console.log(allNewData)
+        console.log(allNewData);
+
 
     },[allNewData])
 

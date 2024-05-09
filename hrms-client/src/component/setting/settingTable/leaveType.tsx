@@ -113,6 +113,11 @@ function LeavesType() {
                 />
             </Form.Item>
         ],
+        formFieldsType: [
+            {name: "paidType", type: "code"},
+            {name: "type", type: "code"},
+            {name: "description", type: "string"}
+        ]
     }
 
     return (
