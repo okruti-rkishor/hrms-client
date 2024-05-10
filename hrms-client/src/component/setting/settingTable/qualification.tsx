@@ -90,7 +90,7 @@ const Qualification = () => {
             </Form.Item>,
         ],
         formFieldsType: [
-            {name: "code", type: "code"},
+            {name: "code", type: "PayloadCode"},
             {name: "description", type: "string"}
         ],
         showStatus: true,

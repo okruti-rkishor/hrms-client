@@ -17,7 +17,7 @@ const addUnderScore = (value: string) => {
 
 const firstCharUpperCase = (value: string) => {
     const stringArray = value.split(" ");
-    let string = "";
+    let string:any = "";
     stringArray.forEach((item, index) => {
         if (index === 0) string = string + item.charAt(0).toUpperCase() + item.slice(1);
         else string = string + " " + item.charAt(0).toUpperCase() + item.slice(1);
@@ -38,12 +38,17 @@ const removeUnderScoreWithLowerCase = (value: string) =>{
 }
 
 const pascalCase = (value: string) =>{
-    const stringArray = value.split(" ");
-    let string = "";
-    stringArray.forEach((item, index) => {
-        if (index === 0) string = string + item.charAt(0).toUpperCase() + item.slice(1).toLowerCase;
-        else string = string + " " + item.charAt(0).toUpperCase() + item.slice(1).toLowerCase;
-    })
+    const stringArray = value.includes(" ") && value.split(" ");
+    let string:any = "";
+    if(stringArray) {
+        stringArray.forEach((item, index) => {
+            if (index === 0) string = string + item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
+            else string = string + " " + item.charAt(0).toUpperCase() + item.slice(1).toLowerCase();
+
+        })
+    }else{
+        string=value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    }
     return string;
 
 }

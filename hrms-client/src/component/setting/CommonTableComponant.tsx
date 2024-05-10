@@ -132,7 +132,6 @@ function CommonTableComponant({propsData}: any) {
             let tempCal: any = {};
             tempCal["date"] = dayjs(item).format("YYYY-MM-DD");
             tempCal["day"] = getDayOfWeek(item).toUpperCase();
-            tempCal["status"] = values.status;
             return {...tempCal};
         });
 
@@ -145,31 +144,25 @@ function CommonTableComponant({propsData}: any) {
         const keys: any = Object.keys(payloadFormat);
         keys.map((key:any)=>{
             let type=formFieldsType.find((item:any)=>item.name===key);
-            console.log(type);
             switch (type.type) {
                 case "code":
-                    payloadFormat[key]=addUnderScore(payloadFormat[key]);
+                    if(format)payloadFormat[key]=removeUnderScoreWithLowerCase(payloadFormat[key]);
+                    else payloadFormat[key]=addUnderScore(payloadFormat[key]);
                 break;
-                case "Code":
-
-                    payloadFormat[key]=firstCharUpperCase(payloadFormat[key]);
-                    break;
                 case "date":
-
                     payloadFormat[key]=dateFormat(payloadFormat[key]);
                     break;
                 case "number":
-
                     break;
-                case 4:
-                    payloadFormat[key]=dateFormat(payloadFormat[key]);
+                case "PayloadCode":
+                    payloadFormat[key]=addUnderScore(payloadFormat[key])
                     break;
-                case 5:
+                case 1:
                     payloadFormat[key]=dateFormat(payloadFormat[key]);
                     break;
                 default:
-                    if(format)payloadFormat=pascalCase(payloadFormat[key]);
-                    else payloadFormat=firstCharUpperCase(payloadFormat[key]);
+                    if(format)payloadFormat[key]=pascalCase(payloadFormat[key]);
+                    else payloadFormat[key]=firstCharUpperCase(payloadFormat[key]);
             }
         })
         return payloadFormat;
@@ -196,22 +189,19 @@ function CommonTableComponant({propsData}: any) {
     const handleOk = async () => {
         let values = form.getFieldsValue();
         let payloadFormat:any=null;
+        let tableFormat:any=null;
 
         if (title !== "Holiday") payloadFormat=formFieldsFormat(values,false);
         else payloadFormat = holidayHandle(values);
 
-
-            try {
+        try {
                 const response = await create(payloadFormat);
                 setIsModalOpen(false);
-                const tableFormat=formFieldsFormat(values,true);
+                tableFormat=formFieldsFormat(values,true);
                 tableFormat["id"] = response;
                 tableFormat["key"] = allNewData.length + 1;
-                console.log("tableFormat",tableFormat);
-
                 setAllNewData((prevState: any) => [...prevState, tableFormat]);
                 form.resetFields();
-
             } catch (e) {
                 console.log(e)
             }
@@ -265,9 +255,7 @@ function CommonTableComponant({propsData}: any) {
 
     useEffect(()=>{
         console.log(allNewData);
-
-
-    },[allNewData])
+        },[allNewData])
 
 
     return (<>

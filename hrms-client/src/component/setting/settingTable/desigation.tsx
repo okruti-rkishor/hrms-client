@@ -88,8 +88,8 @@ const Designation = () => {
             </Form.Item>,
         ],
         formFieldsType: [
-            {name: "code", type: "code"},
-            {name: "description", type: "string"}
+            {name: "code", type: "PayloadCode"},
+            {name: "description", type: "PayloadString"}
         ]
     }
 

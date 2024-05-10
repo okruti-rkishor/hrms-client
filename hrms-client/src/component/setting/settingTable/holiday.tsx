@@ -156,16 +156,6 @@ const Holiday = () => {
                 <Input name={"name"}/>
             </Form.Item>,
             <Form.Item
-                label="Status"
-                name={"status"}
-                rules={[{required: true, message: 'Please input Status!'}]}
-                initialValue={"-Select-"}>
-                <Select>
-                    {workWeekStatusOptations().map((optation: any) => <option key={optation.label}
-                                                                              value={optation.value}>{optation.label}</option>)}
-                </Select>
-            </Form.Item>,
-            <Form.Item
                 label={"Date"}
                 name={"date"}
                 rules={[
@@ -205,7 +195,6 @@ const Holiday = () => {
             {name: "name", type: "string"},
             {name: "date", type: "date"},
             {name: "type", type: "code" },
-            {name: "status", type: "code"},
         ]
     }
 
