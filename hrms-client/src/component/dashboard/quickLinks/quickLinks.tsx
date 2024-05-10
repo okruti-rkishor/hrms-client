@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import React, {useContext} from "react";
 import UserLoginContext from "../../../context/userLoginContext";
 import {
-    CalendarOutlined, ClockCircleOutlined,
+    CalendarOutlined, ClockCircleOutlined, DashboardOutlined,
     FileSearchOutlined, FireOutlined, GiftOutlined,
     SolutionOutlined, StarOutlined,
     UserAddOutlined,
@@ -13,13 +13,18 @@ import {Card, Divider, Flex} from "antd";
 import "../../../styles/component/dashboard.scss";
 
 
-const dashboardQuickLinks:any = {
+let dashboardQuickLinks:any = {
     employee: [
+        // {
+        //     heading: "Your Profile",
+        //     subheading: "Employee self service portal",
+        //     icon: <UserOutlined />,
+        //     target: "/",
+        // },
         {
-            heading: "Your Profile",
-            subheading: "Employee self service portal",
-            icon: <UserOutlined />,
-            target: "/",
+            heading: "Add Employee",
+            icon: <UserAddOutlined />,
+            target: "/employee/create",
         },
         {
             heading: "Employee Search",
@@ -31,7 +36,7 @@ const dashboardQuickLinks:any = {
             heading: "Leave Request",
             subheading: "Leave Request",
             icon: <CalendarOutlined />,
-            target: "/",
+            target: "/employee/leaves",
         },
     ],
     events: [
@@ -57,14 +62,14 @@ const dashboardQuickLinks:any = {
             heading: "Holiday",
             subheading: "Holiday",
             icon: <ClockCircleOutlined />,
-            target: "/holiday",
+            target: "/holiday/create",
         },
     ]
 }
 
 const dashboardQuickLinksHeadings:any = {
     employee:'Bring Employees into your HRMS',
-    admin:'Employees section of HRMS',
+    admin:'User section of HRMS',
     events: 'All events of OKRUTI',
 }
 
@@ -74,23 +79,23 @@ const QuickLinks = () => {
     const {newUser} = useContext<any>(UserLoginContext);
 
     if(newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
-        dashboardQuickLinks.admin =  [
-            {
-                heading: "Add User",
-                icon: <UserAddOutlined />,
-                target: "/user/create",
-            },
-            {
-                heading: "User List",
-                icon: <SolutionOutlined />,
-                target: "/user/list",
-            },
-            {
-                heading: "Search User",
-                icon: <FileSearchOutlined />,
-                target: "/",
-            },
-        ]
+        dashboardQuickLinks={admin:[
+                {
+                    heading: "Add User",
+                    icon: <UserAddOutlined />,
+                    target: "/user/create",
+                },
+                {
+                    heading: "User List",
+                    icon: <SolutionOutlined />,
+                    target: "/user/list",
+                },
+                {
+                    heading: "User Dashboard",
+                    icon: <DashboardOutlined />,
+                    target: "/user/detail",
+                },
+            ],...dashboardQuickLinks}
     }
     else {
         delete dashboardQuickLinks.admin;

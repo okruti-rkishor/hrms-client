@@ -18,6 +18,7 @@ const DashboardChart = () => {
     const [countAdmin, setCountAdmin] = useState(0);
     const [countHR, setCountHR] = useState(0);
     const [countEmployee, setCountEmployee] = useState(0);
+    const [countAll, setCountAll] = useState(0);
     const navigate = useNavigate();
 
     const checkRole = (roles:string[], checkUser:string) => {
@@ -33,15 +34,20 @@ const DashboardChart = () => {
     const userCount = async () => {
         try {
             const userCountResponse = await restApi.userCount();
+            const allUserCountResponse = await restApi.getUsers(null);
+            //for all user count
+            userCountResponse.push({role:"ALL",count:allUserCountResponse.length});
 
             const userCountProps:User = {
                 roles: [],
                 count: [],
             };
 
-            userCountResponse.forEach((item: any) => {
+            userCountResponse.forEach((item: any,index:number) => {
                 userCountProps.roles.push(item.role);
                 userCountProps.count.push(item.count);
+
+
             });
 
             setUser(userCountProps);
@@ -58,6 +64,10 @@ const DashboardChart = () => {
                 const employeeCount = (userCountResponse.filter((item:any) =>
                     item.roles && checkRole(item.roles,"EMPLOYEE")))
                 setCountEmployee(employeeCount.length);
+
+                const allCount = (userCountResponse.filter((item:any) =>
+                    item.roles && checkRole(item.roles,"ALL")))
+                setCountAll(allCount.length);
             }
         } catch (error) {
             console.error("User Count Error: ", error);
@@ -80,7 +90,7 @@ const DashboardChart = () => {
                         'rgba(255, 26, 104, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
                         'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
+                        // 'rgba(75, 192, 192, 0.2)',
                         'rgba(153, 102, 255, 0.2)',
                         'rgba(255, 159, 64, 0.2)',
                         'rgba(0, 0, 0, 0.2)'
@@ -89,7 +99,7 @@ const DashboardChart = () => {
                         'rgba(255, 26, 104, 1)',
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
+                        // 'rgba(75, 192, 192, 1)',
                         'rgba(153, 102, 255, 1)',
                         'rgba(255, 159, 64, 1)',
                         'rgba(0, 0, 0, 1)'

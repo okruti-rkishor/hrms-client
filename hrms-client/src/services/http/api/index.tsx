@@ -5,7 +5,7 @@ const base = 'api/v1/';
 export default {
     // allUsersData:() => rest.get(base + "user/all"),
     userCount:() => rest.get(base + "user/count-by-role"),
-    getUsers:(user:string) => rest.get(base + `user/find?role-type=${user}`),
+    getUsers:(user:string|null) => rest.get(base + `user/find?role-type=${user}`),
     getAllUsers:() => rest.get(base + `user`),
     userCreate:(data: any) => rest.post(base + "user", {}, data),
     userLogin:(data: any) => rest.post(base + "auth/login", {}, data),

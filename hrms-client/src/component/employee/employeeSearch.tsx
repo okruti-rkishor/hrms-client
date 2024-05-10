@@ -9,13 +9,12 @@ import {
   Select,
   Divider,
   Layout,
-  Empty,
 } from "antd";
 import "../../styles/component/employeeSearch.scss";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import { PageHeader } from "@ant-design/pro-layout";
-import {capitalToSmall, removeUnderScore} from "../holiday/holidayList";
+import {firstCharUpperCase, removeUnderScoreWithLowerCase} from "../../utility/utility";
 const FormItem = Form.Item;
 
 export interface employeeInterface {
@@ -83,19 +82,13 @@ function convert(str: Date) {
 
 function EmployeeSearch() {
   const [form] = Form.useForm();
-  const [emploreeResponse, setEmployeeResponse] = useState<employeeInterface[]>(
-    []
-  );
+  const [employeeResponse, setEmployeeResponse] = useState<employeeInterface[]>([]);
   const [designation, setDesignation] = useState<DesignationEnum[]>([]);
   const [showTableStatus, setShowTableStatus] = useState<any>(false);
-  //   const enumKeysArray: (keyof typeof Designation)[] = Object.keys(
-  //     Designation
-  //   ) as (keyof typeof Designation)[];
 
   const fetchDesignationData = async () => {
     try {
       const resp: any = await rest.getAllDesignation();
-      console.log(resp);
       resp.unshift({id: '-Select-', code: '-Select-', description: '-Select-', active: false,})
       setDesignation(resp);
     } catch (error) {
@@ -103,8 +96,32 @@ function EmployeeSearch() {
     }
   };
 
+  const fetchInitialData = async()=>{
+  try {
+    const resp = await rest.employeeSearch({})
+    const formatedResp = resp.map((employee:any,index:number)=>{
+      return{
+          ...employee,
+        employeeName: firstCharUpperCase(`${employee?.name?.firstName}${
+            employee?.name?.middleName !== null
+                ? " " + employee?.name?.middleName
+                : ""
+        } ${employee.name.lastName}`),
+        designation: removeUnderScoreWithLowerCase(employee.designation.code),
+        key:index,
+      }
+    })
+    setEmployeeResponse(formatedResp);
+  }catch (e) {
+    console.log(e)
+  }
+  }
+
   useEffect(() => {
     fetchDesignationData();
+    fetchInitialData();
+    setShowTableStatus(true);
+
   }, []);
 
   const onFinish = async (values: any) => {
@@ -117,39 +134,25 @@ function EmployeeSearch() {
       delete values.key
     }
     })
-
      tempFormData = values
-
-    // if (values && values !== undefined) {
-    //   tempFormData = {
-    //     name: values.name ? values.name : "",
-    //     employeeCode: values.employeeCode ? values.employeeCode : "",
-    //     joiningDate: values.joiningDate ? convert(values.joiningDate) : "",
-    //     designationCode: values.designation
-    //       ? values.designation.toUpperCase()
-    //       : "",
-    //     contact: values.contact ? values.contact : "",
-    //     documentNumber: values.documentNumber ? values.documentNumber : "",
-    //   };
-    // }
-
     let tempResponse: [] = [];
 
     try {
       const response = await rest.employeeSearch(tempFormData);
-      tempResponse = response.map((employee: any) => {
-        let formattedDesignation = removeUnderScore(
-          String(employee.designation.code),
-          "_"
-        );
+      tempResponse = response.map((employee: any,index:number) => {
+        // let formattedDesignation = removeUnderScore(
+        //   String(employee.designation.code),
+        //   "_"
+        // );
         return {
           ...employee,
-          employeeName: capitalToSmall(`${employee.name.firstName}${
+          employeeName: firstCharUpperCase(`${employee.name.firstName}${
             employee.name.middleName !== null
               ? " " + employee.name.middleName
               : ""
           } ${employee.name.lastName}`),
-          designation: formattedDesignation,
+          designation: removeUnderScoreWithLowerCase(employee?.default),
+          key:index,
         };
       });
 
@@ -254,7 +257,7 @@ function EmployeeSearch() {
               {/* <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> */}
             </div>
           ) : (
-            <EmployeeSearchDataTable employeeResponse={emploreeResponse} />
+            <EmployeeSearchDataTable employeeResponse={employeeResponse} />
           )}
         </div>
       </div>

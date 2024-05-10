@@ -219,7 +219,7 @@ const HolidayList = ({
         <div className="data-table">
           <Flex style={{ width: "inherit", alignItems: "center" }}>
             <PageHeader
-                title="Holiday View"
+                title="Holidays"
                 style={{ height: "fit-content" }}
             />
             <Divider style={{ width: "80%", minWidth: "unset" }} />
@@ -231,7 +231,7 @@ const HolidayList = ({
                   style={{ width: 200, padding: "5px 10px" }}
               />
               {showCalendar ? (
-                  <div style={{ fontSize: "25px" }}>
+                  <div style={{ fontSize: "25px", display:"none"}}>
                     <ConfigProvider
                         theme={{
                           token: {
@@ -239,20 +239,20 @@ const HolidayList = ({
                           },
                         }}
                     >
-                      <ProfileTwoTone
-                          onClick={() => {
-                            setShowCalendar(false);
-                          }}
-                      />
+                      {/*<ProfileTwoTone*/}
+                      {/*    onClick={() => {*/}
+                      {/*      setShowCalendar(false);*/}
+                      {/*    }}*/}
+                      {/*/>*/}
                     </ConfigProvider>
                   </div>
               ) : (
                   <div style={{ fontSize: "25px" }}>
-                    <CalendarTwoTone
-                        onClick={() => {
-                          setShowCalendar(true);
-                        }}
-                    />
+                    {/*<CalendarTwoTone*/}
+                    {/*    onClick={() => {*/}
+                    {/*      setShowCalendar(true);*/}
+                    {/*    }}*/}
+                    {/*/>*/}
                   </div>
               )}
             </Flex>

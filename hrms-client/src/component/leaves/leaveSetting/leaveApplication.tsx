@@ -191,9 +191,6 @@ const LeaveApplication = () => {
         formFieldsType:[{startDate:Date},{endDate:Date},{leaveType:String},{reason:String}]
     }
 
-    // useEffect(()=>{
-    //     getEntitlementData();
-    // },[])
 
     return (
         <div className={"leave-list_table_data leave-application"}>
