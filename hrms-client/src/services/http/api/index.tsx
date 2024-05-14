@@ -1,6 +1,6 @@
 import {hrms as rest} from "./rest";
 
-const base = 'api/v1/';
+const base = 'v1/';
 
 export default {
     // allUsersData:() => rest.get(base + "user/all"),
@@ -12,6 +12,7 @@ export default {
     userLogout:(data:any) => rest.post(base + "auth/logout", {}, {},{},{"Authorization":data}),
     userEdit:(data: any, id: string) => rest.put(base + `user/${id}`, {}, data),
     userDelete:(id: string) => rest.del(base + `user/${id}`,{}),
+    resetUserPassword:(data: object,id:string) => rest.put(base + `user/${id}/change-password`,{},{}, {password:data}),
     employeeCreate:(data: any) => rest.post(base + "employee", {}, data),
     employeeSearch:(data: any) => rest.post(base + "employee/search", { }, data),
     getAllEmployee:() => rest.get(base + "employee/getAll", { }),

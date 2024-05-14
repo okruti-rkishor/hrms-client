@@ -40,7 +40,7 @@ const UserDataContent = () => {
         {
             linkText: "Change Password",
             icon: <SettingOutlined/>,
-            linkTarget: "www.google.com",
+            linkTarget: "user/change-password",
         },
     ];
 
@@ -58,7 +58,7 @@ const UserDataContent = () => {
                 console.log(resp);
                 localStorage.removeItem("loginToken");
                 navigate("/login");
-                toast.success("Logout Success!!", {autoClose: 2000});
+                toast.success("Logout Success!!", {autoClose: 1500});
                 setNewUser({
                     loginStatus: false,
                     id: "",

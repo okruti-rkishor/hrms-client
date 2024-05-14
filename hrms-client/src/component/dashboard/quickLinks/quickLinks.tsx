@@ -11,9 +11,10 @@ import {
 import Title from "antd/lib/typography/Title";
 import {Card, Divider, Flex} from "antd";
 import "../../../styles/component/dashboard.scss";
+import {UserDetailsCard} from "../../index";
 
 
-let dashboardQuickLinks:any = {
+let dashboardQuickLinks: any = {
     employee: [
         // {
         //     heading: "Your Profile",
@@ -23,19 +24,19 @@ let dashboardQuickLinks:any = {
         // },
         {
             heading: "Add Employee",
-            icon: <UserAddOutlined />,
+            icon: <UserAddOutlined/>,
             target: "/employee/create",
         },
         {
             heading: "Employee Search",
             subheading: "Employee Search",
-            icon: <FileSearchOutlined />,
+            icon: <FileSearchOutlined/>,
             target: "/employee/search",
         },
         {
             heading: "Leave Request",
             subheading: "Leave Request",
-            icon: <CalendarOutlined />,
+            icon: <CalendarOutlined/>,
             target: "/employee/leaves",
         },
     ],
@@ -43,34 +44,60 @@ let dashboardQuickLinks:any = {
         {
             heading: "Birthday",
             subheading: "Birthday",
-            icon: <GiftOutlined />,
+            icon: <GiftOutlined/>,
             target: "/event/birthday",
         },
         {
             heading: "Work Anniversary",
             subheading: "Work Anniversary",
-            icon: <FireOutlined />,
+            icon: <FireOutlined/>,
             target: "/event/anniversary",
         },
         {
             heading: "Office Events",
             subheading: "Office Events",
-            icon: <StarOutlined />,
+            icon: <StarOutlined/>,
             target: "/event/office",
         },
         {
             heading: "Holiday",
             subheading: "Holiday",
-            icon: <ClockCircleOutlined />,
+            icon: <ClockCircleOutlined/>,
             target: "/holiday/create",
         },
-    ]
+    ],
+    // userDashboard: [
+    //     // {
+    //     //     heading: "Your Profile",
+    //     //     subheading: "Employee self service portal",
+    //     //     icon: <UserOutlined />,
+    //     //     target: "/",
+    //     // },
+    //     {
+    //         heading: "Add Employee",
+    //         icon: <UserAddOutlined />,
+    //         target: "/employee/create",
+    //     },
+    //     {
+    //         heading: "Employee Search",
+    //         subheading: "Employee Search",
+    //         icon: <FileSearchOutlined />,
+    //         target: "/employee/search",
+    //     },
+    //     {
+    //         heading: "Leave Request",
+    //         subheading: "Leave Request",
+    //         icon: <CalendarOutlined />,
+    //         target: "/employee/leaves",
+    //     },
+    // ],
 }
 
-const dashboardQuickLinksHeadings:any = {
-    employee:'Bring Employees into your HRMS',
-    admin:'User section of HRMS',
+const dashboardQuickLinksHeadings: any = {
+    employee: 'Bring Employees into your HRMS',
+    admin: 'User section of HRMS',
     events: 'All events of OKRUTI',
+    // userDashboard:"User Dashboard"
 }
 
 
@@ -78,57 +105,65 @@ const QuickLinks = () => {
     const navigate = useNavigate();
     const {newUser} = useContext<any>(UserLoginContext);
 
-    if(newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
-        dashboardQuickLinks={admin:[
+    if (newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
+        dashboardQuickLinks = {
+            admin: [
                 {
                     heading: "Add User",
-                    icon: <UserAddOutlined />,
+                    icon: <UserAddOutlined/>,
                     target: "/user/create",
                 },
                 {
                     heading: "User List",
-                    icon: <SolutionOutlined />,
+                    icon: <SolutionOutlined/>,
                     target: "/user/list",
                 },
                 {
                     heading: "User Dashboard",
-                    icon: <DashboardOutlined />,
+                    icon: <DashboardOutlined/>,
                     target: "/user/detail",
                 },
-            ],...dashboardQuickLinks}
-    }
-    else {
+            ], ...dashboardQuickLinks
+        }
+    } else {
         delete dashboardQuickLinks.admin;
     }
 
-    return (
-        <section className='hrms-dashboard__quick-links'>
-            {
-                Object.keys(dashboardQuickLinks).map((cards:string, cardsIndex:number) =>
-                    <div key={cardsIndex} className="hrms-dashboard__quick-links__section">
-                        <Title level={4} className='hrms-dashboard__page-header'>
-                            {dashboardQuickLinksHeadings[cards]}
-                        </Title>
-                        <div className='quick-links__section' style={{display:'flex', gap:'10px'}}>
-                            {
-                                dashboardQuickLinks[cards].map((card: any, index:number) =>
-                                    <Card key={index}
-                                          className='hrms-card hrms-dashboard__card animated'
-                                          onClick={() => navigate(`${card.target}`)}
-                                    >
-                                        <Flex vertical>
-                                            {card.icon}
-                                            <Divider/>
-                                            {card.heading}
-                                        </Flex>
-                                    </Card>
-                                )
-                            }
+    return (<>
+            <Title level={4} className='hrms-dashboard__page-header'>
+                {"User Dashboard"}
+            </Title>
+            <section className='hrms-dashboard__quick-links'>
+                <UserDetailsCard usersShow={true}/>
+            </section>
+            <section className='hrms-dashboard__quick-links'>
+                {
+                    Object.keys(dashboardQuickLinks).map((cards: string, cardsIndex: number) =>
+                        <div key={cardsIndex} className="hrms-dashboard__quick-links__section">
+                            <Title level={4} className='hrms-dashboard__page-header'>
+                                {dashboardQuickLinksHeadings[cards]}
+                            </Title>
+                            <div className='quick-links__section' style={{display: 'flex', gap: '10px'}}>
+                                {
+                                    dashboardQuickLinks[cards].map((card: any, index: number) =>
+                                        <Card key={index}
+                                              className='hrms-card hrms-dashboard__card animated'
+                                              onClick={() => navigate(`${card.target}`)}
+                                        >
+                                            <Flex vertical>
+                                                {card.icon}
+                                                <Divider/>
+                                                {card.heading}
+                                            </Flex>
+                                        </Card>
+                                    )
+                                }
+                            </div>
                         </div>
-                    </div>
-                )
-            }
-        </section>
+                    )
+                }
+            </section>
+        </>
     );
 }
 

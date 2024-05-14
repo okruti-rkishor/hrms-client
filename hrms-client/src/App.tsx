@@ -30,6 +30,7 @@ import React, {useContext, useEffect} from "react";
 import LeaveIndex from "./component/leaves/leaveIndex";
 import LeaveRequest from "./component/leaves/leaveStatus/leaveRequest";
 import Dashboard from "./component/dashboard/dashboard";
+import ChangePassword from "./component/user/change-password/changePassword";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
@@ -54,6 +55,9 @@ const App = () => {
                     <Route path="user/create"
                            element={<PrivateRoutes Componant={<UserCreate/>}/>}
                     />
+                    <Route path="user/change-password"
+                           element={<ChangePassword/>}
+                    />
                     <Route path="employee/search"
                            element={<PrivateRoutes Componant={<EmployeeSearch/>}/>}
                     />
@@ -70,7 +74,7 @@ const App = () => {
                     <Route path="enum"
                            element={<PrivateRoutes Componant={<EnumCards/>}/>}
                     />
-                    <Route path="setting/leaves"
+                    <Route path="setting"
                            element={<PrivateRoutes Componant={<Setting/>}/>}
                     />
                     <Route path="employee/leaves"

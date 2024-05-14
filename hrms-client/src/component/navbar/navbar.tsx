@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import type { MenuProps } from 'antd';
+import type {MenuProps} from 'antd';
 import {Menu} from 'antd';
 import {
     FormOutlined,
@@ -13,7 +13,7 @@ import {
     AppstoreOutlined,
     CalendarOutlined,
     EditOutlined,
-    FileSearchOutlined,
+    FileSearchOutlined, HomeOutlined,
     UserAddOutlined
 } from "@ant-design/icons/lib";
 import '../../styles/component/navbar.scss';
@@ -22,9 +22,14 @@ import UserLoginContext from "../../context/userLoginContext";
 const items = [
     [
         {
+            label: <Link to='/'>Home</Link>,
+            key: 'home',
+            icon: <HomeOutlined/>,
+        },
+        {
             label: 'Employee',
             key: 'employee',
-            icon: <TeamOutlined />,
+            icon: <TeamOutlined/>,
             children: [
                 {
                     label: (
@@ -45,7 +50,7 @@ const items = [
         {
             label: 'Events',
             key: 'events',
-            icon: <AppstoreOutlined />,
+            icon: <AppstoreOutlined/>,
             children: [
                 {
                     label: (
@@ -80,7 +85,7 @@ const items = [
         {
             label: 'Holiday',
             key: 'holiday',
-            icon: <CalendarOutlined />,
+            icon: <CalendarOutlined/>,
             children: [
                 {
                     label: (
@@ -93,37 +98,42 @@ const items = [
     ],
     [
         {
-        label: 'User',
-        key: 'user',
-        icon: <UserOutlined />,
-        children: [
-            {
-                label: (
-                    <Link to='/user/create'>Create</Link>
-                ),
-                key: 'user create',
-                icon: <FormOutlined/>,
-            },
-            {
-                label: (
-                    <Link to='/user/list'>List</Link>
-                ),
-                key: 'user list',
-                icon: <SolutionOutlined/>,
-            },
-            {
-                label: (
-                    <Link to='/user/detail'>Details</Link>
-                ),
-                key: 'user detail',
-                icon: <SolutionOutlined/>,
-            },
-        ],
+            label: <Link to='/'>Home</Link>,
+            key: 'home',
+            icon: <HomeOutlined/>,
+        },
+        {
+            label: 'User',
+            key: 'user',
+            icon: <UserOutlined/>,
+            children: [
+                {
+                    label: (
+                        <Link to='/user/create'>Create</Link>
+                    ),
+                    key: 'user create',
+                    icon: <FormOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/user/list'>List</Link>
+                    ),
+                    key: 'user list',
+                    icon: <SolutionOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/user/detail'>Details</Link>
+                    ),
+                    key: 'user detail',
+                    icon: <SolutionOutlined/>,
+                },
+            ],
         },
         {
             label: 'Employee',
             key: 'employee',
-            icon: <TeamOutlined />,
+            icon: <TeamOutlined/>,
             children: [
                 {
                     label: (
@@ -144,7 +154,7 @@ const items = [
         {
             label: 'Events',
             key: 'events',
-            icon: <AppstoreOutlined />,
+            icon: <AppstoreOutlined/>,
             children: [
                 {
                     label: (
@@ -179,12 +189,12 @@ const items = [
         {
             label: <Link to='/leave'>Leaves</Link>,
             key: 'leaves',
-            icon: <CalendarOutlined />,
+            icon: <CalendarOutlined/>,
         },
         {
-            label: <Link to='/setting/leaves'>Settings</Link>,
+            label: <Link to='/setting'>Settings</Link>,
             key: 'setting',
-            icon: <EditOutlined />,
+            icon: <EditOutlined/>,
         }
     ]
 ];
@@ -208,7 +218,7 @@ const NavigationMenu: React.FC = () => {
 
     return (
         <section className="hrms-navbar">
-            <Link to='/home' className="hrms-navbar__header">
+            <Link to='/' className="hrms-navbar__header">
                 <h1 className="hrms-navbar__header-text">HRMS</h1>
             </Link>
             <Menu onClick={onClick}
