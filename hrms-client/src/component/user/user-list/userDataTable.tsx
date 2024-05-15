@@ -3,7 +3,7 @@ import {useSearchParams} from 'react-router-dom';
 import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout, Divider} from 'antd';
 import {PageHeader} from '@ant-design/pro-layout';
 import restApi from "../../../services/http/api";
-import {CloseOutlined, DeleteOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
+import {CheckOutlined, CloseOutlined, DeleteOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
 import {User_type} from "../../../constant/constant";
 import '../../../styles/component/user/userDataTable.scss';
 import {toast} from 'react-toastify';
@@ -15,7 +15,9 @@ interface Item {
     firstName: string;
     lastName: string;
     email: string;
-    roles: string;
+    roles: string[];
+    status:string,
+    active:boolean;
 }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
@@ -30,7 +32,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
 
 const userTypesEnum = Object.keys(User_type);
 
-const EditableCell: React.FC<EditableCellProps> = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps}) => {
+const EditableCell: React.FC<EditableCellProps> = ({editing, dataIndex, title, inputType, record, index, children, ...restProps}) => {
 
     const inputNode = dataIndex === 'roles' ?
         <Select mode="multiple"
@@ -81,11 +83,9 @@ const TempFile: React.FC = () => {
             const response = await restApi.getUsers(String(navigatedUser.get('userTitle')).toLocaleUpperCase());
             const newResponse = response.map((item: any) => {
                 return {
-                    ...item, email: ((item.email).toLowerCase())
-
+                    ...item, email: ((item.email).toLowerCase()), status: item.active ? "Active" : "InActive"
                 };
             })
-
             setUserData(newResponse);
         } catch (err) {
             console.log(err);
@@ -141,13 +141,12 @@ const TempFile: React.FC = () => {
         }
     };
 
-    const deleteHandel = async (record:any)=>{
+    const deleteHandel = async (record: any) => {
         try {
             await restApi.userDelete(record.id)
-            const newUserData = userData.filter((user)=>(record.id!==user.id))
+            const newUserData = userData.filter((user) => (record.id !== user.id))
             setUserData(newUserData);
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e)
         }
     }
@@ -173,6 +172,20 @@ const TempFile: React.FC = () => {
             width: '25%',
             editable: true,
         },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            width: '10%',
+            editable: true,
+            render: (_: any, record: any) => (
+                <>
+                    <Tag color={_.length === 6 ? "green" : "gray"}>
+                        {_.toUpperCase()}
+                    </Tag>
+                </>
+            ),
+        },
+
         {
             title: 'Role',
             dataIndex: 'roles',
@@ -206,21 +219,33 @@ const TempFile: React.FC = () => {
                         </Popconfirm>
                     </span>
                 ) : (
-                    <div style={{display:"flex"}}>
+                    <div style={{display: "flex"}}>
                         <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
                             <EditTwoTone style={{fontSize: '18px', marginLeft: '10px'}}/>
                         </Typography.Link>
                         <Popconfirm
                             title={"Are you sure to delete user?"}
-                            onConfirm={()=> {
+                            onConfirm={() => {
                                 deleteHandel(record)
                             }}
                             onCancel={() => {
                                 console.log("Cancel")
                             }}
                         >
-                            <DeleteOutlined  style={{color:"red"}}/>
+                            <DeleteOutlined style={{color: "red"}}/>
                         </Popconfirm>
+                        <Popconfirm
+                            title={`Are you sure to ${record?.active===true?"Inactive":"Active"} user?`}
+                            onConfirm={() => {
+                                console.log("Status changed!!")
+                            }}
+                            onCancel={() => {
+                                console.log("Cancel")
+                            }}
+                        >
+                            {record?.active===true?<CloseOutlined style={{color: "red"}}/>:<CheckOutlined style={{color: "green"}}/>}
+                        </Popconfirm>
+
                     </div>
                 );
             },

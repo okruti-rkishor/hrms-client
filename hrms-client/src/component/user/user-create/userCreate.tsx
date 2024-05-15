@@ -13,7 +13,7 @@ import {CheckCircleTwoTone} from "@ant-design/icons";
 
 const UserCreate = (props: any) => {
     const [allEmployeesId, setAllEmployeesId] = useState<any>();
-    const [selectedEmployee, setSelectedEmployee] = useState<any>();
+    const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
     const [isFindEmployee, SetIsFindEmployee] = useState<boolean>(false);
     const [email, setEmail] = useState<any>("");
     const [isCheckEmail, setIsCheckEmail] = useState<any>();
@@ -25,9 +25,12 @@ const UserCreate = (props: any) => {
         try {
             let payload = {...values};
             console.log(payload.employeeId);
-            if (!payload.employeeId) {
+            if (payload.employeeId!==selectedEmployee) {
+                    payload.employeeId = selectedEmployee;
+            }else{
                 payload.employeeId = null;
             }
+
             await restApi.userCreate(payload);
             success("User created successfully");
             navigate("/");
@@ -190,19 +193,30 @@ const UserCreate = (props: any) => {
                             label="Employee"
                             name={"employeeId" }
                             initialValue={null}>
+                            {/*<AutoComplete*/}
+                            {/*    style={{height: 45}}*/}
+                            {/*    options={allEmployeesId}*/}
+                            {/*    placeholder="Start Writing Employee Name"*/}
+                            {/*    filterOption={(inputValue, option) => {*/}
+                            {/*        const conditionStatement = String(option?.value).toUpperCase().indexOf(inputValue.toUpperCase()) !== -1;*/}
+                            {/*        if (conditionStatement) {*/}
+                            {/*          const selectedEmployee = option?.filter((employee:any)=>(inputValue===employee.value))*/}
+                            {/*          setSelectedEmployee(selectedEmployee)*/}
+                            {/*        }*/}
+                            {/*        return conditionStatement*/}
+                            {/*    }*/}
+                            {/*    }*/}
+                            {/*/>*/}
+
                             <AutoComplete
-                                style={{height: 45}}
+                                style={{height: 40}}
                                 options={allEmployeesId}
-                                placeholder="Start Writing Employee Name"
-                                filterOption={(inputValue, option) => {
-                                    const conditionStatement = String(option?.value).toUpperCase().indexOf(inputValue.toUpperCase()) !== -1;
-                                    if (conditionStatement) {
-                                      const selectedEmployee = option?.filter((employee:any)=>(inputValue===employee.value))
-                                      setSelectedEmployee(selectedEmployee)
-                                    }
-                                    return conditionStatement
-                                }
-                                }
+                                placeholder="try to type `b`"
+                                filterOption={(inputValue, option:any) => {
+                                    const conditionStatement = option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                                    setSelectedEmployee(option.id)
+                                    return conditionStatement;
+                                }}
                             />
                         </Form.Item>
                     </div>
