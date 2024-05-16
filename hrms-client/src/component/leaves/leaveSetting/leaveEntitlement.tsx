@@ -15,7 +15,6 @@ interface DataType {
 
 const LeaveEntitlement = () => {
     const [isModalOpen,setIsModalOpen]=useState(false);
-    console.log("Leave Entitelment component render");
     const [employeeList, setEmployeeList] = useState<any[]>([]);
 
     const getEntitlementData = async () => {
@@ -127,7 +126,7 @@ const LeaveEntitlement = () => {
         [isModalOpen, setIsModalOpen, employeeList]
     );
 
-    console.log("Leave Entitelment component render2", propsData);
+
 
     return (
         <div className={"leave-list_table_data"}>
