@@ -188,7 +188,6 @@ function CommonTableComponant({propsData}: any) {
     }
 
     const tableFieldFormat = (values: any) => {
-        console.log(tableFieldsType);
         let payloadFormat = {...values};
         tableFieldsType.map((key: any) => {
             switch (key.type) {
