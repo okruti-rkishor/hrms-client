@@ -130,11 +130,16 @@ const QuickLinks = () => {
     }
 
     return (<>
-            <Title level={4} className='hrms-dashboard__page-header'>
-                {"User Dashboard"}
-            </Title>
+            {/*<Title className='hrms-dashboard__page-header'>*/}
+            {/*    {"User Dashboard"}*/}
+            {/*</Title>*/}
             <section className='hrms-dashboard__quick-links'>
-                <UserDetailsCard usersShow={true}/>
+                <Flex vertical>
+                    <Title className='hrms-dashboard__page-header'>
+                        {"User Dashboard"}
+                    </Title>
+                    <UserDetailsCard usersShow={true}/>
+                </Flex>
             </section>
             <section className='hrms-dashboard__quick-links'>
                 {

@@ -6,7 +6,8 @@ import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
 import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
 import dayjs from "dayjs";
 import {
-    addUnderScore,
+    addUnderScoreWithUpper,
+    addUnderScoreWithUpperCase,
     dateFormat,
     firstCharUpperCase,
     pascalCase,
@@ -21,7 +22,7 @@ import Holiday from "./settingTable/holiday";
 
 
 function CommonTableComponant({propsData}: any) {
-    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false,totalHoliday,setTotalHoliday,formFieldsType, ...restParams} = propsData;
+    const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, totalHoliday, setTotalHoliday, formFieldsType,tableFieldsType, ...restParams} = propsData;
     const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
@@ -35,7 +36,7 @@ function CommonTableComponant({propsData}: any) {
             render: (_: any, record: any) =>
                 <>
 
-                    {!(title === 'Leave Application')&&<Popconfirm
+                    {!(title === 'Leave Application') && <Popconfirm
                         title="Are you sure to delete?"
                         onConfirm={() => deleteHandel(record)}
                         onCancel={() => {
@@ -75,7 +76,8 @@ function CommonTableComponant({propsData}: any) {
                             }}>
                             {" "}
                             <Tooltip title={"Approve"} color={"green"}>
-                                <CheckCircleOutlined  className={"search-table delete-button"} style={{cursor:"pointer"}}/>
+                                <CheckCircleOutlined className={"search-table delete-button"}
+                                                     style={{cursor: "pointer"}}/>
                             </Tooltip>
 
                         </Popconfirm>
@@ -93,7 +95,7 @@ function CommonTableComponant({propsData}: any) {
                             {
                                 <Tooltip title={"Rejected"} color={"red"}>
                                     <CloseCircleOutlined
-                                                         className={"search-table delete-button"} style={{cursor:"pointer"}}/>
+                                        className={"search-table delete-button"} style={{cursor: "pointer"}}/>
                                 </Tooltip>
 
                             }
@@ -104,8 +106,9 @@ function CommonTableComponant({propsData}: any) {
                 </>
         },
     ])
-    const [form] = Form.useForm();
+    const [form]=Form.useForm();
     const [buttonDisabled, setButtonDisabled] = useState(true);
+
 
     const getDayOfWeek = (date: any) => {
         const daysOfWeek = [
@@ -139,73 +142,100 @@ function CommonTableComponant({propsData}: any) {
         return payload;
     }
 
-    const formFieldsFormat =  (values:any,format:boolean) =>{
-        let payloadFormat={...values};
+    const formFieldsFormat = (values: any) => {
+        let payloadFormat = {...values};
         const keys: any = Object.keys(payloadFormat);
-        keys.map((key:any)=>{
-            let type=formFieldsType.find((item:any)=>item.name===key);
+        keys.map((key: any) => {
+            let type = formFieldsType.find((item: any) => item.name === key);
             switch (type.type) {
+                case "payloadCode":
+                    payloadFormat[key] = addUnderScoreWithUpperCase(payloadFormat[key]);
+                    break;
                 case "code":
-                    if(format)payloadFormat[key]=removeUnderScoreWithLowerCase(payloadFormat[key]);
-                    else payloadFormat[key]=addUnderScore(payloadFormat[key]);
-                break;
+                    payloadFormat[key] = addUnderScoreWithUpper(payloadFormat[key]);
+                    break;
                 case "date":
-                    payloadFormat[key]=dateFormat(payloadFormat[key]);
+                    payloadFormat[key] = dateFormat(payloadFormat[key]);
                     break;
                 case "number":
                     break;
-                case "PayloadCode":
-                    payloadFormat[key]=addUnderScore(payloadFormat[key])
-                    break;
                 case 1:
-                    payloadFormat[key]=dateFormat(payloadFormat[key]);
+                    payloadFormat[key] = dateFormat(payloadFormat[key]);
                     break;
                 default:
-                    if(format)payloadFormat[key]=pascalCase(payloadFormat[key]);
-                    else payloadFormat[key]=firstCharUpperCase(payloadFormat[key]);
+                    payloadFormat[key] = removeUnderScoreWithLowerCase(payloadFormat[key]);
             }
         })
         return payloadFormat;
     }
 
-    const disableDate = (values:any) =>{
-        if(title==="Holiday") {
-            const data=form.getFieldsValue();
-            const date=data.date.map((item:any)=>{
+    const disableDate = (values: any) => {
+        if (title === "Holiday") {
+            const data = form.getFieldsValue();
+            const date = data.date.map((item: any) => {
                 return dayjs(item).format("YYYY-MM-DD");
             })
-            const start:any=new Date(date[0]);
-            const end:any=new Date(date[date.length-1]);
-            const oneday:any = 1000 * 60 * 60 * 24;
-            values["startDate"]=date[0];
-            values["endDate"]=date[date.length-1];
-            values["count"]=Math.round(Math.abs((end - start) / oneday));
-            values["day"] = getDayOfWeek(start)+" to "+getDayOfWeek(end);
-            setTotalHoliday([...totalHoliday,...date]);
+            const start: any = new Date(date[0]);
+            const end: any = new Date(date[date.length - 1]);
+            const oneday: any = 1000 * 60 * 60 * 24;
+            values["startDate"] = date[0];
+            values["endDate"] = date[date.length - 1];
+            values["count"] = Math.round(Math.abs((end - start) / oneday));
+            values["day"] = getDayOfWeek(start) + " to " + getDayOfWeek(end);
+            setTotalHoliday([...totalHoliday, ...date]);
         }
 
     }
 
+    const tableFieldFormat = (values: any) => {
+        console.log(tableFieldsType);
+        let payloadFormat = {...values};
+        tableFieldsType.map((key: any) => {
+            switch (key.type) {
+                case "code":
+                    payloadFormat[key.name] = addUnderScoreWithUpper(payloadFormat[key.name]);
+                    break;
+                case "payloadCode":
+                    payloadFormat[key.name] = addUnderScoreWithUpperCase(payloadFormat[key.name]);
+                    break;
+                case "date":
+                    payloadFormat[key.name] = dateFormat(payloadFormat[key.name]);
+                    break;
+                case "string":
+                    payloadFormat[key.name] = removeUnderScoreWithLowerCase(payloadFormat[key.name]);
+                    break;
+                case "number":
+                    payloadFormat[key.name] = removeUnderScoreWithLowerCase(payloadFormat[key.name]);
+                    break;
+                case "null":
+                    payloadFormat[key.name] = key.value.find((item:any)=>item.id===form.getFieldValue(key.field)).name;
+                    break;
+                default:
+                    payloadFormat[key.name] = key.value;
+            }
+        })
+        return payloadFormat;
+    }
+
     const handleOk = async () => {
         let values = form.getFieldsValue();
-        let payloadFormat:any=null;
-        let tableFormat:any=null;
+        let payloadFormat: any = {...values};
+        let tableFormat: any = null;
 
-        if (title !== "Holiday") payloadFormat=formFieldsFormat(values,false);
-        else payloadFormat = holidayHandle(values);
+        if(title === "Holiday") payloadFormat = holidayHandle(payloadFormat);
+        else payloadFormat=formFieldsFormat(payloadFormat);
 
         try {
-                const response = await create(payloadFormat);
-                setIsModalOpen(false);
-                tableFormat=formFieldsFormat(values,true);
-                tableFormat["id"] = response;
-                tableFormat["key"] = allNewData.length + 1;
-                setAllNewData((prevState: any) => [...prevState, tableFormat]);
-                form.resetFields();
-            } catch (e) {
-                console.log(e)
-            }
-
+            const response = await create(payloadFormat);
+            setIsModalOpen(false);
+            tableFormat=tableFieldFormat(payloadFormat);
+            tableFormat["id"] = response;
+            tableFormat["key"] = allNewData.length + 1;
+            setAllNewData((prevState: any) => [...prevState, tableFormat]);
+            form.resetFields();
+        } catch (e) {
+            console.log(e)
+        }
 
     };
 
@@ -238,13 +268,13 @@ function CommonTableComponant({propsData}: any) {
         try {
             await rest.updateLeaveRequest(status, record.id);
             setAllNewData((prev: any) => prev.map((item: any) => {
-                if(item.id===record.id){
-                    return {
-                        ...item,leaveStatus:status
+                    if (item.id === record.id) {
+                        return {
+                            ...item, leaveStatus: status
+                        }
+                    } else {
+                        return item
                     }
-                }else{
-                    return item
-                }
 
                 }
             ))
@@ -253,9 +283,9 @@ function CommonTableComponant({propsData}: any) {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(allNewData);
-        },[allNewData])
+    }, [allNewData])
 
 
     return (<>

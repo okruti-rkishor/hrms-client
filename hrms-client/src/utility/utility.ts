@@ -10,10 +10,29 @@ const removeUnderScore = (value: string) => {
 
 }
 
-const addUnderScore = (value: string) => {
-    return value.replaceAll(" ", "_");
+const addUnderScoreWithUpperCase = (value: string) => {
+    const stringArray = value.split(" ");
+    let string:any = "";
+    stringArray.forEach((item, index) => {
+        if (index === 0) string = string + item.charAt(0).toUpperCase() + item.slice(1);
+        else string = string + " " + item.charAt(0).toUpperCase() + item.slice(1);
+    })
+    return string.replaceAll(" ", "_");
 
 }
+
+const addUnderScoreWithUpper = (value: string) => {
+    const stringArray = value.split(" ");
+    let string:any = "";
+    stringArray.forEach((item, index) => {
+        if (index === 0) string = item.toUpperCase();
+        else string = string + " " + item.toUpperCase();
+    })
+    return string.replaceAll(" ", "_");
+
+}
+
+
 
 const firstCharUpperCase = (value: string) => {
     const stringArray = value.split(" ");
@@ -53,4 +72,4 @@ const pascalCase = (value: string) =>{
 
 }
 
-export {dateFormat, removeUnderScore, firstCharUpperCase, addUnderScore,removeUnderScoreWithLowerCase,pascalCase};
+export {dateFormat, removeUnderScore, firstCharUpperCase, addUnderScoreWithUpperCase,removeUnderScoreWithLowerCase,pascalCase,addUnderScoreWithUpper};

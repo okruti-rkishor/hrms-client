@@ -116,6 +116,12 @@ const LeaveEntitlement = () => {
                 {name: "leaveType", type: "code"},
                 {name: "unit", type: "number"},
                 {name: "employeeId", type: "string" }
+            ],
+            tableFieldsType: [
+                {name: "name",type:"null",value:employeeList,field:"employeeId"},
+                {name: "unit", type: "number"},
+                {name: "leaveType",type:"string"},
+
             ]
         }),
         [isModalOpen, setIsModalOpen, employeeList]

@@ -90,8 +90,13 @@ const Qualification = () => {
             </Form.Item>,
         ],
         formFieldsType: [
-            {name: "code", type: "PayloadCode"},
+            {name: "code", type: "code"},
             {name: "description", type: "string"}
+        ],
+        tableFieldsType: [
+            {name: "code", type: "code"},
+            {name: "description", type: "string"},
+            {name: "active", type: "string"}
         ],
         showStatus: true,
     }

@@ -195,6 +195,12 @@ const Holiday = () => {
             {name: "name", type: "string"},
             {name: "date", type: "date"},
             {name: "type", type: "code" },
+        ],
+        tableFieldsType: [
+            {name: "name", type: "string"},
+            {name: "startDate", type: "date"},
+            {name: "endDate", type: "date"},
+            {name: "count",type:"number"}
         ]
     }
 

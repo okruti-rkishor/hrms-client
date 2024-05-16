@@ -88,6 +88,10 @@ const WorkWeek = () => {
                 </Select>
             </Form.Item>],
         formFieldsType: [
+            {name: "day", type: "payloadCode"},
+            {name: "status", type: "payloadCode"}
+        ],
+        tableFieldsType: [
             {name: "day", type: "string"},
             {name: "status", type: "string"}
         ]

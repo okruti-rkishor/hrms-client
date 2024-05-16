@@ -114,8 +114,13 @@ function LeavesType() {
             </Form.Item>
         ],
         formFieldsType: [
-            {name: "paidType", type: "code"},
-            {name: "type", type: "code"},
+            {name: "paidType", type: "payloadCode"},
+            {name: "type", type: "payloadCode"},
+            {name: "description", type: "string"}
+        ],
+        tableFieldsType: [
+            {name: "paidType", type: "string"},
+            {name: "type", type: "string"},
             {name: "description", type: "string"}
         ]
     }
