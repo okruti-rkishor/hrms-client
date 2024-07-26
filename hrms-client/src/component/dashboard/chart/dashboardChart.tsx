@@ -3,8 +3,9 @@ import {ArcElement, Chart as ChartJS, Legend, Tooltip} from "chart.js";
 import '../../../styles/component/dashboard.scss';
 import Title from "antd/lib/typography/Title";
 import restApi from "../../../services/http/api";
-import React, {useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
+import UserLoginContext from "../../../context/userLoginContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -20,7 +21,7 @@ const DashboardChart = () => {
     const [countEmployee, setCountEmployee] = useState(0);
     const [countAll, setCountAll] = useState(0);
     const navigate = useNavigate();
-
+    const {newUser} = useContext(UserLoginContext);
     const checkRole = (roles:string[], checkUser:string) => {
         const match = roles.filter((role:string) => checkUser===role);
         return match.length;
@@ -75,6 +76,7 @@ const DashboardChart = () => {
     };
 
     useEffect(() => {
+        if(newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR"))
         userCount();
     }, []);
 

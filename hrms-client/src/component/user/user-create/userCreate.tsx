@@ -52,7 +52,7 @@ const UserCreate = (props: any) => {
     const onChangeEmail = (e: any, isCheckEmail: boolean = true) => {
         setEmail(e.currentTarget.value);
         if (isCheckEmail) {
-            const tempFinded = allEmployeesId.find(
+            const tempFinded = allEmployeesId?.find(
                 (item: any) => item.officialEmail === e.currentTarget.value
             );
             if (tempFinded) {

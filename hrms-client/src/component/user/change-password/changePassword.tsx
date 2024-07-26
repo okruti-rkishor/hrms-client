@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import './changePassword.scss'
+// import './changePassword.scss'
 import {Button, Form, Input} from "antd";
 import {Image} from "antd";
 import rest from '../../../services/http/api'

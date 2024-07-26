@@ -83,6 +83,11 @@ const items = [
             ],
         },
         {
+            label: <Link to='/leave'>Leaves</Link>,
+            key: 'leaves',
+            icon: <CalendarOutlined/>,
+        },
+        {
             label: 'Holiday',
             key: 'holiday',
             icon: <CalendarOutlined/>,
@@ -205,7 +210,7 @@ const NavigationMenu: React.FC = () => {
     const {newUser} = useContext<any>(UserLoginContext);
 
     const isEmployee = () => {
-        if (newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
+        if(newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
             return false;
         }
 

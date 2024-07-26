@@ -28,10 +28,12 @@ class ApiInterceptor extends React.Component<any, any> {
             (config: any) => {
                 //his.showLoader(config.url);
                 this.setState({...this.state,loading:true});
+                let  data:any=localStorage.getItem("loginToken");
+                data=data?JSON.parse(data):'';
+                if(data){
+                    config.headers.Authorization =  data.loginToken.replace(/['"]+/g, '')  ;
 
-                // if (storeState.userProfile && storeState.userProfile.accessToken){
-                //     config.headers.Authorization =  "Bearer "+ storeState.userProfile.accessToken;
-                // }
+                }
                 return config;
             },
             (error: any) => {

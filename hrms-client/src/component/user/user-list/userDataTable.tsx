@@ -16,8 +16,8 @@ interface Item {
     lastName: string;
     email: string;
     roles: string[];
-    status:string,
-    active:boolean;
+    // status:string,
+    // active:boolean;
 }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
@@ -83,7 +83,8 @@ const TempFile: React.FC = () => {
             const response = await restApi.getUsers(String(navigatedUser.get('userTitle')).toLocaleUpperCase());
             const newResponse = response.map((item: any) => {
                 return {
-                    ...item, email: ((item.email).toLowerCase()), status: item.active ? "Active" : "InActive"
+                    ...item, email: ((item.email).toLowerCase()),
+                    // status: item.active ? "Active" : "InActive"
                 };
             })
             setUserData(newResponse);
@@ -172,19 +173,19 @@ const TempFile: React.FC = () => {
             width: '25%',
             editable: true,
         },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            width: '10%',
-            editable: true,
-            render: (_: any, record: any) => (
-                <>
-                    <Tag color={_.length === 6 ? "green" : "gray"}>
-                        {_.toUpperCase()}
-                    </Tag>
-                </>
-            ),
-        },
+        // {
+        //     title: 'Status',
+        //     dataIndex: 'status',
+        //     width: '10%',
+        //     editable: true,
+        //     render: (_: any, record: any) => (
+        //         <>
+        //             <Tag color={_.length === 6 ? "green" : "gray"}>
+        //                 {_.toUpperCase()}
+        //             </Tag>
+        //         </>
+        //     ),
+        // },
 
         {
             title: 'Role',
@@ -234,17 +235,19 @@ const TempFile: React.FC = () => {
                         >
                             <DeleteOutlined style={{color: "red"}}/>
                         </Popconfirm>
-                        <Popconfirm
-                            title={`Are you sure to ${record?.active===true?"Inactive":"Active"} user?`}
-                            onConfirm={() => {
-                                console.log("Status changed!!")
-                            }}
-                            onCancel={() => {
-                                console.log("Cancel")
-                            }}
-                        >
-                            {record?.active===true?<CloseOutlined style={{color: "red"}}/>:<CheckOutlined style={{color: "green"}}/>}
-                        </Popconfirm>
+                        {/*<Popconfirm*/}
+                        {/*    title={`Are you sure to*/}
+                        {/*    ${record?.active===true?"Inactive":"Active"} user?*/}
+                        {/*     `}*/}
+                        {/*    onConfirm={() => {*/}
+                        {/*        console.log("Status changed!!")*/}
+                        {/*    }}*/}
+                        {/*    onCancel={() => {*/}
+                        {/*        console.log("Cancel")*/}
+                        {/*    }}*/}
+                        {/*>*/}
+                        {/*    {record?.active===true?<CloseOutlined style={{color: "red"}}/>:<CheckOutlined style={{color: "green"}}/>}*/}
+                        {/*</Popconfirm>*/}
 
                     </div>
                 );

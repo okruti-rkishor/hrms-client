@@ -6,6 +6,7 @@ import "../../../styles/component/user/userDetailsCard.scss";
 import {PageHeader} from "@ant-design/pro-layout";
 import EventContext from "../../../context/eventContext";
 import EventData from "../../../custom_hooks/eventData";
+import UserLoginContext from "../../../context/userLoginContext";
 
 function UserDetailsCard({usersShow = false}) {
     EventData();
@@ -14,7 +15,7 @@ function UserDetailsCard({usersShow = false}) {
     const {birthdayData, anniversaryData} = useContext<any>(EventContext);
     let birthdayCount = 0;
     let anniversaryCount = 0;
-
+    const {newUser} = useContext(UserLoginContext);
     birthdayCount = (birthdayData.today && birthdayData.today.length) +
         (birthdayData.passed && birthdayData.passed.length) +
         (birthdayData.upcoming && birthdayData.upcoming.length);
@@ -29,6 +30,7 @@ function UserDetailsCard({usersShow = false}) {
     }
 
     useEffect(() => {
+        if(newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR"))
         userCount();
     }, []);
 

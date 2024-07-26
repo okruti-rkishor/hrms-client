@@ -28,17 +28,15 @@ const Login=() => {
       const token = response.jsonToken;
       if (token) {
         try {
+          const saveToken:SaveToken = {
+            loginToken:token,
+            expiration: (new Date().getTime() + 15 * 60 * 1000)
+          }
+          localStorage.setItem("loginToken", JSON.stringify(saveToken));
           const userLoginData = await rest.userLoginDetail(values.email);
           const userCardData = { ...userLoginData, loginStatus: true };
           setNewUser(userCardData);
           navigate("/");
-          decoded = jwtDecode(token);
-          console.log("Error decoding JWT:", decoded);
-          const saveToken:SaveToken = {
-            loginToken:(token),
-            expiration: (new Date().getTime() + 15 * 60 * 1000)
-          }
-          localStorage.setItem("loginToken", JSON.stringify(saveToken));
         } catch (error: any) {
           console.log("Error decoding JWT:", error.message);
         }

@@ -12,7 +12,9 @@ function UserCountCard ({ title = "", count = 0, className = ""}) {
     };
 
     return (
-        <Col className="gutter-row" span={className!=="small-user-card"?7:0} style={{display:"flex",gap: 10}}>
+        <Col className="gutter-row" span={className!=="small-user-card"?7:0}
+             // style={{display:"flex",gap: 10}}
+        >
             <Card title={title}
                   className={`${className} user-card`}
                   onClick={className!=="small-user-card"?()=>handleUserDetailClick():()=>{}}

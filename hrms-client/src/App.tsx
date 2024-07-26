@@ -47,35 +47,36 @@ const App = () => {
                     {newUser?.roles.length !== 0 && <Route index element={<Dashboard/>}/>}
                     <Route path="home" element={<Dashboard/>}/>
                     <Route path="user/list"
-                           element={<PrivateRoutes Componant={<UserDataTable/>}/>}
+                           element={<PrivateRoutes Component={<UserDataTable/>}/>}
                     />
                     <Route path="user/detail"
-                           element={<PrivateRoutes Componant={<UserDetailsCard/>}/>}
+                           element={<PrivateRoutes Component={<UserDetailsCard/>}/>}
                     />
                     <Route path="user/create"
-                           element={<PrivateRoutes Componant={<UserCreate/>}/>}
+                           element={<PrivateRoutes Component={<UserCreate/>}/>}
                     />
                     <Route path="user/change-password"
                            element={<ChangePassword/>}
                     />
                     <Route path="employee/search"
-                           element={<PrivateRoutes Componant={<EmployeeSearch/>}/>}
+                           element={<EmployeeSearch/>}
+                           // element={<PrivateRoutes Component={<EmployeeSearch/>}
                     />
-                    <Route path="employee/create" element={<EmployeeCreate/>}/>
+                    <Route path="employee/create" element={<PrivateRoutes Component={<EmployeeCreate/>}/>}/>
                     <Route path="event/birthday" element={<Birthday/>}/>
                     <Route path="event/anniversary" element={<Anniversary/>}/>
                     <Route path="event/birthday/:id" element={<Birthday/>}/>
                     <Route path="employee/create/:id"
-                           element={<PrivateRoutes Componant={<EmployeeCreate/>}/>}
+                           element={<PrivateRoutes Component={<EmployeeCreate/>}/>}
                     />
                     <Route path="employee/detail/:id"
                            element={<EmployeeDetailComponent02/>}
                     />
                     <Route path="enum"
-                           element={<PrivateRoutes Componant={<EnumCards/>}/>}
+                           element={<PrivateRoutes Component={<EnumCards/>}/>}
                     />
                     <Route path="setting"
-                           element={<PrivateRoutes Componant={<Setting/>}/>}
+                           element={<PrivateRoutes Component={<Setting/>}/>}
                     />
                     <Route path="employee/leaves"
                            element={<LeaveRequest/>}
@@ -85,7 +86,7 @@ const App = () => {
                     <Route path="contact-us" element={<ContactUs/>}/>
                     {/*<Route path="holiday" element={<HolidayList/>}/>*/}
                     <Route path="leave" element={<LeaveIndex/>}/>
-                    <Route path="holiday/create" element={<HolidayCreate/>}/>
+                    <Route path="holiday/create" element={<PrivateRoutes Component={<HolidayCreate/>}/>}/>
                     <Route path="holiday/calendar" element={<HolidayCalendar/>}/>
                 </Route>
                 <Route path="/login" element={<Login/>}/>

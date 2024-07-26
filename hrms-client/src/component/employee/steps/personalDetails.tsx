@@ -20,6 +20,7 @@ const PersonalDetails = (props: any) => {
                     <Select style={{height: "40px"}}>
                         <Select.Option value="Mr">Mr</Select.Option>
                         <Select.Option value="Mrs">Mrs</Select.Option>
+                        <Select.Option value="Ms">Ms</Select.Option>
                     </Select>
                 </Form.Item>
                 <Form.Item name={"firstName"}

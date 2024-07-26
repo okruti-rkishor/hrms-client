@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Form,
   Row,
@@ -15,6 +15,7 @@ import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import { PageHeader } from "@ant-design/pro-layout";
 import {firstCharUpperCase, removeUnderScoreWithLowerCase} from "../../utility/utility";
+import UserLoginContext from "../../context/userLoginContext";
 const FormItem = Form.Item;
 
 export interface employeeInterface {
@@ -85,7 +86,7 @@ function EmployeeSearch() {
   const [employeeResponse, setEmployeeResponse] = useState<employeeInterface[]>([]);
   const [designation, setDesignation] = useState<DesignationEnum[]>([]);
   const [showTableStatus, setShowTableStatus] = useState<any>(false);
-
+  const {newUser} = useContext(UserLoginContext);
   const fetchDesignationData = async () => {
     try {
       const resp: any = await rest.getAllDesignation();
@@ -96,7 +97,7 @@ function EmployeeSearch() {
     }
   };
 
-  const fetchInitialData = async()=>{
+  const fetchInitialData=async()=>{
   try {
     const resp = await rest.employeeSearch({})
     const formatedResp = resp.map((employee:any,index:number)=>{
@@ -118,9 +119,10 @@ function EmployeeSearch() {
   }
 
   useEffect(() => {
-    fetchDesignationData();
-    fetchInitialData();
-    setShowTableStatus(true);
+    if(newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR")) {
+      fetchDesignationData();}
+      fetchInitialData();
+      setShowTableStatus(true);
 
   }, []);
 

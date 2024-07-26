@@ -23,8 +23,8 @@ export default {
     generatePassword:(data: any) => rest.post(base + `auth/reset`,{},data, {}),
     employeeDetailsByID:(id: any) => rest.get(base + `employee/${id}`),
     userLoginDetail:(mail: any) => rest.get(base + `user?email=${mail}`),
-    allBirthday:() => rest.get(base + "event/birthday"),
-    allAnniversary:() => rest.get(base + "event/work"),
+    allBirthday:() => rest.get(base + "event/find/birthdays"),
+    allAnniversary:() => rest.get(base + "event/find/work-anniversaries"),
     postEmployeeDetailsByID:(data: object,id:any) => rest.put(base + `employee/${id}`,{},data, {}),
     postEnum:(data:any,id:string)=>rest.post(base+`${id}`,{},data),
     getEnum:(id:string)=>rest.get(base+`${id}/find`),
@@ -66,7 +66,7 @@ export default {
     updateQualificationStatus:(status:boolean,id:string)=>rest.put(base+`qualification/${id}`,{},null,{active:status}),
     //Leave Application
     createLeave:(data:any,id:string)=>rest.post(base+"leave-request",{empId:id},data),
-    getLeaveRequest:(id:string)=>rest.get(base+`leave-request/${id}`,{},),
+    getLeaveRequest:(id:string)=>rest.get(base+`employee/${id}/leave-requests`,{},),
     deleteLeaveRequest:(id:string)=>rest.del(base+`leave-request/${id}`,{}),
     updateLeaveRequest:(status:string,id:string)=>rest.put(base+`leave-request/${id}/update-status`,{},undefined,{status:status}),
     searchLeave:()=>rest.post(base+`leave-request/search`,{},{

@@ -9,7 +9,6 @@ function Anniversary() {
   const { anniversaryData } = useContext<any>(EventContext);
   const newAnniversaryData = anniversaryData;
   let cleanConfetti: () => void | undefined; //clear animation
-
   const newData = {
     today:
       (newAnniversaryData.today &&
@@ -20,7 +19,7 @@ function Anniversary() {
         })) ||
       [],
 
-    passed:
+      passed:
       (newAnniversaryData.passed &&
         newAnniversaryData.passed.map((item: any) => {
           item.date = item.dateOfJoining;
