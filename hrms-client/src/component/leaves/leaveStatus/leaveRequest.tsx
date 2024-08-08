@@ -16,7 +16,7 @@ import {
     PlusCircleOutlined
 } from "@ant-design/icons/lib";
 import dayjs from "dayjs";
-import {Leave_Type} from "../../../constant/constant";
+import {Leave_Type,Leave_Duration} from "../../../constant/constant";
 import UserLoginContext from "../../../context/userLoginContext";
 import "../../../styles/component/leaves.scss";
 
@@ -32,6 +32,7 @@ interface IApplicant {
     id: string;
     leaveType: string;
     emtitlementId: string;
+    leaveDuration:string;
 }
 
 function LeaveRequest() {
@@ -45,7 +46,8 @@ function LeaveRequest() {
     const [applicant, setApplicant] = useState<IApplicant>({
         id: "",
         leaveType: "",
-        emtitlementId: ""
+        emtitlementId: "",
+        leaveDuration:""
     });
     const {newUser, setNewUser} = useContext(UserLoginContext);
     console.log("newUser", newUser);
@@ -75,6 +77,11 @@ function LeaveRequest() {
         {
             title: 'Leave Type',
             dataIndex: 'leaveType',
+            align:"center"
+        },
+        {
+            title:'Leave Duration',
+            dataIndex:'session',
             align:"center"
         },
         {
@@ -131,8 +138,9 @@ function LeaveRequest() {
         values.endDate = endDate
         console.log(values);
         try {
-            const tempEntId = await rest.getIntitlementByEmpLeaveType(values.employeeId, values?.leaveType);
-            values.entitlementId = tempEntId.id
+           const tempEntId = await rest.getEntitlementByEmpLeaveType(values.employeeId, values?.leaveType);
+           const id= (tempEntId.find((item:any)=>item.leaveType==applicant.leaveType)).id;
+           values.entitlementId =id;
             await rest.createLeave(values, values.employeeId)
             setIsModalOpen(false)
             const tempAppliedLeaveObj: object = {
@@ -241,6 +249,21 @@ function LeaveRequest() {
                                 {(Object.keys(Leave_Type) as Array<keyof typeof Leave_Type>).map((key) =>
                                     <Select.Option value={key} key={key}>
                                         {Leave_Type[key]}
+                                    </Select.Option>
+                                )}
+                            </Select>
+                        </Form.Item>
+                        <Form.Item
+                            label="leave Duration"
+                            name="session"
+                            initialValue={"-Select-"}
+                            rules={[{required: true, message: 'Please input Leave Duration!'}]}>
+                            <Select
+                                onChange={(e) => setApplicant((prev: any) => ({...prev, leaveDuration: e}))}
+                                style={{height: 40, width: 272}}>
+                                {(Object.keys(Leave_Duration) as Array<keyof typeof Leave_Duration>).map((key) =>
+                                    <Select.Option value={key} key={key}>
+                                        {Leave_Duration[key]}
                                     </Select.Option>
                                 )}
                             </Select>

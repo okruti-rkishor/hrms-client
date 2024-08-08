@@ -106,4 +106,4 @@ function RestApi(base:any){
     };
 }
 
-export const hrms = RestApi("http://13.233.212.246:8080/hrms");
+export const hrms = RestApi("http://3.108.7.18:8080/hrms");

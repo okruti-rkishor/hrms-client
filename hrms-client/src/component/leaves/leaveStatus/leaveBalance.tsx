@@ -3,7 +3,7 @@ import React, {useState} from "react";
 
 import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
 import rest from "../../../services/http/api";
-import CommonTableComponant from "../../setting/CommonTableComponant";
+import CommonTableComponent from "../../setting/CommonTableComponent";
 import {Holiday_Type, Leave_Type} from "../../../constant/constant"
 import {PlusCircleOutlined} from "@ant-design/icons/lib";
 interface DataType {
@@ -101,7 +101,7 @@ const LeaveBalance = () => {
                 />
             </Tooltip>
             <Layout className="with-background leaves-type">
-                <CommonTableComponant propsData={propsData}/>
+                <CommonTableComponent propsData={propsData}/>
             </Layout>
         </div>
     )

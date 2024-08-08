@@ -12,7 +12,7 @@ import {
     Tooltip
 } from "antd";
 import rest from "../../../services/http/api";
-import CommonTableComponant from "../CommonTableComponant";
+import CommonTableComponant from "../CommonTableComponent";
 import {Holiday_Status, Holiday_Type, Leave_Type_Status, Week_Days} from "../../../constant/constant"
 import dayjs from "dayjs";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";

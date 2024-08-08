@@ -78,11 +78,11 @@ const dashboardCardItems:any = {
             icon: <CalendarOutlined />,
             links: [
                 {
-                    text: "View Leave Requests",
+                    text: "Apply Leave Requests",
                     target: "/employee/leaves",
                 },
                 {
-                    text: "Assign Leave",
+                    text: "Review Leave Request",
                     target: "/user/create",
                 },
                 {

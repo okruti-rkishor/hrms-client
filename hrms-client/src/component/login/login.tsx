@@ -22,7 +22,7 @@ const Login=() => {
   const { setNewUser } = useContext<any>(UserLoginContext);
 
   const onFinishLogin = async (values: any) => {
-    let decoded = null;
+    // let decoded = null;
     try {
       const response = await rest.userLogin(userInputValues);
       const token = response.jsonToken;

@@ -12,6 +12,7 @@ import Title from "antd/lib/typography/Title";
 import {Card, Divider, Flex} from "antd";
 import "../../../styles/component/dashboard.scss";
 import {UserDetailsCard} from "../../index";
+import { checkUserRole } from "../../../utility/utility";
 
 
 let dashboardQuickLinks: any = {
@@ -104,8 +105,10 @@ const dashboardQuickLinksHeadings: any = {
 const QuickLinks = () => {
     const navigate = useNavigate();
     const {newUser} = useContext<any>(UserLoginContext);
-
-    if (newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
+    if (newUser.loginStatus && checkUserRole(newUser)
+        // (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))
+        )
+    {
         dashboardQuickLinks = {
             admin: [
                 {

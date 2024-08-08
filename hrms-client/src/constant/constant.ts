@@ -9,7 +9,7 @@ export enum Type_Time{
 }
 export enum Status{
     ACTIVE="Active",
-    IN_ACTIVE="InActive"
+    IN_ACTIVE="In Active"
 
 }
 export enum Designation{
@@ -104,4 +104,9 @@ export enum Leave_Status {
     APPROVED="Aproved",
     REJECTED="Rejected",
     CANCELLED="Cancelled"
+}
+export enum Leave_Duration{
+    FULL_DAY="full day",
+    FIRST_HALF="first half",
+    SECOND_HALF="second half"
 }

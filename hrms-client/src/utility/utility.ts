@@ -71,5 +71,10 @@ const pascalCase = (value: string) =>{
     return string;
 
 }
-
-export {dateFormat, removeUnderScore, firstCharUpperCase, addUnderScoreWithUpperCase,removeUnderScoreWithLowerCase,pascalCase,addUnderScoreWithUpper};
+const checkUserRole=(newUser:any)=>{
+    return newUser.roles.includes("ADMIN") || newUser.roles.includes("HR");
+}
+const getIdfromApi=(response:any)=>{
+    return response.substring(response.lastIndexOf("/")+1);
+}
+export {dateFormat, removeUnderScore, firstCharUpperCase, addUnderScoreWithUpperCase,removeUnderScoreWithLowerCase,checkUserRole,pascalCase,addUnderScoreWithUpper,getIdfromApi};

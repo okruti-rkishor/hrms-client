@@ -6,6 +6,7 @@ import restApi from "../../../services/http/api";
 import React, { useContext, useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 import UserLoginContext from "../../../context/userLoginContext";
+import { checkUserRole } from "../../../utility/utility";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -76,7 +77,9 @@ const DashboardChart = () => {
     };
 
     useEffect(() => {
-        if(newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR"))
+        // if(checkUserRole(newUser)
+        //     //newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR")
+        // )
         userCount();
     }, []);
 

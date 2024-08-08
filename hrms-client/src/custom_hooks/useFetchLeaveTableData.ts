@@ -31,7 +31,7 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
         }
     };
 
-    const deleteHandel = async (record: any) => {
+    const deleteHandle = async (record: any) => {
         try {
             await deleteById(record.id);
             setValue((prevState:any)=>prevState.filter((item:any)=>item.id !== record.id));
@@ -45,7 +45,7 @@ const useFetchLeaveTableData = ({getAll,tableColumns,deleteById}: any) => {
         fetchDataInsideHook();
     },[])
 
-    return [value, setValue,deleteHandel];
+    return [value, setValue,deleteHandle];
 };
 
 export default useFetchLeaveTableData;

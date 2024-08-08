@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Button, DatePicker, Form, Input, Layout, Select, TableColumnsType, Tag, Tooltip} from "antd";
 import rest from "../../../services/http/api";
-import CommonTableComponant from "../../setting/CommonTableComponant";
+import CommonTableComponent from "../../setting/CommonTableComponent";
 import {Holiday_Type, Leave_Type} from "../../../constant/constant"
 import {PlusCircleOutlined} from "@ant-design/icons/lib";
 import "../../../styles/component/leaveApplication.scss";
@@ -32,7 +32,7 @@ const LeaveApplication = () => {
 
     const setIntitalMentId = async ()=>{
         try {
-            const tempEntId = await rest.getIntitlementByEmpLeaveType(applicant?.id, applicant?.leaveType);
+            const tempEntId = await rest.getEntitlementByEmpLeaveType(applicant?.id, applicant?.leaveType);
             console.log("tempEntId", tempEntId);
             setApplicant((prev:any)=>({...prev,emtitlementId:tempEntId.id}))
             EntitlementId.current = tempEntId.id
@@ -105,10 +105,6 @@ const LeaveApplication = () => {
             title: 'Reason',
             dataIndex: 'reason',
         },
-        // {
-        //     title: 'Reason',
-        //     dataIndex: 'reason',
-        // },
     ];
     const propsData = {
         title: "Leave Application",
@@ -204,7 +200,7 @@ const LeaveApplication = () => {
                 />
             </Tooltip>
             <Layout className="with-background leaves-type">
-                <CommonTableComponant propsData={propsData}/>
+                <CommonTableComponent propsData={propsData}/>
             </Layout>
         </div>
     )

@@ -9,7 +9,7 @@ import {
     addUnderScoreWithUpper,
     addUnderScoreWithUpperCase,
     dateFormat,
-    firstCharUpperCase,
+    firstCharUpperCase, getIdfromApi,
     pascalCase,
     removeUnderScore,
     removeUnderScoreWithLowerCase
@@ -21,9 +21,9 @@ import Qualification from "./settingTable/qualification";
 import Holiday from "./settingTable/holiday";
 
 
-function CommonTableComponant({propsData}: any) {
+function CommonTableComponent({propsData}: any) {
     const {fetchData, setAllData, formFields, columns, title, create, getAll, deleteById, isModalOpen, setIsModalOpen, showStatus = false, totalHoliday, setTotalHoliday, formFieldsType,tableFieldsType, ...restParams} = propsData;
-    const [allNewData, setAllNewData, deleteHandel]: any = useFetchLeaveTableData({
+    const [allNewData, setAllNewData, deleteHandle]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
         deleteById
@@ -38,7 +38,7 @@ function CommonTableComponant({propsData}: any) {
 
                     {!(title === 'Leave Application') && <Popconfirm
                         title="Are you sure to delete?"
-                        onConfirm={() => deleteHandel(record)}
+                        onConfirm={() => {deleteHandle(record)}}
                         onCancel={() => {
                             console.log("Cancel")
                         }}
@@ -225,7 +225,9 @@ function CommonTableComponant({propsData}: any) {
         else payloadFormat=formFieldsFormat(payloadFormat);
 
         try {
-            const response = await create(payloadFormat);
+
+            const res = await create(payloadFormat);
+            const response =getIdfromApi(res)
             setIsModalOpen(false);
             tableFormat=tableFieldFormat(payloadFormat);
             tableFormat["id"] = response;
@@ -302,7 +304,7 @@ function CommonTableComponant({propsData}: any) {
                             )
                         }
                     >
-                        {formFields?.map((formInput: any) => (<>{formInput}</>))}
+                        {formFields?.map((formInput: any,index:number) => (<React.Fragment key={index}>{formInput}</React.Fragment>))}
 
                     </Form>
                 </Card>
@@ -319,4 +321,4 @@ function CommonTableComponant({propsData}: any) {
     </>)
 }
 
-export default CommonTableComponant;
+export default CommonTableComponent;

@@ -4,10 +4,12 @@ import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout, Divider
 import {PageHeader} from '@ant-design/pro-layout';
 import restApi from "../../../services/http/api";
 import {CheckOutlined, CloseOutlined, DeleteOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
-import {User_type} from "../../../constant/constant";
+import { Status, User_type } from "../../../constant/constant";
 import '../../../styles/component/user/userDataTable.scss';
 import {toast} from 'react-toastify';
 import success = toast.success;
+
+
 
 
 interface Item {
@@ -16,8 +18,8 @@ interface Item {
     lastName: string;
     email: string;
     roles: string[];
-    // status:string,
-    // active:boolean;
+    active:boolean;
+    status:string;
 }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
@@ -32,6 +34,7 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
 
 const userTypesEnum = Object.keys(User_type);
 
+
 const EditableCell: React.FC<EditableCellProps> = ({editing, dataIndex, title, inputType, record, index, children, ...restProps}) => {
 
     const inputNode = dataIndex === 'roles' ?
@@ -44,7 +47,21 @@ const EditableCell: React.FC<EditableCellProps> = ({editing, dataIndex, title, i
                     {userType.toString().toUpperCase()}
                 </Select.Option>)
             }
-        </Select> : <Input/>;
+        </Select> : dataIndex ==='status'?
+            <Select
+                    placeholder="Choose Status"
+                    style={{flex: 1}}
+                    options={[
+                        {
+                            value: 'ACTIVE',
+                            label: 'Active',
+                        },
+                        {
+                            value: 'IN_ACTIVE',
+                            label: 'In Active',
+                        }]}
+            >
+            </Select>:<Input/>;
 
     return (
         <td {...restProps}>
@@ -84,14 +101,16 @@ const TempFile: React.FC = () => {
             const newResponse = response.map((item: any) => {
                 return {
                     ...item, email: ((item.email).toLowerCase()),
-                    // status: item.active ? "Active" : "InActive"
+                    status: item.active ? "Active" : "InActive"
                 };
             })
             setUserData(newResponse);
+            console.log(newResponse);
         } catch (err) {
             console.log(err);
         }
     };
+
 
     const isEditing = (record: Item) => record.id === editingKey;
 
@@ -115,23 +134,29 @@ const TempFile: React.FC = () => {
 
     const save = async (key: string) => {
         try {
+
             const row = (await form.validateFields()) as Item;
-            const newData = [...userData];
-            const index = newData.findIndex((item) => key === item.id);
-            if (index > -1) {
-                //call API
+             row.active=row.status==='ACTIVE';
+             let newData=[...userData]
+             const index = newData.findIndex((item:any) => key === item.id);
+             if (index > -1) {
                 const editedData: any = {...row, id: key};
-                // delete editedData.id;
-                const editResponse = await restApi.userEdit(editedData, key);
+                try {
+                    const{status,active,...editedResponse}=editedData;
+                     await restApi.userEdit(editedResponse,key);
+                    success("User edited successfully");
+                }catch(error){
+                    console.log(error)
+                }
                 const item: any = newData[index];
-                // const item = newData[index];
                 newData.splice(index, 1, {
                     ...item,
-                    ...row,
+                     ...row,
                 });
+
                 setUserData(newData);
                 setEditingKey('');
-                success("User edited successfully");
+
             } else {
                 newData.push(row);
                 setUserData(newData);
@@ -142,7 +167,7 @@ const TempFile: React.FC = () => {
         }
     };
 
-    const deleteHandel = async (record: any) => {
+    const deleteHandle = async (record: any) => {
         try {
             await restApi.userDelete(record.id)
             const newUserData = userData.filter((user) => (record.id !== user.id))
@@ -150,6 +175,26 @@ const TempFile: React.FC = () => {
         } catch (e) {
             console.log(e)
         }
+    }
+
+   const markUserActive = async( record:any) => {
+        let newData=[...userData]
+       const index = newData.findIndex((item:any) => record.id === item.id);
+       if (index > -1) {
+        try{
+            record.active=record.status==='ACTIVE';
+            await restApi.userMarkActive(record.id,record.active);
+        }
+        catch(error){
+            console.log(error)
+        }
+           const item: any = newData[index];
+           newData.splice(index, 1, {
+               ...item,
+               ...record,
+           });
+           setUserData(newData);
+    }
     }
 
     const columns = [
@@ -173,19 +218,19 @@ const TempFile: React.FC = () => {
             width: '25%',
             editable: true,
         },
-        // {
-        //     title: 'Status',
-        //     dataIndex: 'status',
-        //     width: '10%',
-        //     editable: true,
-        //     render: (_: any, record: any) => (
-        //         <>
-        //             <Tag color={_.length === 6 ? "green" : "gray"}>
-        //                 {_.toUpperCase()}
-        //             </Tag>
-        //         </>
-        //     ),
-        // },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            width: '10%',
+            editable: false,
+            render: (_: any, record: any) => (
+                <>
+                    <Tag color={_.length === 6 ? "green" : "gray"}>
+                        {_.toUpperCase()}
+                    </Tag>
+                </>
+            ),
+        },
 
         {
             title: 'Role',
@@ -227,7 +272,7 @@ const TempFile: React.FC = () => {
                         <Popconfirm
                             title={"Are you sure to delete user?"}
                             onConfirm={() => {
-                                deleteHandel(record)
+                                deleteHandle(record)
                             }}
                             onCancel={() => {
                                 console.log("Cancel")
@@ -235,19 +280,21 @@ const TempFile: React.FC = () => {
                         >
                             <DeleteOutlined style={{color: "red"}}/>
                         </Popconfirm>
-                        {/*<Popconfirm*/}
-                        {/*    title={`Are you sure to*/}
-                        {/*    ${record?.active===true?"Inactive":"Active"} user?*/}
-                        {/*     `}*/}
-                        {/*    onConfirm={() => {*/}
-                        {/*        console.log("Status changed!!")*/}
-                        {/*    }}*/}
-                        {/*    onCancel={() => {*/}
-                        {/*        console.log("Cancel")*/}
-                        {/*    }}*/}
-                        {/*>*/}
-                        {/*    {record?.active===true?<CloseOutlined style={{color: "red"}}/>:<CheckOutlined style={{color: "green"}}/>}*/}
-                        {/*</Popconfirm>*/}
+                        <Popconfirm
+                            title={`Are you sure to
+                            ${record?.active===true?"Inactive":"Active"} user?
+                             `}
+                            onConfirm={() => {
+                                record.status=record.active===true?"IN_ACTIVE":"ACTIVE";
+                                 markUserActive(record);
+                                 console.log("Status changed!!")
+                            }}
+                            onCancel={() => {
+                                console.log("Cancel")
+                            }}
+                        >
+                            {record?.active===true?<CloseOutlined style={{color: "red"}}/>:<CheckOutlined style={{color: "green"}}/>}
+                        </Popconfirm>
 
                     </div>
                 );

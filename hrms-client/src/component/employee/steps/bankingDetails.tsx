@@ -1,5 +1,6 @@
-import {Card, Form, Input} from "antd";
+import { Button, Card, Form, Input } from "antd";
 import React from "react";
+import { CloseOutlined } from "@ant-design/icons/lib";
 
 
 const BankingDeatils=()=>{
@@ -8,13 +9,19 @@ const BankingDeatils=()=>{
         <>
             <div style={{display:"flex",flexDirection:"column",marginTop:"35px",gap:"30px"}} className={"employee-create-inputs"}>
                 <Form.List name="bankDetail" initialValue={[{}]}>
-                    {(fields) => (
+                    {(fields,{add,remove}) => (
                         <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
                             {fields.map((field) => (
                                 <Card
                                     size="small"
                                     title={"Account Detail"}
                                     key={field.key}
+                                    extra={
+                                        <CloseOutlined
+                                            onClick={() => {
+                                                remove(field.name);
+                                            }}
+                                        />}
                                 >
                                     <Form.Item name={[field.name, 'accountHolderName']} label={"Account Holder Name"} rules={[
                                         {
@@ -104,7 +111,11 @@ const BankingDeatils=()=>{
                                     </Form.Item>
                                 </Card>
                             ))}
+                            <Button type="dashed" onClick={() => add()} block>
+                                + Add Item
+                            </Button>
                         </div>
+
                     )}
                 </Form.List>
 

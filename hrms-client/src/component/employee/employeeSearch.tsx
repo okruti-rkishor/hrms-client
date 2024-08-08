@@ -14,7 +14,7 @@ import "../../styles/component/employeeSearch.scss";
 import rest from "../../services/http/api/index";
 import EmployeeSearchDataTable from "./employeeSearchDataTable";
 import { PageHeader } from "@ant-design/pro-layout";
-import {firstCharUpperCase, removeUnderScoreWithLowerCase} from "../../utility/utility";
+import { checkUserRole, firstCharUpperCase, removeUnderScoreWithLowerCase } from "../../utility/utility";
 import UserLoginContext from "../../context/userLoginContext";
 const FormItem = Form.Item;
 
@@ -119,7 +119,9 @@ function EmployeeSearch() {
   }
 
   useEffect(() => {
-    if(newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR")) {
+    if(checkUserRole(newUser)
+        //newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR")
+    ) {
       fetchDesignationData();}
       fetchInitialData();
       setShowTableStatus(true);

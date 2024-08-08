@@ -18,6 +18,7 @@ import {
 } from "@ant-design/icons/lib";
 import '../../styles/component/navbar.scss';
 import UserLoginContext from "../../context/userLoginContext";
+import { checkUserRole } from "../../utility/utility";
 
 const items = [
     [
@@ -86,19 +87,6 @@ const items = [
             label: <Link to='/leave'>Leaves</Link>,
             key: 'leaves',
             icon: <CalendarOutlined/>,
-        },
-        {
-            label: 'Holiday',
-            key: 'holiday',
-            icon: <CalendarOutlined/>,
-            children: [
-                {
-                    label: (
-                        <Link to='/holiday/create'>Create</Link>
-                    ),
-                    key: 'holiday-create',
-                },
-            ],
         },
     ],
     [
@@ -210,7 +198,9 @@ const NavigationMenu: React.FC = () => {
     const {newUser} = useContext<any>(UserLoginContext);
 
     const isEmployee = () => {
-        if(newUser.loginStatus && (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))) {
+        if(newUser.loginStatus && checkUserRole(newUser)
+            // (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))
+        ) {
             return false;
         }
 

@@ -4,7 +4,7 @@ import rest from "../../../services/http/api";
 import {toast} from "react-toastify";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons/lib";
-import CommonTableComponant from "../CommonTableComponant";
+import CommonTableComponent from "../CommonTableComponent";
 import {Leave_Type_Status, Week_Days} from "../../../constant/constant"
 
 interface DataType {
@@ -108,7 +108,7 @@ const WorkWeek = () => {
                 />
             </Tooltip>
             <Layout className="with-background leaves-type">
-                <CommonTableComponant propsData={propsData}/>
+                <CommonTableComponent propsData={propsData}/>
             </Layout>
         </div>
 

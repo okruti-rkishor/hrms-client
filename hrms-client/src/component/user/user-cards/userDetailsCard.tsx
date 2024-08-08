@@ -7,6 +7,7 @@ import {PageHeader} from "@ant-design/pro-layout";
 import EventContext from "../../../context/eventContext";
 import EventData from "../../../custom_hooks/eventData";
 import UserLoginContext from "../../../context/userLoginContext";
+import { checkUserRole } from "../../../utility/utility";
 
 function UserDetailsCard({usersShow = false}) {
     EventData();
@@ -30,7 +31,9 @@ function UserDetailsCard({usersShow = false}) {
     }
 
     useEffect(() => {
-        if(newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR"))
+        if(checkUserRole(newUser)
+            // newUser?.roles.includes("ADMIN")||newUser?.roles.includes("HR")
+        )
         userCount();
     }, []);
 
@@ -132,20 +135,21 @@ function UserDetailsCard({usersShow = false}) {
                 </div>
             </Layout>}
 
-         <div style={{display:"flex", gap:12}}>
+          <div style={{display:"flex", gap:12}}>
              {usersShow === true && userCountCardProps.push({
                  title: "All",
                  count: all,
                  className: "employee",
-             },) && userCountCardProps.map((card: any, index) => (
-                 <UserCountCard
-                     key={index}
+             },) &&
+          userCountCardProps.map((card: any, index) => (
+                  <UserCountCard
+                   key={index}
                      title={card.title}
-                     count={card.count}
-                     className={"small-user-card"}
-                 />
+                    count={card.count}
+                     className="user-dashboard-count"
+                   //{'small-user-card'}
+                />
              ))}
-
          </div>
 
         </>

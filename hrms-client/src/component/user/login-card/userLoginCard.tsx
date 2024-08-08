@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {Avatar, Badge, Button, Card, Popover, Skeleton, Tag} from "antd";
 import UserLoginContext from "../../../context/userLoginContext";
 import rest from "../../../services/http/api";
@@ -71,12 +71,19 @@ const UserDataContent = () => {
                 console.error("Unable to Logout the User:", error.message);
             }
         } else {
-            // alert("Session Expire!");
+            if((new Date().getTime()) == token.expiration-15000){
+                toast.success("Session Will Expire Soon",{autoClose: 2000})
+            }
             toast.success("Logout Success!!", {autoClose: 2000});
             localStorage.removeItem("loginToken");
             navigate("/login");
         }
     };
+
+    useEffect(()=>{
+        console.log("new user data",newUser);
+        handleLogout();
+    },[])
 
     return (
         <Card style={{width: 300}} className="user-login__card">
@@ -104,8 +111,8 @@ const UserDataContent = () => {
                 ]}
             />
             <div className="user-login__card-links">
-                {userCardLinks.map((list: any) => (
-                    <Link to={list.linkTarget} className="user-login__card-link">
+                {userCardLinks.map((list: any,index:any) => (
+                    <Link to={list.linkTarget} className="user-login__card-link" key={index}>
                         {list.icon}
                         <p>{list.linkText}</p>
                     </Link>

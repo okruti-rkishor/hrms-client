@@ -3,7 +3,7 @@ import {Button, Form, Input, Layout, Modal, Popconfirm, Select, Table, TableColu
 import {DeleteOutlined, PlusCircleOutlined} from "@ant-design/icons/lib";
 import {capitalToSmall, removeUnderScore} from "../../holiday/holidayList";
 import rest from '../../../services/http/api'
-import CommonTableComponant from "../CommonTableComponant";
+import CommonTableComponant from "../CommonTableComponent";
 import {Leave_Type} from "../../../constant/constant";
 
 function LeavesType() {
