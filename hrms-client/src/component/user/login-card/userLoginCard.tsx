@@ -71,9 +71,9 @@ const UserDataContent = () => {
                 console.error("Unable to Logout the User:", error.message);
             }
         } else {
-            if((new Date().getTime()) == token.expiration-15000){
-                toast.success("Session Will Expire Soon",{autoClose: 2000})
-            }
+            // if((new Date().getTime()) == token.expiration-15000){
+            //     toast.success("Session Will Expire Soon",{autoClose: 2000})
+            // }
             toast.success("Logout Success!!", {autoClose: 2000});
             localStorage.removeItem("loginToken");
             navigate("/login");
@@ -82,7 +82,7 @@ const UserDataContent = () => {
 
     useEffect(()=>{
         console.log("new user data",newUser);
-        handleLogout();
+
     },[])
 
     return (
