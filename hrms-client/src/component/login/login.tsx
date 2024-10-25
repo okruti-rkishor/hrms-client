@@ -5,8 +5,6 @@ import { Button, Form, Input, Image } from "antd";
 import rest from "../../services/http/api";
 import { jwtDecode } from "jwt-decode";
 import UserLoginContext from "../../context/userLoginContext";
-import {useCookies} from "react-cookie";
-
 export type emailInputValueType = {
   email?: string;
   password?: string;
@@ -18,7 +16,6 @@ export type SaveToken = {
 
 const Login=() => {
   const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
-  const [cookies, setCookie, removeCookie] = useCookies(['refreshToken']);
   const navigate = useNavigate();
   const { setNewUser } = useContext<any>(UserLoginContext);
   localStorage.removeItem("loginToken");
