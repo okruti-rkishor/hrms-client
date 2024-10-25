@@ -1,44 +1,56 @@
-
-import {Button, Form, Input, Layout, Select, TableColumnsType, Tooltip} from "antd";
+import { Button, Form, Input, Layout, Select, TableColumnsType, Tooltip } from "antd";
 import rest from "../../../services/http/api";
-import CommonTableComponant from "../../setting/CommonTableComponent";
-import React, { useEffect, useState, useMemo } from "react";
+import CommonTableComponent from "../../setting/CommonTableComponent";
+import React, { useState, useMemo, useCallback } from "react";
 import { Leave_Type } from "../../../constant/constant";
-import {PlusCircleOutlined} from "@ant-design/icons/lib";
+import { PlusCircleOutlined } from "@ant-design/icons/lib";
 
 interface DataType {
     key: React.Key;
-    type: string;
+    name: string;
+    leaveType: string;
     unit: number;
     employee: string;
 }
 
-const LeaveEntitlement = () => {
-    const [isModalOpen,setIsModalOpen]=useState(false);
+const LeaveEntitlement = ({ leaveTypeData }: any) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [employeeList, setEmployeeList] = useState<any[]>([]);
+    const [filterValues, setFilterValues] = useState<object>({ });
 
-    const getEntitlementData = async () => {
+    const filterChangeHandle = (filteredValues: string) => {
+        setFilterValues({ type: filteredValues });
+    };
+
+    const getEntitlementData = useCallback(async (params?: any) => {
         try {
             const allEmployees = await rest.getAllEmployee();
             const tempAllEmp = allEmployees.map((employee: any) => ({
-                name: employee.name.firstName + " " + employee.name.lastName,
+                name: `${employee.name.firstName} ${employee.name.lastName}`,
                 id: employee.id
             }));
             setEmployeeList(tempAllEmp);
-            const tempLeaveEntitlement = await rest.getAllLeaveEntitlement();
-            const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any,index:number) => {
-                const employee: any = allEmployees.find((employee: any) => employee.id === item.employeeId);
+
+            const tempLeaveEntitlement = params
+                ? await rest.getAllLeaveEntitlement(params)
+                : await rest.getAllLeaveEntitlement();
+
+            console.log("Leave Entitlement Data:", tempLeaveEntitlement);
+
+            const newTempLeaveEntitlement = tempLeaveEntitlement.map((item: any, index: number) => {
+                const employee: any = allEmployees.find((emp: any) => emp.id === item.employeeId);
                 return {
                     ...item,
-                    name: employee?.name?.firstName + " " + employee?.name?.lastName,
-                    key:index+1
+                    name: employee ? `${employee.name.firstName} ${employee.name.lastName}` : 'Unknown',
+                    key: index + 1
                 };
             });
             return newTempLeaveEntitlement;
         } catch (e) {
             console.log(e);
+            return [];
         }
-    };
+    }, []);
 
     const columns: TableColumnsType<DataType> = useMemo(
         () => [
@@ -112,24 +124,34 @@ const LeaveEntitlement = () => {
                 </Form.Item>,
             ],
             formFieldsType: [
-                {name: "leaveType", type: "code"},
-                {name: "unit", type: "number"},
-                {name: "employeeId", type: "string" }
+                { name: "leaveType", type: "code" },
+                { name: "unit", type: "number" },
+                { name: "employeeId", type: "string" }
             ],
             tableFieldsType: [
-                {name: "name",type:"null",value:employeeList,field:"employeeId"},
-                {name: "unit", type: "number"},
-                {name: "leaveType",type:"string"},
-
-            ]
+                { name: "name", type: "null", value: employeeList, field: "employeeId" },
+                { name: "unit", type: "number" },
+                { name: "leaveType", type: "string" },
+            ],
+            filterValues: {}
         }),
-        [isModalOpen, setIsModalOpen, employeeList]
+        [isModalOpen, setIsModalOpen, employeeList, columns, getEntitlementData]
     );
-
-
 
     return (
         <div className={"leave-list_table_data"}>
+            <Select
+                placeholder="Select Leave Type"
+                onChange={filterChangeHandle}
+                style={{width: 170, marginLeft: 567, bottom:61}}
+                value={(filterValues as any).type}
+            >
+                {(Object.keys(Leave_Type) as Array<keyof typeof Leave_Type>).map((key) => (
+                    <Select.Option value={key} key={key}>
+                        {Leave_Type[key]}
+                    </Select.Option>
+                ))}
+            </Select>
             <Tooltip title="Add" color={"blue"} key={"blue"}>
                 <Button
                     type="primary"
@@ -139,7 +161,7 @@ const LeaveEntitlement = () => {
                 />
             </Tooltip>
             <Layout className="with-background leaves-type">
-                <CommonTableComponant propsData={propsData}/>
+                <CommonTableComponent propsData={{ ...propsData, filterValues: filterValues }} />
             </Layout>
         </div>
     );

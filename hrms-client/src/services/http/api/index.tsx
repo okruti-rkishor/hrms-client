@@ -51,17 +51,17 @@ export default {
     deleteWorkWeek:(data:string) => rest.del(base + `work-week/${data}`, {},),
     //leaveEntitlement
     leaveEntitlementCreate:(data: any) => rest.post(base + "leave-entitlement", {}, data),
-    getAllLeaveEntitlement :() => rest.get(base + "leave-entitlement/search", {}, ),
+    getAllLeaveEntitlement :(args?:any) => rest.get(base + "leave-entitlement/search", {}, args),
     deleteLeaveEntitlement :(id:string) => rest.del(base + `leave-entitlement/${id}`, {}, ),
     //Designation
     createDesignation:(data:any)=>rest.post(base+"designation",{},data),
-    getAllDesignation:()=>rest.get(base+"designation/find",{}),
+    getAllDesignation:(args?:any) => rest.get(base+"designation/find", {}, args),
     deleteDesignation:(id:string)=>rest.del(base+`designation/${id}`,{}),
     updateDesignation:(data:any,id:string)=>rest.put(base+`designation/${id}`,{},data),
     updateDesignationStatus:(status:boolean,id:string)=>rest.put(base+`designation/${id}`,{},undefined,{active:status}),//todo  => Done
     //Qualification
     createQualification:(data:any)=>rest.post(base+"qualification",{},data),
-    getAllQualification:()=>rest.get(base+"qualification/find"),
+    getAllQualification:(args?:any) => rest.get(base +"qualification/find", {}, args),
     deleteQualification:(id:string)=>rest.del(base+`qualification/${id}`,{}),
     updateQualification:(data:any,id:string)=>rest.put(base+`qualification/${id}`,{},data),
     updateQualificationStatus:(status:boolean,id:string)=>rest.put(base+`qualification/${id}`,{},null,{active:status}),

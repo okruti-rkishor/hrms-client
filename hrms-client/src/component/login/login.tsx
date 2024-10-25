@@ -2,9 +2,10 @@ import "../../styles/component/login.scss";
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, Input, Image } from "antd";
-import rest from "../../services/http/api/index";
+import rest from "../../services/http/api";
 import { jwtDecode } from "jwt-decode";
 import UserLoginContext from "../../context/userLoginContext";
+import {useCookies} from "react-cookie";
 
 export type emailInputValueType = {
   email?: string;
@@ -17,22 +18,25 @@ export type SaveToken = {
 
 const Login=() => {
   const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
+  const [cookies, setCookie, removeCookie] = useCookies(['refreshToken']);
   const navigate = useNavigate();
-  // const [decodeToken, setDecodeToken] = useState({});
   const { setNewUser } = useContext<any>(UserLoginContext);
-
+  localStorage.removeItem("loginToken");
   const onFinishLogin = async (values: any) => {
-    // let decoded = null;
     try {
       const response = await rest.userLogin(userInputValues);
-      const token = response.jsonToken;
-      if (token) {
+      const { id, jsonToken } = response;
+      if (jsonToken) {
         try {
-          const saveToken:SaveToken = {
-            loginToken:token,
-            expiration: (new Date().getTime() + 15 * 60 * 1000)
-          }
+          const decodedToken: any = jwtDecode(jsonToken);
+          const expirationTimeInSeconds = decodedToken.exp;
+          const expirationTimeInMillis = expirationTimeInSeconds * 1000;
+          const saveToken: SaveToken = {
+            loginToken: jsonToken,
+            expiration: expirationTimeInMillis
+          };
           localStorage.setItem("loginToken", JSON.stringify(saveToken));
+          localStorage.setItem("id",JSON.stringify(id))
           const userLoginData = await rest.userLoginDetail(values.email);
           const userCardData = { ...userLoginData, loginStatus: true };
           setNewUser(userCardData);

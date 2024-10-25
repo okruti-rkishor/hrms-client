@@ -1,32 +1,39 @@
-import {Button, Form, Input, Layout, TableColumnsType, Tag, Tooltip} from "antd";
+import {Button, Form, Input, Layout, Select, TableColumnsType, Tag, Tooltip} from "antd";
 import rest from "../../../services/http/api";
-import CommonTableComponant from "../CommonTableComponent";
-import React, {useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
 import {PlusCircleOutlined} from "@ant-design/icons/lib";
+import CommonTableComponent from "../CommonTableComponent";
 
 interface DataType {
     key: React.Key;
     description: string;
     code: string;
-    status: string;
+    status: boolean;
 }
 
 const Designation = () => {
     const [isModalOpen,setIsModalOpen]=useState(false);
+    const [filterValues, setFilterValues] = useState<object>({});
 
-    const fetchDesignations = async () => {
+    const filterChangeHandle = (filteredValues: string) => {
+        setFilterValues({active: filteredValues});
+    };
+
+    const fetchDesignations = useCallback(async (params?: any) => {
         try {
-            const designations = await rest.getAllDesignation();
+
+            const designations = params
+                ? await rest.getAllDesignation(params)
+                : await rest.getAllDesignation();
             const newDesignations = designations.map((designation: any) => ({
                 ...designation,
-                status: designation.active ? "Active" : "Inactive"
             }))
             return newDesignations;
         } catch (e) {
             console.log(e);
+            return [];
         }
-
-    }
+    }, []);
 
     const columns: TableColumnsType<DataType> = [
         {
@@ -48,21 +55,18 @@ const Designation = () => {
         },
         {
             title: 'Status',
-            dataIndex: 'active',
+            dataIndex: 'status',
             align: "center",
-            // render: (_, {status}) => (
-            //     <>
-            //         {(
-            //             <Tag color={status.length === 4 ? 'green' : 'red'} key={status}>
-            //                 {`${status===true?}`}
-            //             </Tag>
-            //         )}
-            //     </>
-            // ),
+            render:(status:boolean)=>(
+                <Tag color={status ? 'green' : 'red'}>
+                    {status ? 'Active' : 'Inactive'}
+                </Tag>
+            ),
         },
     ];
 
-    const propsData = {
+    const propsData = useMemo(
+        () => ({
         title: "Designation",
         create: rest.createDesignation,
         getAll: fetchDesignations,
@@ -94,12 +98,23 @@ const Designation = () => {
         tableFieldsType: [
             {name: "code", type: "code"},
             {name: "description", type: "string"},
-            {name: "active",type:" ",value:"inactive"}
-        ]
-    }
+            {name: "status", type: "boolean"}
+        ],
+            filterValues: {}
+        }),
+        [isModalOpen, setIsModalOpen, columns, fetchDesignations]
+    );
 
     return (
         <div className={"leave-list_table_data"}>
+            <Select
+                placeholder="Select Status"
+                onChange={(value) => filterChangeHandle(value)}
+                style={{ width: 125, marginLeft: 610, bottom: 61 }}
+                value={(filterValues as any).active}>
+                <Select.Option value={true}>Active</Select.Option>
+                <Select.Option value={false}>Inactive</Select.Option>
+            </Select>
             <Tooltip title="Add" color={"blue"} key={"blue"}>
                 <Button
                     type="primary"
@@ -109,7 +124,7 @@ const Designation = () => {
                 />
             </Tooltip>
             <Layout className="with-background leaves-type">
-                <CommonTableComponant propsData={propsData}/>
+                <CommonTableComponent propsData={{ ...propsData, filterValues }} />
             </Layout>
         </div>
     )

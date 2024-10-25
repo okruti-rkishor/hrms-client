@@ -249,10 +249,10 @@ const EmployeeCreate = () => {
             }).catch((error) => console.log(error));
         }
         if (localStorage.length) {
-            const localStorageData = Object.keys(localStorage).map((items) => {
-                let storage: any = items === "loginToken" ? "" : localStorage.getItem(items);
-                let storageDetails: any = items === "loginToken" ? "" : JSON.parse(storage);
-                if (items === "personalDetail") {
+            const localStorageData = Object.keys(localStorage).map((item) => {
+                let storage: any = (item === "loginToken" || item === "refreshToken"|| item === "loglevel") ? "" : localStorage.getItem(item);
+                let storageDetails: any = (item === "loginToken" || item === "refreshToken"|| item === "loglevel") ? "" : JSON.parse(storage);
+                if (item === "personalDetail") {
                     let currentYear = new Date().getFullYear();
                     let selectedYear = dayjs(storageDetails.dateOfBirth).year();
                     let final = currentYear - selectedYear;
@@ -264,10 +264,10 @@ const EmployeeCreate = () => {
                     });
                     storageDetails.dateOfBirth = dayjs(storageDetails.dateOfBirth);
                     storageDetails["age"] = final;
-                } else if (items === "contact") {
+                } else if (item === "contact") {
                     form.setFieldsValue({...storageDetails, joiningDate: dayjs(storageDetails.joiningDate)});
                     storageDetails.joiningDate = dayjs(storageDetails.joiningDate);
-                } else if (items === "previousExperiences") {
+                } else if (item === "previousExperiences") {
                     storageDetails.experiences?.forEach((item: any) => {
                         item.duration[0] = dayjs(item.duration[0]);
                         item.duration[1] = dayjs(item.duration[1]);

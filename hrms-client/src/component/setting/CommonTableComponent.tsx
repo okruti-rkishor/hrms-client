@@ -1,7 +1,6 @@
 import {Card, Form, Input, Modal, Popconfirm, Table, TableColumnsType, Tooltip} from "antd";
 import React, {useEffect, useState} from "react";
 import rest from "../../services/http/api";
-import {toast} from "react-toastify";
 import useFetchLeaveTableData from "../../custom_hooks/useFetchLeaveTableData";
 import {CheckCircleOutlined, CheckOutlined, CloseCircleOutlined, DeleteOutlined} from "@ant-design/icons/lib";
 import dayjs from "dayjs";
@@ -9,15 +8,9 @@ import {
     addUnderScoreWithUpper,
     addUnderScoreWithUpperCase,
     dateFormat,
-    firstCharUpperCase, getIdfromApi,
-    pascalCase,
-    removeUnderScore,
+    getIdfromApi,
     removeUnderScoreWithLowerCase
 } from "../../utility/utility";
-import WorkWeek from "./settingTable/workWeek";
-import LeaveType from "./settingTable/leaveType";
-import Designation from "./settingTable/desigation";
-import Qualification from "./settingTable/qualification";
 import Holiday from "./settingTable/holiday";
 
 
@@ -26,8 +19,8 @@ function CommonTableComponent({propsData}: any) {
     const [allNewData, setAllNewData, deleteHandle]: any = useFetchLeaveTableData({
         getAll,
         tableColumns: columns.map((tableColumn: any) => tableColumn.dataIndex),
-        deleteById
-    })
+        deleteById,
+    },propsData.filterValues);
     const [newColumn, setNewColumn] = useState([
         ...columns,
         {

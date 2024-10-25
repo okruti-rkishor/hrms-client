@@ -6,7 +6,7 @@ import {
     SolutionOutlined,
     TeamOutlined,
     UserOutlined,
-    SearchOutlined
+    SearchOutlined, SettingOutlined
 } from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {
@@ -187,7 +187,7 @@ const items = [
         {
             label: <Link to='/setting'>Settings</Link>,
             key: 'setting',
-            icon: <EditOutlined/>,
+            icon: <SettingOutlined/>,
         }
     ]
 ];

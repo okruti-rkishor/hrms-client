@@ -165,7 +165,7 @@ const Experience = ({tempEnum}: any) => {
                                             options={options}
                                             optionRender={(option) => (
                                                 <Space>
-        <span role="img" aria-label={option.data.label}>
+        <span role="img" aria-label={typeof option.data.label === 'string' ? option.data.label : ''}>
           {option.data.emoji}
         </span>
                                                     {option.data.desc}
