@@ -18,9 +18,9 @@ const Login=() => {
   const [userInputValues, setUserInputValues] = useState<emailInputValueType>({});
   const navigate = useNavigate();
   const { setNewUser } = useContext<any>(UserLoginContext);
-  localStorage.removeItem("loginToken");
   const onFinishLogin = async (values: any) => {
     try {
+      localStorage.removeItem("loginToken");
       const response = await rest.userLogin(userInputValues);
       const { id, jsonToken } = response;
       if (jsonToken) {
