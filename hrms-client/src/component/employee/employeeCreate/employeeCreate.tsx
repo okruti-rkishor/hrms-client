@@ -188,7 +188,14 @@ const EmployeeCreate = () => {
         if (isEditing === false) {
             restApi.employeeCreate(payload).then((e) => {
                 message.success("employee successfully inserted");
-                if (localStorage.length) localStorage.clear();
+                if (localStorage.length) {
+                    const preserveKeys = ['id', 'loginToken'];
+                    Object.keys(localStorage).forEach((key) => {
+                        if (!preserveKeys.includes(key)) {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                }
                 navigate(`/employee/search`)
             }).catch(((e) => {
                 message.error("employee not inserted")
