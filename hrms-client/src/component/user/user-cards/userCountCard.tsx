@@ -39,7 +39,7 @@ function EventsCountCard ({ title = "", count = 0, className = "", ...props }) {
     };
 
     const handleInternalEventsClick = () => {
-        navigate(`/`);
+        navigate(`/event/customEvents`);
     };
 
     return (

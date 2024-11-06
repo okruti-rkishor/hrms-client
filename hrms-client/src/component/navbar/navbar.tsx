@@ -3,22 +3,26 @@ import type {MenuProps} from 'antd';
 import {Menu} from 'antd';
 import {
     FormOutlined,
+    SearchOutlined,
+    SettingOutlined,
     SolutionOutlined,
     TeamOutlined,
-    UserOutlined,
-    SearchOutlined, SettingOutlined
+    UserOutlined
 } from '@ant-design/icons';
 import {Link} from "react-router-dom";
 import {
     AppstoreOutlined,
     CalendarOutlined,
-    EditOutlined,
-    FileSearchOutlined, HomeOutlined,
-    UserAddOutlined
+    DiffOutlined,
+    GiftOutlined,
+    HomeOutlined,
+    ScheduleOutlined,
+    SoundOutlined,
+    StarOutlined,
 } from "@ant-design/icons/lib";
 import '../../styles/component/navbar.scss';
 import UserLoginContext from "../../context/userLoginContext";
-import { checkUserRole } from "../../utility/utility";
+import {checkUserRole} from "../../utility/utility";
 
 const items = [
     [
@@ -45,6 +49,13 @@ const items = [
                     ),
                     key: 'employee search',
                     icon: <SearchOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/employee/documentNew'>Documents</Link>
+                    ),
+                    key: 'Document',
+                    icon: <DiffOutlined/>,
                 }
             ],
         },
@@ -58,26 +69,25 @@ const items = [
                         <Link to='/event/birthday'>Birthday</Link>
                     ),
                     key: 'birthday',
-                    icon: <FormOutlined/>,
+                    icon: <GiftOutlined/>,
                 },
                 {
                     label: (
                         <Link to='/event/anniversary'>Work Anniversary</Link>
                     ),
                     key: 'work anniversary',
-                    icon: <SearchOutlined/>,
+                    icon: <StarOutlined/>,
                 },
                 {
                     label: 'Internal Events',
                     type: 'group',
                     children: [
                         {
-                            label: 'Option 1',
-                            key: 'custom01',
-                        },
-                        {
-                            label: 'Option 2',
-                            key: 'custom02',
+                            label: (
+                                <Link to='/event/customEvents'>Announcements</Link>
+                            ),
+                            key: 'Announcements',
+                            icon: <SoundOutlined/>
                         },
                     ],
                 },
@@ -141,6 +151,13 @@ const items = [
                     ),
                     key: 'employee search',
                     icon: <SearchOutlined/>,
+                },
+                {
+                    label: (
+                        <Link to='/employee/documentNew'>Documents</Link>
+                    ),
+                    key: 'Document',
+                    icon: <DiffOutlined/>,
                 }
             ],
         },
@@ -154,26 +171,32 @@ const items = [
                         <Link to='/event/birthday'>Birthday</Link>
                     ),
                     key: 'birthday',
-                    icon: <FormOutlined/>,
+                    icon: <GiftOutlined/>,
                 },
                 {
                     label: (
                         <Link to='/event/anniversary'>Work Anniversary</Link>
                     ),
                     key: 'work anniversary',
-                    icon: <SearchOutlined/>,
+                    icon: <StarOutlined/>,
                 },
                 {
                     label: 'Internal Events',
                     type: 'group',
                     children: [
                         {
-                            label: 'Option 1',
-                            key: 'custom01',
+                            label: (
+                                <Link to='/event/eventCreate'>Custom Event</Link>
+                            ),
+                            key: 'CustomEvent',
+                            icon: <ScheduleOutlined/>
                         },
                         {
-                            label: 'Option 2',
-                            key: 'custom02',
+                            label: (
+                                <Link to='/event/customEvents'>Announcements</Link>
+                            ),
+                            key: 'Announcements',
+                            icon: <SoundOutlined/>
                         },
                     ],
                 },
@@ -198,7 +221,7 @@ const NavigationMenu: React.FC = () => {
     const {newUser} = useContext<any>(UserLoginContext);
 
     const isEmployee = () => {
-        if(newUser.loginStatus && checkUserRole(newUser)
+        if (newUser.loginStatus && checkUserRole(newUser)
             // (newUser.roles.includes("ADMIN") || newUser.roles.includes("HR"))
         ) {
             return false;

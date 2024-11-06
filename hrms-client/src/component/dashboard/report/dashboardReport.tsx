@@ -64,7 +64,7 @@ const dashboardCardItems:any = {
             links: [
                 {
                     text: "Manage Personal Documents",
-                    target: "/user/create",
+                    target: "/employee/documentNew",
                 },
                 {
                     text: "Manage Dependants Documents",

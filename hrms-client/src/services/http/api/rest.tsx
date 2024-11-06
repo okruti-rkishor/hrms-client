@@ -83,6 +83,46 @@ function RestApi(base:any){
             });
     }
 
+    async function fetchData(uriTemplate: string, pathArgs?: any, queryArgs?: any, headers?: any) {
+        const uri = pathArgs ? Mustache.render(uriTemplate, pathArgs) : uriTemplate;
+        const queryString = queryArgs
+            ? '?' + new URLSearchParams(queryArgs).toString()
+            : '';
+
+        const completeUrl = base+`/${uri}${queryString}`;
+        console.log("FETCH URL: ", completeUrl);
+
+        let data: any = localStorage.getItem("loginToken");
+        data = data ? JSON.parse(data) : '';
+
+        const fetchHeaders = {
+            ...headers,
+            Authorization: data ? data.loginToken.replace(/['"]+/g, '') : '',
+            'Content-Type': 'application/octet-stream',
+        };
+
+        const fetchConfig: RequestInit = {
+            method: 'GET',
+            headers: fetchHeaders
+        };
+
+        try {
+            const response = await fetch(completeUrl, fetchConfig);
+            console.log(response);
+
+            if (response.ok) {
+                return await response.blob();
+            } else {
+                const error = { code: 'http.fetch.error', message: `Http FETCH [${completeUrl}] failed with ${response.status}` };
+                throw error;
+            }
+        } catch (error: any) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+
     async function del(uriTemplate:string, pathArgs:any, body?:any, queryArgs?:any) {
         const uri = pathArgs ? Mustache.render(uriTemplate, pathArgs) : uriTemplate;
         console.log("DELETE " + uri, queryArgs ? queryArgs : "");
@@ -102,8 +142,9 @@ function RestApi(base:any){
         post,
         del,
         put,
+        fetchData,
         http
     };
 }
 
-export const hrms = RestApi("http://3.108.7.18:8080/hrms");
+export const hrms = RestApi("http://localhost:8080/hrms");

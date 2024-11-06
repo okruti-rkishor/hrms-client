@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 import React, {useContext} from "react";
 import UserLoginContext from "../../../context/userLoginContext";
 import {
-    CalendarOutlined, ClockCircleOutlined, DashboardOutlined,
+    CalendarOutlined, ClockCircleOutlined, DashboardOutlined, DiffOutlined,
     FileSearchOutlined, FireOutlined, GiftOutlined,
     SolutionOutlined, StarOutlined,
     UserAddOutlined,
@@ -35,6 +35,12 @@ let dashboardQuickLinks: any = {
             target: "/employee/search",
         },
         {
+            heading: "Documents",
+            subheading: "Documents",
+            icon: <DiffOutlined/>,
+            target: "/employee/documentNew",
+        },
+        {
             heading: "Leave Request",
             subheading: "Leave Request",
             icon: <CalendarOutlined/>,
@@ -58,7 +64,7 @@ let dashboardQuickLinks: any = {
             heading: "Office Events",
             subheading: "Office Events",
             icon: <StarOutlined/>,
-            target: "/event/office",
+            target: "/event/customEvents",
         },
         {
             heading: "Holiday",

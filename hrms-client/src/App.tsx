@@ -16,21 +16,24 @@ import {
     Login,
     PrivacyPolicy,
     PrivateRoutes,
+    Setting,
     UserCreate,
     UserDataTable,
-    UserDetailsCard,
-    Setting
+    UserDetailsCard
 } from "./component/index";
 import "./App.scss";
 import "react-toastify/dist/ReactToastify.css";
 import ApiInterceptor from "./apiInterceptor";
 import {toast, ToastContainer} from "react-toastify";
 import UserLoginContext from "./context/userLoginContext";
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import LeaveIndex from "./component/leaves/leaveIndex";
 import LeaveRequest from "./component/leaves/leaveStatus/leaveRequest";
 import Dashboard from "./component/dashboard/dashboard";
 import ChangePassword from "./component/user/change-password/changePassword";
+import DocumentNew from "./component/employee/documentNew";
+import EventCreate from "./component/events/customEvents/eventCreate";
+import CustomEvent from "./component/events/customEvents/customEvents";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
@@ -63,8 +66,12 @@ const App = () => {
                            // element={<PrivateRoutes Component={<EmployeeSearch/>}
                     />
                     <Route path="employee/create" element={<PrivateRoutes Component={<EmployeeCreate/>}/>}/>
+                    <Route path="employee/documentNew" element={<DocumentNew/>}/>
                     <Route path="event/birthday" element={<Birthday/>}/>
                     <Route path="event/anniversary" element={<Anniversary/>}/>
+                  <Route path="event/customEvents" element={<CustomEvent/>}/>
+                  <Route path="event/eventCreate"  element={<PrivateRoutes Component={<EventCreate/>}/>}/>
+
                     <Route path="event/birthday/:id" element={<Birthday/>}/>
                     <Route path="employee/create/:id"
                            element={<PrivateRoutes Component={<EmployeeCreate/>}/>}

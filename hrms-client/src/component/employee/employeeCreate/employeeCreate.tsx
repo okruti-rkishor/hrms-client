@@ -1,4 +1,4 @@
-import React, {useEffect, useState,} from "react";
+import React, {useEffect, useRef, useState,} from "react";
 import {Form, Button, message, Steps, Divider, Layout} from "antd";
 import '../../../styles/component/employeeCreate.scss';
 import restApi from "../../../services/http/api/index";
@@ -52,10 +52,10 @@ const EmployeeCreate = () => {
             title: 'Banking Details',
             content: 'Fifth-content',
         },
-        {
-            title: 'Document',
-            content: 'Last-content',
-        },
+        // {
+        //     title: 'Document',
+        //     content: 'Last-content',
+        // },
     ];
     const [isEditing, setIsEditing] = useState<any>(false);
     const [age, setAge] = useState<any>(null);
@@ -175,16 +175,16 @@ const EmployeeCreate = () => {
             "experiences": employeeData.experiences,
             "familyDetails": employeeData.familyDetails,
             "bankDetail": employeeData.bankDetail && employeeData.bankDetail[0],
-            "documents": Object.keys(employeeData.documents).map((item: any) => {
-                return {id: employeeData.documents[item].id}
-            }),
+            // "documents": Object.keys(employeeData.documents).map((item: any) => {
+            //     return {id: employeeData.documents[item].id}
+            // }),
             "active": "true",
         };
         if (employeeData.experiences) convertExperienceToObject(employeeData);
-        if(!employeeData.documents.hasOwnProperty("AADHARD_CARD") && !employeeData.documents.hasOwnProperty("PAN_CARD")){
-            message.error("please upload file");
-            return;
-        }
+        // if(!employeeData.documents.hasOwnProperty("AADHARD_CARD") && !employeeData.documents.hasOwnProperty("PAN_CARD")){
+        //     message.error("please upload file");
+        //     return;
+        // }
         if (isEditing === false) {
             restApi.employeeCreate(payload).then((e) => {
                 message.success("employee successfully inserted");
@@ -391,16 +391,16 @@ const EmployeeCreate = () => {
                         </>)}
                         {current === 5 && (<>
                             <BankingDeatils/>
-                            <PrevNext onChange={onChange} current={current}/>
+                            {/*<PrevNext onChange={onChange} current={current}/>*/}
                         </>)}
-                        {current === 6 && (<>
-                            <Document employeeData={employeeData} setEmployeeData={setEmployeeData}
-                                      isEditing={isEditing}/>
-                            <PrevNext onChange={onChange} current={current}/>
-                        </>)}
-                        {current === 6 && (<>
+                        {/*{current === 6 && (<>*/}
+                        {/*    <Document employeeData={employeeData} setEmployeeData={setEmployeeData}*/}
+                        {/*              isEditing={isEditing}/>*/}
+                        {/*    <PrevNext onChange={onChange} current={current}/>*/}
+                        {/*</>)}*/}
+                        {current === 5 && (<>
                             <Form.Item>
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit"  style={{    margin:"20px"}}>
                                     Submit
                                 </Button>
                             </Form.Item>

@@ -37,7 +37,7 @@ export enum Documents{
     JOINING_LETTER="JOINING LETTER",
     TRAINING_CERTIFICATE="TRAINING CERTIFICATE",
     OFFER_LETTER="OFFER LETTER",
-    RELIVING_LETTER="RELIEVING LETTER",
+    RELIEVING_LETTER="RELIEVING LETTER",
     EXPERIENCE_LETTER="EXPERIENCE LETTER",
     PASSPORT_PHOTO="PASSPORT PHOTO",
     BIRTHDAY_PHOTO="BIRTHDAY PHOTO",
@@ -109,4 +109,12 @@ export enum Leave_Duration{
     FULL_DAY="full day",
     FIRST_HALF="first half",
     SECOND_HALF="second half"
+}
+
+export enum Event_State {
+    CREATED="Created",
+    CONFIRMED="Confirmed",
+    FINISHED="Finished",
+    CANCELLED="Cancelled"
+
 }

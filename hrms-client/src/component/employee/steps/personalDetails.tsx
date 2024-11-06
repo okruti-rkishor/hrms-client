@@ -135,6 +135,23 @@ const PersonalDetails = (props: any) => {
 
                 <Form.Item label="Qualification"
                            name={"qualification"}
+                           rules={[
+                               {
+                                   required: true,
+                                   message: "Please enter Qualification ",
+                               },
+                               () => ({
+                                   validator(_, value) {
+                                       if (!value) {
+                                           return Promise.reject();
+                                       }
+                                       if (!isNaN(value)) {
+                                           return Promise.reject("Name should be text.");
+                                       }
+                                       return Promise.resolve();
+                                   },
+                               }),
+                           ]}
                 >
                     <Select virtual={false}>
                             {qualificationEnum.map((item: any) =>
