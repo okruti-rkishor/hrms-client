@@ -27,32 +27,26 @@ import {checkUserRole} from "../../utility/utility";
 const items = [
     [
         {
-            label: <Link to='/'>Home</Link>,
+            label: <Link to='/' className="nav-home">Home</Link>,
             key: 'home',
-            icon: <HomeOutlined/>,
+            icon: <HomeOutlined className="custom-home-icon"/>,
         },
         {
             label: 'Employee',
             key: 'employee',
             icon: <TeamOutlined/>,
+
             children: [
                 {
                     label: (
-                        <Link to='/employee/create'>Create</Link>
-                    ),
-                    key: 'employee create',
-                    icon: <FormOutlined/>,
-                },
-                {
-                    label: (
-                        <Link to='/employee/search'>Search</Link>
+                        <Link to='/employee/search' className="sub-menu" id="employee-search">Search</Link>
                     ),
                     key: 'employee search',
                     icon: <SearchOutlined/>,
                 },
                 {
                     label: (
-                        <Link to='/employee/documentNew'>Documents</Link>
+                        <Link to='/employee/documentNew' className="sub-menu">Documents</Link>
                     ),
                     key: 'Document',
                     icon: <DiffOutlined/>,
@@ -66,44 +60,38 @@ const items = [
             children: [
                 {
                     label: (
-                        <Link to='/event/birthday'>Birthday</Link>
+                        <Link to='/event/birthday' className="sub-menu">Birthday</Link>
                     ),
                     key: 'birthday',
                     icon: <GiftOutlined/>,
                 },
                 {
                     label: (
-                        <Link to='/event/anniversary'>Work Anniversary</Link>
+                        <Link to='/event/anniversary' className="sub-menu">Work Anniversary</Link>
                     ),
                     key: 'work anniversary',
                     icon: <StarOutlined/>,
                 },
                 {
-                    label: 'Internal Events',
-                    type: 'group',
-                    children: [
-                        {
-                            label: (
-                                <Link to='/event/customEvents'>Announcements</Link>
-                            ),
-                            key: 'Announcements',
-                            icon: <SoundOutlined/>
-                        },
-                    ],
+                    label: (
+                        <Link to='/event/customEvents' className="sub-menu">Announcements</Link>
+                    ),
+                    key: 'Announcements',
+                    icon: <SoundOutlined/>
                 },
             ],
         },
         {
-            label: <Link to='/leave'>Leaves</Link>,
+            label: <Link to='/leave' className="nav-home">Leaves</Link>,
             key: 'leaves',
-            icon: <CalendarOutlined/>,
+            icon: <CalendarOutlined  className="custom-home-icon"/>,
         },
     ],
     [
         {
-            label: <Link to='/'>Home</Link>,
+            label: <Link to='/' className="nav-home">Home</Link>,
             key: 'home',
-            icon: <HomeOutlined/>,
+            icon: <HomeOutlined className="custom-home-icon"/>,
         },
         {
             label: 'User',
@@ -112,21 +100,21 @@ const items = [
             children: [
                 {
                     label: (
-                        <Link to='/user/create'>Create</Link>
+                        <Link to='/user/create' className="sub-menu">Create</Link>
                     ),
                     key: 'user create',
                     icon: <FormOutlined/>,
                 },
                 {
                     label: (
-                        <Link to='/user/list'>List</Link>
+                        <Link to='/user/list' className="sub-menu">List</Link>
                     ),
                     key: 'user list',
                     icon: <SolutionOutlined/>,
                 },
                 {
                     label: (
-                        <Link to='/user/detail'>Details</Link>
+                        <Link to='/user/detail' className="sub-menu">Details</Link>
                     ),
                     key: 'user detail',
                     icon: <SolutionOutlined/>,
@@ -140,21 +128,21 @@ const items = [
             children: [
                 {
                     label: (
-                        <Link to='/employee/create'>Create</Link>
+                        <Link to='/employee/create' className="sub-menu">Create</Link>
                     ),
                     key: 'employee create',
                     icon: <FormOutlined/>,
                 },
                 {
                     label: (
-                        <Link to='/employee/search'>Search</Link>
+                        <Link to='/employee/search' className="sub-menu">Search</Link>
                     ),
                     key: 'employee search',
                     icon: <SearchOutlined/>,
                 },
                 {
                     label: (
-                        <Link to='/employee/documentNew'>Documents</Link>
+                        <Link to='/employee/documentNew' className="sub-menu">Documents</Link>
                     ),
                     key: 'Document',
                     icon: <DiffOutlined/>,
@@ -168,7 +156,7 @@ const items = [
             children: [
                 {
                     label: (
-                        <Link to='/event/birthday'>Birthday</Link>
+                        <Link to='/event/birthday' className="sub-menu" id="birthday">Birthday</Link>
                     ),
                     key: 'birthday',
                     icon: <GiftOutlined/>,
@@ -180,32 +168,35 @@ const items = [
                     key: 'work anniversary',
                     icon: <StarOutlined/>,
                 },
+                // {
+                //     label: 'Internal Events',
+                //
+                //
+                //     type: 'group',
+                //     children: [
+                //
+                //     ],
+                // },
                 {
-                    label: 'Internal Events',
-                    type: 'group',
-                    children: [
-                        {
-                            label: (
-                                <Link to='/event/eventCreate'>Custom Event</Link>
-                            ),
-                            key: 'CustomEvent',
-                            icon: <ScheduleOutlined/>
-                        },
-                        {
-                            label: (
-                                <Link to='/event/customEvents'>Announcements</Link>
-                            ),
-                            key: 'Announcements',
-                            icon: <SoundOutlined/>
-                        },
-                    ],
+                    label: (
+                        <Link to='/event/eventCreate' className="sub-menu" id="event-create">Custom Event</Link>
+                    ),
+                    key: 'CustomEvent',
+                    icon: <ScheduleOutlined/>
+                },
+                {
+                    label: (
+                        <Link to='/event/customEvents' className="sub-menu" id="announcement">Announcements</Link>
+                    ),
+                    key: 'Announcements',
+                    icon: <SoundOutlined/>
                 },
             ],
         },
         {
-            label: <Link to='/leave'>Leaves</Link>,
+            label: <Link to='/leave' className="nav-home">Leaves</Link>,
             key: 'leaves',
-            icon: <CalendarOutlined/>,
+            icon: <CalendarOutlined className="custom-home-icon"/>,
         },
         {
             label: <Link to='/setting'>Settings</Link>,
@@ -241,7 +232,7 @@ const NavigationMenu: React.FC = () => {
             </Link>
             <Menu onClick={onClick}
                   selectedKeys={[current]}
-                  mode="vertical"
+                  mode="inline"
                   items={items && isEmployee() ? items[0] : items[1]}
                   className='navigation-menu'
             />

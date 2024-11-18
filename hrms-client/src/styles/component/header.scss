@@ -12,9 +12,10 @@ header {
     max-width: 1440px;
     margin: 0 auto;
     padding: 10px 60px;
-    gap: 32px;
+    gap: 20px;
     //place-items: end;
   }
+  width: inherit;
 
   &.ant-layout-header {
     position: sticky;

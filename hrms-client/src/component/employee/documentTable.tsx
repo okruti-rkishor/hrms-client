@@ -3,6 +3,7 @@ import { Table, Typography, Popconfirm, message } from "antd";
 import { DeleteOutlined, DownloadOutlined, EyeOutlined } from "@ant-design/icons";
 import restApi from "../../services/http/api";
 import UserLoginContext from "../../context/userLoginContext";
+import {SaveTwoTone} from "@ant-design/icons/lib";
 
 interface FileData {
     contentType: string;
@@ -22,7 +23,7 @@ interface DocumentTableProps {
 const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
     const [files, setFiles] = useState<FileData[]>([]);
     const { newUser } = useContext(UserLoginContext);
-    const [employeeId, setEmployeeId] = useState<string | null>(null);
+   const [employeeId, setEmployeeId] = useState<string | null>(null);
 
 
     const fetchEmployeeId = async () => {
@@ -39,7 +40,7 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
     const fetchDocuments = async (empId: string) => {
         if (!empId) return;
         try {
-            const response = await restApi.getDocument(empId, documentType);
+            const response = await restApi.getDocument(empId);
             console.log(response);
             setFiles(response || []);
         } catch (error) {
@@ -47,7 +48,6 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
             console.error("Fetch Error: ", error);
         }
     };
-
 
 
     const handleDelete = async (id: string | undefined, fileName: string) => {
@@ -65,14 +65,12 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
         }
     };
 
-    const handlePreview = async (fileName: string) => {
+    const handleSave = async (id: any) => {
         try {
-            const response = await restApi.downloadDocument(fileName);
-            const fileURL = URL.createObjectURL(response);
-            window.open(fileURL, '_blank');
-            setTimeout(() => URL.revokeObjectURL(fileURL), 100);
-        } catch (error) {
-            console.error('Error while Previewing the document:', error);
+            const response = await restApi.changeStatus(id);
+        }
+        catch (error) {
+            console.error('Error while Saving the document:', error);
         }
     };
 
@@ -134,11 +132,20 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
         },
         {
             title: 'Size',
-            dataIndex: 'size',
-            key: 'size',
+            dataIndex: 'fileSize',
+            key: 'fileSize',
             width: '10%',
             editable: true,
         },
+
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+            width: '10%',
+            editable: true,
+        },
+
         {
             title: 'Action',
             key: 'action',
@@ -151,9 +158,8 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
                     <Popconfirm title="Are you sure to delete?" onConfirm={() => handleDelete(record.id, record.fileName)}>
                         <DeleteOutlined className="document-table delete-button" style={{ color: "red", cursor: "pointer" }} />
                     </Popconfirm>
-                    <Typography.Link onClick={() => handlePreview(record.fileName)} style={{ marginLeft: "5px", color: "green", cursor: "pointer" }}>
-                        <EyeOutlined />
-                    </Typography.Link>
+                    <Typography.Link onClick={() => handleSave(record.id)} style={{ marginLeft: "5px", color: "green", cursor: "pointer" }}>
+                        <SaveTwoTone />                    </Typography.Link>
                 </div>
             ),
         },
@@ -168,7 +174,6 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
             }))}
             columns={columns}
             pagination={false}
-            style={{ margin: "20px" }}
         />
     );
 };

@@ -15,13 +15,13 @@
 
   .ant-layout {
     //background: unset;
-    background: $hrms-white-30;
+    background: $hrms-white;
 
     &.with-background {
       //background: $hrms-white-10;
       //background: #e8f0fe80;
       height: 100%;
-      padding: 40px 40px 20px;
+      padding: 15px 15px 15px;
     }
 
     .ant-select-multiple {
@@ -46,14 +46,14 @@
   max-width: 95vw;
   width: 100%;
   margin: 0 auto;
-  padding: 24px 40px;
-  background-color: white;
-  border-radius: 16px;
+  padding: 12px 15px;
+ // background-color: white;
+  //border-radius: 16px;
   //box-shadow: 0 0 10px $hrms-gray-10;
   //box-shadow: 0 0 20px 0 #0000001A;
-  box-shadow: 0 0 20px 0 $hrms-blue-30;
+ // box-shadow: 0 0 20px 0 $hrms-blue-30;
   //border: 1px solid $hrms-gray-20;
-  border: 1px solid $hrms-blue-30;
+ // border: 1px solid $hrms-blue-30;
 }
 
 .ant-page-header {
@@ -137,7 +137,7 @@
     }
   }
 }
-
+.header
 
 .ant-select-dropdown {
   .ant-select-item-option-selected {

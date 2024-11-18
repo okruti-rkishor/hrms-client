@@ -34,6 +34,7 @@ export const EventContextProvider = ({children}: any) => {
                 setUpcomingBirthday,
                 birthdayData,
                 customEventData,
+                setCustomEventData,
                 updateCustomEventValue,
                 anniversaryData,
                 setBirthdayData,

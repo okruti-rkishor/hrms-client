@@ -1,9 +1,10 @@
 import {Button, Collapse, CollapseProps, Form, Input, message, theme, Upload, UploadProps} from "antd";
 import restApi from "../../../services/http/api";
 import {Documents} from "../../../constant/constant";
-import React, {CSSProperties, useState} from "react";
+import React, {CSSProperties, useContext, useEffect, useState} from "react";
 import {UploadOutlined} from '@ant-design/icons';
 import {CaretRightOutlined} from "@ant-design/icons/lib";
+import UserLoginContext from "../../../context/userLoginContext";
 
 const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element => {
     console.log("7777")
@@ -11,6 +12,10 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         AADHAAR_CARD_NUMBER: employeeData.documents["AADHAAR_CARD"]?.documentNumber ?? "",
         PAN_CARD_NUMBER: employeeData.documents["PAN_CARD"]?.documentNumber ?? ""
     });
+    const [employeeId, setEmployeeId] = useState<string | null>(null);
+    const { newUser } = useContext(UserLoginContext);
+
+
 
     const fileProps: UploadProps = {
         onChange(info) {
@@ -24,6 +29,16 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             }
             },
     };
+    const fetchEmployeeId = async () => {
+        const allEmployees = await restApi.getAllEmployee();
+        const employee = allEmployees.find((item: any) => item?.officialEmail === newUser?.email);
+        const id = employee?.id;
+
+        if(id)
+        {setEmployeeId(id);}
+        return id;
+    };
+
 
     const getItems: (panelStyle: CSSProperties) => CollapseProps['items'] = (panelStyle) => [
         {
@@ -180,8 +195,8 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
                 documentPayload["document-number"] = state.PAN_CARD_NUMBER;
             }
         }
-
-        const response = await restApi.documentUpload(documentPayload).then((info) => {
+if (employeeId){
+        const response = await restApi.documentUpload(documentPayload,employeeId).then((info) => {
             onSuccess("done");
             const newDocument = {
                 customKey,
@@ -197,7 +212,7 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
             })
         }).catch((info) => {
             onError("error")
-        });
+        });}
     }
 
     const onRemoveFile = async (customKey: any) => {
@@ -248,6 +263,14 @@ const Document = ({employeeData, setEmployeeData, isEditing}: any): JSX.Element 
         borderRadius: token.borderRadiusLG,
         border: 'none',
     }
+
+    useEffect(() => {
+        const setEmployeeId = async () => {
+            await fetchEmployeeId();
+        };
+        setEmployeeId();
+    }, [newUser]);
+
 
     return (
         <>

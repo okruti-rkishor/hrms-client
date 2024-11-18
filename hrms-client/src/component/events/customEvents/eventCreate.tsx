@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Badge, Calendar, DatePicker, Form, Input, Modal} from "antd";
 import {Event_State} from "../../../constant/constant";
 import dayjs from "dayjs";
@@ -13,6 +13,7 @@ const EventCreate: React.FC = () => {
     const [form] = Form.useForm();
     const [visible, setVisible] = useState(false);
     const [selectedDate, setSelectedDate] = useState<any>(null);
+    const [events, setEvents] = useState<any[]>([]);
 
     const handleOpen = (date: dayjs.Dayjs) => {
         setSelectedDate(date);
@@ -33,6 +34,11 @@ const EventCreate: React.FC = () => {
 
         try {
             const response = await rest.createEvent(payload);
+            const newEvent = {
+                ...payload,
+                id: response.id,
+            };
+            setEvents((prevEvents) => [...prevEvents, newEvent]);
             handleClose();
         } catch (e) {
             console.error(e);
@@ -44,27 +50,17 @@ const EventCreate: React.FC = () => {
         setVisible(false);
     };
 
-    const getListData = (value: any) => {
-        const date = value.format("YYYY-MM-DD");
-        const allEvents = [
-            ...(customEventData?.today || []),
-            ...(customEventData?.upcoming || []),
-            ...(customEventData?.passed || []),
-        ];
-        const filteredEvents = allEvents.filter(
-            (event: any) => event.date === date
-        );
-        console.log("Filtered Events:", filteredEvents);
-        return filteredEvents;
-    };
+
 
     const cellHandle = (value: dayjs.Dayjs) => {
-        const listData = getListData(value);
+        const date = value.format("YYYY-MM-DD");
 
         return (
             <div className="show-model" onClick={() => handleOpen(value)}>
                 <ul className="events">
-                    {listData.map((item: any) => (
+                    {events.filter(
+                        (event: any) => event.date === date
+                    ).map((item: any) => (
                         <li key={item.id}>
                             <Badge status="success" text={item.name}/>
                         </li>
@@ -73,7 +69,14 @@ const EventCreate: React.FC = () => {
             </div>
         );
     };
-
+    useEffect(() => {
+        const allEvents = [
+            ...(customEventData?.today || []),
+            ...(customEventData?.upcoming || []),
+            ...(customEventData?.passed || []),
+        ];
+        setEvents(allEvents);
+    }, [customEventData]);
     return (
         <div>
             {/* Event Creation Modal */}
@@ -97,7 +100,6 @@ const EventCreate: React.FC = () => {
                     <Form.Item name="hostBy" label="Host By">
                         <Input placeholder="Enter host name"/>
                     </Form.Item>
-
                     <Form.Item name="description" label="Event Description">
                         <Input.TextArea rows={4} placeholder="Enter event description"/>
                     </Form.Item>

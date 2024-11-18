@@ -103,11 +103,12 @@ function EmployeeSearch() {
     const formatedResp = resp.map((employee:any,index:number)=>{
       return{
           ...employee,
-        employeeName: firstCharUpperCase(`${employee?.name?.firstName}${
-            employee?.name?.middleName !== null
-                ? " " + employee?.name?.middleName
-                : ""
-        } ${employee.name.lastName}`),
+        // employeeName: firstCharUpperCase(`${employee?.name?.firstName}${
+        //     employee?.name?.middleName !== null
+        //         ? " " + employee?.name?.middleName
+        //         : ""
+        // } ${employee.name.lastName}`),
+        employeeName: employee.name.middleName? firstCharUpperCase(employee.name.firstName)+ " " + firstCharUpperCase(employee.name.middleName) + " " + firstCharUpperCase(employee.name.lastName) : firstCharUpperCase(employee.name.firstName)+ " " + firstCharUpperCase(employee.name.lastName),
         designation: removeUnderScoreWithLowerCase(employee.designation.code),
         key:index,
       }
@@ -148,6 +149,7 @@ function EmployeeSearch() {
         //   String(employee.designation.code),
         //   "_"
         // );
+
         return {
           ...employee,
           employeeName: firstCharUpperCase(`${employee.name.firstName}${

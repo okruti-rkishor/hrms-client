@@ -48,7 +48,7 @@ const Address = ({state, setState,city,setCity}: any) => {
                            ]}
 
                 >
-                    <Select options={options} virtual={false}/>
+                    <Select options={options} showSearch virtual={false}/>
                 </Form.Item>
 
                 <Form.Item label={"City"}
@@ -62,7 +62,12 @@ const Address = ({state, setState,city,setCity}: any) => {
                            ]}
 
                 >
-                    <Select options={city} virtual={false}/>
+                    <Select
+                        options={city}
+                        showSearch
+                        virtual={false}
+                    />
+
                 </Form.Item>
 
                 <Form.Item label={"Postcode"}
