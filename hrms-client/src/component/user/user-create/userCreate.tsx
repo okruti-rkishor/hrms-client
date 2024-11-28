@@ -10,8 +10,23 @@ import "react-toastify/dist/ReactToastify.css";
 import success = toast.success;
 import error = toast.error;
 import {CheckCircleTwoTone} from "@ant-design/icons";
+interface Item {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    roles: string[];
+    active:boolean;
+    status:string;
+}
 
-const UserCreate = (props: any) => {
+interface UserCreateProps {
+    initialData?: Item |null;
+    mode: 'create' | 'view' | 'edit';
+    onModalClose?: () => void;
+}
+
+const UserCreate: React.FC<UserCreateProps> = ({ initialData, mode, onModalClose },props: any) => {
     const [allEmployeesId, setAllEmployeesId] = useState<any>();
     const [selectedEmployee, setSelectedEmployee] = useState<any>(null);
     const [isFindEmployee, SetIsFindEmployee] = useState<boolean>(false);
@@ -23,21 +38,34 @@ const UserCreate = (props: any) => {
 
     const onFinish = async (values: any) => {
         try {
-            let payload = {...values};
+            let payload = { ...values };
             console.log(payload.employeeId);
-            if (payload.employeeId!==selectedEmployee) {
-                    payload.employeeId = selectedEmployee;
-            }else{
+
+            if (payload.employeeId !== selectedEmployee) {
+                payload.employeeId = selectedEmployee;
+            } else {
                 payload.employeeId = null;
             }
 
-            await restApi.userCreate(payload);
-            success("User created successfully");
-            navigate("/");
+            if (mode === "create") {
+                await restApi.userCreate(payload);
+                success("User created successfully");
+            } else if (mode === "edit" && initialData?.id) {
+                await restApi.userEdit({ ...payload, id: initialData.id }, initialData.id);
+                success("User edited successfully");
+            }
+
+            navigate("/user/userNew");
+
+            if (onModalClose) {
+                onModalClose();
+            }
         } catch (errInfo) {
-            console.error("Validate Failed:", errInfo);
+            console.error("Error during submission:", errInfo);
+            error("Failed to process the form");
         }
     };
+
 
     const onFinishFailed = () => {
         error("Error in user creation");
@@ -94,23 +122,35 @@ const UserCreate = (props: any) => {
         fetchAllEmoloyees();
     }, []);
 
+    useEffect(() => {
+        // Populate form with initial data when in 'view' or 'edit' mode
+        if (initialData) {
+            form.setFieldsValue(initialData);
+        }
+    }, [initialData, form]);
+
+    const isViewMode = mode === 'view';
+    const isEditMode = mode === 'edit';
+
     return (
         <Layout className="with-background user-create-section">
-            <div className="data-table" style={{width: "50%"}}>
-                <Divider orientation="left">
-                    <PageHeader className="site-page-header" title="Create User"/>
-                </Divider>
+            <div className="data-table" >
+                {/*<Divider orientation="left">*/}
+                {/*    <PageHeader className="site-page-header" title="Create User"/>*/}
+                {/*</Divider>*/}
                 <Form
                     name="basic"
                     labelCol={{span: 8}}
                     wrapperCol={{span: 16}}
-                    style={{maxWidth: 600}}
-                    initialValues={{remember: true}}
+                    style={{minWidth:"200px"}}
+                  //  initialValues={{remember: true}}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
                     className="user-create-form"
                     form={form}
+                    initialValues={initialData || undefined}
+                    disabled={isViewMode}
                 >
                     <div className="user-create-inputs">
                         <Form.Item
@@ -120,12 +160,12 @@ const UserCreate = (props: any) => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "select the role",
+                                    message: "Select role",
                                 },
                             ]}
                         >
                             <Select
-                                placeholder="select the role"
+                                placeholder="Select Role"
                                 mode="multiple"
                                 onChange={checkEmployeeSelected}
                             >
@@ -152,7 +192,7 @@ const UserCreate = (props: any) => {
                                 ]}
                             >
                                 <Input
-                                    placeholder="Enter email-id"
+                                    placeholder="Please Enter Email"
                                     value={email}
                                     onChange={onChangeEmail}
                                 />
@@ -173,9 +213,9 @@ const UserCreate = (props: any) => {
                             ]}
                         >
                             <Input
-                                placeholder="Enter first name"
+                                placeholder="Please Enter First Name"
                                 value={isFindEmployee ? "New Value" : ""}
-                                disabled={isFindEmployee}
+                                disabled={isFindEmployee||isViewMode}
                             />
                         </Form.Item>
 
@@ -187,7 +227,7 @@ const UserCreate = (props: any) => {
                                 {pattern: new RegExp("^[A-Za-z\\s]+$"), message: ""},
                             ]}
                         >
-                            <Input placeholder="Enter last name" disabled={isFindEmployee}/>
+                            <Input placeholder="Please Enter Last Name" disabled={isFindEmployee||isViewMode}/>
                         </Form.Item>
                         <Form.Item
                             label="Employee"
@@ -211,7 +251,7 @@ const UserCreate = (props: any) => {
                             <AutoComplete
                                 style={{height: 40}}
                                 options={allEmployeesId}
-                                placeholder="try to type `b`"
+                                placeholder="Select Employee"
                                 filterOption={(inputValue, option:any) => {
                                     const conditionStatement = option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
                                     setSelectedEmployee(option.id)
@@ -221,11 +261,20 @@ const UserCreate = (props: any) => {
                         </Form.Item>
                     </div>
 
-                    <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                        <Button className="submit" type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
+                    {/*<Form.Item wrapperCol={{offset: 1, span: 22}}>*/}
+                    {/*    <Button className="submit" type="primary" htmlType="submit" >*/}
+                    {/*        Submit*/}
+                    {/*    </Button>*/}
+                    {/*</Form.Item>*/}
+
+                    {!isViewMode && (
+                        <Form.Item wrapperCol={{ offset: 5, span: 4 }}>
+                            <Button type="primary" htmlType="submit">
+                                {mode === 'create' ? "Create" : "Update"}
+                            </Button>
+                        </Form.Item>
+                    )}
+
                 </Form>
             </div>
         </Layout>

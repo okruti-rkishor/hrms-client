@@ -34,6 +34,7 @@ import ChangePassword from "./component/user/change-password/changePassword";
 import DocumentNew from "./component/employee/documentNew";
 import EventCreate from "./component/events/customEvents/eventCreate";
 import CustomEvent from "./component/events/customEvents/customEvents";
+import UserNew from "./component/user/userNew";
 
 const App = () => {
     const {newUser} = useContext(UserLoginContext);
@@ -55,8 +56,11 @@ const App = () => {
                     <Route path="user/detail"
                            element={<PrivateRoutes Component={<UserDetailsCard/>}/>}
                     />
-                    <Route path="user/create"
-                           element={<PrivateRoutes Component={<UserCreate/>}/>}
+                    {/*<Route path="user/create"*/}
+                    {/*       element={<PrivateRoutes Component={<UserCreate/>}/>}*/}
+                    {/*/>*/}
+                    <Route path="user/userNew"
+                           element={<PrivateRoutes Component={<UserNew/>}/>}
                     />
                     <Route path="user/change-password"
                            element={<ChangePassword/>}

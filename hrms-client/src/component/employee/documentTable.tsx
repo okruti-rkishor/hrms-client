@@ -159,7 +159,8 @@ const DocumentTable: React.FC<DocumentTableProps> = ({ documentType}) => {
                         <DeleteOutlined className="document-table delete-button" style={{ color: "red", cursor: "pointer" }} />
                     </Popconfirm>
                     <Typography.Link onClick={() => handleSave(record.id)} style={{ marginLeft: "5px", color: "green", cursor: "pointer" }}>
-                        <SaveTwoTone />                    </Typography.Link>
+                        <SaveTwoTone />
+                    </Typography.Link>
                 </div>
             ),
         },

@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useSearchParams} from 'react-router-dom';
-import {Form, Input, Popconfirm, Table, Tag, Typography, Select, Layout, Divider} from 'antd';
-import {PageHeader} from '@ant-design/pro-layout';
+import {Button, Form, Input, Layout, Modal, Popconfirm, Select, Table, Tag, Typography} from 'antd';
 import restApi from "../../../services/http/api";
-import {CheckOutlined, CloseOutlined, DeleteOutlined, EditTwoTone, SaveTwoTone} from "@ant-design/icons/lib";
-import { Status, User_type } from "../../../constant/constant";
+import {CloseOutlined, DeleteOutlined, EditTwoTone, EyeOutlined, SaveTwoTone} from "@ant-design/icons/lib";
+import {Status, User_type} from "../../../constant/constant";
 import '../../../styles/component/user/userDataTable.scss';
+import UserCreate from '../user-create/userCreate';
+
+import "../../../styles/component/user/userCreate.scss";
+
+import {SearchOutlined} from '@ant-design/icons';
 import {toast} from 'react-toastify';
 import success = toast.success;
-
-
 
 
 interface Item {
@@ -18,8 +20,8 @@ interface Item {
     lastName: string;
     email: string;
     roles: string[];
-    active:boolean;
-    status:string;
+    active: boolean;
+    status: string;
 }
 
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
@@ -47,21 +49,21 @@ const EditableCell: React.FC<EditableCellProps> = ({editing, dataIndex, title, i
                     {userType.toString().toUpperCase()}
                 </Select.Option>)
             }
-        </Select> : dataIndex ==='status'?
+        </Select> : dataIndex === 'status' ?
             <Select
-                    placeholder="Choose Status"
-                    style={{flex: 1}}
-                    options={[
-                        {
-                            value: 'ACTIVE',
-                            label: 'Active',
-                        },
-                        {
-                            value: 'IN_ACTIVE',
-                            label: 'In Active',
-                        }]}
+                placeholder="Choose Status"
+                style={{flex: 1}}
+                options={[
+                    {
+                        value: 'ACTIVE',
+                        label: 'Active',
+                    },
+                    {
+                        value: 'IN_ACTIVE',
+                        label: 'In Active',
+                    }]}
             >
-            </Select>:<Input/>;
+            </Select> : <Input/>;
 
     return (
         <td {...restProps}>
@@ -90,6 +92,31 @@ const TempFile: React.FC = () => {
     const [editingKey, setEditingKey] = useState('');
     const [userData, setUserData] = useState<Item[]>([]);
     const [navigatedUser] = useSearchParams();
+    const [filteredInfo, setFilteredInfo] = useState<{ firstName?: string[]; email?: string[] }>({});
+    const [pagination, setPagination] = useState({current: 1, pageSize: 10});
+    const [isUserModalVisible, setIsUserModalVisible] = useState(false);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<Item | null>(null);
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+    const showUserModal = (record: Item) => {
+        setSelectedUser(record);
+        setIsUserModalVisible(true);
+    };
+    const showEditModal = (record: Item) => {
+        setSelectedUser(record);
+        setIsEditModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setIsEditModalVisible(false);
+        setIsUserModalVisible(false)
+        setSelectedUser(null);
+    };
+
+    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+        setSelectedRowKeys(newSelectedRowKeys);
+    };
 
     useEffect(() => {
         usersData();
@@ -115,13 +142,27 @@ const TempFile: React.FC = () => {
     const isEditing = (record: Item) => record.id === editingKey;
 
     const edit = (record: Item) => {
-        form.setFieldsValue({name: '', age: '', address: '', ...record});
-        setEditingKey(record.id);
+        setSelectedUser(record);
+        form.setFieldsValue({ ...record });
+        setIsEditModalVisible(true);
     };
 
     const cancel = () => {
         setEditingKey('');
     };
+
+    const handleChange = (_pagination: any, filters: any) => {
+        setFilteredInfo(filters);
+    };
+
+    const handleSearch = (selectedKeys: string[], confirm: () => void) => {
+        confirm();
+    };
+
+    const handleReset = (clearFilters: () => void) => {
+        clearFilters();
+    };
+
 
     const getDefaultFilter = () => {
         if (navigatedUser.get('userTitle')) {
@@ -132,31 +173,28 @@ const TempFile: React.FC = () => {
         }
     }
 
-    const save = async (key: string) => {
+    const save = async () => {
         try {
+            const row = await form.validateFields();
 
-            const row = (await form.validateFields()) as Item;
-             row.active=row.status==='ACTIVE';
-             let newData=[...userData]
-             const index = newData.findIndex((item:any) => key === item.id);
-             if (index > -1) {
-                const editedData: any = {...row, id: key};
+
+            let newData = [...userData];
+            const index = newData.findIndex((item) => item.id === selectedUser?.id);
+
+            if (index > -1) {
+                const editedData = { ...row, id: selectedUser?.id };
                 try {
-                    const{status,active,...editedResponse}=editedData;
-                     await restApi.userEdit(editedResponse,key);
-                    success("User edited successfully");
-                }catch(error){
-                    console.log(error)
+                    if(selectedUser?.id){
+                        await restApi.userEdit(editedData, selectedUser?.id);
+                        success("User edited successfully");}
+
+                    newData.splice(index, 1, { ...newData[index], ...row });
+                    setUserData(newData);
+                    setEditingKey('');
+                    closeModal();
+                } catch (error) {
+                    console.log(error);
                 }
-                const item: any = newData[index];
-                newData.splice(index, 1, {
-                    ...item,
-                     ...row,
-                });
-
-                setUserData(newData);
-                setEditingKey('');
-
             } else {
                 newData.push(row);
                 setUserData(newData);
@@ -166,6 +204,7 @@ const TempFile: React.FC = () => {
             console.log('Validate Failed:', errInfo);
         }
     };
+
 
     const deleteHandle = async (record: any) => {
         try {
@@ -177,66 +216,144 @@ const TempFile: React.FC = () => {
         }
     }
 
-   const markUserActive = async( record:any) => {
-        let newData=[...userData]
-       const index = newData.findIndex((item:any) => record.id === item.id);
-       if (index > -1) {
-        try{
-            record.active=record.status==='ACTIVE';
-            await restApi.userMarkActive(record.id,record.active);
+    const markUserActive = async (record: any) => {
+        let newData = [...userData]
+        const index = newData.findIndex((item: any) => record.id === item.id);
+        if (index > -1) {
+            try {
+                record.active = record.status === 'ACTIVE';
+                await restApi.userMarkActive(record.id, record.active);
+            } catch (error) {
+                console.log(error)
+            }
+            const item: any = newData[index];
+            newData.splice(index, 1, {
+                ...item,
+                ...record,
+            });
+            setUserData(newData);
         }
-        catch(error){
-            console.log(error)
-        }
-           const item: any = newData[index];
-           newData.splice(index, 1, {
-               ...item,
-               ...record,
-           });
-           setUserData(newData);
-    }
     }
 
     const columns = [
         {
-            title: 'First name',
+            title: 'S.No.',
+            dataIndex: 'serialNumber',
+            key: 'serialNumber',
+            width: '4%',
+            render: (_: any, __: any, index: number) => {
+                const page = pagination.current || 1;
+                const pageSize = pagination.pageSize || 10;
+                return (page - 1) * pageSize + index + 1;
+            },
+        },
+
+        {
+            title: 'First Name',
             dataIndex: 'firstName',
-            width: '15%',
-            editable: true,
+            width: '18%',
             sorter: (a: any, b: any) => a.firstName.localeCompare(b.firstName),
+            filterDropdown: ({setSelectedKeys, selectedKeys, confirm, clearFilters}: any) => (
+                <div style={{padding: 8}}>
+                    <Input
+                        placeholder="Search First Name"
+                        value={selectedKeys[0]}
+                        onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        onPressEnter={() => handleSearch(selectedKeys, confirm)}
+                        style={{marginBottom: 8, display: 'block'}}
+                    />
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm)}
+                        size="small"
+                        style={{width: 90, marginRight: 8}}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => handleReset(clearFilters)}
+                        size="small"
+                        style={{width: 90}}
+                    >
+                        Reset
+                    </Button>
+                </div>
+            ),
+            filterIcon: (filtered: boolean) => (
+                <SearchOutlined style={{color: filtered ? '#1890ff' : undefined}}/>
+            ),
+            onFilter: (value: string | number | boolean, record: { firstName: string }) =>
+                record.firstName.toLowerCase().includes(value.toString().toLowerCase()),
         },
         {
             title: 'Last name',
             dataIndex: 'lastName',
-            width: '15%',
+            width: '18%',
             editable: true,
             sorter: (a: any, b: any) => a.lastName.localeCompare(b.lastName),
         },
+
         {
             title: 'Email',
             dataIndex: 'email',
-            width: '25%',
-            editable: true,
+            width: '20%',
+            sorter: (a: any, b: any) => a.email.localeCompare(b.email),
+            filterDropdown: ({setSelectedKeys, selectedKeys, confirm, clearFilters}: any) => (
+                <div style={{padding: 8}}>
+                    <Input
+                        placeholder="Search Email"
+                        value={selectedKeys[0]}
+                        onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                        onPressEnter={() => handleSearch(selectedKeys, confirm)}
+                        style={{marginBottom: 8, display: 'block'}}
+                    />
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm)}
+                        size="small"
+                        style={{width: 90, marginRight: 8}}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => handleReset(clearFilters)}
+                        size="small"
+                        style={{width: 90}}
+                    >
+                        Reset
+                    </Button>
+                </div>
+            ),
+            filterIcon: (filtered: boolean) => (
+                <SearchOutlined style={{color: filtered ? '#1890ff' : undefined}}/>
+            ),
+            onFilter: (value: string | number | boolean, record: { email: string }) =>
+                record.email.toLowerCase().includes(value.toString().toLowerCase()),
         },
+
         {
             title: 'Status',
             dataIndex: 'status',
-            width: '10%',
+            width: '8%',
             editable: false,
             render: (_: any, record: any) => (
                 <>
-                    <Tag color={_.length === 6 ? "green" : "gray"}>
+                    <Tag color={_.length === 6 ? "green" : "red"} style={{
+                        //  fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                    }}>
                         {_.toUpperCase()}
                     </Tag>
                 </>
             ),
         },
 
+
         {
             title: 'Role',
             dataIndex: 'roles',
             editable: true,
-            width: '25%',
+            width: '21%',
             render: (_: any, record: any) => (
                 <>
                     {record.roles?.map((tag: string) => {
@@ -249,64 +366,56 @@ const TempFile: React.FC = () => {
                 </>
             ),
         },
+
         {
             title: 'Actions',
             dataIndex: 'operation',
-            width: '20%',
-            render: (_: any, record: Item) => {
-                const editable = isEditing(record);
-                return editable ? (
-                    <span>
-                        <Typography.Link onClick={() => save(record.id)} style={{marginRight: 8}}>
-                          <SaveTwoTone twoToneColor="#52c41a" style={{fontSize: '18px', marginLeft: '10px'}}/>
-                        </Typography.Link>
-                        <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                          <a><CloseOutlined style={{color: '#950a11', fontSize: '18px', marginLeft: '10px'}}/></a>
-                        </Popconfirm>
-                    </span>
-                ) : (
-                    <div style={{display: "flex"}}>
-                        <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
-                            <EditTwoTone style={{fontSize: '18px', marginLeft: '10px'}}/>
-                        </Typography.Link>
-                        <Popconfirm
-                            title={"Are you sure to delete user?"}
-                            onConfirm={() => {
-                                deleteHandle(record)
-                            }}
-                            onCancel={() => {
-                                console.log("Cancel")
-                            }}
-                        >
-                            <DeleteOutlined style={{color: "red"}}/>
-                        </Popconfirm>
-                        <Popconfirm
-                            title={`Are you sure to
-                            ${record?.active===true?"Inactive":"Active"} user?
-                             `}
-                            onConfirm={() => {
-                                record.status=record.active===true?"IN_ACTIVE":"ACTIVE";
-                                 markUserActive(record);
-                                 console.log("Status changed!!")
-                            }}
-                            onCancel={() => {
-                                console.log("Cancel")
-                            }}
-                        >
-                            {record?.active===true?<CloseOutlined style={{color: "red"}}/>:<CheckOutlined style={{color: "green"}}/>}
-                        </Popconfirm>
-
-                    </div>
-                );
-            },
+            width: '12%',
+            render: (_: any, record: Item) => (
+                <div style={{display: "flex"}}>
+                    <Typography.Link onClick={() => showUserModal(record)}>
+                        <EyeOutlined style={{fontSize: '15px', color: '#1890ff', marginLeft: '0px'}}/>
+                    </Typography.Link>
+                    <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
+                        <EditTwoTone style={{fontSize: '15px'}} />
+                    </Typography.Link>
+                    <Popconfirm
+                        title={`Are you sure to ${record?.active === true ? "Inactive" : "Active"} user?`}
+                        onConfirm={() => {
+                            record.status = record.active === true ? "IN_ACTIVE" : "ACTIVE";
+                            markUserActive(record);
+                            console.log("Status changed!!");
+                        }}
+                        onCancel={() => {
+                            console.log("Cancel");
+                        }}
+                    >
+                        {record?.active === true ? (
+                            <img src="/icons/activeUser.png" alt="Active User"
+                                 style={{width: '22px', height: '22px', padding: '1px', marginLeft: '4px'}} />
+                        ) : (
+                            <img src="/icons/inActiveUser.png" alt="Inactive User"
+                                 style={{width: '22px', height: '22px', paddingRight: '1px', marginLeft: '4px'}} />
+                        )}
+                    </Popconfirm>
+                    <Popconfirm
+                        title={"Are you sure to delete user?"}
+                        onConfirm={() => deleteHandle(record)}
+                        onCancel={() => console.log("Cancel")}
+                    >
+                        <DeleteOutlined style={{color: "red", fontSize: '14px', marginLeft: '4px'}} />
+                    </Popconfirm>
+                </div>
+            ),
         },
+
     ];
+
 
     const mergedColumns = columns.map((col) => {
         if (!col.editable) {
             return col;
         }
-
         return {
             ...col,
             onCell: (record: Item) => ({
@@ -328,14 +437,14 @@ const TempFile: React.FC = () => {
     return (
         <Layout className="with-background">
             <div className='data-table user-data-table'>
-                <Divider orientation="left">
-                    <PageHeader
-                        className="site-page-header"
-                        title={navigatedUser.get('userTitle') ?
-                            `${capitalizeTitle(`${navigatedUser.get('userTitle')}`)} List` : 'Users List'
-                        }
-                    />
-                </Divider>
+                {/*<Divider orientation="left">*/}
+                {/*    <PageHeader*/}
+                {/*        className="site-page-header"*/}
+                {/*        // title={navigatedUser.get('userTitle') ?*/}
+                {/*        //     `${capitalizeTitle(`${navigatedUser.get('userTitle')}`)} List` : 'Users List'*/}
+                {/*        // }*/}
+                {/*    />*/}
+                {/*</Divider>*/}
                 <Form form={form} component={false}>
                     <Table
                         components={{
@@ -345,16 +454,53 @@ const TempFile: React.FC = () => {
                         }}
                         rowKey="id"
                         bordered
+                        // rowSelection={rowSelection}
                         dataSource={userData}
                         // @ts-ignore
                         columns={mergedColumns}
                         rowClassName="editable-row"
                         pagination={{
-                            onChange: cancel,
+                            current: pagination.current,
+                            pageSize: pagination.pageSize,
+                            onChange: (page, pageSize) => {
+                                setPagination({current: page, pageSize});
+                            },
                         }}
+
+                        onChange={handleChange}
                     />
                 </Form>
             </div>
+            <Modal
+                title="USER DETAILS"
+                className="user-detail-modal"
+                visible={isUserModalVisible}
+                onCancel={closeModal}
+                footer={null}
+                centered
+            >
+                <UserCreate
+                    initialData={selectedUser}
+                    mode="view"
+                />
+            </Modal>
+
+            <Modal
+                title="Edit User"
+                visible={isEditModalVisible}
+                onCancel={closeModal}
+                className="edit-user-modal"
+                footer={null}
+            >
+
+                <UserCreate
+                    initialData={selectedUser}
+                    mode="edit"
+                    onModalClose={closeModal}
+                />
+            </Modal>
+
+
         </Layout>
     );
 };

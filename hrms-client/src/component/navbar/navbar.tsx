@@ -12,7 +12,7 @@ import {
 import {Link} from "react-router-dom";
 import {
     AppstoreOutlined,
-    CalendarOutlined,
+    CalendarOutlined, CheckSquareOutlined,
     DiffOutlined,
     GiftOutlined,
     HomeOutlined,
@@ -94,32 +94,44 @@ const items = [
             icon: <HomeOutlined className="custom-home-icon"/>,
         },
         {
-            label: 'User',
-            key: 'user',
-            icon: <UserOutlined/>,
-            children: [
-                {
-                    label: (
-                        <Link to='/user/create' className="sub-menu">Create</Link>
-                    ),
-                    key: 'user create',
-                    icon: <FormOutlined/>,
-                },
-                {
-                    label: (
-                        <Link to='/user/list' className="sub-menu">List</Link>
-                    ),
-                    key: 'user list',
-                    icon: <SolutionOutlined/>,
-                },
-                {
-                    label: (
-                        <Link to='/user/detail' className="sub-menu">Details</Link>
-                    ),
-                    key: 'user detail',
-                    icon: <SolutionOutlined/>,
-                },
-            ],
+
+            label: (
+                <Link to='/user/userNew' >User</Link>
+            ),
+            key: 'new user ',
+            icon: <UserOutlined />,
+
+           // children: [
+                // {
+                //     label: (
+                //         <Link to='/user/create' className="sub-menu">Create</Link>
+                //     ),
+                //     key: 'user create',
+                //     icon: <FormOutlined/>,
+                // },
+
+                // {
+                //     label: (
+                //         <Link to='/user/userNew' >User</Link>
+                //     ),
+                //     key: 'new user ',
+                //     icon: <CheckSquareOutlined />,
+                // },
+                // {
+                //     label: (
+                //         <Link to='/user/list' className="sub-menu">List</Link>
+                //     ),
+                //     key: 'user list',
+                //     icon: <SolutionOutlined/>,
+                // },
+                // {
+                //     label: (
+                //         <Link to='/user/detail' className="sub-menu">Details</Link>
+                //     ),
+                //     key: 'user detail',
+                //     icon: <SolutionOutlined/>,
+                // },
+        //    ],
         },
         {
             label: 'Employee',
@@ -168,15 +180,7 @@ const items = [
                     key: 'work anniversary',
                     icon: <StarOutlined/>,
                 },
-                // {
-                //     label: 'Internal Events',
-                //
-                //
-                //     type: 'group',
-                //     children: [
-                //
-                //     ],
-                // },
+
                 {
                     label: (
                         <Link to='/event/eventCreate' className="sub-menu" id="event-create">Custom Event</Link>
